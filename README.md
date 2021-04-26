@@ -5,7 +5,7 @@ GitHub action for [pyright](https://github.com/microsoft/pyright).
 ```yml
 - uses: jakebailey/pyright-action
   with:
-    version: 1.1.35 # Optional
+    version: 1.1.135 # Optional
 ```
 
 
