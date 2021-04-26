@@ -32,7 +32,7 @@ inputs:
     required: false
     default: 'false'
   extra-args:
-    description: 'Extra arguments; can be used to specify specific files to chec.'
+    description: 'Extra arguments; can be used to specify specific files to check.'
     required: false
 
 runs:
