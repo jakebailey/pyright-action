@@ -1,0 +1,38 @@
+{
+    "name": "pyright-action",
+    "version": "0.0.0",
+    "private": true,
+    "description": "GitHub Action for pyright",
+    "main": "dist/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jakebailey/pyright-action.git"
+    },
+    "author": "Jake Bailey",
+    "license": "MIT",
+    "dependencies": {
+        "@actions/core": "^1.2.7",
+        "@actions/tool-cache": "^1.6.1",
+        "chalk": "^4.1.1",
+        "myzod": "^1.6.1",
+        "semver": "^7.3.5",
+        "string-argv": "^0.3.1"
+    },
+    "devDependencies": {
+        "@types/node": "~12.20.10",
+        "@types/semver": "^7.3.4",
+        "@typescript-eslint/eslint-plugin": "^4.22.0",
+        "@typescript-eslint/parser": "^4.22.0",
+        "esbuild": "^0.11.12",
+        "eslint": "^7.24.0",
+        "eslint-config-prettier": "^8.2.0",
+        "eslint-plugin-simple-import-sort": "^7.0.0",
+        "husky": "^6.0.0",
+        "prettier": "2.2.1",
+        "typescript": "^4.2.4"
+    },
+    "scripts": {
+        "prepare": "husky install",
+        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node12"
+    }
+}
