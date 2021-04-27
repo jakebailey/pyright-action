@@ -32,7 +32,7 @@ export async function main() {
 
         report.generalDiagnostics.forEach((diag) => {
             // TODO: Only do this logging on info?
-            console.log(diagnosticToString(diag, /* withLocation */ true));
+            console.log(diagnosticToString(diag, /* forCommand */ false));
 
             if (diag.severity === 'information') {
                 return;
@@ -40,7 +40,7 @@ export async function main() {
 
             const line = diag.range?.start.line ?? 0;
             const col = diag.range?.start.character ?? 0;
-            const message = diagnosticToString(diag, /* withLocation */ false);
+            const message = diagnosticToString(diag, /* forCommand */ true);
 
             command.issueCommand(
                 diag.severity,
@@ -137,10 +137,10 @@ async function getPyright(version?: SemVer): Promise<string> {
 }
 
 // Copied from pyright, with modifications.
-function diagnosticToString(diag: Diagnostic, withLocation: boolean, prefix = ''): string {
+function diagnosticToString(diag: Diagnostic, forCommand: boolean, prefix = ''): string {
     let message = prefix;
 
-    if (withLocation) {
+    if (!forCommand) {
         if (diag.file) {
             message += `${diag.file}:`;
         }
@@ -151,8 +151,12 @@ function diagnosticToString(diag: Diagnostic, withLocation: boolean, prefix = ''
 
     const [firstLine, ...remainingLines] = diag.message.split('\n');
 
-    message += diag.severity === 'information' ? 'info' : diag.severity;
-    message += `: ${firstLine}`;
+    if (!forCommand) {
+        message += diag.severity === 'information' ? 'info' : diag.severity;
+        message += `: `;
+    }
+
+    message += firstLine;
     if (remainingLines.length > 0) {
         message += '\n' + prefix + remainingLines.join('\n' + prefix);
     }

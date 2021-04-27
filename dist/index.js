@@ -5646,13 +5646,13 @@ async function main() {
     const report = Report.parse(JSON.parse(stdout));
     report.generalDiagnostics.forEach((diag) => {
       var _a, _b, _c, _d;
-      console.log(diagnosticToString(diag, true));
+      console.log(diagnosticToString(diag, false));
       if (diag.severity === "information") {
         return;
       }
       const line = (_b = (_a = diag.range) == null ? void 0 : _a.start.line) != null ? _b : 0;
       const col = (_d = (_c = diag.range) == null ? void 0 : _c.start.character) != null ? _d : 0;
-      const message = diagnosticToString(diag, false);
+      const message = diagnosticToString(diag, true);
       command.issueCommand(diag.severity, {
         file: diag.file,
         line: line + 1,
@@ -5720,9 +5720,9 @@ async function getPyright(version) {
   const pyright = await tc.extractTar(pyrightTarball);
   return path.join(pyright, "package", "index.js");
 }
-function diagnosticToString(diag, withLocation, prefix = "") {
+function diagnosticToString(diag, forCommand, prefix = "") {
   let message = prefix;
-  if (withLocation) {
+  if (!forCommand) {
     if (diag.file) {
       message += `${diag.file}:`;
     }
@@ -5731,8 +5731,11 @@ function diagnosticToString(diag, withLocation, prefix = "") {
     }
   }
   const [firstLine, ...remainingLines] = diag.message.split("\n");
-  message += diag.severity === "information" ? "info" : diag.severity;
-  message += `: ${firstLine}`;
+  if (!forCommand) {
+    message += diag.severity === "information" ? "info" : diag.severity;
+    message += `: `;
+  }
+  message += firstLine;
   if (remainingLines.length > 0) {
     message += "\n" + prefix + remainingLines.join("\n" + prefix);
   }
