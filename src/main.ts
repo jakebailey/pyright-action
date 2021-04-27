@@ -32,6 +32,7 @@ export async function main() {
         const report = Report.parse(JSON.parse(stdout));
 
         report.generalDiagnostics.forEach((diag) => {
+            // TODO: Only do this logging on info?
             logDiagnosticToConsole(diag);
 
             if (diag.severity === 'information') {
@@ -40,7 +41,7 @@ export async function main() {
 
             const line = diag.range?.start.line ?? 0;
             const col = diag.range?.start.character ?? 0;
-            const message = diag.rule ? `${diag.rule}: ${diag.message}` : diag.message;
+            const message = diag.rule ? `${diag.rule}: ${diag.message}` : diag.message; // TODO: Newlines make GHA's issue reporting unhappy.
 
             command.issueCommand(
                 diag.severity,
