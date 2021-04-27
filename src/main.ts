@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as command from '@actions/core/lib/command';
+import * as httpClient from '@actions/http-client';
 import * as tc from '@actions/tool-cache';
 import * as cp from 'child_process';
 import * as path from 'path';
@@ -15,7 +16,10 @@ export async function main() {
             process.chdir(cwd);
         }
 
-        const args = await getArgs();
+        const version = await getVersion();
+        console.log(`pyright ${version}`);
+
+        const args = await getArgs(version);
 
         const { status, stdout } = cp.spawnSync(process.execPath, args, {
             encoding: 'utf-8',
@@ -70,10 +74,20 @@ export async function main() {
     }
 }
 
-async function getArgs(): Promise<string[]> {
+async function getVersion(): Promise<SemVer> {
     const versionSpec = core.getInput('version');
-    const version = versionSpec ? new SemVer(versionSpec) : undefined;
+    if (versionSpec) {
+        return new SemVer(versionSpec);
+    }
 
+    const client = new httpClient.HttpClient();
+    const resp = await client.get('https://registry.npmjs.org/pyright/latest');
+    const body = await resp.readBody();
+    const obj = JSON.parse(body);
+    return new SemVer(obj.version);
+}
+
+async function getArgs(version: SemVer): Promise<string[]> {
     const pyrightIndex = await getPyright(version);
 
     const args = [pyrightIndex, '--outputjson'];
@@ -121,20 +135,10 @@ async function getArgs(): Promise<string[]> {
     return args;
 }
 
-function pyrightUrl(version?: SemVer): string {
-    if (!version) {
-        // TODO: Do this better.
-        return cp.execFileSync('npm', ['view', 'pyright', 'dist.tarball'], { encoding: 'utf-8' }).trim();
-    }
-    return `https://registry.npmjs.org/pyright/-/pyright-${version.format()}.tgz`;
-}
-
-async function getPyright(version?: SemVer): Promise<string> {
+async function getPyright(version: SemVer): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
-
-    const url = pyrightUrl(version);
-
+    const url = `https://registry.npmjs.org/pyright/-/pyright-${version.format()}.tgz`;
     const pyrightTarball = await tc.downloadTool(url);
     const pyright = await tc.extractTar(pyrightTarball);
     return path.join(pyright, 'package', 'index.js');
