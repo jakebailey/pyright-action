@@ -1,7 +1,6 @@
 import * as core from '@actions/core';
 import * as command from '@actions/core/lib/command';
 import * as tc from '@actions/tool-cache';
-import chalk from 'chalk';
 import * as cp from 'child_process';
 import * as path from 'path';
 import SemVer from 'semver/classes/semver';
@@ -33,7 +32,7 @@ export async function main() {
 
         report.generalDiagnostics.forEach((diag) => {
             // TODO: Only do this logging on info?
-            logDiagnosticToConsole(diag);
+            console.log(diagnosticToString(diag, /* withLocation */ true));
 
             if (diag.severity === 'information') {
                 return;
@@ -41,7 +40,7 @@ export async function main() {
 
             const line = diag.range?.start.line ?? 0;
             const col = diag.range?.start.character ?? 0;
-            const message = diag.rule ? `${diag.rule}: ${diag.message}` : diag.message; // TODO: Newlines make GHA's issue reporting unhappy.
+            const message = diagnosticToString(diag, /* withLocation */ false);
 
             command.issueCommand(
                 diag.severity,
@@ -137,36 +136,28 @@ async function getPyright(version?: SemVer): Promise<string> {
     return path.join(pyright, 'package', 'index.js');
 }
 
-// Copied from pyright.
-function logDiagnosticToConsole(diag: Diagnostic, prefix = '') {
+// Copied from pyright, with modifications.
+function diagnosticToString(diag: Diagnostic, withLocation: boolean, prefix = '') {
     let message = prefix;
-    if (diag.file) {
-        message += `${diag.file}:`;
-    }
-    if (diag.range && !isEmptyRange(diag.range)) {
-        message +=
-            chalk.yellow(`${diag.range.start.line + 1}`) +
-            ':' +
-            chalk.yellow(`${diag.range.start.character + 1}`) +
-            ' - ';
+
+    if (withLocation) {
+        if (diag.file) {
+            message += `${diag.file}:`;
+        }
+        if (diag.range && !isEmptyRange(diag.range)) {
+            message += `${diag.range.start.line + 1}:${diag.range.start.character + 1} - `;
+        }
     }
 
     const [firstLine, ...remainingLines] = diag.message.split('\n');
 
-    message +=
-        diag.severity === 'error'
-            ? chalk.red('error')
-            : diag.severity === 'warning'
-            ? chalk.cyan('warning')
-            : chalk.blue('info');
+    message += diag.severity === 'information' ? 'info' : diag.severity;
     message += `: ${firstLine}`;
     if (remainingLines.length > 0) {
         message += '\n' + prefix + remainingLines.join('\n' + prefix);
     }
 
     if (diag.rule) {
-        message += chalk.gray(` (${diag.rule})`);
+        message += ` (${diag.rule})`;
     }
-
-    console.log(message);
 }
