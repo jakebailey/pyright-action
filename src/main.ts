@@ -123,7 +123,7 @@ async function getArgs(): Promise<string[]> {
 function pyrightUrl(version?: SemVer): string {
     if (!version) {
         // TODO: Do this better.
-        return cp.execFileSync('npm', ['view', 'pyright', 'dist'], { encoding: 'utf-8' }).trim();
+        return cp.execFileSync('npm', ['view', 'pyright', 'dist.tarball'], { encoding: 'utf-8' }).trim();
     }
     return `https://registry.npmjs.org/pyright/-/pyright-${version.format()}.tgz`;
 }
