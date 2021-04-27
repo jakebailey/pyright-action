@@ -137,7 +137,7 @@ async function getPyright(version?: SemVer): Promise<string> {
 }
 
 // Copied from pyright, with modifications.
-function diagnosticToString(diag: Diagnostic, withLocation: boolean, prefix = '') {
+function diagnosticToString(diag: Diagnostic, withLocation: boolean, prefix = ''): string {
     let message = prefix;
 
     if (withLocation) {
@@ -160,4 +160,6 @@ function diagnosticToString(diag: Diagnostic, withLocation: boolean, prefix = ''
     if (diag.rule) {
         message += ` (${diag.rule})`;
     }
+
+    return message;
 }

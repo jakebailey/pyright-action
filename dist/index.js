@@ -5739,6 +5739,7 @@ function diagnosticToString(diag, withLocation, prefix = "") {
   if (diag.rule) {
     message += ` (${diag.rule})`;
   }
+  return message;
 }
 
 // src/index.ts
