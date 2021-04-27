@@ -7229,7 +7229,7 @@ async function getArgs() {
 }
 function pyrightUrl(version) {
   if (!version) {
-    return cp.execFileSync("npm", ["view", "pyright", "dist"]).trim();
+    return cp.execFileSync("npm", ["view", "pyright", "dist"], {encoding: "utf-8"}).trim();
   }
   return `https://registry.npmjs.org/pyright/-/pyright-${version.format()}.tgz`;
 }
