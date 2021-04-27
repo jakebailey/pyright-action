@@ -141,8 +141,8 @@ async function getPyright(version?: SemVer): Promise<string> {
 }
 
 // Copied from pyright, with modifications.
-function diagnosticToString(diag: Diagnostic, forCommand: boolean, prefix = ''): string {
-    let message = prefix;
+function diagnosticToString(diag: Diagnostic, forCommand: boolean): string {
+    let message = '';
 
     if (!forCommand) {
         if (diag.file) {
@@ -151,19 +151,11 @@ function diagnosticToString(diag: Diagnostic, forCommand: boolean, prefix = ''):
         if (diag.range && !isEmptyRange(diag.range)) {
             message += `${diag.range.start.line + 1}:${diag.range.start.character + 1} - `;
         }
-    }
-
-    const [firstLine, ...remainingLines] = diag.message.split('\n');
-
-    if (!forCommand) {
         message += diag.severity === 'information' ? 'info' : diag.severity;
         message += `: `;
     }
 
-    message += firstLine;
-    if (remainingLines.length > 0) {
-        message += '\n' + prefix + remainingLines.join('\n' + prefix);
-    }
+    message += diag.message;
 
     if (diag.rule) {
         message += ` (${diag.rule})`;

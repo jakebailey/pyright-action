@@ -5720,8 +5720,8 @@ async function getPyright(version) {
   const pyright = await tc.extractTar(pyrightTarball);
   return path.join(pyright, "package", "index.js");
 }
-function diagnosticToString(diag, forCommand, prefix = "") {
-  let message = prefix;
+function diagnosticToString(diag, forCommand) {
+  let message = "";
   if (!forCommand) {
     if (diag.file) {
       message += `${diag.file}:`;
@@ -5729,16 +5729,10 @@ function diagnosticToString(diag, forCommand, prefix = "") {
     if (diag.range && !isEmptyRange(diag.range)) {
       message += `${diag.range.start.line + 1}:${diag.range.start.character + 1} - `;
     }
-  }
-  const [firstLine, ...remainingLines] = diag.message.split("\n");
-  if (!forCommand) {
     message += diag.severity === "information" ? "info" : diag.severity;
     message += `: `;
   }
-  message += firstLine;
-  if (remainingLines.length > 0) {
-    message += "\n" + prefix + remainingLines.join("\n" + prefix);
-  }
+  message += diag.message;
   if (diag.rule) {
     message += ` (${diag.rule})`;
   }
