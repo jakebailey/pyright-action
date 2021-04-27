@@ -31,7 +31,6 @@ export async function main() {
         const report = Report.parse(JSON.parse(stdout));
 
         report.generalDiagnostics.forEach((diag) => {
-            // TODO: Only do this logging on info?
             console.log(diagnosticToString(diag, /* forCommand */ false));
 
             if (diag.severity === 'information') {
@@ -42,6 +41,8 @@ export async function main() {
             const col = diag.range?.start.character ?? 0;
             const message = diagnosticToString(diag, /* forCommand */ true);
 
+            // This is technically a log line and duplicates the console.log above,
+            // but we want to have the below look nice in commit comments.
             command.issueCommand(
                 diag.severity,
                 {
