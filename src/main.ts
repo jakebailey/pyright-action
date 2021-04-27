@@ -130,6 +130,9 @@ function pyrightUrl(version?: SemVer): string {
 }
 
 async function getPyright(version?: SemVer): Promise<string> {
+    // Note: this only works because the pyright package doesn't have any
+    // dependencies. If this ever changes, we'll have to actually install it.
+
     const url = pyrightUrl(version);
 
     const pyrightTarball = await tc.downloadTool(url);
