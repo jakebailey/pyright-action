@@ -41,4 +41,8 @@ inputs:
   extra-args:
     description: 'Extra arguments; can be used to specify specific files to check.'
     required: false
+  no-comments:
+    description: 'Disable issue/commit comments'
+    required: false
+    default: 'false'
 ```

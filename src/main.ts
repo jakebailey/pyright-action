@@ -19,7 +19,19 @@ export async function main() {
         const version = await getVersion();
         console.log(`pyright ${version}`);
 
-        const args = await getArgs(version);
+        const { args, noComments } = await getArgs(version);
+
+        if (noComments) {
+            // Comments are disabled, just run as a subprocess passing things through.
+            const { status } = cp.spawnSync(process.execPath, args, {
+                stdio: ['ignore', 'inherit', 'inherit'],
+            });
+
+            if (status !== 0) {
+                core.setFailed(`Exit code ${status}`);
+            }
+            return;
+        }
 
         const { status, stdout } = cp.spawnSync(process.execPath, args, {
             encoding: 'utf-8',
@@ -87,10 +99,15 @@ async function getVersion(): Promise<SemVer> {
     return new SemVer(obj.version);
 }
 
-async function getArgs(version: SemVer): Promise<string[]> {
+async function getArgs(version: SemVer) {
     const pyrightIndex = await getPyright(version);
 
-    const args = [pyrightIndex, '--outputjson'];
+    const args = [pyrightIndex];
+
+    const noComments = getBooleanInput('no-comments', false);
+    if (!noComments) {
+        args.push('--outputjson');
+    }
 
     const pythonPlatform = core.getInput('python-platform');
     if (pythonPlatform) {
@@ -122,7 +139,7 @@ async function getArgs(version: SemVer): Promise<string[]> {
         args.push(project);
     }
 
-    const lib = (core.getInput('lib') || 'false').toUpperCase() === 'TRUE';
+    const lib = getBooleanInput('lib', false);
     if (lib) {
         args.push('--lib');
     }
@@ -132,7 +149,18 @@ async function getArgs(version: SemVer): Promise<string[]> {
         args.push(...stringArgv(extraArgs));
     }
 
-    return args;
+    return {
+        args,
+        noComments,
+    };
+}
+
+function getBooleanInput(name: string, defaultValue: boolean): boolean {
+    const input = core.getInput(name);
+    if (!input) {
+        return defaultValue;
+    }
+    return input.toUpperCase() === 'TRUE';
 }
 
 async function getPyright(version: SemVer): Promise<string> {

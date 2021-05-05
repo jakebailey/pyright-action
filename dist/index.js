@@ -5637,7 +5637,16 @@ async function main() {
     }
     const version = await getVersion();
     console.log(`pyright ${version}`);
-    const args = await getArgs(version);
+    const {args, noComments} = await getArgs(version);
+    if (noComments) {
+      const {status: status2} = cp.spawnSync(process.execPath, args, {
+        stdio: ["ignore", "inherit", "inherit"]
+      });
+      if (status2 !== 0) {
+        core.setFailed(`Exit code ${status2}`);
+      }
+      return;
+    }
     const {status, stdout} = cp.spawnSync(process.execPath, args, {
       encoding: "utf-8",
       stdio: ["ignore", "pipe", "inherit"]
@@ -5684,7 +5693,11 @@ async function getVersion() {
 }
 async function getArgs(version) {
   const pyrightIndex = await getPyright(version);
-  const args = [pyrightIndex, "--outputjson"];
+  const args = [pyrightIndex];
+  const noComments = getBooleanInput("no-comments", false);
+  if (!noComments) {
+    args.push("--outputjson");
+  }
   const pythonPlatform = core.getInput("python-platform");
   if (pythonPlatform) {
     args.push("--pythonplatform");
@@ -5710,7 +5723,7 @@ async function getArgs(version) {
     args.push("--project");
     args.push(project);
   }
-  const lib = (core.getInput("lib") || "false").toUpperCase() === "TRUE";
+  const lib = getBooleanInput("lib", false);
   if (lib) {
     args.push("--lib");
   }
@@ -5718,7 +5731,17 @@ async function getArgs(version) {
   if (extraArgs) {
     args.push(...(0, import_string_argv.default)(extraArgs));
   }
-  return args;
+  return {
+    args,
+    noComments
+  };
+}
+function getBooleanInput(name, defaultValue) {
+  const input = core.getInput(name);
+  if (!input) {
+    return defaultValue;
+  }
+  return input.toUpperCase() === "TRUE";
 }
 async function getPyright(version) {
   const url = `https://registry.npmjs.org/pyright/-/pyright-${version.format()}.tgz`;
