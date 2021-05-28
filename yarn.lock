@@ -37,9 +37,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@actions/tool-cache@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "@actions/tool-cache@npm:1.6.1"
+"@actions/tool-cache@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@actions/tool-cache@npm:1.7.0"
   dependencies:
     "@actions/core": ^1.2.6
     "@actions/exec": ^1.0.0
@@ -47,7 +47,7 @@ __metadata:
     "@actions/io": ^1.0.1
     semver: ^6.1.0
     uuid: ^3.3.2
-  checksum: b7fe2572be73ff4c5aae20bc643dc8ed54d55b51da5994f20664838369ba99b141d375e8430e5818ba0dc6fda9c5992d6b17dec36582649c7307df06c501f928
+  checksum: d6d721d5dddec8423e0a6fec2f07488a6bc5f05d9ab27ce2f64b87f35097dc6d35561797fb5b4ab0871d53097869666dc53749693307c22a20cd955f628b2471
   languageName: node
   linkType: hard
 
@@ -497,12 +497,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.12.1":
-  version: 0.12.1
-  resolution: "esbuild@npm:0.12.1"
+"esbuild@npm:^0.12.4":
+  version: 0.12.4
+  resolution: "esbuild@npm:0.12.4"
   bin:
     esbuild: bin/esbuild
-  checksum: 4dbc16cf617487654dfc38493ac23b5d0476d7a99a5ed2d64c4cd57bb2eb106b142134b32bc761158d14cad1b409d26338e74e09e371ac58482084a4b3d0725a
+  checksum: e0877a981e2f6ee7ec92cea9c1c019dc06309e0b89b0d21cb21a46db3e6195495b72aec7533ef6de7ec7f3c306181460b1b5a1d47087da53664b8d8929a81fd0
   languageName: node
   linkType: hard
 
@@ -808,11 +808,11 @@ __metadata:
   linkType: hard
 
 "globals@npm:^13.6.0":
-  version: 13.8.0
-  resolution: "globals@npm:13.8.0"
+  version: 13.9.0
+  resolution: "globals@npm:13.9.0"
   dependencies:
     type-fest: ^0.20.2
-  checksum: acbfcad2b8aeff34d977a2df62bda863d7537e19f5b30cc3452493ce636b5193be9f68da46a53f41875f49052ddd7d550cd2568ecc818ddde3603e30def1fef3
+  checksum: 566b29b475dd793eeb44d5b54823fdbf320e7077f5d1d330856ac2e7e016e4b50c8310b12d498282d5b5b26bdd7a1a6343615f510bf37b8863ec2741d58cc6ad
   languageName: node
   linkType: hard
 
@@ -1168,12 +1168,12 @@ __metadata:
   dependencies:
     "@actions/core": ^1.3.0
     "@actions/http-client": ^1.0.11
-    "@actions/tool-cache": ^1.6.1
+    "@actions/tool-cache": ^1.7.0
     "@types/node": ~12.20.13
     "@types/semver": ^7.3.6
     "@typescript-eslint/eslint-plugin": ^4.25.0
     "@typescript-eslint/parser": ^4.25.0
-    esbuild: ^0.12.1
+    esbuild: ^0.12.4
     eslint: ^7.27.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-simple-import-sort: ^7.0.0
@@ -1182,7 +1182,7 @@ __metadata:
     prettier: 2.3.0
     semver: ^7.3.5
     string-argv: ^0.3.1
-    typescript: ^4.2.4
+    typescript: ~4.2.4
   languageName: unknown
   linkType: soft
 
@@ -1432,23 +1432,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-typescript@^4.2.4:
-  version: 4.2.4
-  resolution: "typescript@npm:4.2.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 89c397df192f239359ad798b96d8e8d552e12c0c189ac5676cec4c20c410d6eec636b8e59a88f2aef0a56d961a9678d99c400099be9b7cae2f7b062eb4b7b171
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.2.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@~4.2.4#~builtin<compat/typescript>":
   version: 4.2.4
   resolution: "typescript@patch:typescript@npm%3A4.2.4#~builtin<compat/typescript>::version=4.2.4&hash=34ad7d"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 083de437033ea11e57b0c66305a2c1d6d05e9383e57de2af405b0833ab68bd96d82d1f4f317fac06f3420410a006244648cf70278f58b3b4d55632dc7aeb8d4a
+  languageName: node
+  linkType: hard
+
+typescript@~4.2.4:
+  version: 4.2.4
+  resolution: "typescript@npm:4.2.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 89c397df192f239359ad798b96d8e8d552e12c0c189ac5676cec4c20c410d6eec636b8e59a88f2aef0a56d961a9678d99c400099be9b7cae2f7b062eb4b7b171
   languageName: node
   linkType: hard
 
