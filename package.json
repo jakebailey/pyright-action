@@ -19,18 +19,18 @@
         "string-argv": "^0.3.1"
     },
     "devDependencies": {
-        "@types/node": "~12.20.13",
+        "@types/node": "~12.20.14",
         "@types/semver": "^7.3.6",
         "@typescript-eslint/eslint-plugin": "^4.26.0",
         "@typescript-eslint/parser": "^4.26.0",
-        "esbuild": "^0.12.5",
-        "eslint": "^7.27.0",
+        "esbuild": "^0.12.6",
+        "eslint": "^7.28.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^6.0.0",
-        "prettier": "2.3.0",
+        "prettier": "2.3.1",
         "shx": "^0.3.3",
-        "typescript": "~4.2.4"
+        "typescript": "~4.3.2"
     },
     "scripts": {
         "postinstall": "husky install",
