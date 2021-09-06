@@ -37,5 +37,6 @@
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node12",
         "update:all": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && yarn",
         "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && shx rm -f yarn.lock && yarn"
-    }
+    },
+    "packageManager": "yarn@3.0.1"
 }
