@@ -81,7 +81,7 @@ export async function main() {
         if (status !== 0) {
             core.setFailed(`${errorCount} ${errorCount === 1 ? 'error' : 'errors'}`);
         }
-    } catch (e) {
+    } catch (e: any) {
         core.setFailed(e.message);
     }
 }
@@ -142,6 +142,11 @@ async function getArgs(version: SemVer) {
     const lib = getBooleanInput('lib', false);
     if (lib) {
         args.push('--lib');
+    }
+
+    const warnings = getBooleanInput('warnings', false);
+    if (warnings) {
+        args.push('--warnings');
     }
 
     const extraArgs = core.getInput('extra-args');

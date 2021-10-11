@@ -6289,6 +6289,10 @@ async function getArgs(version) {
   if (lib) {
     args.push("--lib");
   }
+  const warnings = getBooleanInput("warnings", false);
+  if (warnings) {
+    args.push("--warnings");
+  }
   const extraArgs = core.getInput("extra-args");
   if (extraArgs) {
     args.push(...(0, import_string_argv.default)(extraArgs));
