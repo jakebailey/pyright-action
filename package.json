@@ -19,18 +19,18 @@
         "string-argv": "^0.3.1"
     },
     "devDependencies": {
-        "@types/node": "~12.20.28",
-        "@types/semver": "^7.3.8",
-        "@typescript-eslint/eslint-plugin": "^4.33.0",
-        "@typescript-eslint/parser": "^4.33.0",
-        "esbuild": "^0.13.4",
-        "eslint": "^7.32.0",
+        "@types/node": "~12.20.37",
+        "@types/semver": "^7.3.9",
+        "@typescript-eslint/eslint-plugin": "^5.4.0",
+        "@typescript-eslint/parser": "^5.4.0",
+        "esbuild": "^0.13.14",
+        "eslint": "^8.2.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
-        "husky": "^7.0.2",
+        "husky": "^7.0.4",
         "prettier": "2.4.1",
         "shx": "^0.3.3",
-        "typescript": "~4.4.3"
+        "typescript": "~4.5.2"
     },
     "scripts": {
         "postinstall": "husky install",
@@ -38,5 +38,5 @@
         "update:all": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && yarn",
         "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && shx rm -f yarn.lock && yarn"
     },
-    "packageManager": "yarn@3.0.2"
+    "packageManager": "yarn@3.1.0"
 }
