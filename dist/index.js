@@ -5538,7 +5538,7 @@ var require_types = __commonJS({
       }
       and(schema) {
         if (schema instanceof ObjectType) {
-          const keySet = new Set([...this[shapekeysSymbol], ...schema[shapekeysSymbol]]);
+          const keySet = /* @__PURE__ */ new Set([...this[shapekeysSymbol], ...schema[shapekeysSymbol]]);
           const intersectShape = Array.from(keySet).reduce((acc, key) => {
             if (this.objectShape[key] && schema.objectShape[key]) {
               acc[key] = this.objectShape[key].and(schema.objectShape[key]);
@@ -5693,7 +5693,7 @@ var require_types = __commonJS({
       }
       unique() {
         return this.withPredicate((arr) => {
-          const seenMap = new Map();
+          const seenMap = /* @__PURE__ */ new Map();
           arr.forEach((elem, idx) => {
             const seenAt = seenMap.get(elem);
             if (seenAt) {
@@ -5793,7 +5793,7 @@ var require_types = __commonJS({
         this[coercionTypeSymbol] = (opts === null || opts === void 0 ? void 0 : opts.default) !== void 0 || schemas.some((schema) => schema[coercionTypeSymbol]);
       }
       parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        const errors = new Set();
+        const errors = /* @__PURE__ */ new Set();
         for (const schema of this.schemas) {
           try {
             if (this.strict === false && schema instanceof ObjectType) {
@@ -5836,7 +5836,7 @@ var require_types = __commonJS({
         this[coercionTypeSymbol] = this.left[coercionTypeSymbol] && this.right[coercionTypeSymbol];
         this[allowUnknownSymbol] = !!(this.left[allowUnknownSymbol] || this.right[allowUnknownSymbol]);
         if (this.left[shapekeysSymbol] && this.right[shapekeysSymbol]) {
-          this[shapekeysSymbol] = Array.from(new Set([...this.left[shapekeysSymbol], ...this.right[shapekeysSymbol]]));
+          this[shapekeysSymbol] = Array.from(/* @__PURE__ */ new Set([...this.left[shapekeysSymbol], ...this.right[shapekeysSymbol]]));
         }
         this._schema = (() => {
           if (this.left instanceof MTypeClass) {
