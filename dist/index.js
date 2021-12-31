@@ -4757,7 +4757,7 @@ var require_types = __commonJS({
       if (Array.isArray(value)) {
         return value.map((elem) => clone(elem));
       }
-      const cpy = Object.create(null);
+      const cpy = /* @__PURE__ */ Object.create(null);
       for (const k in value) {
         cpy[k] = clone(value[k]);
       }
