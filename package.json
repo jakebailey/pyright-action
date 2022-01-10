@@ -29,14 +29,14 @@
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^7.0.4",
         "prettier": "2.5.1",
-        "shx": "^0.3.3",
+        "rimraf": "^3.0.2",
         "typescript": "~4.5.4"
     },
     "scripts": {
         "postinstall": "husky install",
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node12",
         "update:all": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && yarn",
-        "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && shx rm -f yarn.lock && yarn"
+        "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && rimraf yarn.lock && yarn"
     },
     "packageManager": "yarn@3.1.1"
 }
