@@ -38,5 +38,5 @@
         "update:all": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && yarn",
         "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && rimraf yarn.lock && yarn"
     },
-    "packageManager": "yarn@3.1.1"
+    "packageManager": "yarn@3.2.0"
 }
