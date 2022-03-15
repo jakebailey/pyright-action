@@ -46,3 +46,16 @@ inputs:
     required: false
     default: 'false'
 ```
+
+
+## Releasing `pyright-action`
+
+GitHub actions are generally versoned with tags, including a tag like `v1` which moves
+to always point to the latest release. This is unfortunately not how tags are supposed
+to work (best to be immutable), so until GHA can support checking tags by semver, releases
+are made by doing something like:
+
+```
+$ git tag v1.0.4 && git push --tags
+$ git tag -d v1 && git push origin :refs/tags/v1 && git tag v1 && git push origin v1
+```
