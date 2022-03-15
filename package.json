@@ -14,23 +14,23 @@
         "@actions/core": "^1.6.0",
         "@actions/http-client": "^1.0.11",
         "@actions/tool-cache": "^1.7.1",
-        "myzod": "^1.8.6",
+        "myzod": "^1.8.7",
         "semver": "^7.3.5",
         "string-argv": "^0.3.1"
     },
     "devDependencies": {
-        "@types/node": "~12.20.46",
+        "@types/node": "~12.20.47",
         "@types/semver": "^7.3.9",
-        "@typescript-eslint/eslint-plugin": "^5.12.1",
-        "@typescript-eslint/parser": "^5.12.1",
-        "esbuild": "^0.14.23",
-        "eslint": "^8.9.0",
-        "eslint-config-prettier": "^8.4.0",
+        "@typescript-eslint/eslint-plugin": "^5.15.0",
+        "@typescript-eslint/parser": "^5.15.0",
+        "esbuild": "^0.14.27",
+        "eslint": "^8.11.0",
+        "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^7.0.4",
         "prettier": "2.5.1",
         "rimraf": "^3.0.2",
-        "typescript": "~4.5.5"
+        "typescript": "~4.6.2"
     },
     "scripts": {
         "postinstall": "husky install",
