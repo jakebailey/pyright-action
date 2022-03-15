@@ -6195,8 +6195,9 @@ async function main() {
       process.chdir(cwd);
     }
     const version = await getVersion();
-    console.log(`pyright ${version}`);
+    console.log(`pyright ${version}, node ${process.version}`);
     const { args, noComments } = await getArgs(version);
+    console.log(`${process.execPath} ${args.join(" ")}`);
     if (noComments) {
       const { status: status2 } = cp.spawnSync(process.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]

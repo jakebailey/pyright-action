@@ -17,9 +17,10 @@ export async function main() {
         }
 
         const version = await getVersion();
-        console.log(`pyright ${version}`);
+        console.log(`pyright ${version}, node ${process.version}`);
 
         const { args, noComments } = await getArgs(version);
+        console.log(`${process.execPath} ${args.join(' ')}`);
 
         if (noComments) {
             // Comments are disabled, just run as a subprocess passing things through.
