@@ -6292,7 +6292,7 @@ async function getArgs(version) {
     args.push("--warnings");
   }
   const verifyTypes = core.getInput("verify-types");
-  if (project) {
+  if (verifyTypes) {
     args.push("--verifytypes");
     args.push(verifyTypes);
   }
