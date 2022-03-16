@@ -53,12 +53,13 @@ inputs:
 
 ## Releasing `pyright-action`
 
-GitHub actions are generally versoned with tags, including a tag like `v1` which moves
-to always point to the latest release. This is unfortunately not how tags are supposed
-to work (best to be immutable), so until GHA can support checking tags by semver, releases
-are made by doing something like:
+Releases are performed by `release-it`, which correctly tags a new version and re-tags `v1`.
+Unfortunately, you can only publish a GitHub action via the web UI (not via the API), so
+`release-it` must be configured to open a browser to create the release, where the marketplace
+checkbox will already be checked.
 
 ```
-$ git tag v1.0.4 && git push --tags
-$ git tag -d v1 && git push origin :refs/tags/v1 && git tag v1 && git push origin v1
+$ yarn release --ci                    # Release a patch version
+$ yarn release --ci --increment minor  # Release a minor version bump.
+$ yarn release --ci --increment major  # Don't do this unless .release-it.json is updated to potentially retag a new major version.
 ```
