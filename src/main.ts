@@ -156,7 +156,7 @@ async function getArgs(version: SemVer) {
     }
 
     const verifyTypes = core.getInput('verify-types');
-    if (project) {
+    if (verifyTypes) {
         args.push('--verifytypes');
         args.push(verifyTypes);
     }
