@@ -6327,7 +6327,7 @@ function diagnosticToString(diag, forCommand) {
     if (diag.range && !isEmptyRange(diag.range)) {
       message += `${diag.range.start.line + 1}:${diag.range.start.character + 1} - `;
     }
-    message += diag.severity === "information" ? "info" : diag.severity;
+    message += diag.severity;
     message += `: `;
   }
   message += diag.message;
