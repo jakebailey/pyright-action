@@ -38,6 +38,9 @@ inputs:
     description: 'Use library code to infer types when stubs are missing.'
     required: false
     default: 'false'
+verify-types:
+  description: 'Package name to run the type verifier on; must be an *installed* library. Any score under 100% will fail the build.'
+  required: false
   extra-args:
     description: 'Extra arguments; can be used to specify specific files to check.'
     required: false

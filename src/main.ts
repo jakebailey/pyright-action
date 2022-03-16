@@ -22,8 +22,13 @@ export async function main() {
         const { args, noComments } = await getArgs(version);
         console.log(`${process.execPath} ${args.join(' ')}`);
 
-        if (noComments) {
-            // Comments are disabled, just run as a subprocess passing things through.
+        if (noComments || args.indexOf('--verifytypes') >= 0) {
+            // If comments are disabled, there's no point in directly processing the output,
+            // as it's only used for comments.
+            // If we're running the type verifier, there's no guarantee that we can even act
+            // on the output besides the exit code.
+            //
+            // So, in either case, just directly run pyright and exit with its status.
             const { status } = cp.spawnSync(process.execPath, args, {
                 stdio: ['ignore', 'inherit', 'inherit'],
             });
@@ -148,6 +153,12 @@ async function getArgs(version: SemVer) {
     const warnings = getBooleanInput('warnings', false);
     if (warnings) {
         args.push('--warnings');
+    }
+
+    const verifyTypes = core.getInput('verify-types');
+    if (project) {
+        args.push('--verifytypes');
+        args.push(verifyTypes);
     }
 
     const extraArgs = core.getInput('extra-args');

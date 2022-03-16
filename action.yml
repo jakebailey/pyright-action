@@ -35,6 +35,9 @@ inputs:
     description: 'Use exit code of 1 if warnings are reported.'
     required: false
     default: 'false'
+  verify-types:
+    description: description: 'Package name to run the type verifier on; must be an *installed* library. Any score under 100% will fail the build.'
+    required: false
   extra-args:
     description: 'Extra arguments; can be used to specify specific files to check.'
     required: false

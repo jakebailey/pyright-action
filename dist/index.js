@@ -6198,7 +6198,7 @@ async function main() {
     console.log(`pyright ${version}, node ${process.version}`);
     const { args, noComments } = await getArgs(version);
     console.log(`${process.execPath} ${args.join(" ")}`);
-    if (noComments) {
+    if (noComments || args.indexOf("--verifytypes") >= 0) {
       const { status: status2 } = cp.spawnSync(process.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]
       });
@@ -6290,6 +6290,11 @@ async function getArgs(version) {
   const warnings = getBooleanInput("warnings", false);
   if (warnings) {
     args.push("--warnings");
+  }
+  const verifyTypes = core.getInput("verify-types");
+  if (project) {
+    args.push("--verifytypes");
+    args.push(verifyTypes);
   }
   const extraArgs = core.getInput("extra-args");
   if (extraArgs) {
