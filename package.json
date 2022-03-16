@@ -1,6 +1,6 @@
 {
     "name": "pyright-action",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "private": true,
     "description": "GitHub Action for pyright",
     "main": "dist/index.js",
