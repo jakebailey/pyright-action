@@ -6217,13 +6217,13 @@ async function main() {
     }
     const report = Report.parse(JSON.parse(stdout));
     report.generalDiagnostics.forEach((diag) => {
-      var _a, _b, _c, _d;
+      var _a, _b;
       console.log(diagnosticToString(diag, false));
       if (diag.severity === "information") {
         return;
       }
-      const line = (_b = (_a = diag.range) == null ? void 0 : _a.start.line) != null ? _b : 0;
-      const col = (_d = (_c = diag.range) == null ? void 0 : _c.start.character) != null ? _d : 0;
+      const line = ((_a = diag.range) == null ? void 0 : _a.start.line) ?? 0;
+      const col = ((_b = diag.range) == null ? void 0 : _b.start.character) ?? 0;
       const message = diagnosticToString(diag, true);
       command.issueCommand(diag.severity, {
         file: diag.file,

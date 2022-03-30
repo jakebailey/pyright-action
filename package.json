@@ -10,6 +10,9 @@
     },
     "author": "Jake Bailey",
     "license": "MIT",
+    "engines": {
+        "node": ">=16"
+    },
     "dependencies": {
         "@actions/core": "^1.6.0",
         "@actions/http-client": "^1.0.11",
@@ -19,8 +22,8 @@
         "string-argv": "^0.3.1"
     },
     "devDependencies": {
-        "@tsconfig/node12": "^1.0.9",
-        "@types/node": "~12.20.47",
+        "@tsconfig/node16": "^1.0.2",
+        "@types/node": "^16.11.26",
         "@types/semver": "^7.3.9",
         "@typescript-eslint/eslint-plugin": "^5.17.0",
         "@typescript-eslint/parser": "^5.17.0",
@@ -36,7 +39,7 @@
     },
     "scripts": {
         "postinstall": "husky install",
-        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node12",
+        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node16",
         "update:all": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && yarn",
         "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && rimraf yarn.lock && yarn",
         "release": "release-it"
