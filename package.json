@@ -32,6 +32,7 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^7.0.4",
+        "npm-check-updates": "^12.5.4",
         "prettier": "2.6.1",
         "release-it": "^14.13.1",
         "rimraf": "^3.0.2",
@@ -40,8 +41,8 @@
     "scripts": {
         "postinstall": "husky install",
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node16",
-        "update:all": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && yarn",
-        "update:all:transitive": "yarn dlx npm-check-updates --reject 'typescript' --target minor -u && rimraf yarn.lock && yarn",
+        "update:all": "npm-check-updates --reject 'typescript' --target minor -u && yarn",
+        "update:all:transitive": "npm-check-updates --reject 'typescript' --target minor -u && rimraf yarn.lock && yarn",
         "release": "release-it"
     },
     "packageManager": "yarn@3.2.0"
