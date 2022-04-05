@@ -4,7 +4,8 @@
         "noEmit": true,
         "noImplicitReturns": true,
         "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true
+        "noPropertyAccessFromIndexSignature": true,
+        "resolveJsonModule": true
     },
     "exclude": ["dist", "node_modules"]
 }

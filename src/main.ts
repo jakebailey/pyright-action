@@ -7,6 +7,7 @@ import * as path from 'path';
 import SemVer from 'semver/classes/semver';
 import stringArgv from 'string-argv';
 
+import { version as actionVersion } from '../package.json';
 import { Diagnostic, isEmptyRange, Report } from './schema';
 
 export async function main() {
@@ -17,7 +18,7 @@ export async function main() {
         }
 
         const version = await getVersion();
-        console.log(`pyright ${version}, node ${process.version}`);
+        console.log(`pyright ${version}, node ${process.version}, pyright-action ${actionVersion}`);
 
         const { args, noComments } = await getArgs(version);
         console.log(`${process.execPath} ${args.join(' ')}`);
