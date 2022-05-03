@@ -23,6 +23,7 @@
     },
     "devDependencies": {
         "@tsconfig/node16": "^1.0.2",
+        "@types/jest": "^27.5.0",
         "@types/node": "^16.11.33",
         "@types/semver": "^7.3.9",
         "@typescript-eslint/eslint-plugin": "^5.22.0",
@@ -32,10 +33,12 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^7.0.4",
+        "jest": "^28.0.3",
         "npm-check-updates": "^12.5.11",
         "prettier": "2.6.2",
         "release-it": "^14.14.3",
         "rimraf": "^3.0.2",
+        "ts-jest": "^28.0.0",
         "typescript": "~4.6.4"
     },
     "scripts": {
@@ -43,7 +46,8 @@
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node16",
         "update:all": "npm-check-updates --reject 'typescript' --target minor -u && yarn",
         "update:all:transitive": "npm-check-updates --reject 'typescript' --target minor -u && rimraf yarn.lock && yarn",
-        "release": "release-it"
+        "release": "release-it",
+        "test": "jest"
     },
     "packageManager": "yarn@3.2.0",
     "volta": {
