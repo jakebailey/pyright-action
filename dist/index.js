@@ -682,12 +682,12 @@ var require_http_client = __commonJS({
           throw new Error("Client has already been disposed.");
         }
         let parsedUrl = new URL(requestUrl);
-        let info = this._prepareRequest(verb, parsedUrl, headers);
+        let info2 = this._prepareRequest(verb, parsedUrl, headers);
         let maxTries = this._allowRetries && RetryableHttpVerbs.indexOf(verb) != -1 ? this._maxRetries + 1 : 1;
         let numTries = 0;
         let response;
         while (numTries < maxTries) {
-          response = await this.requestRaw(info, data);
+          response = await this.requestRaw(info2, data);
           if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
             let authenticationHandler;
             for (let i = 0; i < this.handlers.length; i++) {
@@ -697,7 +697,7 @@ var require_http_client = __commonJS({
               }
             }
             if (authenticationHandler) {
-              return authenticationHandler.handleAuthentication(this, info, data);
+              return authenticationHandler.handleAuthentication(this, info2, data);
             } else {
               return response;
             }
@@ -720,8 +720,8 @@ var require_http_client = __commonJS({
                 }
               }
             }
-            info = this._prepareRequest(verb, parsedRedirectUrl, headers);
-            response = await this.requestRaw(info, data);
+            info2 = this._prepareRequest(verb, parsedRedirectUrl, headers);
+            response = await this.requestRaw(info2, data);
             redirectsRemaining--;
           }
           if (HttpResponseRetryCodes.indexOf(response.message.statusCode) == -1) {
@@ -741,7 +741,7 @@ var require_http_client = __commonJS({
         }
         this._disposed = true;
       }
-      requestRaw(info, data) {
+      requestRaw(info2, data) {
         return new Promise((resolve, reject) => {
           let callbackForResult = function(err, res) {
             if (err) {
@@ -749,13 +749,13 @@ var require_http_client = __commonJS({
             }
             resolve(res);
           };
-          this.requestRawWithCallback(info, data, callbackForResult);
+          this.requestRawWithCallback(info2, data, callbackForResult);
         });
       }
-      requestRawWithCallback(info, data, onResult) {
+      requestRawWithCallback(info2, data, onResult) {
         let socket;
         if (typeof data === "string") {
-          info.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
+          info2.options.headers["Content-Length"] = Buffer.byteLength(data, "utf8");
         }
         let callbackCalled = false;
         let handleResult = (err, res) => {
@@ -764,7 +764,7 @@ var require_http_client = __commonJS({
             onResult(err, res);
           }
         };
-        let req = info.httpModule.request(info.options, (msg) => {
+        let req = info2.httpModule.request(info2.options, (msg) => {
           let res = new HttpClientResponse(msg);
           handleResult(null, res);
         });
@@ -775,7 +775,7 @@ var require_http_client = __commonJS({
           if (socket) {
             socket.end();
           }
-          handleResult(new Error("Request timeout: " + info.options.path), null);
+          handleResult(new Error("Request timeout: " + info2.options.path), null);
         });
         req.on("error", function(err) {
           handleResult(err, null);
@@ -797,27 +797,27 @@ var require_http_client = __commonJS({
         return this._getAgent(parsedUrl);
       }
       _prepareRequest(method, requestUrl, headers) {
-        const info = {};
-        info.parsedUrl = requestUrl;
-        const usingSsl = info.parsedUrl.protocol === "https:";
-        info.httpModule = usingSsl ? https : http;
+        const info2 = {};
+        info2.parsedUrl = requestUrl;
+        const usingSsl = info2.parsedUrl.protocol === "https:";
+        info2.httpModule = usingSsl ? https : http;
         const defaultPort = usingSsl ? 443 : 80;
-        info.options = {};
-        info.options.host = info.parsedUrl.hostname;
-        info.options.port = info.parsedUrl.port ? parseInt(info.parsedUrl.port) : defaultPort;
-        info.options.path = (info.parsedUrl.pathname || "") + (info.parsedUrl.search || "");
-        info.options.method = method;
-        info.options.headers = this._mergeHeaders(headers);
+        info2.options = {};
+        info2.options.host = info2.parsedUrl.hostname;
+        info2.options.port = info2.parsedUrl.port ? parseInt(info2.parsedUrl.port) : defaultPort;
+        info2.options.path = (info2.parsedUrl.pathname || "") + (info2.parsedUrl.search || "");
+        info2.options.method = method;
+        info2.options.headers = this._mergeHeaders(headers);
         if (this.userAgent != null) {
-          info.options.headers["user-agent"] = this.userAgent;
+          info2.options.headers["user-agent"] = this.userAgent;
         }
-        info.options.agent = this._getAgent(info.parsedUrl);
+        info2.options.agent = this._getAgent(info2.parsedUrl);
         if (this.handlers) {
           this.handlers.forEach((handler) => {
-            handler.prepareRequest(info.options);
+            handler.prepareRequest(info2.options);
           });
         }
-        return info;
+        return info2;
       }
       _mergeHeaders(headers) {
         const lowercaseKeys = (obj) => Object.keys(obj).reduce((c, k) => (c[k.toLowerCase()] = obj[k], c), {});
@@ -1429,10 +1429,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports.notice = notice;
-    function info(message) {
+    function info2(message) {
       process.stdout.write(message + os.EOL);
     }
-    exports.info = info;
+    exports.info = info2;
     function startGroup(name) {
       command_1.issue("group", name);
     }
@@ -3928,7 +3928,7 @@ var require_retry_helper = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.RetryHelper = void 0;
-    var core2 = __importStar(require_core());
+    var core3 = __importStar(require_core());
     var RetryHelper = class {
       constructor(maxAttempts, minSeconds, maxSeconds) {
         if (maxAttempts < 1) {
@@ -3951,10 +3951,10 @@ var require_retry_helper = __commonJS({
               if (isRetryable && !isRetryable(err)) {
                 throw err;
               }
-              core2.info(err.message);
+              core3.info(err.message);
             }
             const seconds = this.getSleepAmount();
-            core2.info(`Waiting ${seconds} seconds before trying again`);
+            core3.info(`Waiting ${seconds} seconds before trying again`);
             yield this.sleep(seconds);
             attempt++;
           }
@@ -4038,7 +4038,7 @@ var require_tool_cache = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.evaluateVersions = exports.isExplicitVersion = exports.findFromManifest = exports.getManifestFromRepo = exports.findAllVersions = exports.find = exports.cacheFile = exports.cacheDir = exports.extractZip = exports.extractXar = exports.extractTar = exports.extract7z = exports.downloadTool = exports.HTTPError = void 0;
-    var core2 = __importStar(require_core());
+    var core3 = __importStar(require_core());
     var io = __importStar(require_io());
     var fs = __importStar(require("fs"));
     var mm = __importStar(require_manifest());
@@ -4067,8 +4067,8 @@ var require_tool_cache = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         dest = dest || path2.join(_getTempDirectory(), v4_1.default());
         yield io.mkdirP(path2.dirname(dest));
-        core2.debug(`Downloading ${url}`);
-        core2.debug(`Destination ${dest}`);
+        core3.debug(`Downloading ${url}`);
+        core3.debug(`Destination ${dest}`);
         const maxAttempts = 3;
         const minSeconds = _getGlobal("TEST_DOWNLOAD_TOOL_RETRY_MIN_SECONDS", 10);
         const maxSeconds = _getGlobal("TEST_DOWNLOAD_TOOL_RETRY_MAX_SECONDS", 20);
@@ -4095,7 +4095,7 @@ var require_tool_cache = __commonJS({
           allowRetries: false
         });
         if (auth) {
-          core2.debug("set auth");
+          core3.debug("set auth");
           if (headers === void 0) {
             headers = {};
           }
@@ -4104,7 +4104,7 @@ var require_tool_cache = __commonJS({
         const response = yield http.get(url, headers);
         if (response.message.statusCode !== 200) {
           const err = new HTTPError(response.message.statusCode);
-          core2.debug(`Failed to download from "${url}". Code(${response.message.statusCode}) Message(${response.message.statusMessage})`);
+          core3.debug(`Failed to download from "${url}". Code(${response.message.statusCode}) Message(${response.message.statusMessage})`);
           throw err;
         }
         const pipeline = util.promisify(stream.pipeline);
@@ -4113,16 +4113,16 @@ var require_tool_cache = __commonJS({
         let succeeded = false;
         try {
           yield pipeline(readStream, fs.createWriteStream(dest));
-          core2.debug("download complete");
+          core3.debug("download complete");
           succeeded = true;
           return dest;
         } finally {
           if (!succeeded) {
-            core2.debug("download failed");
+            core3.debug("download failed");
             try {
               yield io.rmRF(dest);
             } catch (err) {
-              core2.debug(`Failed to delete '${dest}'. ${err.message}`);
+              core3.debug(`Failed to delete '${dest}'. ${err.message}`);
             }
           }
         }
@@ -4137,7 +4137,7 @@ var require_tool_cache = __commonJS({
         process.chdir(dest);
         if (_7zPath) {
           try {
-            const logLevel = core2.isDebug() ? "-bb1" : "-bb0";
+            const logLevel = core3.isDebug() ? "-bb1" : "-bb0";
             const args = [
               "x",
               logLevel,
@@ -4187,7 +4187,7 @@ var require_tool_cache = __commonJS({
           throw new Error("parameter 'file' is required");
         }
         dest = yield _createExtractFolder(dest);
-        core2.debug("Checking tar --version");
+        core3.debug("Checking tar --version");
         let versionOutput = "";
         yield exec_1.exec("tar --version", [], {
           ignoreReturnCode: true,
@@ -4197,7 +4197,7 @@ var require_tool_cache = __commonJS({
             stderr: (data) => versionOutput += data.toString()
           }
         });
-        core2.debug(versionOutput.trim());
+        core3.debug(versionOutput.trim());
         const isGnuTar = versionOutput.toUpperCase().includes("GNU TAR");
         let args;
         if (flags instanceof Array) {
@@ -4205,7 +4205,7 @@ var require_tool_cache = __commonJS({
         } else {
           args = [flags];
         }
-        if (core2.isDebug() && !flags.includes("v")) {
+        if (core3.isDebug() && !flags.includes("v")) {
           args.push("-v");
         }
         let destArg = dest;
@@ -4237,7 +4237,7 @@ var require_tool_cache = __commonJS({
           args = [flags];
         }
         args.push("-x", "-C", dest, "-f", file);
-        if (core2.isDebug()) {
+        if (core3.isDebug()) {
           args.push("-v");
         }
         const xarPath = yield io.which("xar", true);
@@ -4282,7 +4282,7 @@ var require_tool_cache = __commonJS({
             "-Command",
             pwshCommand
           ];
-          core2.debug(`Using pwsh at path: ${pwshPath}`);
+          core3.debug(`Using pwsh at path: ${pwshPath}`);
           yield exec_1.exec(`"${pwshPath}"`, args);
         } else {
           const powershellCommand = [
@@ -4302,7 +4302,7 @@ var require_tool_cache = __commonJS({
             powershellCommand
           ];
           const powershellPath = yield io.which("powershell", true);
-          core2.debug(`Using powershell at path: ${powershellPath}`);
+          core3.debug(`Using powershell at path: ${powershellPath}`);
           yield exec_1.exec(`"${powershellPath}"`, args);
         }
       });
@@ -4311,7 +4311,7 @@ var require_tool_cache = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         const unzipPath = yield io.which("unzip", true);
         const args = [file];
-        if (!core2.isDebug()) {
+        if (!core3.isDebug()) {
           args.unshift("-q");
         }
         args.unshift("-o");
@@ -4322,8 +4322,8 @@ var require_tool_cache = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         version2 = semver.clean(version2) || version2;
         arch = arch || os.arch();
-        core2.debug(`Caching tool ${tool} ${version2} ${arch}`);
-        core2.debug(`source dir: ${sourceDir}`);
+        core3.debug(`Caching tool ${tool} ${version2} ${arch}`);
+        core3.debug(`source dir: ${sourceDir}`);
         if (!fs.statSync(sourceDir).isDirectory()) {
           throw new Error("sourceDir is not a directory");
         }
@@ -4341,14 +4341,14 @@ var require_tool_cache = __commonJS({
       return __awaiter(this, void 0, void 0, function* () {
         version2 = semver.clean(version2) || version2;
         arch = arch || os.arch();
-        core2.debug(`Caching tool ${tool} ${version2} ${arch}`);
-        core2.debug(`source file: ${sourceFile}`);
+        core3.debug(`Caching tool ${tool} ${version2} ${arch}`);
+        core3.debug(`source file: ${sourceFile}`);
         if (!fs.statSync(sourceFile).isFile()) {
           throw new Error("sourceFile is not a file");
         }
         const destFolder = yield _createToolPath(tool, version2, arch);
         const destPath = path2.join(destFolder, targetFile);
-        core2.debug(`destination file ${destPath}`);
+        core3.debug(`destination file ${destPath}`);
         yield io.cp(sourceFile, destPath);
         _completeToolPath(tool, version2, arch);
         return destFolder;
@@ -4372,12 +4372,12 @@ var require_tool_cache = __commonJS({
       if (versionSpec) {
         versionSpec = semver.clean(versionSpec) || "";
         const cachePath = path2.join(_getCacheDirectory(), toolName, versionSpec, arch);
-        core2.debug(`checking cache: ${cachePath}`);
+        core3.debug(`checking cache: ${cachePath}`);
         if (fs.existsSync(cachePath) && fs.existsSync(`${cachePath}.complete`)) {
-          core2.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
+          core3.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
           toolPath = cachePath;
         } else {
-          core2.debug("not found");
+          core3.debug("not found");
         }
       }
       return toolPath;
@@ -4408,7 +4408,7 @@ var require_tool_cache = __commonJS({
         const http = new httpm.HttpClient("tool-cache");
         const headers = {};
         if (auth) {
-          core2.debug("set auth");
+          core3.debug("set auth");
           headers.authorization = auth;
         }
         const response = yield http.getJson(treeUrl, headers);
@@ -4429,7 +4429,7 @@ var require_tool_cache = __commonJS({
           try {
             releases = JSON.parse(versionsRaw);
           } catch (_a) {
-            core2.debug("Invalid json");
+            core3.debug("Invalid json");
           }
         }
         return releases;
@@ -4455,7 +4455,7 @@ var require_tool_cache = __commonJS({
     function _createToolPath(tool, version2, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version2) || version2, arch || "");
-        core2.debug(`destination ${folderPath}`);
+        core3.debug(`destination ${folderPath}`);
         const markerPath = `${folderPath}.complete`;
         yield io.rmRF(folderPath);
         yield io.rmRF(markerPath);
@@ -4467,19 +4467,19 @@ var require_tool_cache = __commonJS({
       const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version2) || version2, arch || "");
       const markerPath = `${folderPath}.complete`;
       fs.writeFileSync(markerPath, "");
-      core2.debug("finished caching tool");
+      core3.debug("finished caching tool");
     }
     function isExplicitVersion(versionSpec) {
       const c = semver.clean(versionSpec) || "";
-      core2.debug(`isExplicit: ${c}`);
+      core3.debug(`isExplicit: ${c}`);
       const valid = semver.valid(c) != null;
-      core2.debug(`explicit? ${valid}`);
+      core3.debug(`explicit? ${valid}`);
       return valid;
     }
     exports.isExplicitVersion = isExplicitVersion;
     function evaluateVersions(versions, versionSpec) {
       let version2 = "";
-      core2.debug(`evaluating ${versions.length} versions`);
+      core3.debug(`evaluating ${versions.length} versions`);
       versions = versions.sort((a, b) => {
         if (semver.gt(a, b)) {
           return 1;
@@ -4495,9 +4495,9 @@ var require_tool_cache = __commonJS({
         }
       }
       if (version2) {
-        core2.debug(`matched: ${version2}`);
+        core3.debug(`matched: ${version2}`);
       } else {
-        core2.debug("match not found");
+        core3.debug("match not found");
       }
       return version2;
     }
@@ -6309,108 +6309,21 @@ var require_libs = __commonJS({
 });
 
 // src/main.ts
-var core = __toESM(require_core());
+var core2 = __toESM(require_core());
 var command = __toESM(require_command());
-var httpClient = __toESM(require_http_client());
-var tc = __toESM(require_tool_cache());
 var cp = __toESM(require("child_process"));
-var path = __toESM(require("path"));
-var import_semver = __toESM(require_semver2());
-var import_string_argv = __toESM(require_string_argv());
 
 // package.json
 var version = "1.1.0";
 
-// src/schema.ts
-var import_myzod = __toESM(require_libs());
-var Position = import_myzod.default.object({
-  line: import_myzod.default.number(),
-  character: import_myzod.default.number()
-});
-function isEmptyPosition(p) {
-  return p.line === 0 && p.character === 0;
-}
-var Range = import_myzod.default.object({
-  start: Position,
-  end: Position
-});
-function isEmptyRange(r) {
-  return isEmptyPosition(r.start) && isEmptyPosition(r.end);
-}
-var Diagnostic = import_myzod.default.object({
-  file: import_myzod.default.string(),
-  severity: import_myzod.default.literals("error", "warning", "information"),
-  message: import_myzod.default.string(),
-  rule: import_myzod.default.string().optional(),
-  range: Range.optional()
-});
-var Report = import_myzod.default.object({
-  version: import_myzod.default.string(),
-  time: import_myzod.default.string(),
-  generalDiagnostics: import_myzod.default.array(Diagnostic),
-  summary: import_myzod.default.object({
-    filesAnalyzed: import_myzod.default.number(),
-    errorCount: import_myzod.default.number(),
-    warningCount: import_myzod.default.number(),
-    informationCount: import_myzod.default.number(),
-    timeInSec: import_myzod.default.number()
-  })
-});
-
-// src/main.ts
-async function main() {
-  try {
-    const cwd = core.getInput("working-directory");
-    if (cwd) {
-      process.chdir(cwd);
-    }
-    const version2 = await getVersion();
-    console.log(`pyright ${version2}, node ${process.version}, pyright-action ${version}`);
-    const { args, noComments } = await getArgs(version2);
-    console.log(`${process.execPath} ${args.join(" ")}`);
-    if (noComments || args.indexOf("--verifytypes") >= 0) {
-      const { status: status2 } = cp.spawnSync(process.execPath, args, {
-        stdio: ["ignore", "inherit", "inherit"]
-      });
-      if (status2 !== 0) {
-        core.setFailed(`Exit code ${status2}`);
-      }
-      return;
-    }
-    const { status, stdout } = cp.spawnSync(process.execPath, args, {
-      encoding: "utf-8",
-      stdio: ["ignore", "pipe", "inherit"]
-    });
-    if (!stdout.trim()) {
-      core.setFailed(`Exit code ${status}`);
-      return;
-    }
-    const report = Report.parse(JSON.parse(stdout));
-    report.generalDiagnostics.forEach((diag) => {
-      var _a, _b;
-      console.log(diagnosticToString(diag, false));
-      if (diag.severity === "information") {
-        return;
-      }
-      const line = ((_a = diag.range) == null ? void 0 : _a.start.line) ?? 0;
-      const col = ((_b = diag.range) == null ? void 0 : _b.start.character) ?? 0;
-      const message = diagnosticToString(diag, true);
-      command.issueCommand(diag.severity, {
-        file: diag.file,
-        line: line + 1,
-        col: col + 1
-      }, message);
-    });
-    const { errorCount, warningCount, informationCount } = report.summary;
-    console.log(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "info" : "infos"} `);
-    if (status !== 0) {
-      core.setFailed(`${errorCount} ${errorCount === 1 ? "error" : "errors"}`);
-    }
-  } catch (e) {
-    core.setFailed(e.message);
-  }
-}
-async function getVersion() {
+// src/helpers.ts
+var core = __toESM(require_core());
+var httpClient = __toESM(require_http_client());
+var tc = __toESM(require_tool_cache());
+var path = __toESM(require("path"));
+var import_semver = __toESM(require_semver2());
+var import_string_argv = __toESM(require_string_argv());
+async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
     return new import_semver.default(versionSpec);
@@ -6421,9 +6334,11 @@ async function getVersion() {
   const obj = JSON.parse(body);
   return new import_semver.default(obj.version);
 }
-async function getArgs(version2) {
-  const pyrightIndex = await getPyright(version2);
-  const args = [pyrightIndex];
+async function getArgs() {
+  const pyrightVersion = await getPyrightVersion();
+  const pyrightPath = await downloadPyright(pyrightVersion);
+  const args = [pyrightPath];
+  const workingDirectory = core.getInput("working-directory");
   const noComments = getBooleanInput("no-comments", false);
   if (!noComments) {
     args.push("--outputjson");
@@ -6471,8 +6386,10 @@ async function getArgs(version2) {
     args.push(...(0, import_string_argv.default)(extraArgs));
   }
   return {
-    args,
-    noComments
+    workingDirectory,
+    noComments,
+    pyrightVersion,
+    args
   };
 }
 function getBooleanInput(name, defaultValue) {
@@ -6482,11 +6399,106 @@ function getBooleanInput(name, defaultValue) {
   }
   return input.toUpperCase() === "TRUE";
 }
-async function getPyright(version2) {
+async function downloadPyright(version2) {
   const url = `https://registry.npmjs.org/pyright/-/pyright-${version2.format()}.tgz`;
   const pyrightTarball = await tc.downloadTool(url);
   const pyright = await tc.extractTar(pyrightTarball);
   return path.join(pyright, "package", "index.js");
+}
+function getNodeInfo() {
+  return {
+    version: process.version,
+    execPath: process.execPath
+  };
+}
+
+// src/schema.ts
+var import_myzod = __toESM(require_libs());
+var Position = import_myzod.default.object({
+  line: import_myzod.default.number(),
+  character: import_myzod.default.number()
+});
+function isEmptyPosition(p) {
+  return p.line === 0 && p.character === 0;
+}
+var Range = import_myzod.default.object({
+  start: Position,
+  end: Position
+});
+function isEmptyRange(r) {
+  return isEmptyPosition(r.start) && isEmptyPosition(r.end);
+}
+var Diagnostic = import_myzod.default.object({
+  file: import_myzod.default.string(),
+  severity: import_myzod.default.literals("error", "warning", "information"),
+  message: import_myzod.default.string(),
+  rule: import_myzod.default.string().optional(),
+  range: Range.optional()
+});
+var Report = import_myzod.default.object({
+  version: import_myzod.default.string(),
+  time: import_myzod.default.string(),
+  generalDiagnostics: import_myzod.default.array(Diagnostic),
+  summary: import_myzod.default.object({
+    filesAnalyzed: import_myzod.default.number(),
+    errorCount: import_myzod.default.number(),
+    warningCount: import_myzod.default.number(),
+    informationCount: import_myzod.default.number(),
+    timeInSec: import_myzod.default.number()
+  })
+});
+
+// src/main.ts
+async function main() {
+  try {
+    const node = getNodeInfo();
+    const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
+    if (workingDirectory) {
+      process.chdir(workingDirectory);
+    }
+    core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${version}`);
+    core2.info(`${node.execPath} ${args.join(" ")}`);
+    if (noComments || args.includes("--verifytypes")) {
+      const { status: status2 } = cp.spawnSync(node.execPath, args, {
+        stdio: ["ignore", "inherit", "inherit"]
+      });
+      if (status2 !== 0) {
+        core2.setFailed(`Exit code ${status2}`);
+      }
+      return;
+    }
+    const { status, stdout } = cp.spawnSync(node.execPath, args, {
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "inherit"]
+    });
+    if (!stdout.trim()) {
+      core2.setFailed(`Exit code ${status}`);
+      return;
+    }
+    const report = Report.parse(JSON.parse(stdout));
+    report.generalDiagnostics.forEach((diag) => {
+      var _a, _b;
+      core2.info(diagnosticToString(diag, false));
+      if (diag.severity === "information") {
+        return;
+      }
+      const line = ((_a = diag.range) == null ? void 0 : _a.start.line) ?? 0;
+      const col = ((_b = diag.range) == null ? void 0 : _b.start.character) ?? 0;
+      const message = diagnosticToString(diag, true);
+      command.issueCommand(diag.severity, {
+        file: diag.file,
+        line: line + 1,
+        col: col + 1
+      }, message);
+    });
+    const { errorCount, warningCount, informationCount } = report.summary;
+    core2.info(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "info" : "infos"} `);
+    if (status !== 0) {
+      core2.setFailed(`${errorCount} ${errorCount === 1 ? "error" : "errors"}`);
+    }
+  } catch (e) {
+    core2.setFailed(e.message);
+  }
 }
 function diagnosticToString(diag, forCommand) {
   let message = "";
