@@ -27,6 +27,7 @@ beforeEach(() => {
         version: nodeVersion,
         execPath: nodeExecPath,
     });
+    mockedProcessChdir.mockReturnValue(undefined);
 });
 
 test('thrown error at first call', async () => {
@@ -41,12 +42,13 @@ test('thrown error at first call', async () => {
 
 describe('no comments', () => {
     const args = ['/path/to/pyright/dist/index.js', '--outputjson'];
+    const wd = '/some/wd';
 
     beforeEach(() => {
         mockedHelpers.getArgs.mockImplementation(async () => {
             return {
                 noComments: true,
-                workingDirectory: '',
+                workingDirectory: wd,
                 pyrightVersion: new SemVer('1.1.240'),
                 args: args,
             };
@@ -65,6 +67,7 @@ describe('no comments', () => {
 
         await main();
 
+        expect(mockedProcessChdir).toBeCalledWith(wd);
         expect(mockedCore.setFailed).toBeCalledTimes(0);
     });
 
@@ -80,6 +83,7 @@ describe('no comments', () => {
 
         await main();
 
+        expect(mockedProcessChdir).toBeCalledWith(wd);
         expect(mockedCp.spawnSync).toHaveBeenCalledWith(nodeExecPath, args, {
             stdio: ['ignore', 'inherit', 'inherit'],
         });
