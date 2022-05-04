@@ -3,10 +3,12 @@ import * as command from '@actions/core/lib/command';
 import * as cp from 'child_process';
 import SemVer from 'semver/classes/semver';
 
+import { version as actionVersion } from '../package.json';
 import * as helpers from './helpers';
 
 const nodeVersion = 'v16.14.2';
 const nodeExecPath = '/path/to/node';
+const pyrightVersion = '1.1.240';
 
 jest.mock('@actions/core');
 const mockedCore = jest.mocked(core);
@@ -49,7 +51,7 @@ describe('no comments', () => {
             return {
                 noComments: true,
                 workingDirectory: wd,
-                pyrightVersion: new SemVer('1.1.240'),
+                pyrightVersion: new SemVer(pyrightVersion),
                 args: args,
             };
         });
@@ -66,6 +68,11 @@ describe('no comments', () => {
         }));
 
         await main();
+
+        expect(mockedCore.info.mock.calls).toEqual([
+            [`pyright ${pyrightVersion}, node ${nodeVersion}, pyright-action ${actionVersion}`],
+            [[nodeExecPath, ...args].join(' ')],
+        ]);
 
         expect(mockedProcessChdir).toBeCalledWith(wd);
         expect(mockedCore.setFailed).toBeCalledTimes(0);
@@ -88,5 +95,39 @@ describe('no comments', () => {
             stdio: ['ignore', 'inherit', 'inherit'],
         });
         expect(mockedCore.setFailed).toHaveBeenCalledWith('Exit code 1');
+    });
+});
+
+describe('with comments', () => {
+    const args = ['/path/to/pyright/dist/index.js', '--outputjson'];
+
+    beforeEach(() => {
+        mockedHelpers.getArgs.mockImplementation(async () => {
+            return {
+                noComments: false,
+                workingDirectory: '',
+                pyrightVersion: new SemVer('1.1.240'),
+                args: args,
+            };
+        });
+    });
+
+    test('failure', async () => {
+        mockedCp.spawnSync.mockImplementation(() => ({
+            pid: -1,
+            output: [],
+            stdout: '',
+            stderr: '',
+            status: 2,
+            signal: null,
+        }));
+
+        await main();
+
+        expect(mockedCp.spawnSync).toHaveBeenCalledWith(nodeExecPath, args, {
+            encoding: 'utf-8',
+            stdio: ['ignore', 'pipe', 'inherit'],
+        });
+        expect(mockedCore.setFailed).toHaveBeenCalledWith('Exit code 2');
     });
 });
