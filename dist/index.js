@@ -6330,14 +6330,14 @@ var import_semver = __toESM(require_semver2());
 var Position = import_myzod.default.object({
   line: import_myzod.default.number(),
   character: import_myzod.default.number()
-});
+}).allowUnknownKeys();
 function isEmptyPosition(p) {
   return p.line === 0 && p.character === 0;
 }
 var Range = import_myzod.default.object({
   start: Position,
   end: Position
-});
+}).allowUnknownKeys();
 function isEmptyRange(r) {
   return isEmptyPosition(r.start) && isEmptyPosition(r.end);
 }
@@ -6347,18 +6347,18 @@ var Diagnostic = import_myzod.default.object({
   message: import_myzod.default.string(),
   rule: import_myzod.default.string().optional(),
   range: Range.optional()
-});
+}).allowUnknownKeys();
 var Report = import_myzod.default.object({
   generalDiagnostics: import_myzod.default.array(Diagnostic),
   summary: import_myzod.default.object({
     errorCount: import_myzod.default.number(),
     warningCount: import_myzod.default.number(),
     informationCount: import_myzod.default.number()
-  })
-});
+  }).allowUnknownKeys()
+}).allowUnknownKeys();
 var NpmRegistryResponse = import_myzod.default.object({
   version: import_myzod.default.string().withPredicate((value) => !!new import_semver.default(value), "must be a semver")
-});
+}).allowUnknownKeys();
 
 // src/helpers.ts
 function getActionVersion() {
