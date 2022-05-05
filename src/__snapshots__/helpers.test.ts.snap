@@ -1,17 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getArgs ok no comments 1`] = `
-Object {
-  "args": Array [
-    "/path/to/pyright/package/index.js",
-  ],
-  "noComments": true,
-  "pyrightVersion": "1.1.240",
-  "workingDirectory": "",
-}
-`;
-
-exports[`getArgs ok ok 1`] = `
+exports[`getArgs ok many options: result 1`] = `
 Object {
   "args": Array [
     "/path/to/pyright/package/index.js",
@@ -38,7 +27,18 @@ Object {
 }
 `;
 
-exports[`getArgs ok verifytypes 1`] = `
+exports[`getArgs ok no comments: result 1`] = `
+Object {
+  "args": Array [
+    "/path/to/pyright/package/index.js",
+  ],
+  "noComments": true,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs ok verifytypes: result 1`] = `
 Object {
   "args": Array [
     "/path/to/pyright/package/index.js",

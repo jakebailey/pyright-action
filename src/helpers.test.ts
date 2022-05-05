@@ -63,7 +63,7 @@ describe('getArgs', () => {
             mockedTc.extractTar.mockResolvedValue(extractedPath);
         });
 
-        test('ok', async () => {
+        test('many options', async () => {
             inputs.set('working-directory', '/path/to/project');
             inputs.set('python-platform', 'Linux');
             inputs.set('python-version', '3.9');
@@ -75,7 +75,7 @@ describe('getArgs', () => {
             inputs.set('extra-args', '--foo --bar --baz');
 
             const result = await getArgs();
-            expect(result).toMatchSnapshot();
+            expect(result).toMatchSnapshot('result');
 
             expect(mockedTc.downloadTool).toBeCalledWith(
                 `https://registry.npmjs.org/pyright/-/pyright-${npmResponse.version}.tgz`
@@ -87,14 +87,14 @@ describe('getArgs', () => {
             inputs.set('no-comments', 'true');
 
             const result = await getArgs();
-            expect(result).toMatchSnapshot();
+            expect(result).toMatchSnapshot('result');
         });
 
         test('verifytypes', async () => {
             inputs.set('verify-types', 'some.package');
 
             const result = await getArgs();
-            expect(result).toMatchSnapshot();
+            expect(result).toMatchSnapshot('result');
         });
     });
 });
