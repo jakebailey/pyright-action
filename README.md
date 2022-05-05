@@ -1,6 +1,6 @@
 # pyright-action
 
-![ci](https://github.com/jakebailey/pyright-action/actions/workflows/ci.yml/badge.svg)
+[![ci](https://github.com/jakebailey/pyright-action/actions/workflows/ci.yml/badge.svg)](https://github.com/jakebailey/pyright-action/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/jakebailey/pyright-action/branch/main/graph/badge.svg?token=5OMEFS2LQZ)](https://codecov.io/gh/jakebailey/pyright-action)
 
 GitHub action for [pyright](https://github.com/microsoft/pyright).
