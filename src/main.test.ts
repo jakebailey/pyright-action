@@ -29,7 +29,7 @@ beforeEach(() => {
         execPath: nodeExecPath,
     });
     mockedHelpers.getActionVersion.mockReturnValue('1.1.0');
-    mockedProcessChdir.mockReturnValue(undefined);
+    mockedProcessChdir.mockReturnValue(undefined); // This is a spy mock; prevent real process from being called.
 });
 
 afterEach(() => {
