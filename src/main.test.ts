@@ -130,4 +130,20 @@ describe('with comments', () => {
         });
         expect(mockedCore.setFailed).toHaveBeenCalledWith('Exit code 2');
     });
+
+    test('invalid stdout', async () => {
+        mockedCp.spawnSync.mockImplementation(() => ({
+            pid: -1,
+            output: [],
+            stdout: '{}',
+            stderr: '',
+            status: 0,
+            signal: null,
+        }));
+
+        await main();
+
+        expect(mockedCore.setFailed).toBeCalledTimes(1);
+        expect(mockedCore.setFailed.mock.calls[0][0]).toMatch('error parsing object');
+    });
 });
