@@ -6497,9 +6497,9 @@ async function main() {
       }, message);
     });
     const { errorCount, warningCount, informationCount } = report.summary;
-    core2.info(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "information" : "informations"}`);
+    core2.info(`${pluralize(errorCount, "error", "errors")}, ${pluralize(warningCount, "warning", "warnings")}, ${pluralize(informationCount, "information", "informations")}`);
     if (status !== 0) {
-      core2.setFailed(`${errorCount} ${errorCount === 1 ? "error" : "errors"}`);
+      core2.setFailed(pluralize(errorCount, "error", "errors"));
     }
   } catch (e) {
     core2.setFailed(e.message);
@@ -6521,6 +6521,9 @@ function diagnosticToString(diag, forCommand) {
     message += ` (${diag.rule})`;
   }
   return message;
+}
+function pluralize(n, singular, plural) {
+  return `${n} ${n === 1 ? singular : plural}`;
 }
 
 // src/index.ts
