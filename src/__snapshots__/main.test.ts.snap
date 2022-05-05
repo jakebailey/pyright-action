@@ -1,0 +1,452 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`no comments failure: command.issueCommand 1`] = `Array []`;
+
+exports[`no comments failure: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+]
+`;
+
+exports[`no comments failure: core.setFailed 1`] = `
+Array [
+  Array [
+    "Exit code 1",
+  ],
+]
+`;
+
+exports[`no comments failure: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "stdio": Array [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`no comments failure: process.chdir 1`] = `
+Array [
+  Array [
+    "/some/wd",
+  ],
+]
+`;
+
+exports[`no comments success: command.issueCommand 1`] = `Array []`;
+
+exports[`no comments success: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+]
+`;
+
+exports[`no comments success: core.setFailed 1`] = `Array []`;
+
+exports[`no comments success: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "stdio": Array [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`no comments success: process.chdir 1`] = `
+Array [
+  Array [
+    "/some/wd",
+  ],
+]
+`;
+
+exports[`thrown error at first call: command.issueCommand 1`] = `Array []`;
+
+exports[`thrown error at first call: core.info 1`] = `Array []`;
+
+exports[`thrown error at first call: core.setFailed 1`] = `
+Array [
+  Array [
+    "oops",
+  ],
+]
+`;
+
+exports[`thrown error at first call: cp.spawnSync 1`] = `Array []`;
+
+exports[`thrown error at first call: process.chdir 1`] = `Array []`;
+
+exports[`with comments failure: command.issueCommand 1`] = `Array []`;
+
+exports[`with comments failure: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+]
+`;
+
+exports[`with comments failure: core.setFailed 1`] = `
+Array [
+  Array [
+    "Exit code 2",
+  ],
+]
+`;
+
+exports[`with comments failure: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "encoding": "utf-8",
+      "stdio": Array [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments failure: process.chdir 1`] = `Array []`;
+
+exports[`with comments invalid stdout: command.issueCommand 1`] = `Array []`;
+
+exports[`with comments invalid stdout: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+]
+`;
+
+exports[`with comments invalid stdout: core.setFailed 1`] = `
+Array [
+  Array [
+    "error parsing object at path: \\"generalDiagnostics\\" - expected an array but got undefined",
+  ],
+]
+`;
+
+exports[`with comments invalid stdout: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "encoding": "utf-8",
+      "stdio": Array [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments invalid stdout: process.chdir 1`] = `Array []`;
+
+exports[`with comments no diagnostics: command.issueCommand 1`] = `Array []`;
+
+exports[`with comments no diagnostics: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+  Array [
+    "0 errors, 0 warnings, 0 infos",
+  ],
+]
+`;
+
+exports[`with comments no diagnostics: core.setFailed 1`] = `Array []`;
+
+exports[`with comments no diagnostics: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "encoding": "utf-8",
+      "stdio": Array [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments no diagnostics: process.chdir 1`] = `Array []`;
+
+exports[`with comments unparsable json: command.issueCommand 1`] = `Array []`;
+
+exports[`with comments unparsable json: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+]
+`;
+
+exports[`with comments unparsable json: core.setFailed 1`] = `
+Array [
+  Array [
+    "Unexpected token } in JSON at position 0",
+  ],
+]
+`;
+
+exports[`with comments unparsable json: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "encoding": "utf-8",
+      "stdio": Array [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments unparsable json: process.chdir 1`] = `Array []`;
+
+exports[`with comments with 1 each: command.issueCommand 1`] = `
+Array [
+  Array [
+    "error",
+    Object {
+      "col": 1,
+      "file": "/path/to/file1.py",
+      "line": 1,
+    },
+    "some error",
+  ],
+  Array [
+    "warning",
+    Object {
+      "col": 1,
+      "file": "/path/to/file2.py",
+      "line": 1,
+    },
+    "some warning",
+  ],
+]
+`;
+
+exports[`with comments with 1 each: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+  Array [
+    "/path/to/file1.py:1:1 - error: some error",
+  ],
+  Array [
+    "/path/to/file2.py:warning: some warning",
+  ],
+  Array [
+    "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
+  ],
+  Array [
+    "1 error, 1 warning, 1 info",
+  ],
+]
+`;
+
+exports[`with comments with 1 each: core.setFailed 1`] = `
+Array [
+  Array [
+    "1 error",
+  ],
+]
+`;
+
+exports[`with comments with 1 each: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "encoding": "utf-8",
+      "stdio": Array [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments with 1 each: process.chdir 1`] = `Array []`;
+
+exports[`with comments with diagnostics: command.issueCommand 1`] = `
+Array [
+  Array [
+    "error",
+    Object {
+      "col": 1,
+      "file": "/path/to/file1.py",
+      "line": 1,
+    },
+    "some error",
+  ],
+  Array [
+    "warning",
+    Object {
+      "col": 1,
+      "file": "/path/to/file2.py",
+      "line": 1,
+    },
+    "some warning",
+  ],
+  Array [
+    "warning",
+    Object {
+      "col": 1,
+      "file": "/path/to/file3.py",
+      "line": 1,
+    },
+    "another warning (reportSomeWarning)",
+  ],
+  Array [
+    "error",
+    Object {
+      "col": 10,
+      "file": "/path/to/file1.py",
+      "line": 6,
+    },
+    "some error",
+  ],
+]
+`;
+
+exports[`with comments with diagnostics: core.info 1`] = `
+Array [
+  Array [
+    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+  ],
+  Array [
+    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+  Array [
+    "/path/to/file1.py:1:1 - error: some error",
+  ],
+  Array [
+    "/path/to/file2.py:warning: some warning",
+  ],
+  Array [
+    "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
+  ],
+  Array [
+    "/path/to/file3.py:warning: another warning (reportSomeWarning)",
+  ],
+  Array [
+    "/path/to/file1.py:6:10 - error: some error",
+  ],
+  Array [
+    "2 errors, 2 warnings, 1 info",
+  ],
+]
+`;
+
+exports[`with comments with diagnostics: core.setFailed 1`] = `
+Array [
+  Array [
+    "2 errors",
+  ],
+]
+`;
+
+exports[`with comments with diagnostics: cp.spawnSync 1`] = `
+Array [
+  Array [
+    "/path/to/node",
+    Array [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    Object {
+      "encoding": "utf-8",
+      "stdio": Array [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments with diagnostics: process.chdir 1`] = `Array []`;

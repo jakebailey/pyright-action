@@ -1,9 +1,7 @@
 import * as core from '@actions/core';
 import * as command from '@actions/core/lib/command';
 import * as cp from 'child_process';
-import SemVer from 'semver/classes/semver';
 
-import { version as actionVersion } from '../package.json';
 import * as helpers from './helpers';
 
 const nodeVersion = 'v16.14.2';
@@ -30,7 +28,16 @@ beforeEach(() => {
         version: nodeVersion,
         execPath: nodeExecPath,
     });
+    mockedHelpers.getActionVersion.mockReturnValue('1.1.0');
     mockedProcessChdir.mockReturnValue(undefined);
+});
+
+afterEach(() => {
+    expect(mockedProcessChdir.mock.calls).toMatchSnapshot('process.chdir');
+    expect(mockedCore.setFailed.mock.calls).toMatchSnapshot('core.setFailed');
+    expect(mockedCore.info.mock.calls).toMatchSnapshot('core.info');
+    expect(mockedCommand.issueCommand.mock.calls).toMatchSnapshot('command.issueCommand');
+    expect(mockedCp.spawnSync.mock.calls).toMatchSnapshot('cp.spawnSync');
 });
 
 test('thrown error at first call', async () => {
@@ -39,8 +46,6 @@ test('thrown error at first call', async () => {
     });
 
     await main();
-
-    expect(mockedCore.setFailed).toBeCalledWith('oops');
 });
 
 describe('no comments', () => {
@@ -69,14 +74,6 @@ describe('no comments', () => {
         }));
 
         await main();
-
-        expect(mockedCore.info.mock.calls).toEqual([
-            [`pyright ${pyrightVersion}, node ${nodeVersion}, pyright-action ${actionVersion}`],
-            [[nodeExecPath, ...args].join(' ')],
-        ]);
-
-        expect(mockedProcessChdir).toBeCalledWith(wd);
-        expect(mockedCore.setFailed).toBeCalledTimes(0);
     });
 
     test('failure', async () => {
@@ -90,12 +87,6 @@ describe('no comments', () => {
         }));
 
         await main();
-
-        expect(mockedProcessChdir).toBeCalledWith(wd);
-        expect(mockedCp.spawnSync).toHaveBeenCalledWith(nodeExecPath, args, {
-            stdio: ['ignore', 'inherit', 'inherit'],
-        });
-        expect(mockedCore.setFailed).toHaveBeenCalledWith('Exit code 1');
     });
 });
 
@@ -124,12 +115,6 @@ describe('with comments', () => {
         }));
 
         await main();
-
-        expect(mockedCp.spawnSync).toHaveBeenCalledWith(nodeExecPath, args, {
-            encoding: 'utf-8',
-            stdio: ['ignore', 'pipe', 'inherit'],
-        });
-        expect(mockedCore.setFailed).toHaveBeenCalledWith('Exit code 2');
     });
 
     test('unparsable json', async () => {
@@ -143,9 +128,6 @@ describe('with comments', () => {
         }));
 
         await main();
-
-        expect(mockedCore.setFailed).toBeCalledTimes(1);
-        expect(mockedCore.setFailed.mock.calls[0][0]).toMatch('Unexpected token');
     });
 
     test('invalid stdout', async () => {
@@ -159,9 +141,6 @@ describe('with comments', () => {
         }));
 
         await main();
-
-        expect(mockedCore.setFailed).toBeCalledTimes(1);
-        expect(mockedCore.setFailed.mock.calls[0][0]).toMatch('error parsing object');
     });
 
     test('no diagnostics', async () => {
@@ -182,13 +161,6 @@ describe('with comments', () => {
         }));
 
         await main();
-
-        expect(mockedCore.setFailed).toBeCalledTimes(0);
-        expect(mockedCore.info.mock.calls).toEqual([
-            [`pyright ${pyrightVersion}, node ${nodeVersion}, pyright-action ${actionVersion}`],
-            [[nodeExecPath, ...args].join(' ')],
-            ['0 errors, 0 warnings, 0 infos'],
-        ]);
     });
 
     test('with diagnostics', async () => {
@@ -241,25 +213,6 @@ describe('with comments', () => {
         }));
 
         await main();
-
-        expect(mockedCommand.issueCommand.mock.calls).toEqual([
-            ['error', { file: '/path/to/file1.py', line: 1, col: 1 }, 'some error'],
-            ['warning', { file: '/path/to/file2.py', line: 1, col: 1 }, 'some warning'],
-            ['warning', { file: '/path/to/file3.py', line: 1, col: 1 }, 'another warning (reportSomeWarning)'],
-            ['error', { file: '/path/to/file1.py', line: 6, col: 10 }, 'some error'],
-        ]);
-
-        expect(mockedCore.info.mock.calls).toEqual([
-            [`pyright ${pyrightVersion}, node ${nodeVersion}, pyright-action ${actionVersion}`],
-            [[nodeExecPath, ...args].join(' ')],
-            ['/path/to/file1.py:1:1 - error: some error'],
-            ['/path/to/file2.py:warning: some warning'],
-            ['/path/to/file3.py:1:1 - information: some info (reportSomeInformation)'],
-            ['/path/to/file3.py:warning: another warning (reportSomeWarning)'],
-            ['/path/to/file1.py:6:10 - error: some error'],
-            ['2 errors, 2 warnings, 1 info'],
-        ]);
-        expect(mockedCore.setFailed).toBeCalledWith('2 errors');
     });
 
     test('with 1 each', async () => {
@@ -300,16 +253,6 @@ describe('with comments', () => {
         }));
 
         await main();
-
-        expect(mockedCore.info.mock.calls).toEqual([
-            [`pyright ${pyrightVersion}, node ${nodeVersion}, pyright-action ${actionVersion}`],
-            [[nodeExecPath, ...args].join(' ')],
-            ['/path/to/file1.py:1:1 - error: some error'],
-            ['/path/to/file2.py:warning: some warning'],
-            ['/path/to/file3.py:1:1 - information: some info (reportSomeInformation)'],
-            ['1 error, 1 warning, 1 info'],
-        ]);
-        expect(mockedCore.setFailed).toBeCalledWith('1 error');
     });
 });
 

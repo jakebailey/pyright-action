@@ -2,8 +2,7 @@ import * as core from '@actions/core';
 import * as command from '@actions/core/lib/command';
 import * as cp from 'child_process';
 
-import { version as actionVersion } from '../package.json';
-import { getArgs, getNodeInfo } from './helpers';
+import { getActionVersion, getArgs, getNodeInfo } from './helpers';
 import { Diagnostic, isEmptyRange, Report } from './schema';
 
 export async function main() {
@@ -14,7 +13,7 @@ export async function main() {
             process.chdir(workingDirectory);
         }
 
-        core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${actionVersion}`);
+        core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
         core.info(`${node.execPath} ${args.join(' ')}`);
 
         if (noComments || args.includes('--verifytypes')) {

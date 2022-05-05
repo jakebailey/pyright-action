@@ -6313,9 +6313,6 @@ var core2 = __toESM(require_core());
 var command = __toESM(require_command());
 var cp = __toESM(require("child_process"));
 
-// package.json
-var version = "1.1.0";
-
 // src/helpers.ts
 var core = __toESM(require_core());
 var httpClient = __toESM(require_http_client());
@@ -6323,6 +6320,9 @@ var tc = __toESM(require_tool_cache());
 var path = __toESM(require("path"));
 var import_semver2 = __toESM(require_semver2());
 var import_string_argv = __toESM(require_string_argv());
+
+// package.json
+var version = "1.1.0";
 
 // src/schema.ts
 var import_myzod = __toESM(require_libs());
@@ -6364,6 +6364,9 @@ var NpmRegistryResponse = import_myzod.default.object({
 });
 
 // src/helpers.ts
+function getActionVersion() {
+  return version;
+}
 function getNodeInfo() {
   return {
     version: process.version,
@@ -6461,7 +6464,7 @@ async function main() {
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
-    core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${version}`);
+    core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
     core2.info(`${node.execPath} ${args.join(" ")}`);
     if (noComments || args.includes("--verifytypes")) {
       const { status: status2 } = cp.spawnSync(node.execPath, args, {

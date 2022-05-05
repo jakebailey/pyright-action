@@ -9,7 +9,8 @@ const mockedHttpClient = jest.mocked(httpClient, true);
 jest.mock('@actions/tool-cache');
 const mockedTc = jest.mocked(tc);
 
-import { getArgs, getNodeInfo } from './helpers';
+import { version as actionVersion } from '../package.json';
+import { getActionVersion, getArgs, getNodeInfo } from './helpers';
 import { NpmRegistryResponse } from './schema';
 
 const mockedHttpClientResponse = httpClient.HttpClientResponse as jest.MockedClass<
@@ -105,4 +106,9 @@ test('getNodeInfo', () => {
         version: process.version,
         execPath: process.execPath,
     });
+});
+
+test('getActionVersion', () => {
+    const version = getActionVersion();
+    expect(version).toEqual(actionVersion);
 });
