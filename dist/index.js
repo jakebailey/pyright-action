@@ -6436,15 +6436,11 @@ var Diagnostic = import_myzod.default.object({
   range: Range.optional()
 });
 var Report = import_myzod.default.object({
-  version: import_myzod.default.string(),
-  time: import_myzod.default.string(),
   generalDiagnostics: import_myzod.default.array(Diagnostic),
   summary: import_myzod.default.object({
-    filesAnalyzed: import_myzod.default.number(),
     errorCount: import_myzod.default.number(),
     warningCount: import_myzod.default.number(),
-    informationCount: import_myzod.default.number(),
-    timeInSec: import_myzod.default.number()
+    informationCount: import_myzod.default.number()
   })
 });
 
@@ -6492,7 +6488,7 @@ async function main() {
       }, message);
     });
     const { errorCount, warningCount, informationCount } = report.summary;
-    core2.info(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "info" : "infos"} `);
+    core2.info(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "info" : "infos"}`);
     if (status !== 0) {
       core2.setFailed(`${errorCount} ${errorCount === 1 ? "error" : "errors"}`);
     }

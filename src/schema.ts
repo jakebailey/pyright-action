@@ -31,14 +31,14 @@ const Diagnostic = myzod.object({
 
 export type Report = Infer<typeof Report>;
 export const Report = myzod.object({
-    version: myzod.string(),
-    time: myzod.string(),
+    // version: myzod.string(),
+    // time: myzod.string(),
     generalDiagnostics: myzod.array(Diagnostic),
     summary: myzod.object({
-        filesAnalyzed: myzod.number(),
+        // filesAnalyzed: myzod.number(),
         errorCount: myzod.number(),
         warningCount: myzod.number(),
         informationCount: myzod.number(),
-        timeInSec: myzod.number(),
+        // timeInSec: myzod.number(),
     }),
 });
