@@ -1,4 +1,5 @@
 import myzod, { Infer } from 'myzod';
+import SemVer from 'semver/classes/semver';
 
 export type Position = Infer<typeof Position>;
 const Position = myzod.object({
@@ -45,5 +46,8 @@ export const Report = myzod.object({
 
 export type NpmRegistryResponse = Infer<typeof NpmRegistryResponse>;
 export const NpmRegistryResponse = myzod.object({
-    version: myzod.string(),
+    version: myzod.string().withPredicate((value) => {
+        new SemVer(value);
+        return true;
+    }, 'must be a semver'),
 });

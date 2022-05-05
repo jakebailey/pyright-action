@@ -1936,7 +1936,7 @@ var require_io = __commonJS({
 // node_modules/@actions/tool-cache/node_modules/semver/semver.js
 var require_semver = __commonJS({
   "node_modules/@actions/tool-cache/node_modules/semver/semver.js"(exports, module2) {
-    exports = module2.exports = SemVer2;
+    exports = module2.exports = SemVer3;
     var debug;
     if (typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG)) {
       debug = function() {
@@ -2056,7 +2056,7 @@ var require_semver = __commonJS({
           includePrerelease: false
         };
       }
-      if (version2 instanceof SemVer2) {
+      if (version2 instanceof SemVer3) {
         return version2;
       }
       if (typeof version2 !== "string") {
@@ -2070,7 +2070,7 @@ var require_semver = __commonJS({
         return null;
       }
       try {
-        return new SemVer2(version2, options);
+        return new SemVer3(version2, options);
       } catch (er) {
         return null;
       }
@@ -2085,15 +2085,15 @@ var require_semver = __commonJS({
       var s = parse(version2.trim().replace(/^[=v]+/, ""), options);
       return s ? s.version : null;
     }
-    exports.SemVer = SemVer2;
-    function SemVer2(version2, options) {
+    exports.SemVer = SemVer3;
+    function SemVer3(version2, options) {
       if (!options || typeof options !== "object") {
         options = {
           loose: !!options,
           includePrerelease: false
         };
       }
-      if (version2 instanceof SemVer2) {
+      if (version2 instanceof SemVer3) {
         if (version2.loose === options.loose) {
           return version2;
         } else {
@@ -2105,8 +2105,8 @@ var require_semver = __commonJS({
       if (version2.length > MAX_LENGTH) {
         throw new TypeError("version is longer than " + MAX_LENGTH + " characters");
       }
-      if (!(this instanceof SemVer2)) {
-        return new SemVer2(version2, options);
+      if (!(this instanceof SemVer3)) {
+        return new SemVer3(version2, options);
       }
       debug("SemVer", version2, options);
       this.options = options;
@@ -2144,32 +2144,32 @@ var require_semver = __commonJS({
       this.build = m[5] ? m[5].split(".") : [];
       this.format();
     }
-    SemVer2.prototype.format = function() {
+    SemVer3.prototype.format = function() {
       this.version = this.major + "." + this.minor + "." + this.patch;
       if (this.prerelease.length) {
         this.version += "-" + this.prerelease.join(".");
       }
       return this.version;
     };
-    SemVer2.prototype.toString = function() {
+    SemVer3.prototype.toString = function() {
       return this.version;
     };
-    SemVer2.prototype.compare = function(other) {
+    SemVer3.prototype.compare = function(other) {
       debug("SemVer.compare", this.version, this.options, other);
-      if (!(other instanceof SemVer2)) {
-        other = new SemVer2(other, this.options);
+      if (!(other instanceof SemVer3)) {
+        other = new SemVer3(other, this.options);
       }
       return this.compareMain(other) || this.comparePre(other);
     };
-    SemVer2.prototype.compareMain = function(other) {
-      if (!(other instanceof SemVer2)) {
-        other = new SemVer2(other, this.options);
+    SemVer3.prototype.compareMain = function(other) {
+      if (!(other instanceof SemVer3)) {
+        other = new SemVer3(other, this.options);
       }
       return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
     };
-    SemVer2.prototype.comparePre = function(other) {
-      if (!(other instanceof SemVer2)) {
-        other = new SemVer2(other, this.options);
+    SemVer3.prototype.comparePre = function(other) {
+      if (!(other instanceof SemVer3)) {
+        other = new SemVer3(other, this.options);
       }
       if (this.prerelease.length && !other.prerelease.length) {
         return -1;
@@ -2196,9 +2196,9 @@ var require_semver = __commonJS({
         }
       } while (++i2);
     };
-    SemVer2.prototype.compareBuild = function(other) {
-      if (!(other instanceof SemVer2)) {
-        other = new SemVer2(other, this.options);
+    SemVer3.prototype.compareBuild = function(other) {
+      if (!(other instanceof SemVer3)) {
+        other = new SemVer3(other, this.options);
       }
       var i2 = 0;
       do {
@@ -2218,7 +2218,7 @@ var require_semver = __commonJS({
         }
       } while (++i2);
     };
-    SemVer2.prototype.inc = function(release, identifier) {
+    SemVer3.prototype.inc = function(release, identifier) {
       switch (release) {
         case "premajor":
           this.prerelease.length = 0;
@@ -2304,7 +2304,7 @@ var require_semver = __commonJS({
         loose = void 0;
       }
       try {
-        return new SemVer2(version2, loose).inc(release, identifier).version;
+        return new SemVer3(version2, loose).inc(release, identifier).version;
       } catch (er) {
         return null;
       }
@@ -2348,19 +2348,19 @@ var require_semver = __commonJS({
     }
     exports.major = major;
     function major(a, loose) {
-      return new SemVer2(a, loose).major;
+      return new SemVer3(a, loose).major;
     }
     exports.minor = minor;
     function minor(a, loose) {
-      return new SemVer2(a, loose).minor;
+      return new SemVer3(a, loose).minor;
     }
     exports.patch = patch;
     function patch(a, loose) {
-      return new SemVer2(a, loose).patch;
+      return new SemVer3(a, loose).patch;
     }
     exports.compare = compare;
     function compare(a, b, loose) {
-      return new SemVer2(a, loose).compare(new SemVer2(b, loose));
+      return new SemVer3(a, loose).compare(new SemVer3(b, loose));
     }
     exports.compareLoose = compareLoose;
     function compareLoose(a, b) {
@@ -2368,8 +2368,8 @@ var require_semver = __commonJS({
     }
     exports.compareBuild = compareBuild;
     function compareBuild(a, b, loose) {
-      var versionA = new SemVer2(a, loose);
-      var versionB = new SemVer2(b, loose);
+      var versionA = new SemVer3(a, loose);
+      var versionB = new SemVer3(b, loose);
       return versionA.compare(versionB) || versionA.compareBuild(versionB);
     }
     exports.rcompare = rcompare;
@@ -2488,7 +2488,7 @@ var require_semver = __commonJS({
       if (!m[2]) {
         this.semver = ANY;
       } else {
-        this.semver = new SemVer2(m[2], this.options.loose);
+        this.semver = new SemVer3(m[2], this.options.loose);
       }
     };
     Comparator.prototype.toString = function() {
@@ -2501,7 +2501,7 @@ var require_semver = __commonJS({
       }
       if (typeof version2 === "string") {
         try {
-          version2 = new SemVer2(version2, this.options);
+          version2 = new SemVer3(version2, this.options);
         } catch (er) {
           return false;
         }
@@ -2823,7 +2823,7 @@ var require_semver = __commonJS({
       }
       if (typeof version2 === "string") {
         try {
-          version2 = new SemVer2(version2, this.options);
+          version2 = new SemVer3(version2, this.options);
         } catch (er) {
           return false;
         }
@@ -2880,7 +2880,7 @@ var require_semver = __commonJS({
         if (rangeObj.test(v)) {
           if (!max || maxSV.compare(v) === -1) {
             max = v;
-            maxSV = new SemVer2(max, options);
+            maxSV = new SemVer3(max, options);
           }
         }
       });
@@ -2899,7 +2899,7 @@ var require_semver = __commonJS({
         if (rangeObj.test(v)) {
           if (!min || minSV.compare(v) === 1) {
             min = v;
-            minSV = new SemVer2(min, options);
+            minSV = new SemVer3(min, options);
           }
         }
       });
@@ -2908,11 +2908,11 @@ var require_semver = __commonJS({
     exports.minVersion = minVersion;
     function minVersion(range, loose) {
       range = new Range2(range, loose);
-      var minver = new SemVer2("0.0.0");
+      var minver = new SemVer3("0.0.0");
       if (range.test(minver)) {
         return minver;
       }
-      minver = new SemVer2("0.0.0-0");
+      minver = new SemVer3("0.0.0-0");
       if (range.test(minver)) {
         return minver;
       }
@@ -2920,7 +2920,7 @@ var require_semver = __commonJS({
       for (var i2 = 0; i2 < range.set.length; ++i2) {
         var comparators = range.set[i2];
         comparators.forEach(function(comparator) {
-          var compver = new SemVer2(comparator.semver.version);
+          var compver = new SemVer3(comparator.semver.version);
           switch (comparator.operator) {
             case ">":
               if (compver.prerelease.length === 0) {
@@ -2966,7 +2966,7 @@ var require_semver = __commonJS({
     }
     exports.outside = outside;
     function outside(version2, range, hilo, options) {
-      version2 = new SemVer2(version2, options);
+      version2 = new SemVer3(version2, options);
       range = new Range2(range, options);
       var gtfn, ltefn, ltfn, comp, ecomp;
       switch (hilo) {
@@ -3030,7 +3030,7 @@ var require_semver = __commonJS({
     }
     exports.coerce = coerce;
     function coerce(version2, options) {
-      if (version2 instanceof SemVer2) {
+      if (version2 instanceof SemVer3) {
         return version2;
       }
       if (typeof version2 === "number") {
@@ -4651,10 +4651,10 @@ var require_semver2 = __commonJS({
     var { re, t } = require_re();
     var parseOptions = require_parse_options();
     var { compareIdentifiers } = require_identifiers();
-    var SemVer2 = class {
+    var SemVer3 = class {
       constructor(version2, options) {
         options = parseOptions(options);
-        if (version2 instanceof SemVer2) {
+        if (version2 instanceof SemVer3) {
           if (version2.loose === !!options.loose && version2.includePrerelease === !!options.includePrerelease) {
             return version2;
           } else {
@@ -4715,11 +4715,11 @@ var require_semver2 = __commonJS({
       }
       compare(other) {
         debug("SemVer.compare", this.version, this.options, other);
-        if (!(other instanceof SemVer2)) {
+        if (!(other instanceof SemVer3)) {
           if (typeof other === "string" && other === this.version) {
             return 0;
           }
-          other = new SemVer2(other, this.options);
+          other = new SemVer3(other, this.options);
         }
         if (other.version === this.version) {
           return 0;
@@ -4727,14 +4727,14 @@ var require_semver2 = __commonJS({
         return this.compareMain(other) || this.comparePre(other);
       }
       compareMain(other) {
-        if (!(other instanceof SemVer2)) {
-          other = new SemVer2(other, this.options);
+        if (!(other instanceof SemVer3)) {
+          other = new SemVer3(other, this.options);
         }
         return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
       }
       comparePre(other) {
-        if (!(other instanceof SemVer2)) {
-          other = new SemVer2(other, this.options);
+        if (!(other instanceof SemVer3)) {
+          other = new SemVer3(other, this.options);
         }
         if (this.prerelease.length && !other.prerelease.length) {
           return -1;
@@ -4762,8 +4762,8 @@ var require_semver2 = __commonJS({
         } while (++i);
       }
       compareBuild(other) {
-        if (!(other instanceof SemVer2)) {
-          other = new SemVer2(other, this.options);
+        if (!(other instanceof SemVer3)) {
+          other = new SemVer3(other, this.options);
         }
         let i = 0;
         do {
@@ -4863,7 +4863,7 @@ var require_semver2 = __commonJS({
         return this;
       }
     };
-    module2.exports = SemVer2;
+    module2.exports = SemVer3;
   }
 });
 
@@ -6321,11 +6321,12 @@ var core = __toESM(require_core());
 var httpClient = __toESM(require_http_client());
 var tc = __toESM(require_tool_cache());
 var path = __toESM(require("path"));
-var import_semver = __toESM(require_semver2());
+var import_semver2 = __toESM(require_semver2());
 var import_string_argv = __toESM(require_string_argv());
 
 // src/schema.ts
 var import_myzod = __toESM(require_libs());
+var import_semver = __toESM(require_semver2());
 var Position = import_myzod.default.object({
   line: import_myzod.default.number(),
   character: import_myzod.default.number()
@@ -6356,7 +6357,10 @@ var Report = import_myzod.default.object({
   })
 });
 var NpmRegistryResponse = import_myzod.default.object({
-  version: import_myzod.default.string()
+  version: import_myzod.default.string().withPredicate((value) => {
+    new import_semver.default(value);
+    return true;
+  }, "must be a semver")
 });
 
 // src/helpers.ts
@@ -6434,13 +6438,13 @@ function getBooleanInput(name, defaultValue) {
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
-    return new import_semver.default(versionSpec);
+    return new import_semver2.default(versionSpec);
   }
   const client = new httpClient.HttpClient();
   const resp = await client.get("https://registry.npmjs.org/pyright/latest");
   const body = await resp.readBody();
   const obj = NpmRegistryResponse.parse(JSON.parse(body));
-  return new import_semver.default(obj.version);
+  return new import_semver2.default(obj.version);
 }
 async function downloadPyright(version2) {
   const url = `https://registry.npmjs.org/pyright/-/pyright-${version2.format()}.tgz`;
