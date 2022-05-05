@@ -1,11 +1,14 @@
 # pyright-action
 
+![ci](https://github.com/jakebailey/pyright-action/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/jakebailey/pyright-action/branch/main/graph/badge.svg?token=5OMEFS2LQZ)](https://codecov.io/gh/jakebailey/pyright-action)
+
 GitHub action for [pyright](https://github.com/microsoft/pyright).
 
 ```yml
 - uses: jakebailey/pyright-action@v1
   with:
-    version: 1.1.135 # Optional
+    version: 1.1.244 # Optional
 ```
 
 
