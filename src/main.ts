@@ -16,6 +16,8 @@ export async function main() {
         core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
         core.info(`${node.execPath} ${args.join(' ')}`);
 
+        // We check for --verifytypes as an arg instead of a flag because it may have
+        // been passed via extra-args.
         if (noComments || args.includes('--verifytypes')) {
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.
@@ -73,9 +75,11 @@ export async function main() {
         const { errorCount, warningCount, informationCount } = report.summary;
 
         core.info(
-            `${pluralize(errorCount, 'error', 'errors')}, ` +
-                `${pluralize(warningCount, 'warning', 'warnings')}, ` +
-                `${pluralize(informationCount, 'information', 'informations')}`
+            [
+                pluralize(errorCount, 'error', 'errors'),
+                pluralize(warningCount, 'warning', 'warnings'),
+                pluralize(informationCount, 'information', 'informations'),
+            ].join(', ')
         );
 
         if (status !== 0) {

@@ -6497,7 +6497,11 @@ async function main() {
       }, message);
     });
     const { errorCount, warningCount, informationCount } = report.summary;
-    core2.info(`${pluralize(errorCount, "error", "errors")}, ${pluralize(warningCount, "warning", "warnings")}, ${pluralize(informationCount, "information", "informations")}`);
+    core2.info([
+      pluralize(errorCount, "error", "errors"),
+      pluralize(warningCount, "warning", "warnings"),
+      pluralize(informationCount, "information", "informations")
+    ].join(", "));
     if (status !== 0) {
       core2.setFailed(pluralize(errorCount, "error", "errors"));
     }
