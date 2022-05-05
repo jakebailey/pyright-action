@@ -6323,16 +6323,48 @@ var tc = __toESM(require_tool_cache());
 var path = __toESM(require("path"));
 var import_semver = __toESM(require_semver2());
 var import_string_argv = __toESM(require_string_argv());
-async function getPyrightVersion() {
-  const versionSpec = core.getInput("version");
-  if (versionSpec) {
-    return new import_semver.default(versionSpec);
-  }
-  const client = new httpClient.HttpClient();
-  const resp = await client.get("https://registry.npmjs.org/pyright/latest");
-  const body = await resp.readBody();
-  const obj = JSON.parse(body);
-  return new import_semver.default(obj.version);
+
+// src/schema.ts
+var import_myzod = __toESM(require_libs());
+var Position = import_myzod.default.object({
+  line: import_myzod.default.number(),
+  character: import_myzod.default.number()
+});
+function isEmptyPosition(p) {
+  return p.line === 0 && p.character === 0;
+}
+var Range = import_myzod.default.object({
+  start: Position,
+  end: Position
+});
+function isEmptyRange(r) {
+  return isEmptyPosition(r.start) && isEmptyPosition(r.end);
+}
+var Diagnostic = import_myzod.default.object({
+  file: import_myzod.default.string(),
+  severity: import_myzod.default.literals("error", "warning", "information"),
+  message: import_myzod.default.string(),
+  rule: import_myzod.default.string().optional(),
+  range: Range.optional()
+});
+var Report = import_myzod.default.object({
+  generalDiagnostics: import_myzod.default.array(Diagnostic),
+  summary: import_myzod.default.object({
+    errorCount: import_myzod.default.number(),
+    warningCount: import_myzod.default.number(),
+    informationCount: import_myzod.default.number()
+  })
+});
+var NpmRegistryResponse = import_myzod.default.object({
+  version: import_myzod.default.string()
+});
+
+// src/helpers.ts
+function getNodeInfo() {
+  return {
+    version: process.version,
+    execPath: process.execPath
+  };
 }
 async function getArgs() {
   const pyrightVersion = await getPyrightVersion();
@@ -6399,50 +6431,23 @@ function getBooleanInput(name, defaultValue) {
   }
   return input.toUpperCase() === "TRUE";
 }
+async function getPyrightVersion() {
+  const versionSpec = core.getInput("version");
+  if (versionSpec) {
+    return new import_semver.default(versionSpec);
+  }
+  const client = new httpClient.HttpClient();
+  const resp = await client.get("https://registry.npmjs.org/pyright/latest");
+  const body = await resp.readBody();
+  const obj = NpmRegistryResponse.parse(JSON.parse(body));
+  return new import_semver.default(obj.version);
+}
 async function downloadPyright(version2) {
   const url = `https://registry.npmjs.org/pyright/-/pyright-${version2.format()}.tgz`;
   const pyrightTarball = await tc.downloadTool(url);
   const pyright = await tc.extractTar(pyrightTarball);
   return path.join(pyright, "package", "index.js");
 }
-function getNodeInfo() {
-  return {
-    version: process.version,
-    execPath: process.execPath
-  };
-}
-
-// src/schema.ts
-var import_myzod = __toESM(require_libs());
-var Position = import_myzod.default.object({
-  line: import_myzod.default.number(),
-  character: import_myzod.default.number()
-});
-function isEmptyPosition(p) {
-  return p.line === 0 && p.character === 0;
-}
-var Range = import_myzod.default.object({
-  start: Position,
-  end: Position
-});
-function isEmptyRange(r) {
-  return isEmptyPosition(r.start) && isEmptyPosition(r.end);
-}
-var Diagnostic = import_myzod.default.object({
-  file: import_myzod.default.string(),
-  severity: import_myzod.default.literals("error", "warning", "information"),
-  message: import_myzod.default.string(),
-  rule: import_myzod.default.string().optional(),
-  range: Range.optional()
-});
-var Report = import_myzod.default.object({
-  generalDiagnostics: import_myzod.default.array(Diagnostic),
-  summary: import_myzod.default.object({
-    errorCount: import_myzod.default.number(),
-    warningCount: import_myzod.default.number(),
-    informationCount: import_myzod.default.number()
-  })
-});
 
 // src/main.ts
 async function main() {

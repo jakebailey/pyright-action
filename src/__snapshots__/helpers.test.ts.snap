@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getArgs ok no comments 1`] = `
+Object {
+  "args": Array [
+    "/path/to/pyright/package/index.js",
+  ],
+  "noComments": true,
+  "pyrightVersion": SemVer {
+    "build": Array [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": Object {},
+    "patch": 240,
+    "prerelease": Array [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs ok ok 1`] = `
+Object {
+  "args": Array [
+    "/path/to/pyright/package/index.js",
+    "--outputjson",
+    "--pythonplatform",
+    "Linux",
+    "--pythonversion",
+    "3.9",
+    "--typeshed-path",
+    "/path/to/typeshed",
+    "--venv-path",
+    "/path/to-venv",
+    "--project",
+    "/path/to/pyrightconfig.json",
+    "--lib",
+    "--warnings",
+    "--foo",
+    "--bar",
+    "--baz",
+  ],
+  "noComments": false,
+  "pyrightVersion": SemVer {
+    "build": Array [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": Object {},
+    "patch": 240,
+    "prerelease": Array [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
+  "workingDirectory": "/path/to/project",
+}
+`;
+
+exports[`getArgs ok verifytypes 1`] = `
+Object {
+  "args": Array [
+    "/path/to/pyright/package/index.js",
+    "--outputjson",
+    "--verifytypes",
+    "some.package",
+  ],
+  "noComments": false,
+  "pyrightVersion": SemVer {
+    "build": Array [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": Object {},
+    "patch": 240,
+    "prerelease": Array [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
+  "workingDirectory": "",
+}
+`;

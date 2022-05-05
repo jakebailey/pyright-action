@@ -5,17 +5,13 @@ import * as path from 'path';
 import SemVer from 'semver/classes/semver';
 import stringArgv from 'string-argv';
 
-async function getPyrightVersion(): Promise<SemVer> {
-    const versionSpec = core.getInput('version');
-    if (versionSpec) {
-        return new SemVer(versionSpec);
-    }
+import { NpmRegistryResponse } from './schema';
 
-    const client = new httpClient.HttpClient();
-    const resp = await client.get('https://registry.npmjs.org/pyright/latest');
-    const body = await resp.readBody();
-    const obj = JSON.parse(body);
-    return new SemVer(obj.version);
+export function getNodeInfo() {
+    return {
+        version: process.version,
+        execPath: process.execPath,
+    };
 }
 
 export async function getArgs() {
@@ -98,6 +94,19 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
     return input.toUpperCase() === 'TRUE';
 }
 
+async function getPyrightVersion(): Promise<SemVer> {
+    const versionSpec = core.getInput('version');
+    if (versionSpec) {
+        return new SemVer(versionSpec);
+    }
+
+    const client = new httpClient.HttpClient();
+    const resp = await client.get('https://registry.npmjs.org/pyright/latest');
+    const body = await resp.readBody();
+    const obj = NpmRegistryResponse.parse(JSON.parse(body));
+    return new SemVer(obj.version);
+}
+
 async function downloadPyright(version: SemVer): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
@@ -105,11 +114,4 @@ async function downloadPyright(version: SemVer): Promise<string> {
     const pyrightTarball = await tc.downloadTool(url);
     const pyright = await tc.extractTar(pyrightTarball);
     return path.join(pyright, 'package', 'index.js');
-}
-
-export function getNodeInfo() {
-    return {
-        version: process.version,
-        execPath: process.execPath,
-    };
 }

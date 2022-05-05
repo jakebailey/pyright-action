@@ -42,3 +42,8 @@ export const Report = myzod.object({
         // timeInSec: myzod.number(),
     }),
 });
+
+export type NpmRegistryResponse = Infer<typeof NpmRegistryResponse>;
+export const NpmRegistryResponse = myzod.object({
+    version: myzod.string(),
+});
