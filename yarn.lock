@@ -1863,9 +1863,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001332":
-  version: 1.0.30001335
-  resolution: "caniuse-lite@npm:1.0.30001335"
-  checksum: fe08b49ec6cb76cc69958ff001cf89d0a8ef9f35e0c8028b65981585046384f76e007d64dea372a34ca56d91caa83cc614c00779fe2b4d378aa0e68696374f67
+  version: 1.0.30001336
+  resolution: "caniuse-lite@npm:1.0.30001336"
+  checksum: 05577b295f2c3780f4a2c814c4255b8b73353ff5a7238f5f97fe3b2bb61b78d77be7df52e9646b829bbde8f0efbfbad971324001086f9069ec144e4fc88ed5b8
   languageName: node
   linkType: hard
 
@@ -2244,7 +2244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"define-properties@npm:^1.1.3":
+"define-properties@npm:^1.1.3, define-properties@npm:^1.1.4":
   version: 1.1.4
   resolution: "define-properties@npm:1.1.4"
   dependencies:
@@ -2357,9 +2357,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.118":
-  version: 1.4.131
-  resolution: "electron-to-chromium@npm:1.4.131"
-  checksum: adf3159d22dd8ae3e46e86fe89e91ad39f622855ece36a0f73e53171792dead8e6876c3246e8b54b259b3a7d68ef093e020a12d55adf34692ed38d4c172b0376
+  version: 1.4.134
+  resolution: "electron-to-chromium@npm:1.4.134"
+  checksum: e0b6052e742e581b2619816921c923c2c0db7bb7ca11da7a7f8c7de624e82cfd2b3905ea0ffc159383813e44c660bef2ebe78199e38787aa5e04a3c957ed30a3
   languageName: node
   linkType: hard
 
@@ -2418,7 +2418,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-abstract@npm:^1.19.0, es-abstract@npm:^1.19.1":
+"es-abstract@npm:^1.19.0, es-abstract@npm:^1.19.1, es-abstract@npm:^1.19.5":
   version: 1.19.5
   resolution: "es-abstract@npm:1.19.5"
   dependencies:
@@ -5424,8 +5424,8 @@ __metadata:
   linkType: hard
 
 "npm-packlist@npm:^5.0.0":
-  version: 5.0.2
-  resolution: "npm-packlist@npm:5.0.2"
+  version: 5.0.3
+  resolution: "npm-packlist@npm:5.0.3"
   dependencies:
     glob: ^8.0.1
     ignore-walk: ^5.0.1
@@ -5433,7 +5433,7 @@ __metadata:
     npm-normalize-package-bin: ^1.0.1
   bin:
     npm-packlist: bin/index.js
-  checksum: ff2c295dea161c800c5c2d4254d6b864126333786edec7e56387a9184e966864e8e46a77aa8121db13f210232b6439c7425098ead377fe2fc287ac316c888f4d
+  checksum: ab8444928518e652e2d4f3de75dd979b695170c9c9c96882c601dfc5f9e47eca6af65a6599cd45f5ea4e77ee66254fd4cc91a6f34ec8cd7754af258cb99fbb61
   languageName: node
   linkType: hard
 
@@ -5710,8 +5710,8 @@ __metadata:
   linkType: hard
 
 "pacote@npm:^13.0.5":
-  version: 13.2.0
-  resolution: "pacote@npm:13.2.0"
+  version: 13.3.0
+  resolution: "pacote@npm:13.3.0"
   dependencies:
     "@npmcli/git": ^3.0.0
     "@npmcli/installed-package-contents": ^1.0.7
@@ -5736,7 +5736,7 @@ __metadata:
     tar: ^6.1.11
   bin:
     pacote: lib/bin.js
-  checksum: 5bd7c48a8ffddc52f1cace12a86eaf8755c42c9065945038986a16c626341e0f51cf22763b9546d957d3179726dc55703cd1f596ed81c59ff66fedaf6d4d071d
+  checksum: 49badbafac64e7cd9c87aa14342424ee90946e0ac729faeffb489a94ed6cdab815bd7ffec7673b4863e20e113ee678b8038ace95ee2fc1f58206bc4482ff0bf5
   languageName: node
   linkType: hard
 
@@ -6056,7 +6056,7 @@ __metadata:
     rimraf: ^3.0.2
     semver: ^7.3.7
     string-argv: ^0.3.1
-    ts-jest: ^28.0.0
+    ts-jest: ^28.0.1
     typescript: ~4.6.4
   languageName: unknown
   linkType: soft
@@ -6739,22 +6739,24 @@ __metadata:
   linkType: hard
 
 "string.prototype.trimend@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "string.prototype.trimend@npm:1.0.4"
+  version: 1.0.5
+  resolution: "string.prototype.trimend@npm:1.0.5"
   dependencies:
     call-bind: ^1.0.2
-    define-properties: ^1.1.3
-  checksum: 17e5aa45c3983f582693161f972c1c1fa4bbbdf22e70e582b00c91b6575f01680dc34e83005b98e31abe4d5d29e0b21fcc24690239c106c7b2315aade6a898ac
+    define-properties: ^1.1.4
+    es-abstract: ^1.19.5
+  checksum: d44f543833112f57224e79182debadc9f4f3bf9d48a0414d6f0cbd2a86f2b3e8c0ca1f95c3f8e5b32ae83e91554d79d932fc746b411895f03f93d89ed3dfb6bc
   languageName: node
   linkType: hard
 
 "string.prototype.trimstart@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "string.prototype.trimstart@npm:1.0.4"
+  version: 1.0.5
+  resolution: "string.prototype.trimstart@npm:1.0.5"
   dependencies:
     call-bind: ^1.0.2
-    define-properties: ^1.1.3
-  checksum: 3fb06818d3cccac5fa3f5f9873d984794ca0e9f6616fae6fcc745885d9efed4e17fe15f832515d9af5e16c279857fdbffdfc489ca4ed577811b017721b30302f
+    define-properties: ^1.1.4
+    es-abstract: ^1.19.5
+  checksum: a4857c5399ad709d159a77371eeaa8f9cc284469a0b5e1bfe405de16f1fd4166a8ea6f4180e55032f348d1b679b1599fd4301fbc7a8b72bdb3e795e43f7b1048
   languageName: node
   linkType: hard
 
@@ -6964,9 +6966,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.0":
-  version: 28.0.0
-  resolution: "ts-jest@npm:28.0.0"
+"ts-jest@npm:^28.0.1":
+  version: 28.0.1
+  resolution: "ts-jest@npm:28.0.1"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -6993,7 +6995,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: a8bbcb5ec931e6f9a9a347cb28d211c1ca440e6205128fcd766e6edbb0706469cb0e675d766a86bfda813037d65a82f0956ed49a452241097a4577970279cb90
+  checksum: d6827b5eb9838b63c694a49a6d85020f62e6eed1e8aae935fdb3fabdccc0ed7207b41c812c0de793a8e5ba1b7818cddfc4d51dc29ed6054f3a08cafbedbef26e
   languageName: node
   linkType: hard
 
