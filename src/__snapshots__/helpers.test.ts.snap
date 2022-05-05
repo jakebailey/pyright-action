@@ -6,18 +6,7 @@ Object {
     "/path/to/pyright/package/index.js",
   ],
   "noComments": true,
-  "pyrightVersion": SemVer {
-    "build": Array [],
-    "includePrerelease": false,
-    "loose": false,
-    "major": 1,
-    "minor": 1,
-    "options": Object {},
-    "patch": 240,
-    "prerelease": Array [],
-    "raw": "1.1.240",
-    "version": "1.1.240",
-  },
+  "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
 `;
@@ -44,18 +33,7 @@ Object {
     "--baz",
   ],
   "noComments": false,
-  "pyrightVersion": SemVer {
-    "build": Array [],
-    "includePrerelease": false,
-    "loose": false,
-    "major": 1,
-    "minor": 1,
-    "options": Object {},
-    "patch": 240,
-    "prerelease": Array [],
-    "raw": "1.1.240",
-    "version": "1.1.240",
-  },
+  "pyrightVersion": "1.1.240",
   "workingDirectory": "/path/to/project",
 }
 `;
@@ -69,18 +47,7 @@ Object {
     "some.package",
   ],
   "noComments": false,
-  "pyrightVersion": SemVer {
-    "build": Array [],
-    "includePrerelease": false,
-    "loose": false,
-    "major": 1,
-    "minor": 1,
-    "options": Object {},
-    "patch": 240,
-    "prerelease": Array [],
-    "raw": "1.1.240",
-    "version": "1.1.240",
-  },
+  "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
 `;

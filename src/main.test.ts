@@ -52,8 +52,8 @@ describe('no comments', () => {
             return {
                 noComments: true,
                 workingDirectory: wd,
-                pyrightVersion: new SemVer(pyrightVersion),
-                args: args,
+                pyrightVersion,
+                args,
             };
         });
     });
@@ -107,8 +107,8 @@ describe('with comments', () => {
             return {
                 noComments: false,
                 workingDirectory: '',
-                pyrightVersion: new SemVer('1.1.240'),
-                args: args,
+                pyrightVersion,
+                args,
             };
         });
     });

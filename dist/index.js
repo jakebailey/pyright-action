@@ -6438,16 +6438,16 @@ function getBooleanInput(name, defaultValue) {
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
-    return new import_semver2.default(versionSpec);
+    return new import_semver2.default(versionSpec).format();
   }
   const client = new httpClient.HttpClient();
   const resp = await client.get("https://registry.npmjs.org/pyright/latest");
   const body = await resp.readBody();
   const obj = NpmRegistryResponse.parse(JSON.parse(body));
-  return new import_semver2.default(obj.version);
+  return obj.version;
 }
 async function downloadPyright(version2) {
-  const url = `https://registry.npmjs.org/pyright/-/pyright-${version2.format()}.tgz`;
+  const url = `https://registry.npmjs.org/pyright/-/pyright-${version2}.tgz`;
   const pyrightTarball = await tc.downloadTool(url);
   const pyright = await tc.extractTar(pyrightTarball);
   return path.join(pyright, "package", "index.js");

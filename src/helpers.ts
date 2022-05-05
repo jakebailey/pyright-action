@@ -94,23 +94,23 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
     return input.toUpperCase() === 'TRUE';
 }
 
-async function getPyrightVersion(): Promise<SemVer> {
+async function getPyrightVersion(): Promise<string> {
     const versionSpec = core.getInput('version');
     if (versionSpec) {
-        return new SemVer(versionSpec);
+        return new SemVer(versionSpec).format();
     }
 
     const client = new httpClient.HttpClient();
     const resp = await client.get('https://registry.npmjs.org/pyright/latest');
     const body = await resp.readBody();
     const obj = NpmRegistryResponse.parse(JSON.parse(body));
-    return new SemVer(obj.version);
+    return obj.version;
 }
 
-async function downloadPyright(version: SemVer): Promise<string> {
+async function downloadPyright(version: string): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
-    const url = `https://registry.npmjs.org/pyright/-/pyright-${version.format()}.tgz`;
+    const url = `https://registry.npmjs.org/pyright/-/pyright-${version}.tgz`;
     const pyrightTarball = await tc.downloadTool(url);
     const pyright = await tc.extractTar(pyrightTarball);
     return path.join(pyright, 'package', 'index.js');
