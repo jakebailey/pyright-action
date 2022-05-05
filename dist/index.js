@@ -6357,10 +6357,7 @@ var Report = import_myzod.default.object({
   })
 });
 var NpmRegistryResponse = import_myzod.default.object({
-  version: import_myzod.default.string().withPredicate((value) => {
-    new import_semver.default(value);
-    return true;
-  }, "must be a semver")
+  version: import_myzod.default.string().withPredicate((value) => !!new import_semver.default(value), "must be a semver")
 });
 
 // src/helpers.ts

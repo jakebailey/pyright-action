@@ -32,22 +32,15 @@ const Diagnostic = myzod.object({
 
 export type Report = Infer<typeof Report>;
 export const Report = myzod.object({
-    // version: myzod.string(),
-    // time: myzod.string(),
     generalDiagnostics: myzod.array(Diagnostic),
     summary: myzod.object({
-        // filesAnalyzed: myzod.number(),
         errorCount: myzod.number(),
         warningCount: myzod.number(),
         informationCount: myzod.number(),
-        // timeInSec: myzod.number(),
     }),
 });
 
 export type NpmRegistryResponse = Infer<typeof NpmRegistryResponse>;
 export const NpmRegistryResponse = myzod.object({
-    version: myzod.string().withPredicate((value) => {
-        new SemVer(value);
-        return true;
-    }, 'must be a semver'),
+    version: myzod.string().withPredicate((value) => !!new SemVer(value), 'must be a semver'),
 });
