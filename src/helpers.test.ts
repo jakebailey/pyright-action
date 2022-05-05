@@ -9,10 +9,32 @@ const mockedHttpClient = jest.mocked(httpClient);
 jest.mock('@actions/tool-cache');
 const mockedTc = jest.mocked(tc);
 
-import { getArgs } from './helpers';
+import { getArgs, getNodeInfo } from './helpers';
 
 beforeEach(() => {
     jest.clearAllMocks();
 });
 
-test('boolean input', () => {});
+describe('getArgs', () => {
+    test('bad version', async () => {
+        mockedCore.getInput.mockImplementation((name, options) => {
+            switch (name) {
+                case 'version':
+                    expect(options).toBeUndefined();
+                    return 'this is not a semver';
+                default:
+                    return '';
+            }
+        });
+
+        expect(getArgs()).rejects.toThrowError('not a semver');
+    });
+});
+
+test('getNodeInfo', () => {
+    const info = getNodeInfo();
+    expect(info).toEqual({
+        version: process.version,
+        execPath: process.execPath,
+    });
+});
