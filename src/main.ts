@@ -75,7 +75,7 @@ export async function main() {
         core.info(
             `${errorCount} ${errorCount === 1 ? 'error' : 'errors'}, ` +
                 `${warningCount} ${warningCount === 1 ? 'warning' : 'warnings'}, ` +
-                `${informationCount} ${informationCount === 1 ? 'info' : 'infos'}`
+                `${informationCount} ${informationCount === 1 ? 'information' : 'informations'}`
         );
 
         if (status !== 0) {

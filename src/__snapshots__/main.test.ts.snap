@@ -203,7 +203,7 @@ Array [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
   Array [
-    "0 errors, 0 warnings, 0 infos",
+    "0 errors, 0 warnings, 0 informations",
   ],
 ]
 `;
@@ -316,7 +316,7 @@ Array [
     "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
   ],
   Array [
-    "1 error, 1 warning, 1 info",
+    "1 error, 1 warning, 1 information",
   ],
 ]
 `;
@@ -416,7 +416,7 @@ Array [
     "/path/to/file1.py:6:10 - error: some error",
   ],
   Array [
-    "2 errors, 2 warnings, 1 info",
+    "2 errors, 2 warnings, 1 information",
   ],
 ]
 `;

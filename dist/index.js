@@ -6497,7 +6497,7 @@ async function main() {
       }, message);
     });
     const { errorCount, warningCount, informationCount } = report.summary;
-    core2.info(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "info" : "infos"}`);
+    core2.info(`${errorCount} ${errorCount === 1 ? "error" : "errors"}, ${warningCount} ${warningCount === 1 ? "warning" : "warnings"}, ${informationCount} ${informationCount === 1 ? "information" : "informations"}`);
     if (status !== 0) {
       core2.setFailed(`${errorCount} ${errorCount === 1 ? "error" : "errors"}`);
     }
