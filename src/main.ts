@@ -95,10 +95,9 @@ function diagnosticToString(diag: Diagnostic, forCommand: boolean): string {
             message += `${diag.file}:`;
         }
         if (diag.range && !isEmptyRange(diag.range)) {
-            message += `${diag.range.start.line + 1}:${diag.range.start.character + 1} - `;
+            message += `${diag.range.start.line + 1}:${diag.range.start.character + 1} -`;
         }
-        message += diag.severity;
-        message += `: `;
+        message += ` ${diag.severity}: `;
     }
 
     message += diag.message;

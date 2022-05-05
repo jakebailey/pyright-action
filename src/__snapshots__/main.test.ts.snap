@@ -310,7 +310,7 @@ Array [
     "/path/to/file1.py:1:1 - error: some error",
   ],
   Array [
-    "/path/to/file2.py:warning: some warning",
+    "/path/to/file2.py: warning: some warning",
   ],
   Array [
     "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
@@ -404,13 +404,13 @@ Array [
     "/path/to/file1.py:1:1 - error: some error",
   ],
   Array [
-    "/path/to/file2.py:warning: some warning",
+    "/path/to/file2.py: warning: some warning",
   ],
   Array [
     "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
   ],
   Array [
-    "/path/to/file3.py:warning: another warning (reportSomeWarning)",
+    "/path/to/file3.py: warning: another warning (reportSomeWarning)",
   ],
   Array [
     "/path/to/file1.py:6:10 - error: some error",
