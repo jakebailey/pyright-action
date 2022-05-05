@@ -25,7 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-node
-      - run: yarn test
+      - run: yarn test --coverage
+      - uses: codecov/codecov-action@v2
 
   eslint:
     name: ESLint
