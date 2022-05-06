@@ -54,5 +54,6 @@ export type NpmRegistryResponse = Infer<typeof NpmRegistryResponse>;
 export const NpmRegistryResponse = myzod
     .object({
         version: myzod.string().withPredicate((value) => !!new SemVer(value), 'must be a semver'),
+        tarball: myzod.string(),
     })
     .allowUnknownKeys();

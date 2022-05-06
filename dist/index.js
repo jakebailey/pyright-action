@@ -499,36 +499,36 @@ var require_http_client = __commonJS({
     var https = require("https");
     var pm = require_proxy();
     var tunnel;
-    var HttpCodes;
-    (function(HttpCodes2) {
-      HttpCodes2[HttpCodes2["OK"] = 200] = "OK";
-      HttpCodes2[HttpCodes2["MultipleChoices"] = 300] = "MultipleChoices";
-      HttpCodes2[HttpCodes2["MovedPermanently"] = 301] = "MovedPermanently";
-      HttpCodes2[HttpCodes2["ResourceMoved"] = 302] = "ResourceMoved";
-      HttpCodes2[HttpCodes2["SeeOther"] = 303] = "SeeOther";
-      HttpCodes2[HttpCodes2["NotModified"] = 304] = "NotModified";
-      HttpCodes2[HttpCodes2["UseProxy"] = 305] = "UseProxy";
-      HttpCodes2[HttpCodes2["SwitchProxy"] = 306] = "SwitchProxy";
-      HttpCodes2[HttpCodes2["TemporaryRedirect"] = 307] = "TemporaryRedirect";
-      HttpCodes2[HttpCodes2["PermanentRedirect"] = 308] = "PermanentRedirect";
-      HttpCodes2[HttpCodes2["BadRequest"] = 400] = "BadRequest";
-      HttpCodes2[HttpCodes2["Unauthorized"] = 401] = "Unauthorized";
-      HttpCodes2[HttpCodes2["PaymentRequired"] = 402] = "PaymentRequired";
-      HttpCodes2[HttpCodes2["Forbidden"] = 403] = "Forbidden";
-      HttpCodes2[HttpCodes2["NotFound"] = 404] = "NotFound";
-      HttpCodes2[HttpCodes2["MethodNotAllowed"] = 405] = "MethodNotAllowed";
-      HttpCodes2[HttpCodes2["NotAcceptable"] = 406] = "NotAcceptable";
-      HttpCodes2[HttpCodes2["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
-      HttpCodes2[HttpCodes2["RequestTimeout"] = 408] = "RequestTimeout";
-      HttpCodes2[HttpCodes2["Conflict"] = 409] = "Conflict";
-      HttpCodes2[HttpCodes2["Gone"] = 410] = "Gone";
-      HttpCodes2[HttpCodes2["TooManyRequests"] = 429] = "TooManyRequests";
-      HttpCodes2[HttpCodes2["InternalServerError"] = 500] = "InternalServerError";
-      HttpCodes2[HttpCodes2["NotImplemented"] = 501] = "NotImplemented";
-      HttpCodes2[HttpCodes2["BadGateway"] = 502] = "BadGateway";
-      HttpCodes2[HttpCodes2["ServiceUnavailable"] = 503] = "ServiceUnavailable";
-      HttpCodes2[HttpCodes2["GatewayTimeout"] = 504] = "GatewayTimeout";
-    })(HttpCodes = exports.HttpCodes || (exports.HttpCodes = {}));
+    var HttpCodes2;
+    (function(HttpCodes3) {
+      HttpCodes3[HttpCodes3["OK"] = 200] = "OK";
+      HttpCodes3[HttpCodes3["MultipleChoices"] = 300] = "MultipleChoices";
+      HttpCodes3[HttpCodes3["MovedPermanently"] = 301] = "MovedPermanently";
+      HttpCodes3[HttpCodes3["ResourceMoved"] = 302] = "ResourceMoved";
+      HttpCodes3[HttpCodes3["SeeOther"] = 303] = "SeeOther";
+      HttpCodes3[HttpCodes3["NotModified"] = 304] = "NotModified";
+      HttpCodes3[HttpCodes3["UseProxy"] = 305] = "UseProxy";
+      HttpCodes3[HttpCodes3["SwitchProxy"] = 306] = "SwitchProxy";
+      HttpCodes3[HttpCodes3["TemporaryRedirect"] = 307] = "TemporaryRedirect";
+      HttpCodes3[HttpCodes3["PermanentRedirect"] = 308] = "PermanentRedirect";
+      HttpCodes3[HttpCodes3["BadRequest"] = 400] = "BadRequest";
+      HttpCodes3[HttpCodes3["Unauthorized"] = 401] = "Unauthorized";
+      HttpCodes3[HttpCodes3["PaymentRequired"] = 402] = "PaymentRequired";
+      HttpCodes3[HttpCodes3["Forbidden"] = 403] = "Forbidden";
+      HttpCodes3[HttpCodes3["NotFound"] = 404] = "NotFound";
+      HttpCodes3[HttpCodes3["MethodNotAllowed"] = 405] = "MethodNotAllowed";
+      HttpCodes3[HttpCodes3["NotAcceptable"] = 406] = "NotAcceptable";
+      HttpCodes3[HttpCodes3["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
+      HttpCodes3[HttpCodes3["RequestTimeout"] = 408] = "RequestTimeout";
+      HttpCodes3[HttpCodes3["Conflict"] = 409] = "Conflict";
+      HttpCodes3[HttpCodes3["Gone"] = 410] = "Gone";
+      HttpCodes3[HttpCodes3["TooManyRequests"] = 429] = "TooManyRequests";
+      HttpCodes3[HttpCodes3["InternalServerError"] = 500] = "InternalServerError";
+      HttpCodes3[HttpCodes3["NotImplemented"] = 501] = "NotImplemented";
+      HttpCodes3[HttpCodes3["BadGateway"] = 502] = "BadGateway";
+      HttpCodes3[HttpCodes3["ServiceUnavailable"] = 503] = "ServiceUnavailable";
+      HttpCodes3[HttpCodes3["GatewayTimeout"] = 504] = "GatewayTimeout";
+    })(HttpCodes2 = exports.HttpCodes || (exports.HttpCodes = {}));
     var Headers;
     (function(Headers2) {
       Headers2["Accept"] = "accept";
@@ -544,16 +544,16 @@ var require_http_client = __commonJS({
     }
     exports.getProxyUrl = getProxyUrl;
     var HttpRedirectCodes = [
-      HttpCodes.MovedPermanently,
-      HttpCodes.ResourceMoved,
-      HttpCodes.SeeOther,
-      HttpCodes.TemporaryRedirect,
-      HttpCodes.PermanentRedirect
+      HttpCodes2.MovedPermanently,
+      HttpCodes2.ResourceMoved,
+      HttpCodes2.SeeOther,
+      HttpCodes2.TemporaryRedirect,
+      HttpCodes2.PermanentRedirect
     ];
     var HttpResponseRetryCodes = [
-      HttpCodes.BadGateway,
-      HttpCodes.ServiceUnavailable,
-      HttpCodes.GatewayTimeout
+      HttpCodes2.BadGateway,
+      HttpCodes2.ServiceUnavailable,
+      HttpCodes2.GatewayTimeout
     ];
     var RetryableHttpVerbs = ["OPTIONS", "GET", "DELETE", "HEAD"];
     var ExponentialBackoffCeiling = 10;
@@ -688,7 +688,7 @@ var require_http_client = __commonJS({
         let response;
         while (numTries < maxTries) {
           response = await this.requestRaw(info2, data);
-          if (response && response.message && response.message.statusCode === HttpCodes.Unauthorized) {
+          if (response && response.message && response.message.statusCode === HttpCodes2.Unauthorized) {
             let authenticationHandler;
             for (let i = 0; i < this.handlers.length; i++) {
               if (this.handlers[i].canHandleAuthentication(response)) {
@@ -913,7 +913,7 @@ var require_http_client = __commonJS({
             result: null,
             headers: {}
           };
-          if (statusCode == HttpCodes.NotFound) {
+          if (statusCode == HttpCodes2.NotFound) {
             resolve(response);
           }
           let obj;
@@ -6357,7 +6357,8 @@ var Report = import_myzod.default.object({
   }).allowUnknownKeys()
 }).allowUnknownKeys();
 var NpmRegistryResponse = import_myzod.default.object({
-  version: import_myzod.default.string().withPredicate((value) => !!new import_semver.default(value), "must be a semver")
+  version: import_myzod.default.string().withPredicate((value) => !!new import_semver.default(value), "must be a semver"),
+  tarball: import_myzod.default.string()
 }).allowUnknownKeys();
 
 // src/helpers.ts
@@ -6371,8 +6372,8 @@ function getNodeInfo() {
   };
 }
 async function getArgs() {
-  const pyrightVersion = await getPyrightVersion();
-  const pyrightPath = await downloadPyright(pyrightVersion);
+  const pyrightInfo = await getPyrightInfo();
+  const pyrightPath = await downloadPyright(pyrightInfo);
   const args = [pyrightPath];
   const workingDirectory = core.getInput("working-directory");
   const noComments = getBooleanInput("no-comments", false);
@@ -6424,7 +6425,7 @@ async function getArgs() {
   return {
     workingDirectory,
     noComments,
-    pyrightVersion,
+    pyrightVersion: pyrightInfo.version,
     args
   };
 }
@@ -6435,22 +6436,27 @@ function getBooleanInput(name, defaultValue) {
   }
   return input.toUpperCase() === "TRUE";
 }
+async function downloadPyright(info2) {
+  const pyrightTarball = await tc.downloadTool(info2.tarball);
+  const pyright = await tc.extractTar(pyrightTarball);
+  return path.join(pyright, "package", "index.js");
+}
+async function getPyrightInfo() {
+  const version2 = await getPyrightVersion();
+  const client = new httpClient.HttpClient();
+  const resp = await client.get(`https://registry.npmjs.org/pyright/${version2}`);
+  const body = await resp.readBody();
+  if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
+    throw new Error(body);
+  }
+  return NpmRegistryResponse.parse(JSON.parse(body));
+}
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
     return new import_semver2.default(versionSpec).format();
   }
-  const client = new httpClient.HttpClient();
-  const resp = await client.get("https://registry.npmjs.org/pyright/latest");
-  const body = await resp.readBody();
-  const obj = NpmRegistryResponse.parse(JSON.parse(body));
-  return obj.version;
-}
-async function downloadPyright(version2) {
-  const url = `https://registry.npmjs.org/pyright/-/pyright-${version2}.tgz`;
-  const pyrightTarball = await tc.downloadTool(url);
-  const pyright = await tc.extractTar(pyrightTarball);
-  return path.join(pyright, "package", "index.js");
+  return "latest";
 }
 
 // src/main.ts

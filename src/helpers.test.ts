@@ -1,6 +1,7 @@
 import * as core from '@actions/core';
 import * as httpClient from '@actions/http-client';
 import * as tc from '@actions/tool-cache';
+import type { IncomingMessage } from 'http';
 
 jest.mock('@actions/core');
 const mockedCore = jest.mocked(core);
@@ -12,10 +13,6 @@ const mockedTc = jest.mocked(tc);
 import { version as actionVersion } from '../package.json';
 import { getActionVersion, getArgs, getNodeInfo } from './helpers';
 import { NpmRegistryResponse } from './schema';
-
-const mockedHttpClientResponse = httpClient.HttpClientResponse as jest.MockedClass<
-    typeof httpClient.HttpClientResponse
->;
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -36,9 +33,10 @@ describe('getArgs', () => {
         expect(getArgs()).rejects.toThrowError('not a semver');
     });
 
-    describe('ok', () => {
+    describe('valid version', () => {
         const npmResponse: NpmRegistryResponse = {
             version: '1.1.240',
+            tarball: 'https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz',
         };
         const tarballPath = '/path/to/pyright.tar.gz';
         const extractedPath = '/path/to/pyright';
@@ -53,11 +51,26 @@ describe('getArgs', () => {
                 return inputs.get(name) ?? '';
             });
 
-            mockedHttpClient.HttpClient.prototype.get.mockImplementation(async () => {
-                return {
-                    message: undefined as any,
-                    readBody: async () => JSON.stringify(npmResponse),
-                };
+            mockedHttpClient.HttpClient.prototype.get.mockImplementation(async (url) => {
+                switch (url) {
+                    case `https://registry.npmjs.org/pyright/${npmResponse.version}`:
+                    case 'https://registry.npmjs.org/pyright/latest':
+                        return {
+                            message: {
+                                statusCode: 200,
+                            } as IncomingMessage,
+                            readBody: async () => JSON.stringify(npmResponse),
+                        };
+                    case `https://registry.npmjs.org/pyright/1.1.404`:
+                        return {
+                            message: {
+                                statusCode: 404,
+                            } as IncomingMessage,
+                            readBody: async () => JSON.stringify('version not found: 1.1.404'),
+                        };
+                    default:
+                        throw new Error(`unknown URL ${url}`);
+                }
             });
 
             mockedTc.downloadTool.mockResolvedValue(tarballPath);
@@ -78,9 +91,7 @@ describe('getArgs', () => {
             const result = await getArgs();
             expect(result).toMatchSnapshot('result');
 
-            expect(mockedTc.downloadTool).toBeCalledWith(
-                `https://registry.npmjs.org/pyright/-/pyright-${npmResponse.version}.tgz`
-            );
+            expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
 
@@ -96,6 +107,11 @@ describe('getArgs', () => {
 
             const result = await getArgs();
             expect(result).toMatchSnapshot('result');
+        });
+
+        test('version not found', async () => {
+            inputs.set('version', '1.1.404');
+            expect(getArgs()).rejects.toThrowError('version not found: 1.1.404');
         });
     });
 });

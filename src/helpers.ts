@@ -20,8 +20,8 @@ export function getNodeInfo() {
 }
 
 export async function getArgs() {
-    const pyrightVersion = await getPyrightVersion();
-    const pyrightPath = await downloadPyright(pyrightVersion);
+    const pyrightInfo = await getPyrightInfo();
+    const pyrightPath = await downloadPyright(pyrightInfo);
 
     const args = [pyrightPath];
 
@@ -86,7 +86,7 @@ export async function getArgs() {
     return {
         workingDirectory,
         noComments,
-        pyrightVersion,
+        pyrightVersion: pyrightInfo.version,
         args,
     };
 }
@@ -99,24 +99,29 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
     return input.toUpperCase() === 'TRUE';
 }
 
+async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
+    // Note: this only works because the pyright package doesn't have any
+    // dependencies. If this ever changes, we'll have to actually install it.
+    const pyrightTarball = await tc.downloadTool(info.tarball);
+    const pyright = await tc.extractTar(pyrightTarball);
+    return path.join(pyright, 'package', 'index.js');
+}
+
+async function getPyrightInfo(): Promise<NpmRegistryResponse> {
+    const version = await getPyrightVersion();
+    const client = new httpClient.HttpClient();
+    const resp = await client.get(`https://registry.npmjs.org/pyright/${version}`);
+    const body = await resp.readBody();
+    if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
+        throw new Error(body);
+    }
+    return NpmRegistryResponse.parse(JSON.parse(body));
+}
+
 async function getPyrightVersion(): Promise<string> {
     const versionSpec = core.getInput('version');
     if (versionSpec) {
         return new SemVer(versionSpec).format();
     }
-
-    const client = new httpClient.HttpClient();
-    const resp = await client.get('https://registry.npmjs.org/pyright/latest');
-    const body = await resp.readBody();
-    const obj = NpmRegistryResponse.parse(JSON.parse(body));
-    return obj.version;
-}
-
-async function downloadPyright(version: string): Promise<string> {
-    // Note: this only works because the pyright package doesn't have any
-    // dependencies. If this ever changes, we'll have to actually install it.
-    const url = `https://registry.npmjs.org/pyright/-/pyright-${version}.tgz`;
-    const pyrightTarball = await tc.downloadTool(url);
-    const pyright = await tc.extractTar(pyrightTarball);
-    return path.join(pyright, 'package', 'index.js');
+    return 'latest';
 }
