@@ -3,7 +3,7 @@ import * as command from '@actions/core/lib/command';
 import * as cp from 'child_process';
 
 import { getActionVersion, getArgs, getNodeInfo } from './helpers';
-import { Diagnostic, isEmptyRange, Report } from './schema';
+import { Diagnostic, isEmptyRange, parseReport } from './schema';
 
 export async function main() {
     try {
@@ -46,7 +46,7 @@ export async function main() {
             return;
         }
 
-        const report = Report.parse(JSON.parse(stdout));
+        const report = parseReport(JSON.parse(stdout));
 
         report.generalDiagnostics.forEach((diag) => {
             core.info(diagnosticToString(diag, /* forCommand */ false));

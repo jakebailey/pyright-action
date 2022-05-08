@@ -6362,10 +6362,26 @@ var Report = import_myzod.default.object({
     informationCount: import_myzod.default.number()
   }).allowUnknownKeys()
 }).allowUnknownKeys();
+function parseReport(v) {
+  return Report.parse(v);
+}
+function isSemVer(version2) {
+  try {
+    new import_semver.default(version2);
+    return true;
+  } catch {
+    return false;
+  }
+}
 var NpmRegistryResponse = import_myzod.default.object({
-  version: import_myzod.default.string().withPredicate((value) => !!new import_semver.default(value), "must be a semver"),
-  tarball: import_myzod.default.string()
+  version: import_myzod.default.string().withPredicate(isSemVer, "must be a semver"),
+  dist: import_myzod.default.object({
+    tarball: import_myzod.default.string()
+  }).allowUnknownKeys()
 }).allowUnknownKeys();
+function parseNpmRegistryResponse(v) {
+  return NpmRegistryResponse.parse(v);
+}
 
 // src/helpers.ts
 function getActionVersion() {
@@ -6443,7 +6459,7 @@ function getBooleanInput(name, defaultValue) {
   return input.toUpperCase() === "TRUE";
 }
 async function downloadPyright(info2) {
-  const pyrightTarball = await tc.downloadTool(info2.tarball);
+  const pyrightTarball = await tc.downloadTool(info2.dist.tarball);
   const pyright = await tc.extractTar(pyrightTarball);
   return path.join(pyright, "package", "index.js");
 }
@@ -6455,7 +6471,7 @@ async function getPyrightInfo() {
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
     throw new Error(body);
   }
-  return NpmRegistryResponse.parse(JSON.parse(body));
+  return parseNpmRegistryResponse(JSON.parse(body));
 }
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
@@ -6492,7 +6508,7 @@ async function main() {
       core2.setFailed(`Exit code ${status}`);
       return;
     }
-    const report = Report.parse(JSON.parse(stdout));
+    const report = parseReport(JSON.parse(stdout));
     report.generalDiagnostics.forEach((diag) => {
       var _a, _b;
       core2.info(diagnosticToString(diag, false));

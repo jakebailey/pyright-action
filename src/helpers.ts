@@ -6,7 +6,7 @@ import SemVer from 'semver/classes/semver';
 import stringArgv from 'string-argv';
 
 import { version as actionVersion } from '../package.json';
-import { NpmRegistryResponse } from './schema';
+import { NpmRegistryResponse, parseNpmRegistryResponse } from './schema';
 
 export function getActionVersion() {
     return actionVersion;
@@ -102,7 +102,7 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
 async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
-    const pyrightTarball = await tc.downloadTool(info.tarball);
+    const pyrightTarball = await tc.downloadTool(info.dist.tarball);
     const pyright = await tc.extractTar(pyrightTarball);
     return path.join(pyright, 'package', 'index.js');
 }
@@ -115,7 +115,7 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
         throw new Error(body);
     }
-    return NpmRegistryResponse.parse(JSON.parse(body));
+    return parseNpmRegistryResponse(JSON.parse(body));
 }
 
 async function getPyrightVersion(): Promise<string> {

@@ -4,4 +4,5 @@ module.exports = {
     testEnvironment: 'node',
     collectCoverageFrom: ['src/**/*.ts'],
     coveragePathIgnorePatterns: ['src/index.ts'], // Just the bundle entrypoint
+    watchPathIgnorePatterns: ['dist/index.js'],
 };

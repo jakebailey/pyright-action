@@ -36,7 +36,9 @@ describe('getArgs', () => {
     describe('valid version', () => {
         const npmResponse: NpmRegistryResponse = {
             version: '1.1.240',
-            tarball: 'https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz',
+            dist: {
+                tarball: 'https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz',
+            },
         };
         const tarballPath = '/path/to/pyright.tar.gz';
         const extractedPath = '/path/to/pyright';
@@ -91,7 +93,7 @@ describe('getArgs', () => {
             const result = await getArgs();
             expect(result).toMatchSnapshot('result');
 
-            expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.tarball);
+            expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
 

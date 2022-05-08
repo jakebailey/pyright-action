@@ -37,7 +37,7 @@ const Diagnostic = myzod
     .allowUnknownKeys();
 
 export type Report = Infer<typeof Report>;
-export const Report = myzod
+const Report = myzod
     .object({
         generalDiagnostics: myzod.array(Diagnostic),
         summary: myzod
@@ -50,10 +50,31 @@ export const Report = myzod
     })
     .allowUnknownKeys();
 
+export function parseReport(v: unknown): Report {
+    return Report.parse(v);
+}
+
+function isSemVer(version: string): boolean {
+    try {
+        new SemVer(version);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 export type NpmRegistryResponse = Infer<typeof NpmRegistryResponse>;
-export const NpmRegistryResponse = myzod
+const NpmRegistryResponse = myzod
     .object({
-        version: myzod.string().withPredicate((value) => !!new SemVer(value), 'must be a semver'),
-        tarball: myzod.string(),
+        version: myzod.string().withPredicate(isSemVer, 'must be a semver'),
+        dist: myzod
+            .object({
+                tarball: myzod.string(),
+            })
+            .allowUnknownKeys(),
     })
     .allowUnknownKeys();
+
+export function parseNpmRegistryResponse(v: unknown): NpmRegistryResponse {
+    return NpmRegistryResponse.parse(v);
+}

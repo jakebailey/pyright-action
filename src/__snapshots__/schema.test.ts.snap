@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseNpmRegistryResponse good: response 1`] = `
+Object {
+  "dist": Object {
+    "tarball": "https://registry.npmjs.org/pyright/-/pyright-1.1.245.tgz",
+  },
+  "version": "1.1.245",
+}
+`;
+
+exports[`parseReport good: report 1`] = `
+Object {
+  "generalDiagnostics": Array [
+    Object {
+      "file": "/home/jake/work/python/typeshed/stubs/cryptography/cryptography/x509/__init__.pyi",
+      "message": "\\"X509Backend\\" is unknown import symbol",
+      "range": Object {
+        "end": Object {
+          "character": 63,
+          "line": 8,
+        },
+        "start": Object {
+          "character": 52,
+          "line": 8,
+        },
+      },
+      "rule": "reportGeneralTypeIssues",
+      "severity": "error",
+    },
+  ],
+  "summary": Object {
+    "errorCount": 1,
+    "informationCount": 0,
+    "warningCount": 0,
+  },
+}
+`;
