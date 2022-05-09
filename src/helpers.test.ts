@@ -18,6 +18,12 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
+afterEach(() => {
+    expect(mockedCore.getInput.mock.calls).toMatchSnapshot('core.getInput');
+    expect(mockedTc.downloadTool.mock.calls).toMatchSnapshot('tc.downloadTool');
+    expect(mockedTc.extractTar.mock.calls).toMatchSnapshot('tc.extractTar');
+});
+
 describe('getArgs', () => {
     test('bad version', async () => {
         mockedCore.getInput.mockImplementation((name, options) => {
