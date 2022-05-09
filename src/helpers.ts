@@ -23,7 +23,7 @@ export async function getArgs() {
     const pyrightInfo = await getPyrightInfo();
     const pyrightPath = await downloadPyright(pyrightInfo);
 
-    const args = [pyrightPath];
+    const args = [path.join(pyrightPath, 'package', 'index.js')];
 
     const workingDirectory = core.getInput('working-directory');
 
@@ -99,12 +99,19 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
     return input.toUpperCase() === 'TRUE';
 }
 
+const pyrightToolName = 'pyright';
+
 async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
-    const pyrightTarball = await tc.downloadTool(info.dist.tarball);
-    const pyright = await tc.extractTar(pyrightTarball);
-    return path.join(pyright, 'package', 'index.js');
+    const found = tc.find(pyrightToolName, info.version);
+    if (found) {
+        return found;
+    }
+
+    const tarballPath = await tc.downloadTool(info.dist.tarball);
+    const extractedPath = await tc.extractTar(tarballPath);
+    return await tc.cacheDir(extractedPath, pyrightToolName, info.version);
 }
 
 async function getPyrightInfo(): Promise<NpmRegistryResponse> {

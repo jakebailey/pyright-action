@@ -4324,7 +4324,7 @@ var require_tool_cache = __commonJS({
         yield exec_1.exec(`"${unzipPath}"`, args, { cwd: dest });
       });
     }
-    function cacheDir(sourceDir, tool, version2, arch) {
+    function cacheDir2(sourceDir, tool, version2, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         version2 = semver.clean(version2) || version2;
         arch = arch || os.arch();
@@ -4342,7 +4342,7 @@ var require_tool_cache = __commonJS({
         return destPath;
       });
     }
-    exports.cacheDir = cacheDir;
+    exports.cacheDir = cacheDir2;
     function cacheFile(sourceFile, targetFile, tool, version2, arch) {
       return __awaiter(this, void 0, void 0, function* () {
         version2 = semver.clean(version2) || version2;
@@ -4361,7 +4361,7 @@ var require_tool_cache = __commonJS({
       });
     }
     exports.cacheFile = cacheFile;
-    function find(toolName, versionSpec, arch) {
+    function find2(toolName, versionSpec, arch) {
       if (!toolName) {
         throw new Error("toolName parameter is required");
       }
@@ -4388,7 +4388,7 @@ var require_tool_cache = __commonJS({
       }
       return toolPath;
     }
-    exports.find = find;
+    exports.find = find2;
     function findAllVersions(toolName, arch) {
       const versions = [];
       arch = arch || os.arch();
@@ -5954,7 +5954,7 @@ function getNodeInfo() {
 async function getArgs() {
   const pyrightInfo = await getPyrightInfo();
   const pyrightPath = await downloadPyright(pyrightInfo);
-  const args = [pyrightPath];
+  const args = [path.join(pyrightPath, "package", "index.js")];
   const workingDirectory = core.getInput("working-directory");
   const noComments = getBooleanInput("no-comments", false);
   if (!noComments) {
@@ -6016,10 +6016,15 @@ function getBooleanInput(name, defaultValue) {
   }
   return input.toUpperCase() === "TRUE";
 }
+var pyrightToolName = "pyright";
 async function downloadPyright(info2) {
-  const pyrightTarball = await tc.downloadTool(info2.dist.tarball);
-  const pyright = await tc.extractTar(pyrightTarball);
-  return path.join(pyright, "package", "index.js");
+  const found = tc.find(pyrightToolName, info2.version);
+  if (found) {
+    return found;
+  }
+  const tarballPath = await tc.downloadTool(info2.dist.tarball);
+  const extractedPath = await tc.extractTar(tarballPath);
+  return await tc.cacheDir(extractedPath, pyrightToolName, info2.version);
 }
 async function getPyrightInfo() {
   const version2 = await getPyrightVersion();

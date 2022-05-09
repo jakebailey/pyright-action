@@ -2,6 +2,7 @@ import * as core from '@actions/core';
 import * as httpClient from '@actions/http-client';
 import * as tc from '@actions/tool-cache';
 import type { IncomingMessage } from 'http';
+import * as path from 'path';
 
 jest.mock('@actions/core');
 const mockedCore = jest.mocked(core);
@@ -16,12 +17,16 @@ import { NpmRegistryResponse } from './schema';
 
 beforeEach(() => {
     jest.clearAllMocks();
+    mockedTc.find.mockReturnValue('');
+    mockedTc.cacheDir.mockImplementation(async (dir) => path.join('/cached', dir));
 });
 
 afterEach(() => {
     expect(mockedCore.getInput.mock.calls).toMatchSnapshot('core.getInput');
     expect(mockedTc.downloadTool.mock.calls).toMatchSnapshot('tc.downloadTool');
     expect(mockedTc.extractTar.mock.calls).toMatchSnapshot('tc.extractTar');
+    expect(mockedTc.find.mock.calls).toMatchSnapshot('tc.find');
+    expect(mockedTc.cacheDir.mock.calls).toMatchSnapshot('tc.cacheDir');
 });
 
 describe('getArgs', () => {
@@ -120,6 +125,14 @@ describe('getArgs', () => {
         test('version not found', async () => {
             inputs.set('version', '1.1.404');
             expect(getArgs()).rejects.toThrowError('version not found: 1.1.404');
+        });
+
+        test('cached', async () => {
+            mockedTc.find.mockReturnValue('/cached/path/to/pyright');
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot('result');
+            expect(mockedTc.cacheDir).toBeCalledTimes(0);
         });
     });
 });
