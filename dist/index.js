@@ -4914,1406 +4914,6 @@ var require_string_argv = __commonJS({
   }
 });
 
-// node_modules/myzod/libs/types.js
-var require_types = __commonJS({
-  "node_modules/myzod/libs/types.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.LazyType = exports.PartialType = exports.EnumType = exports.IntersectionType = exports.UnionType = exports.TupleType = exports.ArrayType = exports.ObjectType = exports.keySignature = exports.DateType = exports.NullableType = exports.OptionalType = exports.UnknownType = exports.LiteralType = exports.NullType = exports.UndefinedType = exports.BigIntType = exports.NumberType = exports.BooleanType = exports.StringType = exports.ValidationError = exports.Type = void 0;
-    function clone(value) {
-      if (typeof value !== "object" || value === null) {
-        return value;
-      }
-      if (Array.isArray(value)) {
-        return value.map((elem) => clone(elem));
-      }
-      const cpy = /* @__PURE__ */ Object.create(null);
-      for (const k in value) {
-        cpy[k] = clone(value[k]);
-      }
-      for (const s of Object.getOwnPropertySymbols(value)) {
-        cpy[s] = clone(value[s]);
-      }
-      Object.setPrototypeOf(cpy, Object.getPrototypeOf(value));
-      return cpy;
-    }
-    var typeErrSym = Symbol("typeError");
-    var coercionTypeSymbol = Symbol("coercion");
-    var Type = class {
-      constructor() {
-      }
-      or(schema) {
-        return new UnionType([this, schema]);
-      }
-      optional() {
-        if (this instanceof OptionalType) {
-          return clone(this);
-        }
-        return new OptionalType(this);
-      }
-      nullable() {
-        if (this instanceof NullableType) {
-          return clone(this);
-        }
-        return new NullableType(this);
-      }
-      try(value) {
-        try {
-          return this.parse.apply(this, arguments);
-        } catch (err) {
-          return err;
-        }
-      }
-      map(fn) {
-        return new MTypeClass(this, fn);
-      }
-      onTypeError(msg) {
-        const cpy = clone(this);
-        cpy[typeErrSym] = msg;
-        return cpy;
-      }
-      typeError(msg) {
-        const errMsg = (() => {
-          const typErrValue = this[typeErrSym];
-          if (typErrValue === void 0) {
-            return msg;
-          }
-          if (typeof typErrValue === "function") {
-            return typErrValue();
-          }
-          return typErrValue;
-        })();
-        return new ValidationError(errMsg);
-      }
-    };
-    exports.Type = Type;
-    var MTypeClass = class extends Type {
-      constructor(schema, mapFn) {
-        super();
-        this.schema = schema;
-        this.mapFn = mapFn;
-        this.predicates = null;
-        this[coercionTypeSymbol] = true;
-      }
-      parse(value) {
-        const ret = value === void 0 && this.defaultValue ? typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue : this.mapFn(this.schema.parse(value));
-        if (this.predicates) {
-          applyPredicates(this.predicates, ret);
-        }
-        return ret;
-      }
-      and(other) {
-        throw new Error("mapped types cannot be intersected");
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    var ValidationError = class extends Error {
-      constructor(message, path2, collectedErrors) {
-        if (collectedErrors !== void 0) {
-          message = Object.values(collectedErrors).map((err) => `error parsing object at path: "${prettyPrintPath((err === null || err === void 0 ? void 0 : err.path) || [])}" - ${err === null || err === void 0 ? void 0 : err.message}`).join("\n");
-        }
-        super(message);
-        this.name = "MyZodError";
-        this.path = path2;
-        this.collectedErrors = collectedErrors;
-      }
-    };
-    exports.ValidationError = ValidationError;
-    function typeOf(value) {
-      if (value === null) {
-        return "null";
-      }
-      if (Array.isArray(value)) {
-        return "array";
-      }
-      return typeof value;
-    }
-    function prettyPrintPath(path2) {
-      return path2.reduce((acc, elem, idx) => {
-        if (typeof elem === "number") {
-          acc += `[${elem}]`;
-        } else if (idx === 0) {
-          acc += elem;
-        } else {
-          acc += "." + elem;
-        }
-        return acc;
-      }, "");
-    }
-    var allowUnknownSymbol = Symbol("allowUnknown");
-    var shapekeysSymbol = Symbol("shapeKeys");
-    var normalizePredicates = (predicate) => {
-      if (!predicate) {
-        return null;
-      }
-      if (typeof predicate === "function") {
-        return [{ func: predicate }];
-      }
-      if (Array.isArray(predicate)) {
-        return predicate;
-      }
-      return [predicate];
-    };
-    var applyPredicates = (predicates, value) => {
-      try {
-        for (const predicate of predicates) {
-          if (!predicate.func(value)) {
-            throw new ValidationError(predicate.errMsg ? typeof predicate.errMsg === "function" ? predicate.errMsg(value) : predicate.errMsg : "failed anonymous predicate function");
-          }
-        }
-      } catch (err) {
-        if (err instanceof ValidationError) {
-          throw err;
-        }
-        throw new ValidationError(err.message);
-      }
-    };
-    var appendPredicate = (predicates, pred) => {
-      if (!predicates) {
-        return [pred];
-      }
-      return [...predicates, pred];
-    };
-    var withPredicate = (schema, predicate) => {
-      const cpy = clone(schema);
-      cpy.predicates = appendPredicate(cpy.predicates, predicate);
-      return cpy;
-    };
-    var withDefault = (schema, value) => {
-      const cpy = clone(schema);
-      cpy[coercionTypeSymbol] = true;
-      cpy.defaultValue = value;
-      return cpy;
-    };
-    var StringType = class extends Type {
-      constructor(opts) {
-        super();
-        this.predicates = normalizePredicates(opts === null || opts === void 0 ? void 0 : opts.predicate);
-        this.defaultValue = opts === null || opts === void 0 ? void 0 : opts.default;
-        this[coercionTypeSymbol] = (opts === null || opts === void 0 ? void 0 : opts.default) !== void 0;
-        let self = this;
-        if (typeof (opts === null || opts === void 0 ? void 0 : opts.min) !== "undefined") {
-          self = self.min(opts.min);
-        }
-        if (typeof (opts === null || opts === void 0 ? void 0 : opts.max) !== "undefined") {
-          self = self.max(opts.max);
-        }
-        if (typeof (opts === null || opts === void 0 ? void 0 : opts.pattern) !== "undefined") {
-          self = self.pattern(opts.pattern);
-        }
-        if (opts === null || opts === void 0 ? void 0 : opts.valid) {
-          self = self.valid(opts.valid);
-        }
-        return self;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        if (typeof value !== "string") {
-          throw this.typeError("expected type to be string but got " + typeOf(value));
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      pattern(regexp, errMsg) {
-        return this.withPredicate((value) => regexp.test(value), errMsg || `expected string to match pattern ${regexp} but did not`);
-      }
-      min(x, errMsg) {
-        return this.withPredicate((value) => value.length >= x, errMsg || ((value) => `expected string to have length greater than or equal to ${x} but had length ${value.length}`));
-      }
-      max(x, errMsg) {
-        return this.withPredicate((value) => value.length <= x, errMsg || ((value) => `expected string to have length less than or equal to ${x} but had length ${value.length}`));
-      }
-      valid(list, errMsg) {
-        return this.withPredicate((value) => list.includes(value), errMsg || `expected string to be one of: ${JSON.stringify(list)}`);
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.StringType = StringType;
-    var BooleanType = class extends Type {
-      constructor(defaultValue) {
-        super();
-        this.defaultValue = defaultValue;
-        this[coercionTypeSymbol] = defaultValue !== void 0;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        if (typeof value !== "boolean") {
-          throw this.typeError("expected type to be boolean but got " + typeOf(value));
-        }
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.BooleanType = BooleanType;
-    var NumberType = class extends Type {
-      constructor(opts = {}) {
-        super();
-        this.coerceFlag = opts.coerce;
-        this.predicates = normalizePredicates(opts.predicate);
-        this.defaultValue = opts.default;
-        this[coercionTypeSymbol] = !!opts.coerce || opts.default !== void 0;
-        let self = this;
-        if (typeof opts.max !== "undefined") {
-          self = self.max(opts.max);
-        }
-        if (typeof opts.min !== "undefined") {
-          self = self.min(opts.min);
-        }
-        return self;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        if (this.coerceFlag && typeof value === "string") {
-          const number = parseFloat(value);
-          if (isNaN(number)) {
-            throw this.typeError("expected type to be number but got string");
-          }
-          return this.parse(number);
-        }
-        if (typeof value !== "number") {
-          throw this.typeError("expected type to be number but got " + typeOf(value));
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      min(x, errMsg) {
-        return this.withPredicate((value) => value >= x, errMsg || ((value) => `expected number to be greater than or equal to ${x} but got ${value}`));
-      }
-      max(x, errMsg) {
-        return this.withPredicate((value) => value <= x, errMsg || ((value) => `expected number to be less than or equal to ${x} but got ${value}`));
-      }
-      coerce(value) {
-        return new NumberType({
-          predicate: this.predicates || void 0,
-          coerce: value !== void 0 ? value : true,
-          default: this.defaultValue
-        });
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.NumberType = NumberType;
-    var BigIntType = class extends Type {
-      constructor(opts = {}) {
-        super();
-        this[coercionTypeSymbol] = true;
-        this.predicates = normalizePredicates(opts.predicate);
-        this.defaultValue = opts.default;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        try {
-          const int = BigInt(value);
-          if (this.predicates) {
-            applyPredicates(this.predicates, int);
-          }
-          return int;
-        } catch (err) {
-          if (err instanceof ValidationError) {
-            throw err;
-          }
-          throw this.typeError("expected type to be bigint interpretable - " + err.message.toLowerCase());
-        }
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      min(x, errMsg) {
-        return this.withPredicate((value) => value >= x, errMsg || ((value) => `expected bigint to be greater than or equal to ${x} but got ${value}`));
-      }
-      max(x, errMsg) {
-        return this.withPredicate((value) => value <= x, errMsg || ((value) => `expected bigint to be less than or equal to ${x} but got ${value}`));
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.BigIntType = BigIntType;
-    var UndefinedType = class extends Type {
-      parse(value) {
-        if (value !== void 0) {
-          throw this.typeError("expected type to be undefined but got " + typeOf(value));
-        }
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-    };
-    exports.UndefinedType = UndefinedType;
-    var NullType = class extends Type {
-      constructor() {
-        super();
-      }
-      parse(value = this.defaultValue) {
-        if (value !== null) {
-          throw this.typeError("expected type to be null but got " + typeOf(value));
-        }
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      default() {
-        return withDefault(this, null);
-      }
-    };
-    exports.NullType = NullType;
-    var LiteralType = class extends Type {
-      constructor(literal) {
-        super();
-        this.literal = literal;
-      }
-      parse(value = this.defaultValue) {
-        if (value !== this.literal) {
-          const typeofValue = typeof value !== "object" ? JSON.stringify(value) : typeOf(value);
-          throw this.typeError(`expected value to be literal ${JSON.stringify(this.literal)} but got ${typeofValue}`);
-        }
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      default() {
-        return withDefault(this, this.literal);
-      }
-    };
-    exports.LiteralType = LiteralType;
-    var UnknownType = class extends Type {
-      constructor() {
-        super();
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.UnknownType = UnknownType;
-    var OptionalType = class extends Type {
-      constructor(schema) {
-        super();
-        this.schema = schema;
-        this[coercionTypeSymbol] = this.schema[coercionTypeSymbol];
-        this[shapekeysSymbol] = this.schema[shapekeysSymbol];
-        this[allowUnknownSymbol] = this.schema[allowUnknownSymbol];
-      }
-      parse(value, opts) {
-        if (value === void 0) {
-          return void 0;
-        }
-        return this.schema.parse(value, opts);
-      }
-      required() {
-        return clone(this.schema);
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-    };
-    exports.OptionalType = OptionalType;
-    var NullableType = class extends Type {
-      constructor(schema) {
-        super();
-        this.schema = schema;
-        this[coercionTypeSymbol] = this.schema[coercionTypeSymbol];
-        this[shapekeysSymbol] = this.schema[shapekeysSymbol];
-        this[allowUnknownSymbol] = this.schema[allowUnknownSymbol];
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        if (value === null) {
-          return null;
-        }
-        return this.schema.parse(value);
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      required() {
-        return clone(this.schema);
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.NullableType = NullableType;
-    var DateType = class extends Type {
-      constructor(opts) {
-        super();
-        this[coercionTypeSymbol] = true;
-        this.predicates = normalizePredicates(opts === null || opts === void 0 ? void 0 : opts.predicate);
-        this.defaultValue = opts === null || opts === void 0 ? void 0 : opts.default;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        const date = typeof value === "string" ? this.stringToDate(value) : this.assertDate(value);
-        if (this.predicates) {
-          applyPredicates(this.predicates, date);
-        }
-        return date;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-      stringToDate(str) {
-        const date = new Date(str);
-        if (isNaN(date.getTime())) {
-          throw this.typeError(`expected date string to be valid date`);
-        }
-        return date;
-      }
-      assertDate(date) {
-        if (!(date instanceof Date)) {
-          throw this.typeError("expected type Date but got " + typeOf(date));
-        }
-        return date;
-      }
-    };
-    exports.DateType = DateType;
-    exports.keySignature = Symbol("keySignature");
-    var ObjectType = class extends Type {
-      constructor(objectShape, opts) {
-        super();
-        this.objectShape = objectShape;
-        this.predicates = normalizePredicates(opts === null || opts === void 0 ? void 0 : opts.predicate);
-        this.defaultValue = opts === null || opts === void 0 ? void 0 : opts.default;
-        this.shouldCollectErrors = (opts === null || opts === void 0 ? void 0 : opts.collectErrors) === true;
-        const keys = Object.keys(this.objectShape);
-        this[exports.keySignature] = this.objectShape[exports.keySignature];
-        this[allowUnknownSymbol] = (opts === null || opts === void 0 ? void 0 : opts.allowUnknown) === true;
-        this[shapekeysSymbol] = keys;
-        this[coercionTypeSymbol] = this.defaultValue !== void 0 || this[allowUnknownSymbol] || Object.values(this.objectShape).some((schema) => schema[coercionTypeSymbol]) || !!(this.objectShape[exports.keySignature] && this.objectShape[exports.keySignature][coercionTypeSymbol]);
-        this._parse = this.selectParser();
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue, parseOpts = {}) {
-        if (typeof value !== "object" || value === null || Array.isArray(value)) {
-          throw this.typeError("expected type to be object but got " + typeOf(value));
-        }
-        const keys = this[shapekeysSymbol];
-        const allowUnknown = parseOpts.allowUnknown || this[allowUnknownSymbol];
-        if (!allowUnknown && !this.objectShape[exports.keySignature]) {
-          const illegalKeys = [];
-          for (const k in value) {
-            if (!keys.includes(k)) {
-              illegalKeys.push(k);
-            }
-          }
-          if (illegalKeys.length > 0) {
-            throw this.typeError("unexpected keys on object: " + JSON.stringify(illegalKeys));
-          }
-        }
-        return this._parse(value, parseOpts);
-      }
-      buildPathError(err, key, parseOpts) {
-        const path2 = err.path ? [key, ...err.path] : [key];
-        const msg = parseOpts.suppressPathErrMsg ? err.message : `error parsing object at path: "${prettyPrintPath(path2)}" - ${err.message}`;
-        return new ValidationError(msg, path2);
-      }
-      selectParser() {
-        if (this[shapekeysSymbol].length === 0 && this[exports.keySignature]) {
-          if (this[coercionTypeSymbol] && this.shouldCollectErrors) {
-            return this.parseRecordConvCollect;
-          }
-          if (this[coercionTypeSymbol]) {
-            return this.parseRecordConv;
-          }
-          if (this.shouldCollectErrors) {
-            return this.parseRecordCollect;
-          }
-          return this.parseRecord;
-        }
-        if (this[exports.keySignature]) {
-          if (this[coercionTypeSymbol] && this.shouldCollectErrors) {
-            return this.parseMixRecordConvCollect;
-          }
-          if (this[coercionTypeSymbol]) {
-            return this.parseMixRecordConv;
-          }
-          if (this.shouldCollectErrors) {
-            return this.parseMixRecordCollect;
-          }
-          return this.parseMixRecord;
-        }
-        if (this[coercionTypeSymbol] && this.shouldCollectErrors) {
-          return this.parseObjectConvCollect;
-        }
-        if (this[coercionTypeSymbol]) {
-          return this.parseObjectConv;
-        }
-        if (this.shouldCollectErrors) {
-          return this.parseObjectCollect;
-        }
-        return this.parseObject;
-      }
-      parseObject(value, parseOpts) {
-        for (const key of this[shapekeysSymbol]) {
-          try {
-            const schema = this.objectShape[key];
-            if (schema instanceof UnknownType && !value.hasOwnProperty(key)) {
-              throw schema.typeError(`expected key "${key}" of unknown type to be present on object`);
-            }
-            schema.parse(value[key], { suppressPathErrMsg: true });
-          } catch (err) {
-            throw this.buildPathError(err, key, parseOpts);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      parseObjectCollect(value, parseOpts) {
-        let hasError = false;
-        const errs = {};
-        for (const key of this[shapekeysSymbol]) {
-          const schema = this.objectShape[key];
-          if (schema instanceof UnknownType && !value.hasOwnProperty(key)) {
-            hasError = true;
-            errs[key] = this.buildPathError(schema.typeError(`expected key "${key}" of unknown type to be present on object`), key, { suppressPathErrMsg: true });
-            continue;
-          }
-          const result = schema.try(value[key], { suppressPathErrMsg: true });
-          if (result instanceof ValidationError) {
-            hasError = true;
-            errs[key] = this.buildPathError(result, key, { suppressPathErrMsg: true });
-          }
-        }
-        if (hasError) {
-          throw new ValidationError("", void 0, errs);
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      parseObjectConv(value, parseOpts) {
-        const convVal = {};
-        for (const key of this[shapekeysSymbol]) {
-          try {
-            const schema = this.objectShape[key];
-            if (schema instanceof UnknownType && !value.hasOwnProperty(key)) {
-              throw schema.typeError(`expected key "${key}" of unknown type to be present on object`);
-            }
-            convVal[key] = schema.parse(value[key], { suppressPathErrMsg: true });
-          } catch (err) {
-            throw this.buildPathError(err, key, parseOpts);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convVal);
-        }
-        return convVal;
-      }
-      parseObjectConvCollect(value, parseOpts) {
-        const convVal = {};
-        const errs = {};
-        let hasError = false;
-        for (const key of this[shapekeysSymbol]) {
-          const schema = this.objectShape[key];
-          if (schema instanceof UnknownType && !value.hasOwnProperty(key)) {
-            hasError = true;
-            errs[key] = this.buildPathError(schema.typeError(`expected key "${key}" of unknown type to be present on object`), key, { suppressPathErrMsg: true });
-            continue;
-          }
-          const result = schema.try(value[key], { suppressPathErrMsg: true });
-          if (result instanceof ValidationError) {
-            hasError = true;
-            errs[key] = this.buildPathError(result, key, { suppressPathErrMsg: true });
-          } else {
-            convVal[key] = result;
-          }
-        }
-        if (hasError) {
-          throw new ValidationError("", void 0, errs);
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convVal);
-        }
-        return convVal;
-      }
-      parseRecord(value, parseOpts) {
-        for (const key in value) {
-          try {
-            this[exports.keySignature].parse(value[key], { suppressPathErrMsg: true });
-          } catch (err) {
-            throw this.buildPathError(err, key, parseOpts);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      parseRecordCollect(value, parseOpts) {
-        let hasError = false;
-        const errs = {};
-        for (const key in value) {
-          const result = this[exports.keySignature].try(value[key], { suppressPathErrMsg: true });
-          if (result instanceof ValidationError) {
-            hasError = true;
-            errs[key] = this.buildPathError(result, key, { suppressPathErrMsg: true });
-          }
-        }
-        if (hasError) {
-          throw new ValidationError("", void 0, errs);
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      parseRecordConv(value, parseOpts) {
-        const convVal = {};
-        for (const key in value) {
-          try {
-            convVal[key] = this[exports.keySignature].parse(value[key], { suppressPathErrMsg: true });
-          } catch (err) {
-            throw this.buildPathError(err, key, parseOpts);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convVal);
-        }
-        return convVal;
-      }
-      parseRecordConvCollect(value, parseOpts) {
-        const convVal = {};
-        const errs = {};
-        let hasError = false;
-        for (const key in value) {
-          const result = this[exports.keySignature].try(value[key], { suppressPathErrMsg: true });
-          if (result instanceof ValidationError) {
-            hasError = true;
-            errs[key] = this.buildPathError(result, key, { suppressPathErrMsg: true });
-          } else {
-            convVal[key] = result;
-          }
-        }
-        if (hasError) {
-          throw new ValidationError("", void 0, errs);
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convVal);
-        }
-        return convVal;
-      }
-      parseMixRecord(value, parseOpts) {
-        for (const key of new Set(Object.keys(value).concat(this[shapekeysSymbol]))) {
-          try {
-            (this.objectShape[key] || this[exports.keySignature]).parse(value[key], { suppressPathErrMsg: true });
-          } catch (err) {
-            throw this.buildPathError(err, key, parseOpts);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      parseMixRecordCollect(value, parseOpts) {
-        let hasError = false;
-        const errs = {};
-        for (const key of new Set(Object.keys(value).concat(this[shapekeysSymbol]))) {
-          const result = (this.objectShape[key] || this[exports.keySignature]).try(value[key], {
-            suppressPathErrMsg: true
-          });
-          if (result instanceof ValidationError) {
-            hasError = true;
-            errs[key] = this.buildPathError(result, key, { suppressPathErrMsg: true });
-          }
-        }
-        if (hasError) {
-          throw new ValidationError("", void 0, errs);
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, value);
-        }
-        return value;
-      }
-      parseMixRecordConv(value, parseOpts) {
-        const convVal = {};
-        for (const key of new Set(Object.keys(value).concat(this[shapekeysSymbol]))) {
-          try {
-            convVal[key] = (this.objectShape[key] || this[exports.keySignature]).parse(value[key], {
-              suppressPathErrMsg: true
-            });
-          } catch (err) {
-            throw this.buildPathError(err, key, parseOpts);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convVal);
-        }
-        return convVal;
-      }
-      parseMixRecordConvCollect(value, parseOpts) {
-        const convVal = {};
-        const errs = {};
-        let hasError = false;
-        for (const key of new Set(Object.keys(value).concat(this[shapekeysSymbol]))) {
-          const result = (this.objectShape[key] || this[exports.keySignature]).try(value[key], {
-            suppressPathErrMsg: true
-          });
-          if (result instanceof ValidationError) {
-            hasError = true;
-            errs[key] = this.buildPathError(result, key, { suppressPathErrMsg: true });
-          } else {
-            convVal[key] = result;
-          }
-        }
-        if (hasError) {
-          throw new ValidationError("", void 0, errs);
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convVal);
-        }
-        return convVal;
-      }
-      and(schema) {
-        if (schema instanceof ObjectType) {
-          const keySet = /* @__PURE__ */ new Set([...this[shapekeysSymbol], ...schema[shapekeysSymbol]]);
-          const intersectShape = Array.from(keySet).reduce((acc, key) => {
-            if (this.objectShape[key] && schema.objectShape[key]) {
-              acc[key] = this.objectShape[key].and(schema.objectShape[key]);
-            } else if (this.objectShape[key]) {
-              acc[key] = this.objectShape[key];
-            } else {
-              acc[key] = schema.objectShape[key];
-            }
-            return acc;
-          }, {});
-          const selfKeySig = this.objectShape[exports.keySignature];
-          const targetKeySig = schema[exports.keySignature];
-          if (selfKeySig && targetKeySig) {
-            intersectShape[exports.keySignature] = selfKeySig.and(targetKeySig);
-          } else if (selfKeySig || targetKeySig) {
-            intersectShape[exports.keySignature] = selfKeySig || targetKeySig;
-          }
-          return new ObjectType(intersectShape);
-        }
-        return new IntersectionType(this, schema);
-      }
-      pick(keys, opts) {
-        const pickedShape = keys.reduce((acc, key) => {
-          if (this.objectShape[key] || this.objectShape[exports.keySignature]) {
-            acc[key] = this.objectShape[key] || this.objectShape[exports.keySignature];
-          }
-          return acc;
-        }, {});
-        return new ObjectType(pickedShape, opts);
-      }
-      omit(keys, opts) {
-        const pickedKeys = this[shapekeysSymbol].filter((x) => !keys.includes(x));
-        if (!this[exports.keySignature]) {
-          return this.pick(pickedKeys, opts);
-        }
-        return this.pick(pickedKeys, opts).and(new ObjectType({ [exports.keySignature]: this[exports.keySignature] }));
-      }
-      partial(opts) {
-        const originalShape = this.objectShape;
-        const shape = Object.keys(originalShape).reduce((acc, key) => {
-          if (opts === null || opts === void 0 ? void 0 : opts.deep) {
-            acc[key] = toPartialSchema(originalShape[key], opts).optional();
-          } else {
-            acc[key] = originalShape[key].optional();
-          }
-          return acc;
-        }, {});
-        const keysig = originalShape[exports.keySignature];
-        if (keysig) {
-          if (opts === null || opts === void 0 ? void 0 : opts.deep) {
-            shape[exports.keySignature] = toPartialSchema(keysig, opts).optional();
-          } else {
-            shape[exports.keySignature] = keysig.optional();
-          }
-        }
-        return new ObjectType(shape, { allowUnknown: this[allowUnknownSymbol] });
-      }
-      shape() {
-        return Object.assign({}, this.objectShape);
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        const cpy = withDefault(this, value);
-        cpy._parse = cpy.selectParser();
-        return cpy;
-      }
-      collectErrors(value = true) {
-        const cpy = clone(this);
-        cpy.shouldCollectErrors = value;
-        cpy._parse = cpy.selectParser();
-        return cpy;
-      }
-      allowUnknownKeys(value = true) {
-        const cpy = clone(this);
-        cpy[allowUnknownSymbol] = value;
-        cpy[coercionTypeSymbol] = cpy[coercionTypeSymbol] || value;
-        cpy._parse = cpy.selectParser();
-        return cpy;
-      }
-    };
-    exports.ObjectType = ObjectType;
-    var ArrayType = class extends Type {
-      constructor(schema, opts = {}) {
-        super();
-        this.schema = schema;
-        this.predicates = normalizePredicates(opts.predicate);
-        this.defaultValue = opts.default;
-        this.coerceFn = opts.coerce;
-        this[coercionTypeSymbol] = typeof this.coerceFn === "function" || this.defaultValue !== void 0 || this.schema[coercionTypeSymbol];
-        this._parse = this.schema instanceof ObjectType || this.schema instanceof ArrayType || this.schema instanceof LazyType ? (elem, parseOptions) => this.schema.parse(elem, {
-          allowUnknown: parseOptions === null || parseOptions === void 0 ? void 0 : parseOptions.allowUnknown,
-          suppressPathErrMsg: true
-        }) : (elem) => this.schema.parse(elem);
-        let self = this;
-        if (typeof opts.length !== "undefined") {
-          self = self.length(opts.length);
-        }
-        if (typeof opts.min !== "undefined") {
-          self = self.min(opts.min);
-        }
-        if (typeof opts.max !== "undefined") {
-          self = self.max(opts.max);
-        }
-        if (opts.unique === true) {
-          self = self.unique();
-        }
-        return self;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue, parseOptions) {
-        if (typeof value === "string" && typeof this.coerceFn === "function" && !(parseOptions === null || parseOptions === void 0 ? void 0 : parseOptions.coerced)) {
-          try {
-            return this.parse(this.coerceFn(value), Object.assign(Object.assign({}, parseOptions), { coerced: true }));
-          } catch (e) {
-            if (e instanceof ValidationError) {
-              throw e;
-            }
-            throw new ValidationError("error coercing string value to array - " + e.message);
-          }
-        }
-        if (!Array.isArray(value)) {
-          throw this.typeError("expected an array but got " + typeOf(value));
-        }
-        const convValue = this[coercionTypeSymbol] ? [] : void 0;
-        for (let i = 0; i < value.length; i++) {
-          try {
-            if (convValue) {
-              convValue[i] = this._parse(value[i]);
-            } else {
-              this._parse(value[i], parseOptions);
-            }
-          } catch (err) {
-            const path2 = err.path ? [i, ...err.path] : [i];
-            const msg = (parseOptions === null || parseOptions === void 0 ? void 0 : parseOptions.suppressPathErrMsg) ? err.message : `error at ${prettyPrintPath(path2)} - ${err.message}`;
-            throw new ValidationError(msg, path2);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convValue || value);
-        }
-        return convValue || value;
-      }
-      length(value, errMsg) {
-        return this.withPredicate((arr) => arr.length === value, errMsg || ((arr) => `expected array to have length ${value} but got ${arr.length}`));
-      }
-      min(value, errMsg) {
-        return this.withPredicate((arr) => arr.length >= value, errMsg || ((arr) => `expected array to have length greater than or equal to ${value} but got ${arr.length}`));
-      }
-      max(value, errMsg) {
-        return this.withPredicate((arr) => arr.length <= value, errMsg || ((arr) => `expected array to have length less than or equal to ${value} but got ${arr.length}`));
-      }
-      unique() {
-        return this.withPredicate((arr) => {
-          const seenMap = /* @__PURE__ */ new Map();
-          arr.forEach((elem, idx) => {
-            const seenAt = seenMap.get(elem);
-            if (seenAt) {
-              throw new ValidationError(`expected array to be unique but found same element at indexes ${seenAt[0]} and ${idx}`);
-            }
-            seenMap.set(elem, [idx]);
-          });
-          return true;
-        });
-      }
-      and(schema) {
-        if (schema instanceof ArrayType) {
-          return new ArrayType(this.schema.and(schema.schema));
-        }
-        return new IntersectionType(this, schema);
-      }
-      coerce(fn) {
-        return new ArrayType(this.schema, {
-          default: this.defaultValue,
-          coerce: fn,
-          predicate: this.predicates || void 0
-        });
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.ArrayType = ArrayType;
-    var TupleType = class extends Type {
-      constructor(schemas, opts) {
-        super();
-        this.schemas = schemas;
-        this.predicates = normalizePredicates(opts === null || opts === void 0 ? void 0 : opts.predicate);
-        this.defaultValue = opts === null || opts === void 0 ? void 0 : opts.default;
-        this[coercionTypeSymbol] = this.defaultValue !== void 0 || schemas.some((schema) => schema[coercionTypeSymbol]);
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        if (!Array.isArray(value)) {
-          throw this.typeError("expected tuple value to be type array but got " + typeOf(value));
-        }
-        if (value.length !== this.schemas.length) {
-          throw this.typeError(`expected tuple length to be ${this.schemas.length} but got ${value.length}`);
-        }
-        const convValue = this[coercionTypeSymbol] ? [] : void 0;
-        for (let i = 0; i < this.schemas.length; i++) {
-          try {
-            if (convValue) {
-              convValue.push(this.schemas[i].parse(value[i]));
-            } else {
-              this.schemas[i].parse(value[i]);
-            }
-          } catch (err) {
-            throw new ValidationError(`error parsing tuple at index ${i}: ${err.message}`);
-          }
-        }
-        if (this.predicates) {
-          applyPredicates(this.predicates, convValue || value);
-        }
-        return convValue || value;
-      }
-      and(schema) {
-        if (schema instanceof TupleType) {
-          const otherSchemaArray = schema.schemas;
-          const nextSchemasArray = [];
-          for (let i = 0; i < Math.max(this.schemas.length, otherSchemaArray.length); i++) {
-            const current = this.schemas[i];
-            const other = otherSchemaArray[i];
-            if (current && other) {
-              nextSchemasArray.push(current.and(other));
-            } else if (current) {
-              nextSchemasArray.push(current);
-            } else {
-              nextSchemasArray.push(other);
-            }
-          }
-          return new TupleType(nextSchemasArray);
-        }
-        return new IntersectionType(this, schema);
-      }
-      withPredicate(fn, errMsg) {
-        return withPredicate(this, { func: fn, errMsg });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.TupleType = TupleType;
-    var UnionType = class extends Type {
-      constructor(schemas, opts) {
-        super();
-        this.schemas = schemas;
-        this.strict = (opts === null || opts === void 0 ? void 0 : opts.strict) !== false;
-        this.defaultValue = opts === null || opts === void 0 ? void 0 : opts.default;
-        this[coercionTypeSymbol] = (opts === null || opts === void 0 ? void 0 : opts.default) !== void 0 || schemas.some((schema) => schema[coercionTypeSymbol]);
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        const errors = /* @__PURE__ */ new Set();
-        for (const schema of this.schemas) {
-          try {
-            if (this.strict === false && schema instanceof ObjectType) {
-              return schema.parse(value, { allowUnknown: true });
-            }
-            return schema.parse(value);
-          } catch (err) {
-            errors.add(err.message);
-          }
-        }
-        const messages = Array.from(errors);
-        if (messages.length === 1) {
-          throw this.typeError(messages[0]);
-        }
-        throw this.typeError("No union satisfied:\n  " + messages.join("\n  "));
-      }
-      and(schema) {
-        const schemaIntersections = this.schemas.map((x) => x.and(schema));
-        return new UnionType(schemaIntersections, { strict: this.strict });
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-    };
-    exports.UnionType = UnionType;
-    function asUnionType(schema) {
-      if (schema instanceof UnionType) {
-        return schema;
-      }
-      if (schema instanceof IntersectionType && schema._schema instanceof UnionType) {
-        return schema._schema;
-      }
-      return null;
-    }
-    var IntersectionType = class extends Type {
-      constructor(left, right) {
-        super();
-        this.left = left;
-        this.right = right;
-        this[coercionTypeSymbol] = this.left[coercionTypeSymbol] && this.right[coercionTypeSymbol];
-        this[allowUnknownSymbol] = !!(this.left[allowUnknownSymbol] || this.right[allowUnknownSymbol]);
-        if (this.left[shapekeysSymbol] && this.right[shapekeysSymbol]) {
-          this[shapekeysSymbol] = Array.from(/* @__PURE__ */ new Set([...this.left[shapekeysSymbol], ...this.right[shapekeysSymbol]]));
-        }
-        this._schema = (() => {
-          if (this.left instanceof MTypeClass) {
-            this.left.and(this.right);
-          }
-          if (this.right instanceof MTypeClass) {
-            this.right.and(this.left);
-          }
-          const leftUnion = asUnionType(this.left);
-          if (leftUnion) {
-            return leftUnion.and(this.right);
-          }
-          const rightUnion = asUnionType(this.right);
-          if (rightUnion) {
-            return rightUnion.and(this.left);
-          }
-          if (this.left instanceof PartialType) {
-            return new IntersectionType(this.left.schema, this.right);
-          }
-          if (this.right instanceof PartialType) {
-            return new IntersectionType(this.left, this.right.schema);
-          }
-          return null;
-        })();
-      }
-      parse(value, opts) {
-        const allowUnknown = (opts === null || opts === void 0 ? void 0 : opts.allowUnknown) || this[allowUnknownSymbol];
-        if (!allowUnknown && this[shapekeysSymbol]) {
-          const expectedShapeKeys = this[shapekeysSymbol];
-          const invalidKeys = Object.keys(value).filter((key) => !expectedShapeKeys.includes(key));
-          if (invalidKeys.length > 0) {
-            throw this.typeError("unexpected keys on object " + JSON.stringify(invalidKeys));
-          }
-        }
-        if (this._schema) {
-          return this._schema.parse(value, opts);
-        }
-        this.left.parse(value);
-        this.right.parse(value);
-        return value;
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-    };
-    exports.IntersectionType = IntersectionType;
-    var EnumType = class extends Type {
-      constructor(enumeration, opts = {}) {
-        super();
-        this.enumeration = enumeration;
-        this.values = Object.values(enumeration);
-        this.coerceOpt = opts.coerce;
-        this.defaultValue = opts.defaultValue;
-        this[coercionTypeSymbol] = this.defaultValue !== void 0;
-      }
-      parse(value = typeof this.defaultValue === "function" ? this.defaultValue() : this.defaultValue) {
-        let coercedValue = value;
-        if (typeof value === "string" && this.coerceOpt === "lower") {
-          coercedValue = value.toLowerCase();
-        } else if (typeof value === "string" && this.coerceOpt === "upper") {
-          coercedValue = value.toUpperCase();
-        }
-        if (!this.values.includes(coercedValue)) {
-          throw this.typeError(`error ${JSON.stringify(value)} not part of enum values`);
-        }
-        return coercedValue;
-      }
-      check(value) {
-        return this.values.includes(value);
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-      default(value) {
-        return withDefault(this, value);
-      }
-      coerce(opt) {
-        return new EnumType(this.enumeration, { defaultValue: this.defaultValue, coerce: opt });
-      }
-    };
-    exports.EnumType = EnumType;
-    function toPartialSchema(schema, opts) {
-      if (schema instanceof ObjectType) {
-        return schema.partial({ deep: (opts === null || opts === void 0 ? void 0 : opts.deep) || false });
-      }
-      if (schema instanceof IntersectionType) {
-        return new IntersectionType(toPartialSchema(schema.left, opts), toPartialSchema(schema.right, opts));
-      }
-      if (schema instanceof UnionType) {
-        return new UnionType(schema.schemas.map((schema2) => toPartialSchema(schema2, opts)));
-      }
-      if (schema instanceof ArrayType) {
-        if (opts === null || opts === void 0 ? void 0 : opts.deep) {
-          return new ArrayType(toPartialSchema(schema.schema, opts).optional());
-        }
-        return new ArrayType(schema.schema.optional());
-      }
-      return schema;
-    }
-    var PartialType = class extends Type {
-      constructor(schema, opts) {
-        super();
-        this.schema = toPartialSchema(schema, opts);
-        this[coercionTypeSymbol] = this.schema[coercionTypeSymbol];
-      }
-      parse(value) {
-        return this.schema.parse(value);
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-    };
-    exports.PartialType = PartialType;
-    var LazyType = class extends Type {
-      constructor(fn) {
-        super();
-        this.fn = fn;
-        this[coercionTypeSymbol] = true;
-      }
-      parse(value, opts) {
-        const schema = this.fn();
-        if ((opts === null || opts === void 0 ? void 0 : opts.suppressPathErrMsg) && schema instanceof ObjectType) {
-          return schema.parse(value, opts);
-        }
-        return schema.parse(value);
-      }
-      and(schema) {
-        return new IntersectionType(this, schema);
-      }
-    };
-    exports.LazyType = LazyType;
-  }
-});
-
-// node_modules/myzod/libs/index.js
-var require_libs = __commonJS({
-  "node_modules/myzod/libs/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.required = exports.enum = exports.null = exports.undefined = exports.omit = exports.pick = exports.partial = exports.lazy = exports.date = exports.tuple = exports.dictionary = exports.record = exports.literals = exports.intersection = exports.union = exports.array = exports.object = exports.literal = exports.unknown = exports.bigint = exports.number = exports.boolean = exports.string = exports.IntersectionType = exports.UnionType = exports.UnknownType = exports.DateType = exports.OptionalType = exports.NullableType = exports.TupleType = exports.ArrayType = exports.ObjectType = exports.NullType = exports.UndefinedType = exports.StringType = exports.BooleanType = exports.NumberType = exports.keySignature = exports.Type = exports.ValidationError = void 0;
-    var types_1 = require_types();
-    var types_2 = require_types();
-    var types_3 = require_types();
-    Object.defineProperty(exports, "ValidationError", { enumerable: true, get: function() {
-      return types_3.ValidationError;
-    } });
-    Object.defineProperty(exports, "Type", { enumerable: true, get: function() {
-      return types_3.Type;
-    } });
-    Object.defineProperty(exports, "keySignature", { enumerable: true, get: function() {
-      return types_3.keySignature;
-    } });
-    Object.defineProperty(exports, "NumberType", { enumerable: true, get: function() {
-      return types_3.NumberType;
-    } });
-    Object.defineProperty(exports, "BooleanType", { enumerable: true, get: function() {
-      return types_3.BooleanType;
-    } });
-    Object.defineProperty(exports, "StringType", { enumerable: true, get: function() {
-      return types_3.StringType;
-    } });
-    Object.defineProperty(exports, "UndefinedType", { enumerable: true, get: function() {
-      return types_3.UndefinedType;
-    } });
-    Object.defineProperty(exports, "NullType", { enumerable: true, get: function() {
-      return types_3.NullType;
-    } });
-    Object.defineProperty(exports, "ObjectType", { enumerable: true, get: function() {
-      return types_3.ObjectType;
-    } });
-    Object.defineProperty(exports, "ArrayType", { enumerable: true, get: function() {
-      return types_3.ArrayType;
-    } });
-    Object.defineProperty(exports, "TupleType", { enumerable: true, get: function() {
-      return types_3.TupleType;
-    } });
-    Object.defineProperty(exports, "NullableType", { enumerable: true, get: function() {
-      return types_3.NullableType;
-    } });
-    Object.defineProperty(exports, "OptionalType", { enumerable: true, get: function() {
-      return types_3.OptionalType;
-    } });
-    Object.defineProperty(exports, "DateType", { enumerable: true, get: function() {
-      return types_3.DateType;
-    } });
-    Object.defineProperty(exports, "UnknownType", { enumerable: true, get: function() {
-      return types_3.UnknownType;
-    } });
-    Object.defineProperty(exports, "UnionType", { enumerable: true, get: function() {
-      return types_3.UnionType;
-    } });
-    Object.defineProperty(exports, "IntersectionType", { enumerable: true, get: function() {
-      return types_3.IntersectionType;
-    } });
-    var string = (opts) => new types_2.StringType(opts);
-    exports.string = string;
-    var boolean = () => new types_2.BooleanType();
-    exports.boolean = boolean;
-    var number = (opts) => new types_2.NumberType(opts);
-    exports.number = number;
-    var bigint = (opts) => new types_2.BigIntType(opts);
-    exports.bigint = bigint;
-    var unknown = () => new types_2.UnknownType();
-    exports.unknown = unknown;
-    var literal = (literal2) => new types_2.LiteralType(literal2);
-    exports.literal = literal;
-    var object = (shape, opts) => new types_2.ObjectType(shape, opts);
-    exports.object = object;
-    var array = (schema, opts) => new types_2.ArrayType(schema, opts);
-    exports.array = array;
-    var union = (schemas, opts) => new types_2.UnionType(schemas, opts);
-    exports.union = union;
-    var intersection = (l, r) => l.and(r);
-    exports.intersection = intersection;
-    var literals = (...args) => new types_2.UnionType(args.map(exports.literal));
-    exports.literals = literals;
-    var record = (schema) => new types_2.ObjectType({ [types_2.keySignature]: schema });
-    exports.record = record;
-    var dictionary = (schema) => {
-      if (schema instanceof types_2.OptionalType) {
-        return new types_2.ObjectType({ [types_2.keySignature]: schema });
-      }
-      return new types_2.ObjectType({ [types_2.keySignature]: new types_2.OptionalType(schema) });
-    };
-    exports.dictionary = dictionary;
-    var tuple = (schemas) => new types_2.TupleType(schemas);
-    exports.tuple = tuple;
-    var date = () => new types_2.DateType();
-    exports.date = date;
-    var lazy = (fn) => new types_2.LazyType(fn);
-    exports.lazy = lazy;
-    function partial(schema, opts) {
-      if (schema instanceof types_2.ObjectType) {
-        return schema.partial(opts);
-      }
-      return new types_2.PartialType(schema, opts);
-    }
-    exports.partial = partial;
-    function pick(schema, keys) {
-      return schema.pick(keys);
-    }
-    exports.pick = pick;
-    function omit(schema, keys) {
-      return schema.omit(keys);
-    }
-    exports.omit = omit;
-    var undefinedValue = () => new types_2.UndefinedType();
-    exports.undefined = undefinedValue;
-    var nullValue = () => new types_2.NullType();
-    exports.null = nullValue;
-    var enumValue = (e, opts) => new types_2.EnumType(e, opts);
-    exports.enum = enumValue;
-    exports.default = {
-      Type: types_2.Type,
-      string: exports.string,
-      boolean: exports.boolean,
-      number: exports.number,
-      bigint: exports.bigint,
-      unknown: exports.unknown,
-      literal: exports.literal,
-      literals: exports.literals,
-      date: exports.date,
-      object: exports.object,
-      array: exports.array,
-      union: exports.union,
-      intersection: exports.intersection,
-      record: exports.record,
-      dictionary: exports.dictionary,
-      tuple: exports.tuple,
-      partial,
-      pick,
-      omit,
-      required,
-      lazy: exports.lazy,
-      undefined: undefinedValue,
-      null: nullValue,
-      enum: enumValue,
-      ValidationError: types_2.ValidationError,
-      keySignature: types_2.keySignature,
-      NumberType: types_2.NumberType,
-      BooleanType: types_2.BooleanType,
-      StringType: types_2.StringType,
-      UndefinedType: types_2.UndefinedType,
-      NullType: types_2.NullType,
-      ObjectType: types_2.ObjectType,
-      ArrayType: types_2.ArrayType,
-      TupleType: types_2.TupleType,
-      NullableType: types_2.NullableType,
-      OptionalType: types_2.OptionalType,
-      DateType: types_2.DateType,
-      UnknownType: types_2.UnknownType,
-      UnionType: types_2.UnionType,
-      IntersectionType: types_1.IntersectionType
-    };
-    function required(schema) {
-      if (schema instanceof types_2.NullableType) {
-        return required(schema.required());
-      }
-      if (schema instanceof types_2.OptionalType) {
-        return required(schema.required());
-      }
-      return schema;
-    }
-    exports.required = required;
-  }
-});
-
 // src/main.ts
 var core2 = __toESM(require_core());
 var command = __toESM(require_command());
@@ -6330,40 +4930,998 @@ var import_string_argv = __toESM(require_string_argv());
 // package.json
 var version = "1.2.0";
 
+// node_modules/@badrap/valita/dist/node-mjs/index.mjs
+function joinIssues(left, right) {
+  return left ? { code: "join", left, right } : right;
+}
+function prependPath(key, tree) {
+  return { code: "prepend", key, tree };
+}
+function _collectIssues(tree, path2, issues) {
+  var _a;
+  if (tree.code === "join") {
+    _collectIssues(tree.left, path2, issues);
+    _collectIssues(tree.right, path2, issues);
+  } else if (tree.code === "prepend") {
+    path2.push(tree.key);
+    _collectIssues(tree.tree, path2, issues);
+    path2.pop();
+  } else {
+    const finalPath = path2.slice();
+    if (tree.path) {
+      finalPath.push(...tree.path);
+    }
+    if (tree.code === "custom_error" && typeof tree.error !== "string" && ((_a = tree.error) === null || _a === void 0 ? void 0 : _a.path)) {
+      finalPath.push(...tree.error.path);
+    }
+    issues.push(__spreadProps(__spreadValues({}, tree), { path: finalPath }));
+  }
+}
+function collectIssues(tree) {
+  const issues = [];
+  const path2 = [];
+  _collectIssues(tree, path2, issues);
+  return issues;
+}
+function separatedList(list, separator) {
+  if (list.length === 0) {
+    return "nothing";
+  }
+  const last = list[list.length - 1];
+  if (list.length < 2) {
+    return last;
+  }
+  return `${list.slice(0, -1).join(", ")} ${separator} ${last}`;
+}
+function formatLiteral(value) {
+  return typeof value === "bigint" ? `${value}n` : JSON.stringify(value);
+}
+function findOneIssue(tree, path2 = []) {
+  var _a;
+  if (tree.code === "join") {
+    return findOneIssue(tree.left, path2);
+  } else if (tree.code === "prepend") {
+    path2.push(tree.key);
+    return findOneIssue(tree.tree, path2);
+  } else {
+    if (tree.path) {
+      path2.push(...tree.path);
+    }
+    if (tree.code === "custom_error" && typeof tree.error !== "string" && ((_a = tree.error) === null || _a === void 0 ? void 0 : _a.path)) {
+      path2.push(...tree.error.path);
+    }
+    return __spreadProps(__spreadValues({}, tree), { path: path2 });
+  }
+}
+function countIssues(tree) {
+  if (tree.code === "join") {
+    return countIssues(tree.left) + countIssues(tree.right);
+  } else if (tree.code === "prepend") {
+    return countIssues(tree.tree);
+  } else {
+    return 1;
+  }
+}
+function formatIssueTree(issueTree) {
+  const count = countIssues(issueTree);
+  const issue = findOneIssue(issueTree);
+  const path2 = issue.path || [];
+  let message = "validation failed";
+  if (issue.code === "invalid_type") {
+    message = `expected ${separatedList(issue.expected, "or")}`;
+  } else if (issue.code === "invalid_literal") {
+    message = `expected ${separatedList(issue.expected.map(formatLiteral), "or")}`;
+  } else if (issue.code === "missing_value") {
+    message = `missing value`;
+  } else if (issue.code === "unrecognized_keys") {
+    const keys = issue.keys;
+    message = `unrecognized ${keys.length === 1 ? "key" : "keys"} ${separatedList(keys.map(formatLiteral), "and")}`;
+  } else if (issue.code === "invalid_length") {
+    const min = issue.minLength;
+    const max = issue.maxLength;
+    message = `expected an array with `;
+    if (min > 0) {
+      if (max === min) {
+        message += `${min}`;
+      } else if (max < Infinity) {
+        message += `between ${min} and ${max}`;
+      } else {
+        message += `at least ${min}`;
+      }
+    } else {
+      message += `at most ${max}`;
+    }
+    message += ` item(s)`;
+  } else if (issue.code === "custom_error") {
+    const error = issue.error;
+    if (typeof error === "string") {
+      message = error;
+    } else if (error && error.message === "string") {
+      message = error.message;
+    }
+  }
+  let msg = `${issue.code} at .${path2.join(".")} (${message})`;
+  if (count === 2) {
+    msg += ` (+ 1 other issue)`;
+  } else if (count > 2) {
+    msg += ` (+ ${count - 1} other issues)`;
+  }
+  return msg;
+}
+var ValitaError = class extends Error {
+  constructor(issueTree) {
+    super(formatIssueTree(issueTree));
+    Object.setPrototypeOf(this, new.target.prototype);
+    Object.defineProperty(this, "issueTree", { value: issueTree });
+    this.name = new.target.name;
+  }
+  get issues() {
+    const issues = collectIssues(this.issueTree);
+    Object.defineProperty(this, "issues", { value: issues });
+    return issues;
+  }
+};
+var Err = class {
+  constructor(issueTree) {
+    this.issueTree = issueTree;
+    this.ok = false;
+  }
+  get issues() {
+    const issues = collectIssues(this.issueTree);
+    Object.defineProperty(this, "issues", { value: issues });
+    return issues;
+  }
+  get message() {
+    const message = formatIssueTree(this.issueTree);
+    Object.defineProperty(this, "message", { value: message });
+    return message;
+  }
+  throw() {
+    throw new ValitaError(this.issueTree);
+  }
+};
+function isObject(v) {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+function safeSet(obj, key, value) {
+  if (key === "__proto__") {
+    Object.defineProperty(obj, key, {
+      value,
+      writable: true,
+      enumerable: true,
+      configurable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+}
+function toTerminals(type) {
+  const result = [];
+  type.toTerminals(result);
+  return result;
+}
+function hasTerminal(type, name) {
+  return toTerminals(type).some((t) => t.name === name);
+}
+var Nothing = Symbol();
+var AbstractType = class {
+  get func() {
+    const f = this.genFunc();
+    Object.defineProperty(this, "func", { value: f });
+    return f;
+  }
+  try(v, options) {
+    let mode = 1;
+    if (options && options.mode === "passthrough") {
+      mode = 0;
+    } else if (options && options.mode === "strip") {
+      mode = 2;
+    }
+    const r = this.func(v, mode);
+    if (r === true) {
+      return { ok: true, value: v };
+    } else if (r.code === "ok") {
+      return { ok: true, value: r.value };
+    } else {
+      return new Err(r);
+    }
+  }
+  parse(v, options) {
+    let mode = 1;
+    if (options && options.mode === "passthrough") {
+      mode = 0;
+    } else if (options && options.mode === "strip") {
+      mode = 2;
+    }
+    const r = this.func(v, mode);
+    if (r === true) {
+      return v;
+    } else if (r.code === "ok") {
+      return r.value;
+    } else {
+      throw new ValitaError(r);
+    }
+  }
+  optional() {
+    return new Optional(this);
+  }
+  default(defaultValue) {
+    const defaultResult = { code: "ok", value: defaultValue };
+    return new TransformType(this.optional(), (v) => {
+      return v === void 0 ? defaultResult : true;
+    });
+  }
+  assert(func, error) {
+    const err = { code: "custom_error", error };
+    return new TransformType(this, (v) => func(v) ? true : err);
+  }
+  map(func) {
+    return new TransformType(this, (v) => ({
+      code: "ok",
+      value: func(v)
+    }));
+  }
+  chain(func) {
+    return new TransformType(this, (v) => {
+      const r = func(v);
+      if (r.ok) {
+        return { code: "ok", value: r.value };
+      } else {
+        return r.issueTree;
+      }
+    });
+  }
+};
+var Type = class extends AbstractType {
+};
+var Optional = class extends AbstractType {
+  constructor(type) {
+    super();
+    this.type = type;
+    this.name = "optional";
+  }
+  genFunc() {
+    const func = this.type.func;
+    return (v, mode) => {
+      return v === void 0 || v === Nothing ? true : func(v, mode);
+    };
+  }
+  toTerminals(into) {
+    into.push(this);
+    into.push(undefined_());
+    this.type.toTerminals(into);
+  }
+};
+var ObjectType = class extends Type {
+  constructor(shape, restType, checks) {
+    super();
+    this.shape = shape;
+    this.restType = restType;
+    this.checks = checks;
+    this.name = "object";
+  }
+  toTerminals(into) {
+    into.push(this);
+  }
+  check(func, error) {
+    var _a;
+    const issue = { code: "custom_error", error };
+    return new ObjectType(this.shape, this.restType, [
+      ...(_a = this.checks) !== null && _a !== void 0 ? _a : [],
+      {
+        func,
+        issue
+      }
+    ]);
+  }
+  genFunc() {
+    const shape = this.shape;
+    const checks = this.checks;
+    const requiredKeys = [];
+    const optionalKeys = [];
+    for (const key in shape) {
+      if (hasTerminal(shape[key], "optional")) {
+        optionalKeys.push(key);
+      } else {
+        requiredKeys.push(key);
+      }
+    }
+    const requiredCount = requiredKeys.length | 0;
+    const optionalCount = optionalKeys.length | 0;
+    const totalCount = requiredCount + optionalCount | 0;
+    const keys = [...requiredKeys, ...optionalKeys];
+    const funcs = keys.map((key) => shape[key].func);
+    const invertedIndexes = /* @__PURE__ */ Object.create(null);
+    keys.forEach((key, index) => {
+      invertedIndexes[key] = ~index;
+    });
+    const invalidType = { code: "invalid_type", expected: ["object"] };
+    const missingValues = requiredKeys.map((key) => ({
+      code: "missing_value",
+      path: [key]
+    }));
+    const assignEnumerable = (to, from) => {
+      for (const key in from) {
+        safeSet(to, key, from[key]);
+      }
+      return to;
+    };
+    const assignKnown = (to, from) => {
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = from[key];
+        if (i < requiredCount || value !== void 0 || key in from) {
+          safeSet(to, key, value);
+        }
+      }
+      return to;
+    };
+    const assignAll = (to, from) => {
+      return assignKnown(assignEnumerable(to, from), from);
+    };
+    const addResult = (objResult, func, obj, key, value, mode, assign) => {
+      const keyResult = func(value, mode);
+      if (keyResult === true) {
+        if (objResult !== true && objResult.code === "ok" && value !== Nothing) {
+          safeSet(objResult.value, key, value);
+        }
+        return objResult;
+      } else if (keyResult.code === "ok") {
+        if (objResult === true) {
+          const copy = assign({}, obj);
+          safeSet(copy, key, keyResult.value);
+          return { code: "ok", value: copy };
+        } else if (objResult.code === "ok") {
+          safeSet(objResult.value, key, keyResult.value);
+          return objResult;
+        } else {
+          return objResult;
+        }
+      } else {
+        return prependIssue(prependPath(key, keyResult), objResult);
+      }
+    };
+    const prependIssue = (issue, result) => {
+      return result === true || result.code === "ok" ? issue : joinIssues(issue, result);
+    };
+    const checkRemainingKeys = (initialResult, obj, mode, requiredSeen, optionalSeen, seenIndexes, assign) => {
+      let result = initialResult;
+      const start = requiredSeen < requiredCount ? 0 : requiredCount;
+      const end = optionalSeen < optionalCount ? totalCount : requiredCount;
+      for (let i = start | 0; i < (end | 0); i = i + 1 | 0) {
+        if (i >= 32 || !(seenIndexes & 1 << i)) {
+          const key = keys[i];
+          if (key in obj) {
+            if (i < 32 || !Object.prototype.propertyIsEnumerable.call(obj, key)) {
+              result = addResult(result, funcs[i], obj, key, obj[key], mode, assign);
+            }
+          } else if (i >= requiredCount) {
+            result = addResult(result, funcs[i], obj, key, Nothing, mode, assign);
+          } else {
+            result = prependIssue(missingValues[i], result);
+          }
+        }
+      }
+      return result;
+    };
+    const strict = (obj, mode) => {
+      let result = true;
+      let requiredSeen = 0 | 0;
+      let optionalSeen = 0 | 0;
+      let seenIndexes = 0 | 0;
+      let unrecognized = void 0;
+      for (const key in obj) {
+        const value = obj[key];
+        const index = ~invertedIndexes[key] | 0;
+        if (index >= 0) {
+          if (index < requiredCount) {
+            requiredSeen = requiredSeen + 1 | 0;
+          } else {
+            optionalSeen = optionalSeen + 1 | 0;
+          }
+          if (index < 32) {
+            seenIndexes = seenIndexes | 1 << index;
+          }
+          if (index < 32 || Object.prototype.hasOwnProperty.call(obj, key)) {
+            result = addResult(result, funcs[index], obj, key, value, mode, assignKnown);
+          }
+        } else if (mode === 2) {
+          result = result === true ? { code: "ok", value: assignKnown({}, obj) } : result;
+        } else if (unrecognized === void 0) {
+          unrecognized = [key];
+        } else {
+          unrecognized.push(key);
+        }
+      }
+      if (requiredSeen + optionalSeen < totalCount) {
+        result = checkRemainingKeys(result, obj, mode, requiredSeen, optionalSeen, seenIndexes, assignKnown);
+      }
+      return unrecognized === void 0 ? result : prependIssue({
+        code: "unrecognized_keys",
+        keys: unrecognized
+      }, result);
+    };
+    const pass = (obj, mode) => {
+      let result = true;
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        let value = obj[key];
+        if (value === void 0 && !(key in obj)) {
+          if (i < requiredCount) {
+            result = prependIssue(missingValues[i], result);
+            continue;
+          }
+          value = Nothing;
+        }
+        result = addResult(result, funcs[i], obj, key, value, mode, assignKnown);
+      }
+      return result;
+    };
+    const runChecks = (obj, result) => {
+      if ((result === true || result.code === "ok") && checks) {
+        const value = result === true ? obj : result.value;
+        for (let i = 0; i < checks.length; i++) {
+          if (!checks[i].func(value)) {
+            return checks[i].issue;
+          }
+        }
+      }
+      return result;
+    };
+    if (this.restType) {
+      const rest = this.restType.func;
+      if (rest.name === "unknown") {
+        if (totalCount === 0) {
+          return (obj, _mode) => {
+            return isObject(obj) ? runChecks(obj, true) : invalidType;
+          };
+        }
+        return (obj, mode) => {
+          return isObject(obj) ? runChecks(obj, pass(obj, mode)) : invalidType;
+        };
+      }
+      return (obj, mode) => {
+        if (!isObject(obj)) {
+          return invalidType;
+        }
+        let result = true;
+        let requiredSeen = 0 | 0;
+        let optionalSeen = 0 | 0;
+        let seenIndexes = 0 | 0;
+        for (const key in obj) {
+          const value = obj[key];
+          const index = ~invertedIndexes[key] | 0;
+          if (index >= 0) {
+            if (index < requiredCount) {
+              requiredSeen = requiredSeen + 1 | 0;
+            } else {
+              optionalSeen = optionalSeen + 1 | 0;
+            }
+            if (index < 32) {
+              seenIndexes = seenIndexes | 1 << index;
+            }
+            if (index < 32 || Object.prototype.hasOwnProperty.call(obj, key)) {
+              result = addResult(result, funcs[index], obj, key, value, mode, assignEnumerable);
+            }
+          } else {
+            result = addResult(result, rest, obj, key, value, mode, assignEnumerable);
+          }
+        }
+        if (requiredSeen + optionalSeen < totalCount) {
+          result = checkRemainingKeys(result, obj, mode, requiredSeen, optionalSeen, seenIndexes, assignAll);
+        }
+        return runChecks(obj, result);
+      };
+    }
+    return (obj, mode) => {
+      if (!isObject(obj)) {
+        return invalidType;
+      }
+      return runChecks(obj, mode === 0 ? pass(obj, mode) : strict(obj, mode));
+    };
+  }
+  rest(restType) {
+    return new ObjectType(this.shape, restType);
+  }
+  extend(shape) {
+    return new ObjectType(__spreadValues(__spreadValues({}, this.shape), shape), this.restType);
+  }
+  pick(...keys) {
+    const shape = {};
+    keys.forEach((key) => {
+      shape[key] = this.shape[key];
+    });
+    return new ObjectType(shape, void 0);
+  }
+  omit(...keys) {
+    const shape = __spreadValues({}, this.shape);
+    keys.forEach((key) => {
+      delete shape[key];
+    });
+    return new ObjectType(shape, this.restType);
+  }
+  partial() {
+    var _a;
+    const shape = {};
+    Object.keys(this.shape).forEach((key) => {
+      shape[key] = this.shape[key].optional();
+    });
+    const rest = (_a = this.restType) === null || _a === void 0 ? void 0 : _a.optional();
+    return new ObjectType(shape, rest);
+  }
+};
+var ArrayType = class extends Type {
+  constructor(head, rest) {
+    super();
+    this.head = head;
+    this.rest = rest;
+    this.name = "array";
+  }
+  toTerminals(into) {
+    into.push(this);
+  }
+  genFunc() {
+    var _a;
+    const headFuncs = this.head.map((t) => t.func);
+    const restFunc = ((_a = this.rest) !== null && _a !== void 0 ? _a : never()).func;
+    const minLength = headFuncs.length;
+    const maxLength = this.rest ? Infinity : minLength;
+    const invalidType = { code: "invalid_type", expected: ["array"] };
+    const invalidLength = {
+      code: "invalid_length",
+      minLength,
+      maxLength
+    };
+    return (arr, mode) => {
+      if (!Array.isArray(arr)) {
+        return invalidType;
+      }
+      const length = arr.length;
+      if (length < minLength || length > maxLength) {
+        return invalidLength;
+      }
+      let issueTree = void 0;
+      let output = arr;
+      for (let i = 0; i < arr.length; i++) {
+        const func = i < minLength ? headFuncs[i] : restFunc;
+        const r = func(arr[i], mode);
+        if (r !== true) {
+          if (r.code === "ok") {
+            if (output === arr) {
+              output = arr.slice();
+            }
+            output[i] = r.value;
+          } else {
+            issueTree = joinIssues(issueTree, prependPath(i, r));
+          }
+        }
+      }
+      if (issueTree) {
+        return issueTree;
+      } else if (arr === output) {
+        return true;
+      } else {
+        return { code: "ok", value: output };
+      }
+    };
+  }
+};
+function toBaseType(v) {
+  const type = typeof v;
+  if (type !== "object") {
+    return type;
+  } else if (v === null) {
+    return "null";
+  } else if (Array.isArray(v)) {
+    return "array";
+  } else {
+    return type;
+  }
+}
+function dedup(arr) {
+  const output = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (let i = 0; i < arr.length; i++) {
+    if (!seen.has(arr[i])) {
+      output.push(arr[i]);
+      seen.add(arr[i]);
+    }
+  }
+  return output;
+}
+function findCommonKeys(rs) {
+  const map = /* @__PURE__ */ new Map();
+  rs.forEach((r) => {
+    for (const key in r) {
+      map.set(key, (map.get(key) || 0) + 1);
+    }
+  });
+  const result = [];
+  map.forEach((count, key) => {
+    if (count === rs.length) {
+      result.push(key);
+    }
+  });
+  return result;
+}
+function createObjectMatchers(t) {
+  const objects = [];
+  t.forEach(({ root, terminal }) => {
+    if (terminal.name === "object") {
+      objects.push({ root, terminal });
+    }
+  });
+  const shapes = objects.map(({ terminal }) => terminal.shape);
+  const common = findCommonKeys(shapes);
+  const discriminants = common.filter((key) => {
+    const types = /* @__PURE__ */ new Map();
+    const literals = /* @__PURE__ */ new Map();
+    let optionals = [];
+    let unknowns = [];
+    for (let i = 0; i < shapes.length; i++) {
+      const shape = shapes[i];
+      const terminals = toTerminals(shape[key]);
+      for (let j = 0; j < terminals.length; j++) {
+        const terminal = terminals[j];
+        if (terminal.name === "never") {
+        } else if (terminal.name === "unknown") {
+          unknowns.push(i);
+        } else if (terminal.name === "optional") {
+          optionals.push(i);
+        } else if (terminal.name === "literal") {
+          const options = literals.get(terminal.value) || [];
+          options.push(i);
+          literals.set(terminal.value, options);
+        } else {
+          const options = types.get(terminal.name) || [];
+          options.push(i);
+          types.set(terminal.name, options);
+        }
+      }
+    }
+    optionals = dedup(optionals);
+    if (optionals.length > 1) {
+      return false;
+    }
+    unknowns = dedup(unknowns);
+    if (unknowns.length > 1) {
+      return false;
+    }
+    literals.forEach((found, value) => {
+      const options = types.get(toBaseType(value));
+      if (options) {
+        options.push(...found);
+        literals.delete(value);
+      }
+    });
+    let success = true;
+    literals.forEach((found) => {
+      if (dedup(found.concat(unknowns)).length > 1) {
+        success = false;
+      }
+    });
+    types.forEach((found) => {
+      if (dedup(found.concat(unknowns)).length > 1) {
+        success = false;
+      }
+    });
+    return success;
+  });
+  return discriminants.map((key) => {
+    const flattened = flatten(objects.map(({ root, terminal }) => ({
+      root,
+      type: terminal.shape[key]
+    })));
+    let optional = void 0;
+    for (let i = 0; i < flattened.length; i++) {
+      const { root, terminal } = flattened[i];
+      if (terminal.name === "optional") {
+        optional = root;
+        break;
+      }
+    }
+    return {
+      key,
+      optional,
+      matcher: createUnionMatcher(flattened, [key])
+    };
+  });
+}
+function createUnionMatcher(t, path2) {
+  const order = /* @__PURE__ */ new Map();
+  t.forEach(({ root }, i) => {
+    var _a;
+    order.set(root, (_a = order.get(root)) !== null && _a !== void 0 ? _a : i);
+  });
+  const byOrder = (a, b) => {
+    var _a, _b;
+    return ((_a = order.get(a)) !== null && _a !== void 0 ? _a : 0) - ((_b = order.get(b)) !== null && _b !== void 0 ? _b : 0);
+  };
+  const expectedTypes = [];
+  const literals = /* @__PURE__ */ new Map();
+  const types = /* @__PURE__ */ new Map();
+  let unknowns = [];
+  let optionals = [];
+  t.forEach(({ root, terminal }) => {
+    if (terminal.name === "never") {
+    } else if (terminal.name === "optional") {
+      optionals.push(root);
+    } else if (terminal.name === "unknown") {
+      unknowns.push(root);
+    } else if (terminal.name === "literal") {
+      const roots = literals.get(terminal.value) || [];
+      roots.push(root);
+      literals.set(terminal.value, roots);
+      expectedTypes.push(toBaseType(terminal.value));
+    } else {
+      const roots = types.get(terminal.name) || [];
+      roots.push(root);
+      types.set(terminal.name, roots);
+      expectedTypes.push(terminal.name);
+    }
+  });
+  literals.forEach((roots, value) => {
+    const options = types.get(toBaseType(value));
+    if (options) {
+      options.push(...roots);
+      literals.delete(value);
+    }
+  });
+  unknowns = dedup(unknowns).sort(byOrder);
+  optionals = dedup(optionals).sort(byOrder);
+  types.forEach((roots, type) => types.set(type, dedup(roots.concat(unknowns).sort(byOrder))));
+  literals.forEach((roots, value) => literals.set(value, dedup(roots.concat(unknowns)).sort(byOrder)));
+  const expectedLiterals = [];
+  literals.forEach((_, value) => {
+    expectedLiterals.push(value);
+  });
+  const invalidType = {
+    code: "invalid_type",
+    path: path2,
+    expected: dedup(expectedTypes)
+  };
+  const invalidLiteral = {
+    code: "invalid_literal",
+    path: path2,
+    expected: expectedLiterals
+  };
+  const missingValue = {
+    code: "missing_value",
+    path: path2
+  };
+  const literalTypes = new Set(expectedLiterals.map(toBaseType));
+  return (rootValue, value, mode) => {
+    let count = 0;
+    let issueTree;
+    if (value === Nothing) {
+      for (let i = 0; i < optionals.length; i++) {
+        const r = optionals[i].func(rootValue, mode);
+        if (r === true || r.code === "ok") {
+          return r;
+        }
+        issueTree = joinIssues(issueTree, r);
+        count++;
+      }
+      if (!issueTree) {
+        return missingValue;
+      } else if (count > 1) {
+        return { code: "invalid_union", tree: issueTree };
+      } else {
+        return issueTree;
+      }
+    }
+    const type = toBaseType(value);
+    const options = literals.get(value) || types.get(type) || unknowns;
+    for (let i = 0; i < options.length; i++) {
+      const r = options[i].func(rootValue, mode);
+      if (r === true || r.code === "ok") {
+        return r;
+      }
+      issueTree = joinIssues(issueTree, r);
+      count++;
+    }
+    if (!issueTree) {
+      return literalTypes.has(type) ? invalidLiteral : invalidType;
+    } else if (count > 1) {
+      return { code: "invalid_union", tree: issueTree };
+    } else {
+      return issueTree;
+    }
+  };
+}
+function flatten(t) {
+  const result = [];
+  t.forEach(({ root, type }) => toTerminals(type).forEach((terminal) => {
+    result.push({ root, terminal });
+  }));
+  return result;
+}
+var UnionType = class extends Type {
+  constructor(options) {
+    super();
+    this.options = options;
+    this.name = "union";
+  }
+  toTerminals(into) {
+    this.options.forEach((o) => o.toTerminals(into));
+  }
+  genFunc() {
+    const flattened = flatten(this.options.map((root) => ({ root, type: root })));
+    const hasUnknown = hasTerminal(this, "unknown");
+    const objects = createObjectMatchers(flattened);
+    const base = createUnionMatcher(flattened);
+    return (v, mode) => {
+      if (!hasUnknown && objects.length > 0 && isObject(v)) {
+        const item = objects[0];
+        let value = v[item.key];
+        if (value === void 0 && !(item.key in v)) {
+          value = Nothing;
+        }
+        return item.matcher(v, value, mode);
+      }
+      return base(v, v, mode);
+    };
+  }
+  optional() {
+    return new Optional(this);
+  }
+};
+var LiteralType = class extends Type {
+  constructor(value) {
+    super();
+    this.value = value;
+    this.name = "literal";
+  }
+  genFunc() {
+    const value = this.value;
+    const issue = { code: "invalid_literal", expected: [value] };
+    return (v, _) => v === value ? true : issue;
+  }
+  toTerminals(into) {
+    into.push(this);
+  }
+};
+var TransformType = class extends Type {
+  constructor(transformed, transform) {
+    super();
+    this.transformed = transformed;
+    this.transform = transform;
+    this.name = "transform";
+  }
+  genFunc() {
+    const chain = [];
+    let next = this;
+    while (next instanceof TransformType) {
+      chain.push(next.transform);
+      next = next.transformed;
+    }
+    chain.reverse();
+    const func = next.func;
+    const undef = { code: "ok", value: void 0 };
+    return (v, mode) => {
+      let result = func(v, mode);
+      if (result !== true && result.code !== "ok") {
+        return result;
+      }
+      let current;
+      if (result !== true) {
+        current = result.value;
+      } else if (v === Nothing) {
+        current = void 0;
+        result = undef;
+      } else {
+        current = v;
+      }
+      for (let i = 0; i < chain.length; i++) {
+        const r = chain[i](current, mode);
+        if (r !== true) {
+          if (r.code !== "ok") {
+            return r;
+          }
+          current = r.value;
+          result = r;
+        }
+      }
+      return result;
+    };
+  }
+  toTerminals(into) {
+    this.transformed.toTerminals(into);
+  }
+};
+function singleton(name, genFunc) {
+  class Singleton extends Type {
+    constructor() {
+      super(...arguments);
+      this.name = name;
+    }
+    genFunc() {
+      return genFunc();
+    }
+    toTerminals(into) {
+      into.push(this);
+    }
+  }
+  const instance = new Singleton();
+  return () => instance;
+}
+var never = singleton("never", () => {
+  const issue = { code: "invalid_type", expected: [] };
+  return (_v, _mode) => issue;
+});
+var unknown = singleton("unknown", () => {
+  return (_v, _mode) => true;
+});
+var number = singleton("number", () => {
+  const issue = { code: "invalid_type", expected: ["number"] };
+  return (v, _mode) => typeof v === "number" ? true : issue;
+});
+var bigint = singleton("bigint", () => {
+  const issue = { code: "invalid_type", expected: ["bigint"] };
+  return (v, _mode) => typeof v === "bigint" ? true : issue;
+});
+var string = singleton("string", () => {
+  const issue = { code: "invalid_type", expected: ["string"] };
+  return (v, _mode) => typeof v === "string" ? true : issue;
+});
+var boolean = singleton("boolean", () => {
+  const issue = { code: "invalid_type", expected: ["boolean"] };
+  return (v, _mode) => typeof v === "boolean" ? true : issue;
+});
+var undefined_ = singleton("undefined", () => {
+  const issue = { code: "invalid_type", expected: ["undefined"] };
+  return (v, _mode) => v === void 0 ? true : issue;
+});
+var null_ = singleton("null", () => {
+  const issue = { code: "invalid_type", expected: ["null"] };
+  return (v, _mode) => v === null ? true : issue;
+});
+function literal(value) {
+  return new LiteralType(value);
+}
+function object(obj) {
+  return new ObjectType(obj, void 0);
+}
+function array(item) {
+  return new ArrayType([], item);
+}
+function union(...options) {
+  return new UnionType(options);
+}
+
 // src/schema.ts
-var import_myzod = __toESM(require_libs());
 var import_semver = __toESM(require_semver2());
-var Position = import_myzod.default.object({
-  line: import_myzod.default.number(),
-  character: import_myzod.default.number()
-}).allowUnknownKeys();
+var Position = object({
+  line: number(),
+  character: number()
+});
 function isEmptyPosition(p) {
   return p.line === 0 && p.character === 0;
 }
-var Range = import_myzod.default.object({
+var Range = object({
   start: Position,
   end: Position
-}).allowUnknownKeys();
+});
 function isEmptyRange(r) {
   return isEmptyPosition(r.start) && isEmptyPosition(r.end);
 }
-var Diagnostic = import_myzod.default.object({
-  file: import_myzod.default.string(),
-  severity: import_myzod.default.literals("error", "warning", "information"),
-  message: import_myzod.default.string(),
-  rule: import_myzod.default.string().optional(),
+var Diagnostic = object({
+  file: string(),
+  severity: union(literal("error"), literal("warning"), literal("information")),
+  message: string(),
+  rule: string().optional(),
   range: Range.optional()
-}).allowUnknownKeys();
-var Report = import_myzod.default.object({
-  generalDiagnostics: import_myzod.default.array(Diagnostic),
-  summary: import_myzod.default.object({
-    errorCount: import_myzod.default.number(),
-    warningCount: import_myzod.default.number(),
-    informationCount: import_myzod.default.number()
-  }).allowUnknownKeys()
-}).allowUnknownKeys();
+});
+var Report = object({
+  generalDiagnostics: array(Diagnostic),
+  summary: object({
+    errorCount: number(),
+    warningCount: number(),
+    informationCount: number()
+  })
+});
 function parseReport(v) {
-  return Report.parse(v);
+  return Report.parse(v, { mode: "strip" });
 }
 function isSemVer(version2) {
   try {
@@ -6373,14 +5931,14 @@ function isSemVer(version2) {
     return false;
   }
 }
-var NpmRegistryResponse = import_myzod.default.object({
-  version: import_myzod.default.string().withPredicate(isSemVer, "must be a semver"),
-  dist: import_myzod.default.object({
-    tarball: import_myzod.default.string()
-  }).allowUnknownKeys()
-}).allowUnknownKeys();
+var NpmRegistryResponse = object({
+  version: string().assert(isSemVer, "must be a semver"),
+  dist: object({
+    tarball: string()
+  })
+});
 function parseNpmRegistryResponse(v) {
-  return NpmRegistryResponse.parse(v);
+  return NpmRegistryResponse.parse(v, { mode: "strip" });
 }
 
 // src/helpers.ts

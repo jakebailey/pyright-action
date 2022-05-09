@@ -41,7 +41,7 @@ describe('parseReport', () => {
     test('missing key', () => {
         const badOutput = clone(realPyrightOutput);
         delete (badOutput as any).generalDiagnostics;
-        expect(() => parseReport(badOutput)).toThrowError('error parsing object');
+        expect(() => parseReport(badOutput)).toThrowError('missing value');
     });
 });
 
@@ -117,7 +117,7 @@ describe('parseNpmRegistryResponse', () => {
     test('missing key', () => {
         const badOutput = clone(realResponse);
         delete (badOutput as any).dist;
-        expect(() => parseNpmRegistryResponse(badOutput)).toThrowError('error parsing object');
+        expect(() => parseNpmRegistryResponse(badOutput)).toThrowError('missing value');
     });
 
     test('not a version', () => {

@@ -165,7 +165,7 @@ Array [
 exports[`with comments invalid stdout: core.setFailed 1`] = `
 Array [
   Array [
-    "error parsing object at path: \\"generalDiagnostics\\" - expected an array but got undefined",
+    "missing_value at .summary (missing value) (+ 1 other issue)",
   ],
 ]
 `;

@@ -1,57 +1,47 @@
-import myzod, { Infer } from 'myzod';
+import * as v from '@badrap/valita';
 import SemVer from 'semver/classes/semver';
 
-export type Position = Infer<typeof Position>;
-const Position = myzod
-    .object({
-        line: myzod.number(),
-        character: myzod.number(),
-    })
-    .allowUnknownKeys();
+export type Position = v.Infer<typeof Position>;
+const Position = v.object({
+    line: v.number(),
+    character: v.number(),
+});
 
 function isEmptyPosition(p: Position) {
     return p.line === 0 && p.character === 0;
 }
 
-export type Range = Infer<typeof Range>;
-const Range = myzod
-    .object({
-        start: Position,
-        end: Position,
-    })
-    .allowUnknownKeys();
+export type Range = v.Infer<typeof Range>;
+const Range = v.object({
+    start: Position,
+    end: Position,
+});
 
 export function isEmptyRange(r: Range) {
     return isEmptyPosition(r.start) && isEmptyPosition(r.end);
 }
 
-export type Diagnostic = Infer<typeof Diagnostic>;
-const Diagnostic = myzod
-    .object({
-        file: myzod.string(),
-        severity: myzod.literals('error', 'warning', 'information'),
-        message: myzod.string(),
-        rule: myzod.string().optional(),
-        range: Range.optional(),
-    })
-    .allowUnknownKeys();
+export type Diagnostic = v.Infer<typeof Diagnostic>;
+const Diagnostic = v.object({
+    file: v.string(),
+    severity: v.union(v.literal('error'), v.literal('warning'), v.literal('information')),
+    message: v.string(),
+    rule: v.string().optional(),
+    range: Range.optional(),
+});
 
-export type Report = Infer<typeof Report>;
-const Report = myzod
-    .object({
-        generalDiagnostics: myzod.array(Diagnostic),
-        summary: myzod
-            .object({
-                errorCount: myzod.number(),
-                warningCount: myzod.number(),
-                informationCount: myzod.number(),
-            })
-            .allowUnknownKeys(),
-    })
-    .allowUnknownKeys();
+export type Report = v.Infer<typeof Report>;
+const Report = v.object({
+    generalDiagnostics: v.array(Diagnostic),
+    summary: v.object({
+        errorCount: v.number(),
+        warningCount: v.number(),
+        informationCount: v.number(),
+    }),
+});
 
 export function parseReport(v: unknown): Report {
-    return Report.parse(v);
+    return Report.parse(v, { mode: 'strip' });
 }
 
 function isSemVer(version: string): boolean {
@@ -63,18 +53,14 @@ function isSemVer(version: string): boolean {
     }
 }
 
-export type NpmRegistryResponse = Infer<typeof NpmRegistryResponse>;
-const NpmRegistryResponse = myzod
-    .object({
-        version: myzod.string().withPredicate(isSemVer, 'must be a semver'),
-        dist: myzod
-            .object({
-                tarball: myzod.string(),
-            })
-            .allowUnknownKeys(),
-    })
-    .allowUnknownKeys();
+export type NpmRegistryResponse = v.Infer<typeof NpmRegistryResponse>;
+const NpmRegistryResponse = v.object({
+    version: v.string().assert(isSemVer, 'must be a semver'),
+    dist: v.object({
+        tarball: v.string(),
+    }),
+});
 
 export function parseNpmRegistryResponse(v: unknown): NpmRegistryResponse {
-    return NpmRegistryResponse.parse(v);
+    return NpmRegistryResponse.parse(v, { mode: 'strip' });
 }
