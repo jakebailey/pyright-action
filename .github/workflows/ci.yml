@@ -31,7 +31,8 @@ jobs:
       - uses: ./.github/actions/setup-node
       - run: yarn test --coverage
       - uses: codecov/codecov-action@v2
-        name: ${{ matrix.os }}
+        with:
+          name: ${{ matrix.os }}
 
   eslint:
     name: ESLint
