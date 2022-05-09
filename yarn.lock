@@ -4816,6 +4816,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-serializer-path@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "jest-serializer-path@npm:0.1.15"
+  dependencies:
+    lodash.clonedeep: ^4.5.0
+    lodash.iserror: ^3.1.1
+    slash: ^2.0.0
+  checksum: 007c6fd94d74d622329a44792579b066a3b397009fa9be9e61ef64d733d3dfe3b546f0b23b9d1c7ce9b53591846411b5612f2ab56659b3bf1cd27c7fb9ddf27d
+  languageName: node
+  linkType: hard
+
 "jest-snapshot@npm:^28.1.0":
   version: 28.1.0
   resolution: "jest-snapshot@npm:28.1.0"
@@ -5150,6 +5161,20 @@ __metadata:
   dependencies:
     p-locate: ^5.0.0
   checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
+"lodash.clonedeep@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.clonedeep@npm:4.5.0"
+  checksum: 92c46f094b064e876a23c97f57f81fbffd5d760bf2d8a1c61d85db6d1e488c66b0384c943abee4f6af7debf5ad4e4282e74ff83177c9e63d8ff081a4837c3489
+  languageName: node
+  linkType: hard
+
+"lodash.iserror@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "lodash.iserror@npm:3.1.1"
+  checksum: 65e0c6025529b64ca66dad2f15b50461063f41dc09b71cee1c16ddcb5ce435f67b570b3266691c3e7ff8a01001de14e0aa4692e7d46cc017d7965b31b4811038
   languageName: node
   linkType: hard
 
@@ -6377,6 +6402,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^7.0.0
     husky: ^8.0.0
     jest: ^28.1.0
+    jest-serializer-path: ^0.1.15
     npm-check-updates: ^12.5.11
     prettier: 2.6.2
     release-it: ^15.0.0
@@ -6902,6 +6928,13 @@ __metadata:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
+  languageName: node
+  linkType: hard
+
+"slash@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "slash@npm:2.0.0"
+  checksum: 512d4350735375bd11647233cb0e2f93beca6f53441015eea241fe784d8068281c3987fbaa93e7ef1c38df68d9c60013045c92837423c69115297d6169aa85e6
   languageName: node
   linkType: hard
 

@@ -2,7 +2,11 @@ import * as core from '@actions/core';
 import * as httpClient from '@actions/http-client';
 import * as tc from '@actions/tool-cache';
 import type { IncomingMessage } from 'http';
+import serializer from 'jest-serializer-path';
+import * as os from 'os';
 import * as path from 'path';
+
+expect.addSnapshotSerializer(serializer);
 
 jest.mock('@actions/core');
 const mockedCore = jest.mocked(core);
@@ -15,10 +19,12 @@ import { version as actionVersion } from '../package.json';
 import { getActionVersion, getArgs, getNodeInfo } from './helpers';
 import { NpmRegistryResponse } from './schema';
 
+const fakeRoot = path.join(os.tmpdir(), 'rootDir');
+
 beforeEach(() => {
     jest.clearAllMocks();
     mockedTc.find.mockReturnValue('');
-    mockedTc.cacheDir.mockImplementation(async (dir) => path.join('/cached', dir));
+    mockedTc.cacheDir.mockImplementation(async (dir) => path.join(fakeRoot, 'cached', path.relative(fakeRoot, dir)));
 });
 
 afterEach(() => {
@@ -51,8 +57,8 @@ describe('getArgs', () => {
                 tarball: 'https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz',
             },
         };
-        const tarballPath = '/path/to/pyright.tar.gz';
-        const extractedPath = '/path/to/pyright';
+        const tarballPath = path.join(fakeRoot, 'pyright.tar.gz');
+        const extractedPath = path.join(fakeRoot, 'pyright');
 
         const inputs = new Map<string, string>();
 
@@ -128,7 +134,7 @@ describe('getArgs', () => {
         });
 
         test('cached', async () => {
-            mockedTc.find.mockReturnValue('/cached/path/to/pyright');
+            mockedTc.find.mockReturnValue(path.join(fakeRoot, 'cached', 'pyright'));
 
             const result = await getArgs();
             expect(result).toMatchSnapshot('result');

@@ -37,6 +37,7 @@
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^8.0.0",
         "jest": "^28.1.0",
+        "jest-serializer-path": "^0.1.15",
         "npm-check-updates": "^12.5.11",
         "prettier": "2.6.2",
         "release-it": "^15.0.0",

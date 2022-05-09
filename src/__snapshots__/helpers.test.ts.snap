@@ -70,7 +70,7 @@ Array [
 exports[`getArgs valid version cached: result 1`] = `
 Object {
   "args": Array [
-    "/cached/path/to/pyright/package/index.js",
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--outputjson",
   ],
   "noComments": false,
@@ -138,7 +138,7 @@ Array [
 exports[`getArgs valid version many options: result 1`] = `
 Object {
   "args": Array [
-    "/cached/path/to/pyright/package/index.js",
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--outputjson",
     "--pythonplatform",
     "Linux",
@@ -165,7 +165,7 @@ Object {
 exports[`getArgs valid version many options: tc.cacheDir 1`] = `
 Array [
   Array [
-    "/path/to/pyright",
+    "<TEMP_DIR>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -183,7 +183,7 @@ Array [
 exports[`getArgs valid version many options: tc.extractTar 1`] = `
 Array [
   Array [
-    "/path/to/pyright.tar.gz",
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -241,7 +241,7 @@ Array [
 exports[`getArgs valid version no comments: result 1`] = `
 Object {
   "args": Array [
-    "/cached/path/to/pyright/package/index.js",
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "noComments": true,
   "pyrightVersion": "1.1.240",
@@ -252,7 +252,7 @@ Object {
 exports[`getArgs valid version no comments: tc.cacheDir 1`] = `
 Array [
   Array [
-    "/path/to/pyright",
+    "<TEMP_DIR>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -270,7 +270,7 @@ Array [
 exports[`getArgs valid version no comments: tc.extractTar 1`] = `
 Array [
   Array [
-    "/path/to/pyright.tar.gz",
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -328,7 +328,7 @@ Array [
 exports[`getArgs valid version verifytypes: result 1`] = `
 Object {
   "args": Array [
-    "/cached/path/to/pyright/package/index.js",
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--outputjson",
     "--verifytypes",
     "some.package",
@@ -342,7 +342,7 @@ Object {
 exports[`getArgs valid version verifytypes: tc.cacheDir 1`] = `
 Array [
   Array [
-    "/path/to/pyright",
+    "<TEMP_DIR>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -360,7 +360,7 @@ Array [
 exports[`getArgs valid version verifytypes: tc.extractTar 1`] = `
 Array [
   Array [
-    "/path/to/pyright.tar.gz",
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
