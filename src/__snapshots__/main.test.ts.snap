@@ -97,7 +97,7 @@ exports[`thrown error at first call: core.info 1`] = `Array []`;
 exports[`thrown error at first call: core.setFailed 1`] = `
 Array [
   Array [
-    "oops",
+    [Error: oops],
   ],
 ]
 `;
@@ -165,7 +165,7 @@ Array [
 exports[`with comments invalid stdout: core.setFailed 1`] = `
 Array [
   Array [
-    "missing_value at .summary (missing value) (+ 1 other issue)",
+    [ValitaError: missing_value at .summary (missing value) (+ 1 other issue)],
   ],
 ]
 `;
@@ -248,7 +248,7 @@ Array [
 exports[`with comments unparsable json: core.setFailed 1`] = `
 Array [
   Array [
-    "Unexpected token } in JSON at position 0",
+    [SyntaxError: Unexpected token } in JSON at position 0],
   ],
 ]
 `;

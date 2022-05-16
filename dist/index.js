@@ -271,7 +271,7 @@ var require_tunnel = __commonJS({
     var http = require("http");
     var https = require("https");
     var events = require("events");
-    var assert = require("assert");
+    var assert2 = require("assert");
     var util = require("util");
     exports.httpOverHttp = httpOverHttp;
     exports.httpsOverHttp = httpsOverHttp;
@@ -5051,6 +5051,7 @@ var require_string_argv = __commonJS({
 // src/main.ts
 var core2 = __toESM(require_core());
 var command = __toESM(require_command());
+var import_assert = __toESM(require("assert"));
 var cp = __toESM(require("child_process"));
 
 // src/helpers.ts
@@ -6054,8 +6055,8 @@ var Report = object({
     informationCount: number()
   })
 });
-function parseReport(value) {
-  return Report.parse(value, { mode: "strip" });
+function parseReport(v) {
+  return Report.parse(v, { mode: "strip" });
 }
 function isSemVer(version2) {
   try {
@@ -6071,8 +6072,8 @@ var NpmRegistryResponse = object({
     tarball: string()
   })
 });
-function parseNpmRegistryResponse(value) {
-  return NpmRegistryResponse.parse(value, { mode: "strip" });
+function parseNpmRegistryResponse(v) {
+  return NpmRegistryResponse.parse(v, { mode: "strip" });
 }
 
 // src/helpers.ts
@@ -6158,7 +6159,7 @@ async function downloadPyright(info2) {
   }
   const tarballPath = await tc.downloadTool(info2.dist.tarball);
   const extractedPath = await tc.extractTar(tarballPath);
-  return tc.cacheDir(extractedPath, pyrightToolName, info2.version);
+  return await tc.cacheDir(extractedPath, pyrightToolName, info2.version);
 }
 async function getPyrightInfo() {
   const version2 = getPyrightVersion();
@@ -6231,7 +6232,8 @@ async function main() {
       core2.setFailed(pluralize(errorCount, "error", "errors"));
     }
   } catch (e) {
-    core2.setFailed(e.message);
+    (0, import_assert.default)(typeof e === "string" || e instanceof Error);
+    core2.setFailed(e);
   }
 }
 function diagnosticToString(diag, forCommand) {

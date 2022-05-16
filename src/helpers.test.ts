@@ -47,7 +47,7 @@ describe('getArgs', () => {
             }
         });
 
-        expect(getArgs()).rejects.toThrowError('not a semver');
+        await expect(getArgs()).rejects.toThrowError('not a semver');
     });
 
     describe('valid version', () => {
@@ -130,7 +130,7 @@ describe('getArgs', () => {
 
         test('version not found', async () => {
             inputs.set('version', '1.1.404');
-            expect(getArgs()).rejects.toThrowError('version not found: 1.1.404');
+            await expect(getArgs()).rejects.toThrowError('version not found: 1.1.404');
         });
 
         test('cached', async () => {

@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as command from '@actions/core/lib/command';
+import assert from 'assert';
 import * as cp from 'child_process';
 
 import { getActionVersion, getArgs, getNodeInfo } from './helpers';
@@ -30,7 +31,7 @@ export async function main() {
             });
 
             if (status !== 0) {
-                core.setFailed(`Exit code ${status}`);
+                core.setFailed(`Exit code ${status!}`);
             }
             return;
         }
@@ -42,7 +43,7 @@ export async function main() {
 
         if (!stdout.trim()) {
             // Process crashed. stderr was inherited, so just mark the step as failed.
-            core.setFailed(`Exit code ${status}`);
+            core.setFailed(`Exit code ${status!}`);
             return;
         }
 
@@ -85,8 +86,9 @@ export async function main() {
         if (status !== 0) {
             core.setFailed(pluralize(errorCount, 'error', 'errors'));
         }
-    } catch (e: any) {
-        core.setFailed(e.message);
+    } catch (e) {
+        assert(typeof e === 'string' || e instanceof Error);
+        core.setFailed(e);
     }
 }
 

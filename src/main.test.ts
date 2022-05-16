@@ -53,13 +53,11 @@ describe('no comments', () => {
     const wd = '/some/wd';
 
     beforeEach(() => {
-        mockedHelpers.getArgs.mockImplementation(async () => {
-            return {
-                noComments: true,
-                workingDirectory: wd,
-                pyrightVersion,
-                args,
-            };
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args,
         });
     });
 
@@ -94,13 +92,11 @@ describe('with comments', () => {
     const args = ['/path/to/pyright/dist/index.js', '--outputjson'];
 
     beforeEach(() => {
-        mockedHelpers.getArgs.mockImplementation(async () => {
-            return {
-                noComments: false,
-                workingDirectory: '',
-                pyrightVersion,
-                args,
-            };
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: false,
+            workingDirectory: '',
+            pyrightVersion,
+            args,
         });
     });
 

@@ -115,7 +115,7 @@ async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
 }
 
 async function getPyrightInfo(): Promise<NpmRegistryResponse> {
-    const version = await getPyrightVersion();
+    const version = getPyrightVersion();
     const client = new httpClient.HttpClient();
     const resp = await client.get(`https://registry.npmjs.org/pyright/${version}`);
     const body = await resp.readBody();
@@ -125,7 +125,7 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
     return parseNpmRegistryResponse(JSON.parse(body));
 }
 
-async function getPyrightVersion(): Promise<string> {
+function getPyrightVersion() {
     const versionSpec = core.getInput('version');
     if (versionSpec) {
         return new SemVer(versionSpec).format();
