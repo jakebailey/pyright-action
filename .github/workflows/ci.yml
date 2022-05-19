@@ -19,6 +19,15 @@ jobs:
       - run: yarn build
       - run: git diff --exit-code --name-only dist
 
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - run: yarn tsc
+
   test:
     name: Test
     strategy:

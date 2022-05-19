@@ -1,11 +1,9 @@
 {
-    "extends": "@tsconfig/node16/tsconfig.json",
+    "extends": "@tsconfig/node16-strictest/tsconfig.json",
     "compilerOptions": {
         "noEmit": true,
-        "noImplicitReturns": true,
-        "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "exactOptionalPropertyTypes": false
     },
     "exclude": ["dist", "node_modules"]
 }

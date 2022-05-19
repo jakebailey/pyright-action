@@ -20,7 +20,7 @@ const mockedHelpers = jest.mocked(helpers);
 const mockedProcessChdir = jest.spyOn(process, 'chdir');
 
 import { main } from './main';
-import { Report } from './schema';
+import type { Report } from './schema';
 
 beforeEach(() => {
     jest.clearAllMocks();

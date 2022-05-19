@@ -17,7 +17,7 @@ const mockedTc = jest.mocked(tc);
 
 import { version as actionVersion } from '../package.json';
 import { getActionVersion, getArgs, getNodeInfo } from './helpers';
-import { NpmRegistryResponse } from './schema';
+import type { NpmRegistryResponse } from './schema';
 
 const fakeRoot = path.join(os.tmpdir(), 'rootDir');
 
