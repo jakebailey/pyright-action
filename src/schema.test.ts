@@ -1,4 +1,4 @@
-import clone from 'clone';
+import { klona } from 'klona';
 
 import { parseNpmRegistryResponse, parseReport } from './schema';
 
@@ -39,7 +39,7 @@ describe('parseReport', () => {
     });
 
     test('missing key', () => {
-        const badOutput = clone(realPyrightOutput);
+        const badOutput = klona(realPyrightOutput);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete (badOutput as any).generalDiagnostics;
         expect(() => parseReport(badOutput)).toThrowError('missing value');
@@ -116,14 +116,14 @@ describe('parseNpmRegistryResponse', () => {
     });
 
     test('missing key', () => {
-        const badOutput = clone(realResponse);
+        const badOutput = klona(realResponse);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete (badOutput as any).dist;
         expect(() => parseNpmRegistryResponse(badOutput)).toThrowError('missing value');
     });
 
     test('not a version', () => {
-        const badOutput = clone(realResponse);
+        const badOutput = klona(realResponse);
         badOutput.version = 'oopsie';
         expect(() => parseNpmRegistryResponse(badOutput)).toThrowError('must be a semver');
     });
