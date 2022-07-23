@@ -1,26 +1,10 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -1404,6 +1388,56 @@ var require_summary = __commonJS({
   }
 });
 
+// node_modules/@actions/core/lib/path-utils.js
+var require_path_utils = __commonJS({
+  "node_modules/@actions/core/lib/path-utils.js"(exports) {
+    "use strict";
+    var __createBinding = exports && exports.__createBinding || (Object.create ? function(o, m, k, k2) {
+      if (k2 === void 0)
+        k2 = k;
+      Object.defineProperty(o, k2, { enumerable: true, get: function() {
+        return m[k];
+      } });
+    } : function(o, m, k, k2) {
+      if (k2 === void 0)
+        k2 = k;
+      o[k2] = m[k];
+    });
+    var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    } : function(o, v) {
+      o["default"] = v;
+    });
+    var __importStar = exports && exports.__importStar || function(mod) {
+      if (mod && mod.__esModule)
+        return mod;
+      var result = {};
+      if (mod != null) {
+        for (var k in mod)
+          if (k !== "default" && Object.hasOwnProperty.call(mod, k))
+            __createBinding(result, mod, k);
+      }
+      __setModuleDefault(result, mod);
+      return result;
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.toPlatformPath = exports.toWin32Path = exports.toPosixPath = void 0;
+    var path2 = __importStar(require("path"));
+    function toPosixPath(pth) {
+      return pth.replace(/[\\]/g, "/");
+    }
+    exports.toPosixPath = toPosixPath;
+    function toWin32Path(pth) {
+      return pth.replace(/[/]/g, "\\");
+    }
+    exports.toWin32Path = toWin32Path;
+    function toPlatformPath(pth) {
+      return pth.replace(/[/\\]/g, path2.sep);
+    }
+    exports.toPlatformPath = toPlatformPath;
+  }
+});
+
 // node_modules/@actions/core/lib/core.js
 var require_core = __commonJS({
   "node_modules/@actions/core/lib/core.js"(exports) {
@@ -1611,6 +1645,16 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     var summary_2 = require_summary();
     Object.defineProperty(exports, "markdownSummary", { enumerable: true, get: function() {
       return summary_2.markdownSummary;
+    } });
+    var path_utils_1 = require_path_utils();
+    Object.defineProperty(exports, "toPosixPath", { enumerable: true, get: function() {
+      return path_utils_1.toPosixPath;
+    } });
+    Object.defineProperty(exports, "toWin32Path", { enumerable: true, get: function() {
+      return path_utils_1.toWin32Path;
+    } });
+    Object.defineProperty(exports, "toPlatformPath", { enumerable: true, get: function() {
+      return path_utils_1.toPlatformPath;
     } });
   }
 });
@@ -5089,7 +5133,7 @@ function _collectIssues(tree, path2, issues) {
     if (tree.code === "custom_error" && typeof tree.error !== "string" && ((_a = tree.error) === null || _a === void 0 ? void 0 : _a.path)) {
       finalPath.push(...tree.error.path);
     }
-    issues.push(__spreadProps(__spreadValues({}, tree), { path: finalPath }));
+    issues.push({ ...tree, path: finalPath });
   }
 }
 function collectIssues(tree) {
@@ -5125,7 +5169,7 @@ function findOneIssue(tree, path2 = []) {
     if (tree.code === "custom_error" && typeof tree.error !== "string" && ((_a = tree.error) === null || _a === void 0 ? void 0 : _a.path)) {
       path2.push(...tree.error.path);
     }
-    return __spreadProps(__spreadValues({}, tree), { path: path2 });
+    return { ...tree, path: path2 };
   }
 }
 function countIssues(tree) {
@@ -5558,7 +5602,7 @@ var ObjectType = class extends Type {
     return new ObjectType(this.shape, restType);
   }
   extend(shape) {
-    return new ObjectType(__spreadValues(__spreadValues({}, this.shape), shape), this.restType);
+    return new ObjectType({ ...this.shape, ...shape }, this.restType);
   }
   pick(...keys) {
     const shape = {};
@@ -5568,7 +5612,7 @@ var ObjectType = class extends Type {
     return new ObjectType(shape, void 0);
   }
   omit(...keys) {
-    const shape = __spreadValues({}, this.shape);
+    const shape = { ...this.shape };
     keys.forEach((key) => {
       delete shape[key];
     });
