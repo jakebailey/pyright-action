@@ -137,6 +137,7 @@ Array [
     ],
     Object {
       "encoding": "utf-8",
+      "maxBuffer": 104857600,
       "stdio": Array [
         "ignore",
         "pipe",
@@ -180,6 +181,7 @@ Array [
     ],
     Object {
       "encoding": "utf-8",
+      "maxBuffer": 104857600,
       "stdio": Array [
         "ignore",
         "pipe",
@@ -220,6 +222,7 @@ Array [
     ],
     Object {
       "encoding": "utf-8",
+      "maxBuffer": 104857600,
       "stdio": Array [
         "ignore",
         "pipe",
@@ -263,6 +266,7 @@ Array [
     ],
     Object {
       "encoding": "utf-8",
+      "maxBuffer": 104857600,
       "stdio": Array [
         "ignore",
         "pipe",
@@ -339,6 +343,7 @@ Array [
     ],
     Object {
       "encoding": "utf-8",
+      "maxBuffer": 104857600,
       "stdio": Array [
         "ignore",
         "pipe",
@@ -439,6 +444,7 @@ Array [
     ],
     Object {
       "encoding": "utf-8",
+      "maxBuffer": 104857600,
       "stdio": Array [
         "ignore",
         "pipe",

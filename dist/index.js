@@ -6243,7 +6243,8 @@ async function main() {
     }
     const { status, stdout } = cp.spawnSync(node.execPath, args, {
       encoding: "utf-8",
-      stdio: ["ignore", "pipe", "inherit"]
+      stdio: ["ignore", "pipe", "inherit"],
+      maxBuffer: 100 * 1024 * 1024
     });
     if (!stdout.trim()) {
       core2.setFailed(`Exit code ${status}`);
