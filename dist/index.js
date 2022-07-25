@@ -16,7 +16,10 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 
 // node_modules/@actions/core/lib/utils.js
 var require_utils = __commonJS({
@@ -369,7 +372,10 @@ var require_tunnel = __commonJS({
         connectReq.removeAllListeners();
         socket.removeAllListeners();
         if (res.statusCode !== 200) {
-          debug("tunneling socket could not be established, statusCode=%d", res.statusCode);
+          debug(
+            "tunneling socket could not be established, statusCode=%d",
+            res.statusCode
+          );
           socket.destroy();
           var error = new Error("tunneling socket could not be established, statusCode=" + res.statusCode);
           error.code = "ECONNRESET";
@@ -392,7 +398,11 @@ var require_tunnel = __commonJS({
       }
       function onError(cause) {
         connectReq.removeAllListeners();
-        debug("tunneling socket could not be established, cause=%s\n", cause.message, cause.stack);
+        debug(
+          "tunneling socket could not be established, cause=%s\n",
+          cause.message,
+          cause.stack
+        );
         var error = new Error("tunneling socket could not be established, cause=" + cause.message);
         error.code = "ECONNRESET";
         options.request.emit("error", error);
@@ -4848,7 +4858,9 @@ var require_semver2 = __commonJS({
           throw new TypeError(`Invalid Version: ${version2}`);
         }
         if (version2.length > MAX_LENGTH) {
-          throw new TypeError(`version is longer than ${MAX_LENGTH} characters`);
+          throw new TypeError(
+            `version is longer than ${MAX_LENGTH} characters`
+          );
         }
         debug("SemVer", version2, options);
         this.options = options;
@@ -6260,18 +6272,24 @@ async function main() {
       const line = ((_a = diag.range) == null ? void 0 : _a.start.line) ?? 0;
       const col = ((_b = diag.range) == null ? void 0 : _b.start.character) ?? 0;
       const message = diagnosticToString(diag, true);
-      command.issueCommand(diag.severity, {
-        file: diag.file,
-        line: line + 1,
-        col: col + 1
-      }, message);
+      command.issueCommand(
+        diag.severity,
+        {
+          file: diag.file,
+          line: line + 1,
+          col: col + 1
+        },
+        message
+      );
     });
     const { errorCount, warningCount, informationCount } = report.summary;
-    core2.info([
-      pluralize(errorCount, "error", "errors"),
-      pluralize(warningCount, "warning", "warnings"),
-      pluralize(informationCount, "information", "informations")
-    ].join(", "));
+    core2.info(
+      [
+        pluralize(errorCount, "error", "errors"),
+        pluralize(warningCount, "warning", "warnings"),
+        pluralize(informationCount, "information", "informations")
+      ].join(", ")
+    );
     if (status !== 0) {
       core2.setFailed(pluralize(errorCount, "error", "errors"));
     }
