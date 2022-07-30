@@ -24,12 +24,12 @@
     "devDependencies": {
         "@tsconfig/node16-strictest": "^1.0.3",
         "@types/jest": "^28.1.6",
-        "@types/node": "^16.11.45",
+        "@types/node": "^16.11.46",
         "@types/semver": "^7.3.10",
         "@types/semver-utils": "^1.1.1",
-        "@typescript-eslint/eslint-plugin": "^5.30.7",
-        "@typescript-eslint/parser": "^5.30.7",
-        "esbuild": "^0.14.50",
+        "@typescript-eslint/eslint-plugin": "^5.31.0",
+        "@typescript-eslint/parser": "^5.31.0",
+        "esbuild": "^0.14.51",
         "eslint": "^8.20.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
@@ -37,9 +37,7 @@
         "jest": "^28.1.3",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.5",
-        "npm-check-updates": "^16.0.0",
         "prettier": "2.7.1",
-        "release-it": "^15.1.4",
         "rimraf": "^3.0.2",
         "ts-jest": "^28.0.7",
         "typescript": "~4.7.4"
@@ -47,9 +45,9 @@
     "scripts": {
         "postinstall": "husky install",
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node16",
-        "update:all": "npm-check-updates -u && yarn",
-        "update:all:transitive": "npm-check-updates -u && rimraf yarn.lock && yarn",
-        "release": "release-it",
+        "update:all": "yarn dlx npm-check-updates -u && yarn",
+        "update:all:transitive": "yarn dlx npm-check-updates -u && rimraf yarn.lock && yarn",
+        "release": "yarn dlx release-it",
         "test": "jest"
     },
     "release-it": {
