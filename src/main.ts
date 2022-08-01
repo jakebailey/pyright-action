@@ -70,7 +70,7 @@ export async function main() {
                     line: line + 1,
                     col: col + 1,
                 },
-                message
+                message,
             );
         });
 
@@ -81,7 +81,7 @@ export async function main() {
                 pluralize(errorCount, 'error', 'errors'),
                 pluralize(warningCount, 'warning', 'warnings'),
                 pluralize(informationCount, 'information', 'informations'),
-            ].join(', ')
+            ].join(', '),
         );
 
         if (status !== 0) {

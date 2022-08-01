@@ -68,27 +68,27 @@ describe('parseNpmRegistryResponse', () => {
             '@types/node': '^17.0.14',
             'copy-webpack-plugin': '^10.2.4',
             'esbuild-loader': '^2.18.0',
-            shx: '^0.3.4',
+            'shx': '^0.3.4',
             'ts-loader': '^9.2.6',
-            typescript: '~4.4.4',
-            webpack: '^5.68.0',
+            'typescript': '~4.4.4',
+            'webpack': '^5.68.0',
             'webpack-cli': '^4.9.2',
         },
         main: 'index.js',
-        bin: { pyright: 'index.js', 'pyright-langserver': 'langserver.index.js' },
+        bin: { 'pyright': 'index.js', 'pyright-langserver': 'langserver.index.js' },
         bugs: { url: 'https://github.com/Microsoft/pyright/issues' },
         homepage: 'https://github.com/Microsoft/pyright#readme',
         _id: 'pyright@1.1.245',
         _nodeVersion: '14.19.0',
         _npmVersion: '6.14.16',
         dist: {
-            integrity:
+            'integrity':
                 'sha512-Q+AJRKqL4iklRgfv5NKHu/74woduTzO7VbRTkgJrPlopdOwEZPhD0La01HRR2LzGoDbWPJ2bWiSBqi7HSlM4Gw==',
-            shasum: 'fde6d847002bbe0cb34edf035085aaeec6537867',
-            tarball: 'https://registry.npmjs.org/pyright/-/pyright-1.1.245.tgz',
-            fileCount: 2791,
-            unpackedSize: 9084811,
-            signatures: [
+            'shasum': 'fde6d847002bbe0cb34edf035085aaeec6537867',
+            'tarball': 'https://registry.npmjs.org/pyright/-/pyright-1.1.245.tgz',
+            'fileCount': 2791,
+            'unpackedSize': 9084811,
+            'signatures': [
                 {
                     keyid: 'SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA',
                     sig: 'MEUCIEy5mhXHuNn3k7cCD5wOdb9I+1SH/xBz0OUkoERdM2PhAiEAqB4s+c52f1cVJGpe0J/vMmPUG03zN9KGerO99p47fH0=',

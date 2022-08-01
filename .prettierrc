@@ -4,6 +4,8 @@
     "useTabs": false,
     "printWidth": 120,
     "endOfLine": "auto",
+    "trailingComma": "all",
+    "quoteProps": "consistent",
     "overrides": [
         {
             "files": ["*.yml", "*.yaml"],
