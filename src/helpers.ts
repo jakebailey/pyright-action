@@ -1,12 +1,12 @@
-import * as core from '@actions/core';
-import * as httpClient from '@actions/http-client';
-import * as tc from '@actions/tool-cache';
-import * as path from 'path';
-import SemVer from 'semver/classes/semver';
-import stringArgv from 'string-argv';
+import * as core from "@actions/core";
+import * as httpClient from "@actions/http-client";
+import * as tc from "@actions/tool-cache";
+import * as path from "path";
+import SemVer from "semver/classes/semver";
+import stringArgv from "string-argv";
 
-import { version as actionVersion } from '../package.json';
-import { NpmRegistryResponse, parseNpmRegistryResponse } from './schema';
+import { version as actionVersion } from "../package.json";
+import { NpmRegistryResponse, parseNpmRegistryResponse } from "./schema";
 
 export function getActionVersion() {
     return actionVersion;
@@ -23,62 +23,62 @@ export async function getArgs() {
     const pyrightInfo = await getPyrightInfo();
     const pyrightPath = await downloadPyright(pyrightInfo);
 
-    const args = [path.join(pyrightPath, 'package', 'index.js')];
+    const args = [path.join(pyrightPath, "package", "index.js")];
 
-    const workingDirectory = core.getInput('working-directory');
+    const workingDirectory = core.getInput("working-directory");
 
-    const noComments = getBooleanInput('no-comments', false);
+    const noComments = getBooleanInput("no-comments", false);
     if (!noComments) {
-        args.push('--outputjson');
+        args.push("--outputjson");
     }
 
-    const pythonPlatform = core.getInput('python-platform');
+    const pythonPlatform = core.getInput("python-platform");
     if (pythonPlatform) {
-        args.push('--pythonplatform');
+        args.push("--pythonplatform");
         args.push(pythonPlatform);
     }
 
-    const pythonVersion = core.getInput('python-version');
+    const pythonVersion = core.getInput("python-version");
     if (pythonVersion) {
-        args.push('--pythonversion');
+        args.push("--pythonversion");
         args.push(pythonVersion);
     }
 
-    const typeshedPath = core.getInput('typeshed-path');
+    const typeshedPath = core.getInput("typeshed-path");
     if (typeshedPath) {
-        args.push('--typeshed-path');
+        args.push("--typeshed-path");
         args.push(typeshedPath);
     }
 
-    const venvPath = core.getInput('venv-path');
+    const venvPath = core.getInput("venv-path");
     if (venvPath) {
-        args.push('--venv-path');
+        args.push("--venv-path");
         args.push(venvPath);
     }
 
-    const project = core.getInput('project');
+    const project = core.getInput("project");
     if (project) {
-        args.push('--project');
+        args.push("--project");
         args.push(project);
     }
 
-    const lib = getBooleanInput('lib', false);
+    const lib = getBooleanInput("lib", false);
     if (lib) {
-        args.push('--lib');
+        args.push("--lib");
     }
 
-    const warnings = getBooleanInput('warnings', false);
+    const warnings = getBooleanInput("warnings", false);
     if (warnings) {
-        args.push('--warnings');
+        args.push("--warnings");
     }
 
-    const verifyTypes = core.getInput('verify-types');
+    const verifyTypes = core.getInput("verify-types");
     if (verifyTypes) {
-        args.push('--verifytypes');
+        args.push("--verifytypes");
         args.push(verifyTypes);
     }
 
-    const extraArgs = core.getInput('extra-args');
+    const extraArgs = core.getInput("extra-args");
     if (extraArgs) {
         args.push(...stringArgv(extraArgs));
     }
@@ -96,10 +96,10 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
     if (!input) {
         return defaultValue;
     }
-    return input.toUpperCase() === 'TRUE';
+    return input.toUpperCase() === "TRUE";
 }
 
-const pyrightToolName = 'pyright';
+const pyrightToolName = "pyright";
 
 async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
@@ -126,9 +126,9 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
 }
 
 function getPyrightVersion() {
-    const versionSpec = core.getInput('version');
+    const versionSpec = core.getInput("version");
     if (versionSpec) {
         return new SemVer(versionSpec).format();
     }
-    return 'latest';
+    return "latest";
 }

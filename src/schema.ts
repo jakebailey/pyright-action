@@ -1,5 +1,5 @@
-import * as v from '@badrap/valita';
-import SemVer from 'semver/classes/semver';
+import * as v from "@badrap/valita";
+import SemVer from "semver/classes/semver";
 
 export type Position = v.Infer<typeof Position>;
 const Position = v.object({
@@ -24,7 +24,7 @@ export function isEmptyRange(r: Range) {
 export type Diagnostic = v.Infer<typeof Diagnostic>;
 const Diagnostic = v.object({
     file: v.string(),
-    severity: v.union(v.literal('error'), v.literal('warning'), v.literal('information')),
+    severity: v.union(v.literal("error"), v.literal("warning"), v.literal("information")),
     message: v.string(),
     rule: v.string().optional(),
     range: Range.optional(),
@@ -41,7 +41,7 @@ const Report = v.object({
 });
 
 export function parseReport(v: unknown): Report {
-    return Report.parse(v, { mode: 'strip' });
+    return Report.parse(v, { mode: "strip" });
 }
 
 function isSemVer(version: string): boolean {
@@ -55,12 +55,12 @@ function isSemVer(version: string): boolean {
 
 export type NpmRegistryResponse = v.Infer<typeof NpmRegistryResponse>;
 const NpmRegistryResponse = v.object({
-    version: v.string().assert(isSemVer, 'must be a semver'),
+    version: v.string().assert(isSemVer, "must be a semver"),
     dist: v.object({
         tarball: v.string(),
     }),
 });
 
 export function parseNpmRegistryResponse(v: unknown): NpmRegistryResponse {
-    return NpmRegistryResponse.parse(v, { mode: 'strip' });
+    return NpmRegistryResponse.parse(v, { mode: "strip" });
 }

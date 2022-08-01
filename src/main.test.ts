@@ -1,26 +1,26 @@
-import * as core from '@actions/core';
-import * as command from '@actions/core/lib/command';
-import * as cp from 'child_process';
+import * as core from "@actions/core";
+import * as command from "@actions/core/lib/command";
+import * as cp from "child_process";
 
-import * as helpers from './helpers';
+import * as helpers from "./helpers";
 
-const nodeVersion = 'v16.14.2';
-const nodeExecPath = '/path/to/node';
-const pyrightVersion = '1.1.240';
+const nodeVersion = "v16.14.2";
+const nodeExecPath = "/path/to/node";
+const pyrightVersion = "1.1.240";
 
-jest.mock('@actions/core');
+jest.mock("@actions/core");
 const mockedCore = jest.mocked(core);
-jest.mock('@actions/core/lib/command');
+jest.mock("@actions/core/lib/command");
 const mockedCommand = jest.mocked(command);
-jest.mock('child_process');
+jest.mock("child_process");
 const mockedCp = jest.mocked(cp);
-jest.mock('./helpers');
+jest.mock("./helpers");
 const mockedHelpers = jest.mocked(helpers);
 
-const mockedProcessChdir = jest.spyOn(process, 'chdir');
+const mockedProcessChdir = jest.spyOn(process, "chdir");
 
-import { main } from './main';
-import type { Report } from './schema';
+import { main } from "./main";
+import type { Report } from "./schema";
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -28,29 +28,29 @@ beforeEach(() => {
         version: nodeVersion,
         execPath: nodeExecPath,
     });
-    mockedHelpers.getActionVersion.mockReturnValue('1.1.0');
+    mockedHelpers.getActionVersion.mockReturnValue("1.1.0");
     mockedProcessChdir.mockReturnValue(undefined); // This is a spy mock; prevent real process from being called.
 });
 
 afterEach(() => {
-    expect(mockedProcessChdir.mock.calls).toMatchSnapshot('process.chdir');
-    expect(mockedCore.setFailed.mock.calls).toMatchSnapshot('core.setFailed');
-    expect(mockedCore.info.mock.calls).toMatchSnapshot('core.info');
-    expect(mockedCommand.issueCommand.mock.calls).toMatchSnapshot('command.issueCommand');
-    expect(mockedCp.spawnSync.mock.calls).toMatchSnapshot('cp.spawnSync');
+    expect(mockedProcessChdir.mock.calls).toMatchSnapshot("process.chdir");
+    expect(mockedCore.setFailed.mock.calls).toMatchSnapshot("core.setFailed");
+    expect(mockedCore.info.mock.calls).toMatchSnapshot("core.info");
+    expect(mockedCommand.issueCommand.mock.calls).toMatchSnapshot("command.issueCommand");
+    expect(mockedCp.spawnSync.mock.calls).toMatchSnapshot("cp.spawnSync");
 });
 
-test('thrown error at first call', async () => {
+test("thrown error at first call", async () => {
     mockedHelpers.getNodeInfo.mockImplementation(() => {
-        throw new Error('oops');
+        throw new Error("oops");
     });
 
     await main();
 });
 
-describe('no comments', () => {
-    const args = ['/path/to/pyright/dist/index.js', '--outputjson'];
-    const wd = '/some/wd';
+describe("no comments", () => {
+    const args = ["/path/to/pyright/dist/index.js", "--outputjson"];
+    const wd = "/some/wd";
 
     beforeEach(() => {
         mockedHelpers.getArgs.mockResolvedValue({
@@ -61,12 +61,12 @@ describe('no comments', () => {
         });
     });
 
-    test('success', async () => {
+    test("success", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: '',
-            stderr: '',
+            stdout: "",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -74,12 +74,12 @@ describe('no comments', () => {
         await main();
     });
 
-    test('failure', async () => {
+    test("failure", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: '',
-            stderr: '',
+            stdout: "",
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -88,24 +88,24 @@ describe('no comments', () => {
     });
 });
 
-describe('with comments', () => {
-    const args = ['/path/to/pyright/dist/index.js', '--outputjson'];
+describe("with comments", () => {
+    const args = ["/path/to/pyright/dist/index.js", "--outputjson"];
 
     beforeEach(() => {
         mockedHelpers.getArgs.mockResolvedValue({
             noComments: false,
-            workingDirectory: '',
+            workingDirectory: "",
             pyrightVersion,
             args,
         });
     });
 
-    test('failure', async () => {
+    test("failure", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: '',
-            stderr: '',
+            stdout: "",
+            stderr: "",
             status: 2,
             signal: null,
         }));
@@ -113,12 +113,12 @@ describe('with comments', () => {
         await main();
     });
 
-    test('unparsable json', async () => {
+    test("unparsable json", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: '}',
-            stderr: '',
+            stdout: "}",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -126,12 +126,12 @@ describe('with comments', () => {
         await main();
     });
 
-    test('invalid stdout', async () => {
+    test("invalid stdout", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: '{}',
-            stderr: '',
+            stdout: "{}",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -139,7 +139,7 @@ describe('with comments', () => {
         await main();
     });
 
-    test('no diagnostics', async () => {
+    test("no diagnostics", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
@@ -151,7 +151,7 @@ describe('with comments', () => {
                     informationCount: 0,
                 },
             }),
-            stderr: '',
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -159,42 +159,42 @@ describe('with comments', () => {
         await main();
     });
 
-    test('with diagnostics', async () => {
+    test("with diagnostics", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
             stdout: reportToString({
                 generalDiagnostics: [
                     {
-                        file: '/path/to/file1.py',
+                        file: "/path/to/file1.py",
                         range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
-                        severity: 'error',
-                        message: 'some error',
+                        severity: "error",
+                        message: "some error",
                     },
                     {
-                        file: '/path/to/file2.py',
+                        file: "/path/to/file2.py",
                         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
-                        severity: 'warning',
-                        message: 'some warning',
+                        severity: "warning",
+                        message: "some warning",
                     },
                     {
-                        file: '/path/to/file3.py',
+                        file: "/path/to/file3.py",
                         range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
-                        severity: 'information',
-                        message: 'some info',
-                        rule: 'reportSomeInformation',
+                        severity: "information",
+                        message: "some info",
+                        rule: "reportSomeInformation",
                     },
                     {
-                        file: '/path/to/file3.py',
-                        severity: 'warning',
-                        message: 'another warning',
-                        rule: 'reportSomeWarning',
+                        file: "/path/to/file3.py",
+                        severity: "warning",
+                        message: "another warning",
+                        rule: "reportSomeWarning",
                     },
                     {
-                        file: '/path/to/file1.py',
+                        file: "/path/to/file1.py",
                         range: { start: { line: 5, character: 9 }, end: { line: 5, character: 15 } },
-                        severity: 'error',
-                        message: 'some error',
+                        severity: "error",
+                        message: "some error",
                     },
                 ],
                 summary: {
@@ -203,7 +203,7 @@ describe('with comments', () => {
                     informationCount: 1,
                 },
             }),
-            stderr: '',
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -211,30 +211,30 @@ describe('with comments', () => {
         await main();
     });
 
-    test('with 1 each', async () => {
+    test("with 1 each", async () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
             stdout: reportToString({
                 generalDiagnostics: [
                     {
-                        file: '/path/to/file1.py',
+                        file: "/path/to/file1.py",
                         range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
-                        severity: 'error',
-                        message: 'some error',
+                        severity: "error",
+                        message: "some error",
                     },
                     {
-                        file: '/path/to/file2.py',
+                        file: "/path/to/file2.py",
                         range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
-                        severity: 'warning',
-                        message: 'some warning',
+                        severity: "warning",
+                        message: "some warning",
                     },
                     {
-                        file: '/path/to/file3.py',
+                        file: "/path/to/file3.py",
                         range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
-                        severity: 'information',
-                        message: 'some info',
-                        rule: 'reportSomeInformation',
+                        severity: "information",
+                        message: "some info",
+                        rule: "reportSomeInformation",
                     },
                 ],
                 summary: {
@@ -243,7 +243,7 @@ describe('with comments', () => {
                     informationCount: 1,
                 },
             }),
-            stderr: '',
+            stderr: "",
             status: 1,
             signal: null,
         }));

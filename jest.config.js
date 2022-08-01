@@ -1,12 +1,12 @@
 // @ts-check
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-    collectCoverageFrom: ['src/**/*.ts'],
+    preset: "ts-jest",
+    testEnvironment: "node",
+    collectCoverageFrom: ["src/**/*.ts"],
     coveragePathIgnorePatterns: [
-        'src/index.ts', // Just the bundle entrypoint
-        '\\.d\\.ts',
+        "src/index.ts", // Just the bundle entrypoint
+        "\\.d\\.ts",
     ],
-    watchPathIgnorePatterns: ['dist/index.js'],
+    watchPathIgnorePatterns: ["dist/index.js"],
 };

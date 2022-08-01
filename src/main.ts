@@ -1,10 +1,10 @@
-import * as core from '@actions/core';
-import * as command from '@actions/core/lib/command';
-import assert from 'assert';
-import * as cp from 'child_process';
+import * as core from "@actions/core";
+import * as command from "@actions/core/lib/command";
+import assert from "assert";
+import * as cp from "child_process";
 
-import { getActionVersion, getArgs, getNodeInfo } from './helpers';
-import { Diagnostic, isEmptyRange, parseReport } from './schema';
+import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
+import { Diagnostic, isEmptyRange, parseReport } from "./schema";
 
 export async function main() {
     try {
@@ -15,11 +15,11 @@ export async function main() {
         }
 
         core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
-        core.info(`${node.execPath} ${args.join(' ')}`);
+        core.info(`${node.execPath} ${args.join(" ")}`);
 
         // We check for --verifytypes as an arg instead of a flag because it may have
         // been passed via extra-args.
-        if (noComments || args.includes('--verifytypes')) {
+        if (noComments || args.includes("--verifytypes")) {
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.
             // If we're running the type verifier, there's no guarantee that we can even act
@@ -27,7 +27,7 @@ export async function main() {
             //
             // So, in either case, just directly run pyright and exit with its status.
             const { status } = cp.spawnSync(node.execPath, args, {
-                stdio: ['ignore', 'inherit', 'inherit'],
+                stdio: ["ignore", "inherit", "inherit"],
             });
 
             if (status !== 0) {
@@ -37,8 +37,8 @@ export async function main() {
         }
 
         const { status, stdout } = cp.spawnSync(node.execPath, args, {
-            encoding: 'utf-8',
-            stdio: ['ignore', 'pipe', 'inherit'],
+            encoding: "utf-8",
+            stdio: ["ignore", "pipe", "inherit"],
             maxBuffer: 100 * 1024 * 1024, // 100 MB "ought to be enough for anyone"; https://github.com/nodejs/node/issues/9829
         });
 
@@ -53,7 +53,7 @@ export async function main() {
         report.generalDiagnostics.forEach((diag) => {
             core.info(diagnosticToString(diag, /* forCommand */ false));
 
-            if (diag.severity === 'information') {
+            if (diag.severity === "information") {
                 return;
             }
 
@@ -78,24 +78,24 @@ export async function main() {
 
         core.info(
             [
-                pluralize(errorCount, 'error', 'errors'),
-                pluralize(warningCount, 'warning', 'warnings'),
-                pluralize(informationCount, 'information', 'informations'),
-            ].join(', '),
+                pluralize(errorCount, "error", "errors"),
+                pluralize(warningCount, "warning", "warnings"),
+                pluralize(informationCount, "information", "informations"),
+            ].join(", "),
         );
 
         if (status !== 0) {
-            core.setFailed(pluralize(errorCount, 'error', 'errors'));
+            core.setFailed(pluralize(errorCount, "error", "errors"));
         }
     } catch (e) {
-        assert(typeof e === 'string' || e instanceof Error);
+        assert(typeof e === "string" || e instanceof Error);
         core.setFailed(e);
     }
 }
 
 // Copied from pyright, with modifications.
 function diagnosticToString(diag: Diagnostic, forCommand: boolean): string {
-    let message = '';
+    let message = "";
 
     if (!forCommand) {
         if (diag.file) {
