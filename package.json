@@ -14,23 +14,23 @@
         "node": ">=16"
     },
     "dependencies": {
-        "@actions/core": "^1.9.0",
+        "@actions/core": "^1.9.1",
         "@actions/http-client": "^2.0.1",
         "@actions/tool-cache": "^2.0.1",
-        "@badrap/valita": "^0.1.5",
+        "@badrap/valita": "^0.1.6",
         "semver": "^7.3.7",
         "string-argv": "^0.3.1"
     },
     "devDependencies": {
         "@tsconfig/node16-strictest": "^1.0.3",
-        "@types/jest": "^28.1.6",
-        "@types/node": "^16.11.46",
-        "@types/semver": "^7.3.10",
+        "@types/jest": "^28.1.7",
+        "@types/node": "^16.11.49",
+        "@types/semver": "^7.3.12",
         "@types/semver-utils": "^1.1.1",
-        "@typescript-eslint/eslint-plugin": "^5.31.0",
-        "@typescript-eslint/parser": "^5.31.0",
-        "esbuild": "^0.14.51",
-        "eslint": "^8.20.0",
+        "@typescript-eslint/eslint-plugin": "^5.33.1",
+        "@typescript-eslint/parser": "^5.33.1",
+        "esbuild": "^0.15.5",
+        "eslint": "^8.22.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-simple-import-sort": "^7.0.0",
         "husky": "^8.0.1",
@@ -39,7 +39,7 @@
         "klona": "^2.0.5",
         "prettier": "2.7.1",
         "rimraf": "^3.0.2",
-        "ts-jest": "^28.0.7",
+        "ts-jest": "^28.0.8",
         "typescript": "~4.7.4"
     },
     "scripts": {

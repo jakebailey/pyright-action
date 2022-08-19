@@ -193,6 +193,497 @@ var require_file_command = __commonJS({
   }
 });
 
+// node_modules/uuid/dist/rng.js
+var require_rng = __commonJS({
+  "node_modules/uuid/dist/rng.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = rng;
+    var _crypto = _interopRequireDefault(require("crypto"));
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var rnds8Pool = new Uint8Array(256);
+    var poolPtr = rnds8Pool.length;
+    function rng() {
+      if (poolPtr > rnds8Pool.length - 16) {
+        _crypto.default.randomFillSync(rnds8Pool);
+        poolPtr = 0;
+      }
+      return rnds8Pool.slice(poolPtr, poolPtr += 16);
+    }
+  }
+});
+
+// node_modules/uuid/dist/regex.js
+var require_regex = __commonJS({
+  "node_modules/uuid/dist/regex.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/validate.js
+var require_validate = __commonJS({
+  "node_modules/uuid/dist/validate.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _regex = _interopRequireDefault(require_regex());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function validate(uuid) {
+      return typeof uuid === "string" && _regex.default.test(uuid);
+    }
+    var _default = validate;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/stringify.js
+var require_stringify = __commonJS({
+  "node_modules/uuid/dist/stringify.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _validate = _interopRequireDefault(require_validate());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var byteToHex = [];
+    for (let i = 0; i < 256; ++i) {
+      byteToHex.push((i + 256).toString(16).substr(1));
+    }
+    function stringify(arr, offset = 0) {
+      const uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+      if (!(0, _validate.default)(uuid)) {
+        throw TypeError("Stringified UUID is invalid");
+      }
+      return uuid;
+    }
+    var _default = stringify;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v1.js
+var require_v1 = __commonJS({
+  "node_modules/uuid/dist/v1.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _rng = _interopRequireDefault(require_rng());
+    var _stringify = _interopRequireDefault(require_stringify());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var _nodeId;
+    var _clockseq;
+    var _lastMSecs = 0;
+    var _lastNSecs = 0;
+    function v1(options, buf, offset) {
+      let i = buf && offset || 0;
+      const b = buf || new Array(16);
+      options = options || {};
+      let node = options.node || _nodeId;
+      let clockseq = options.clockseq !== void 0 ? options.clockseq : _clockseq;
+      if (node == null || clockseq == null) {
+        const seedBytes = options.random || (options.rng || _rng.default)();
+        if (node == null) {
+          node = _nodeId = [seedBytes[0] | 1, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+        }
+        if (clockseq == null) {
+          clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383;
+        }
+      }
+      let msecs = options.msecs !== void 0 ? options.msecs : Date.now();
+      let nsecs = options.nsecs !== void 0 ? options.nsecs : _lastNSecs + 1;
+      const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
+      if (dt < 0 && options.clockseq === void 0) {
+        clockseq = clockseq + 1 & 16383;
+      }
+      if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === void 0) {
+        nsecs = 0;
+      }
+      if (nsecs >= 1e4) {
+        throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+      }
+      _lastMSecs = msecs;
+      _lastNSecs = nsecs;
+      _clockseq = clockseq;
+      msecs += 122192928e5;
+      const tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
+      b[i++] = tl >>> 24 & 255;
+      b[i++] = tl >>> 16 & 255;
+      b[i++] = tl >>> 8 & 255;
+      b[i++] = tl & 255;
+      const tmh = msecs / 4294967296 * 1e4 & 268435455;
+      b[i++] = tmh >>> 8 & 255;
+      b[i++] = tmh & 255;
+      b[i++] = tmh >>> 24 & 15 | 16;
+      b[i++] = tmh >>> 16 & 255;
+      b[i++] = clockseq >>> 8 | 128;
+      b[i++] = clockseq & 255;
+      for (let n = 0; n < 6; ++n) {
+        b[i + n] = node[n];
+      }
+      return buf || (0, _stringify.default)(b);
+    }
+    var _default = v1;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/parse.js
+var require_parse = __commonJS({
+  "node_modules/uuid/dist/parse.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _validate = _interopRequireDefault(require_validate());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function parse(uuid) {
+      if (!(0, _validate.default)(uuid)) {
+        throw TypeError("Invalid UUID");
+      }
+      let v;
+      const arr = new Uint8Array(16);
+      arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
+      arr[1] = v >>> 16 & 255;
+      arr[2] = v >>> 8 & 255;
+      arr[3] = v & 255;
+      arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
+      arr[5] = v & 255;
+      arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
+      arr[7] = v & 255;
+      arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
+      arr[9] = v & 255;
+      arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 1099511627776 & 255;
+      arr[11] = v / 4294967296 & 255;
+      arr[12] = v >>> 24 & 255;
+      arr[13] = v >>> 16 & 255;
+      arr[14] = v >>> 8 & 255;
+      arr[15] = v & 255;
+      return arr;
+    }
+    var _default = parse;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v35.js
+var require_v35 = __commonJS({
+  "node_modules/uuid/dist/v35.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = _default;
+    exports.URL = exports.DNS = void 0;
+    var _stringify = _interopRequireDefault(require_stringify());
+    var _parse = _interopRequireDefault(require_parse());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function stringToBytes(str) {
+      str = unescape(encodeURIComponent(str));
+      const bytes = [];
+      for (let i = 0; i < str.length; ++i) {
+        bytes.push(str.charCodeAt(i));
+      }
+      return bytes;
+    }
+    var DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
+    exports.DNS = DNS;
+    var URL2 = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
+    exports.URL = URL2;
+    function _default(name, version2, hashfunc) {
+      function generateUUID(value, namespace, buf, offset) {
+        if (typeof value === "string") {
+          value = stringToBytes(value);
+        }
+        if (typeof namespace === "string") {
+          namespace = (0, _parse.default)(namespace);
+        }
+        if (namespace.length !== 16) {
+          throw TypeError("Namespace must be array-like (16 iterable integer values, 0-255)");
+        }
+        let bytes = new Uint8Array(16 + value.length);
+        bytes.set(namespace);
+        bytes.set(value, namespace.length);
+        bytes = hashfunc(bytes);
+        bytes[6] = bytes[6] & 15 | version2;
+        bytes[8] = bytes[8] & 63 | 128;
+        if (buf) {
+          offset = offset || 0;
+          for (let i = 0; i < 16; ++i) {
+            buf[offset + i] = bytes[i];
+          }
+          return buf;
+        }
+        return (0, _stringify.default)(bytes);
+      }
+      try {
+        generateUUID.name = name;
+      } catch (err) {
+      }
+      generateUUID.DNS = DNS;
+      generateUUID.URL = URL2;
+      return generateUUID;
+    }
+  }
+});
+
+// node_modules/uuid/dist/md5.js
+var require_md5 = __commonJS({
+  "node_modules/uuid/dist/md5.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _crypto = _interopRequireDefault(require("crypto"));
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function md5(bytes) {
+      if (Array.isArray(bytes)) {
+        bytes = Buffer.from(bytes);
+      } else if (typeof bytes === "string") {
+        bytes = Buffer.from(bytes, "utf8");
+      }
+      return _crypto.default.createHash("md5").update(bytes).digest();
+    }
+    var _default = md5;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v3.js
+var require_v3 = __commonJS({
+  "node_modules/uuid/dist/v3.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _v = _interopRequireDefault(require_v35());
+    var _md = _interopRequireDefault(require_md5());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var v3 = (0, _v.default)("v3", 48, _md.default);
+    var _default = v3;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v4.js
+var require_v4 = __commonJS({
+  "node_modules/uuid/dist/v4.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _rng = _interopRequireDefault(require_rng());
+    var _stringify = _interopRequireDefault(require_stringify());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function v4(options, buf, offset) {
+      options = options || {};
+      const rnds = options.random || (options.rng || _rng.default)();
+      rnds[6] = rnds[6] & 15 | 64;
+      rnds[8] = rnds[8] & 63 | 128;
+      if (buf) {
+        offset = offset || 0;
+        for (let i = 0; i < 16; ++i) {
+          buf[offset + i] = rnds[i];
+        }
+        return buf;
+      }
+      return (0, _stringify.default)(rnds);
+    }
+    var _default = v4;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/sha1.js
+var require_sha1 = __commonJS({
+  "node_modules/uuid/dist/sha1.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _crypto = _interopRequireDefault(require("crypto"));
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function sha1(bytes) {
+      if (Array.isArray(bytes)) {
+        bytes = Buffer.from(bytes);
+      } else if (typeof bytes === "string") {
+        bytes = Buffer.from(bytes, "utf8");
+      }
+      return _crypto.default.createHash("sha1").update(bytes).digest();
+    }
+    var _default = sha1;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/v5.js
+var require_v5 = __commonJS({
+  "node_modules/uuid/dist/v5.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _v = _interopRequireDefault(require_v35());
+    var _sha = _interopRequireDefault(require_sha1());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var v5 = (0, _v.default)("v5", 80, _sha.default);
+    var _default = v5;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/nil.js
+var require_nil = __commonJS({
+  "node_modules/uuid/dist/nil.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _default = "00000000-0000-0000-0000-000000000000";
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/version.js
+var require_version = __commonJS({
+  "node_modules/uuid/dist/version.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _validate = _interopRequireDefault(require_validate());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    function version2(uuid) {
+      if (!(0, _validate.default)(uuid)) {
+        throw TypeError("Invalid UUID");
+      }
+      return parseInt(uuid.substr(14, 1), 16);
+    }
+    var _default = version2;
+    exports.default = _default;
+  }
+});
+
+// node_modules/uuid/dist/index.js
+var require_dist = __commonJS({
+  "node_modules/uuid/dist/index.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports, "v1", {
+      enumerable: true,
+      get: function() {
+        return _v.default;
+      }
+    });
+    Object.defineProperty(exports, "v3", {
+      enumerable: true,
+      get: function() {
+        return _v2.default;
+      }
+    });
+    Object.defineProperty(exports, "v4", {
+      enumerable: true,
+      get: function() {
+        return _v3.default;
+      }
+    });
+    Object.defineProperty(exports, "v5", {
+      enumerable: true,
+      get: function() {
+        return _v4.default;
+      }
+    });
+    Object.defineProperty(exports, "NIL", {
+      enumerable: true,
+      get: function() {
+        return _nil.default;
+      }
+    });
+    Object.defineProperty(exports, "version", {
+      enumerable: true,
+      get: function() {
+        return _version.default;
+      }
+    });
+    Object.defineProperty(exports, "validate", {
+      enumerable: true,
+      get: function() {
+        return _validate.default;
+      }
+    });
+    Object.defineProperty(exports, "stringify", {
+      enumerable: true,
+      get: function() {
+        return _stringify.default;
+      }
+    });
+    Object.defineProperty(exports, "parse", {
+      enumerable: true,
+      get: function() {
+        return _parse.default;
+      }
+    });
+    var _v = _interopRequireDefault(require_v1());
+    var _v2 = _interopRequireDefault(require_v3());
+    var _v3 = _interopRequireDefault(require_v4());
+    var _v4 = _interopRequireDefault(require_v5());
+    var _nil = _interopRequireDefault(require_nil());
+    var _version = _interopRequireDefault(require_version());
+    var _validate = _interopRequireDefault(require_validate());
+    var _stringify = _interopRequireDefault(require_stringify());
+    var _parse = _interopRequireDefault(require_parse());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+  }
+});
+
 // node_modules/@actions/http-client/lib/proxy.js
 var require_proxy = __commonJS({
   "node_modules/@actions/http-client/lib/proxy.js"(exports) {
@@ -1514,6 +2005,7 @@ var require_core = __commonJS({
     var utils_1 = require_utils();
     var os = __importStar(require("os"));
     var path2 = __importStar(require("path"));
+    var uuid_1 = require_dist();
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
     (function(ExitCode2) {
@@ -1525,7 +2017,13 @@ var require_core = __commonJS({
       process.env[name] = convertedVal;
       const filePath = process.env["GITHUB_ENV"] || "";
       if (filePath) {
-        const delimiter = "_GitHubActionsFileCommandDelimeter_";
+        const delimiter = `ghadelimiter_${uuid_1.v4()}`;
+        if (name.includes(delimiter)) {
+          throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
+        }
+        if (convertedVal.includes(delimiter)) {
+          throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
+        }
         const commandValue = `${name}<<${delimiter}${os.EOL}${convertedVal}${os.EOL}${delimiter}`;
         file_command_1.issueCommand("ENV", commandValue);
       } else {
@@ -3395,9 +3893,9 @@ var require_manifest = __commonJS({
   }
 });
 
-// node_modules/uuid/lib/rng.js
-var require_rng = __commonJS({
-  "node_modules/uuid/lib/rng.js"(exports, module2) {
+// node_modules/@actions/tool-cache/node_modules/uuid/lib/rng.js
+var require_rng2 = __commonJS({
+  "node_modules/@actions/tool-cache/node_modules/uuid/lib/rng.js"(exports, module2) {
     var crypto = require("crypto");
     module2.exports = function nodeRNG() {
       return crypto.randomBytes(16);
@@ -3405,9 +3903,9 @@ var require_rng = __commonJS({
   }
 });
 
-// node_modules/uuid/lib/bytesToUuid.js
+// node_modules/@actions/tool-cache/node_modules/uuid/lib/bytesToUuid.js
 var require_bytesToUuid = __commonJS({
-  "node_modules/uuid/lib/bytesToUuid.js"(exports, module2) {
+  "node_modules/@actions/tool-cache/node_modules/uuid/lib/bytesToUuid.js"(exports, module2) {
     var byteToHex = [];
     for (i = 0; i < 256; ++i) {
       byteToHex[i] = (i + 256).toString(16).substr(1);
@@ -3443,10 +3941,10 @@ var require_bytesToUuid = __commonJS({
   }
 });
 
-// node_modules/uuid/v4.js
-var require_v4 = __commonJS({
-  "node_modules/uuid/v4.js"(exports, module2) {
-    var rng = require_rng();
+// node_modules/@actions/tool-cache/node_modules/uuid/v4.js
+var require_v42 = __commonJS({
+  "node_modules/@actions/tool-cache/node_modules/uuid/v4.js"(exports, module2) {
+    var rng = require_rng2();
     var bytesToUuid = require_bytesToUuid();
     function v4(options, buf, offset) {
       var i = buf && offset || 0;
@@ -4243,7 +4741,7 @@ var require_tool_cache = __commonJS({
     var stream = __importStar(require("stream"));
     var util = __importStar(require("util"));
     var assert_1 = require("assert");
-    var v4_1 = __importDefault(require_v4());
+    var v4_1 = __importDefault(require_v42());
     var exec_1 = require_exec();
     var retry_helper_1 = require_retry_helper();
     var HTTPError = class extends Error {
@@ -5296,11 +5794,6 @@ function hasTerminal(type, name) {
 }
 var Nothing = Symbol();
 var AbstractType = class {
-  get func() {
-    const f = this.genFunc();
-    Object.defineProperty(this, "func", { value: f });
-    return f;
-  }
   try(v, options) {
     let mode = 1;
     if (options && options.mode === "passthrough") {
@@ -5364,6 +5857,9 @@ var AbstractType = class {
   }
 };
 var Type = class extends AbstractType {
+  toTerminals(into) {
+    into.push(this);
+  }
 };
 var Optional = class extends AbstractType {
   constructor(type) {
@@ -5371,11 +5867,8 @@ var Optional = class extends AbstractType {
     this.type = type;
     this.name = "optional";
   }
-  genFunc() {
-    const func = this.type.func;
-    return (v, mode) => {
-      return v === void 0 || v === Nothing ? true : func(v, mode);
-    };
+  func(v, mode) {
+    return v === void 0 || v === Nothing ? true : this.type.func(v, mode);
   }
   toTerminals(into) {
     into.push(this);
@@ -5383,6 +5876,61 @@ var Optional = class extends AbstractType {
     this.type.toTerminals(into);
   }
 };
+function prependIssue(issue, result) {
+  return result === true || result.code === "ok" ? issue : joinIssues(issue, result);
+}
+function assignEnumerable(to, from) {
+  for (const key in from) {
+    safeSet(to, key, from[key]);
+  }
+  return to;
+}
+function addResult(objResult, obj, key, value, keyResult, assign) {
+  if (keyResult === true) {
+    if (objResult !== true && objResult.code === "ok" && value !== Nothing) {
+      safeSet(objResult.value, key, value);
+    }
+    return objResult;
+  } else if (keyResult.code === "ok") {
+    if (objResult === true) {
+      const copy = assign({}, obj);
+      safeSet(copy, key, keyResult.value);
+      return { code: "ok", value: copy };
+    } else if (objResult.code === "ok") {
+      safeSet(objResult.value, key, keyResult.value);
+      return objResult;
+    } else {
+      return objResult;
+    }
+  } else {
+    return prependIssue(prependPath(key, keyResult), objResult);
+  }
+}
+function createBitsetTemplate(bits) {
+  const template = [0 | 0];
+  for (let i = 32; i < bits; i += 32) {
+    template.push(0 | 0);
+  }
+  return template;
+}
+function setBit(template, bits, index) {
+  if (typeof bits !== "number") {
+    bits[index >> 5] |= 1 << index % 32;
+    return bits;
+  } else if (index < 32) {
+    return bits | 1 << index;
+  } else {
+    template[0] = bits | 0;
+    return setBit(template, template.slice(), index);
+  }
+}
+function getBit(bits, index) {
+  if (typeof bits === "number") {
+    return index < 32 ? bits >>> index & 1 : 0;
+  } else {
+    return bits[index >> 5] >>> index % 32 & 1;
+  }
+}
 var ObjectType = class extends Type {
   constructor(shape, restType, checks) {
     super();
@@ -5390,9 +5938,48 @@ var ObjectType = class extends Type {
     this.restType = restType;
     this.checks = checks;
     this.name = "object";
-  }
-  toTerminals(into) {
-    into.push(this);
+    this.invalidType = {
+      code: "invalid_type",
+      expected: ["object"]
+    };
+    const requiredKeys = [];
+    const optionalKeys = [];
+    for (const key in shape) {
+      if (hasTerminal(shape[key], "optional")) {
+        optionalKeys.push(key);
+      } else {
+        requiredKeys.push(key);
+      }
+    }
+    this.requiredCount = requiredKeys.length | 0;
+    this.optionalCount = optionalKeys.length | 0;
+    this.totalCount = this.requiredCount + this.optionalCount | 0;
+    this.keys = [...requiredKeys, ...optionalKeys];
+    this.types = this.keys.map((key) => shape[key]);
+    this.bitsTemplate = createBitsetTemplate(this.totalCount);
+    this.invertedIndexes = /* @__PURE__ */ Object.create(null);
+    this.keys.forEach((key, index) => {
+      this.invertedIndexes[key] = ~index;
+    });
+    this.missingValues = requiredKeys.map((key) => ({
+      code: "missing_value",
+      path: [key]
+    }));
+    this.assignKnown = (to, from) => {
+      const keys = this.keys;
+      const requiredCount = this.requiredCount;
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = from[key];
+        if (i < requiredCount || value !== void 0 || key in from) {
+          safeSet(to, key, value);
+        }
+      }
+      return to;
+    };
+    this.assignAll = (to, from) => {
+      return this.assignKnown(assignEnumerable(to, from), from);
+    };
   }
   check(func, error) {
     var _a;
@@ -5405,210 +5992,127 @@ var ObjectType = class extends Type {
       }
     ]);
   }
-  genFunc() {
-    const shape = this.shape;
+  checkRemainingKeys(initialResult, obj, mode, bits, assign) {
+    const keys = this.keys;
+    const types = this.types;
+    const totalCount = this.totalCount;
+    const requiredCount = this.requiredCount;
+    const missingValues = this.missingValues;
+    let result = initialResult;
+    for (let i = 0; i < totalCount; i++) {
+      if (!getBit(bits, i)) {
+        const key = keys[i];
+        const value = key in obj ? obj[key] : Nothing;
+        if (i < requiredCount && value === Nothing) {
+          result = prependIssue(missingValues[i], result);
+        } else {
+          result = addResult(result, obj, key, value, types[i].func(value, mode), assign);
+        }
+      }
+    }
+    return result;
+  }
+  pass(obj, mode) {
+    const keys = this.keys;
+    const types = this.types;
+    const requiredCount = this.requiredCount;
+    const assignKnown = this.assignKnown;
+    let result = true;
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      let value = obj[key];
+      if (value === void 0 && !(key in obj)) {
+        if (i < requiredCount) {
+          result = prependIssue(this.missingValues[i], result);
+          continue;
+        }
+        value = Nothing;
+      }
+      result = addResult(result, obj, key, value, types[i].func(value, mode), assignKnown);
+    }
+    return result;
+  }
+  strict(obj, mode) {
+    const types = this.types;
+    const invertedIndexes = this.invertedIndexes;
+    const assignKnown = this.assignKnown;
+    const bitsTemplate = this.bitsTemplate;
+    let result = true;
+    let unrecognized = void 0;
+    let seenBits = 0;
+    let seenCount = 0;
+    for (const key in obj) {
+      const value = obj[key];
+      const index = ~invertedIndexes[key];
+      if (index >= 0) {
+        seenCount++;
+        seenBits = setBit(bitsTemplate, seenBits, index);
+        result = addResult(result, obj, key, value, types[index].func(value, mode), assignKnown);
+      } else if (mode === 2) {
+        result = result === true ? { code: "ok", value: assignKnown({}, obj) } : result;
+      } else if (unrecognized === void 0) {
+        unrecognized = [key];
+      } else {
+        unrecognized.push(key);
+      }
+    }
+    if (seenCount < this.totalCount) {
+      result = this.checkRemainingKeys(result, obj, mode, seenBits, assignKnown);
+    }
+    return unrecognized === void 0 ? result : prependIssue({
+      code: "unrecognized_keys",
+      keys: unrecognized
+    }, result);
+  }
+  withRest(rest, obj, mode) {
+    if (rest.name === "unknown" && this.totalCount === 0) {
+      return true;
+    }
+    const types = this.types;
+    const invertedIndexes = this.invertedIndexes;
+    const bitsTemplate = this.bitsTemplate;
+    let result = true;
+    let seenBits = 0;
+    let seenCount = 0;
+    for (const key in obj) {
+      const value = obj[key];
+      const index = ~invertedIndexes[key];
+      if (index >= 0) {
+        seenCount++;
+        seenBits = setBit(bitsTemplate, seenBits, index);
+        result = addResult(result, obj, key, value, types[index].func(value, mode), assignEnumerable);
+      } else {
+        result = addResult(result, obj, key, value, rest.func(value, mode), assignEnumerable);
+      }
+    }
+    if (seenCount < this.totalCount) {
+      result = this.checkRemainingKeys(result, obj, mode, seenBits, this.assignAll);
+    }
+    return result;
+  }
+  runChecks(obj, result) {
     const checks = this.checks;
-    const requiredKeys = [];
-    const optionalKeys = [];
-    for (const key in shape) {
-      if (hasTerminal(shape[key], "optional")) {
-        optionalKeys.push(key);
-      } else {
-        requiredKeys.push(key);
-      }
-    }
-    const requiredCount = requiredKeys.length | 0;
-    const optionalCount = optionalKeys.length | 0;
-    const totalCount = requiredCount + optionalCount | 0;
-    const keys = [...requiredKeys, ...optionalKeys];
-    const funcs = keys.map((key) => shape[key].func);
-    const invertedIndexes = /* @__PURE__ */ Object.create(null);
-    keys.forEach((key, index) => {
-      invertedIndexes[key] = ~index;
-    });
-    const invalidType = { code: "invalid_type", expected: ["object"] };
-    const missingValues = requiredKeys.map((key) => ({
-      code: "missing_value",
-      path: [key]
-    }));
-    function assignEnumerable(to, from) {
-      for (const key in from) {
-        safeSet(to, key, from[key]);
-      }
-      return to;
-    }
-    function assignKnown(to, from) {
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        const value = from[key];
-        if (i < requiredCount || value !== void 0 || key in from) {
-          safeSet(to, key, value);
+    if ((result === true || result.code === "ok") && checks) {
+      const value = result === true ? obj : result.value;
+      for (let i = 0; i < checks.length; i++) {
+        if (!checks[i].func(value)) {
+          return checks[i].issue;
         }
       }
-      return to;
     }
-    function assignAll(to, from) {
-      return assignKnown(assignEnumerable(to, from), from);
-    }
-    function addResult(objResult, func, obj, key, value, mode, assign) {
-      const keyResult = func(value, mode);
-      if (keyResult === true) {
-        if (objResult !== true && objResult.code === "ok" && value !== Nothing) {
-          safeSet(objResult.value, key, value);
-        }
-        return objResult;
-      } else if (keyResult.code === "ok") {
-        if (objResult === true) {
-          const copy = assign({}, obj);
-          safeSet(copy, key, keyResult.value);
-          return { code: "ok", value: copy };
-        } else if (objResult.code === "ok") {
-          safeSet(objResult.value, key, keyResult.value);
-          return objResult;
-        } else {
-          return objResult;
-        }
-      } else {
-        return prependIssue(prependPath(key, keyResult), objResult);
-      }
-    }
-    function prependIssue(issue, result) {
-      return result === true || result.code === "ok" ? issue : joinIssues(issue, result);
-    }
-    const template = [0 | 0];
-    for (let i = 32; i < keys.length; i += 32) {
-      template.push(0 | 0);
-    }
-    function setBit(bits, index) {
-      if (typeof bits !== "number") {
-        bits[index >> 5] |= 1 << index % 32;
-        return bits;
-      } else if (index < 32) {
-        return bits | 1 << index;
-      } else {
-        template[0] = bits | 0;
-        return setBit(template.slice(), index);
-      }
-    }
-    function getBit(bits, index) {
-      if (typeof bits === "number") {
-        return index < 32 ? bits >>> index & 1 : 0;
-      } else {
-        return bits[index >> 5] >>> index % 32 & 1;
-      }
-    }
-    function checkRemainingKeys(initialResult, obj, mode, bits, assign) {
-      let result = initialResult;
-      for (let i = 0; i < totalCount; i++) {
-        if (!getBit(bits, i)) {
-          const key = keys[i];
-          const value = key in obj ? obj[key] : Nothing;
-          if (i < requiredCount && value === Nothing) {
-            result = prependIssue(missingValues[i], result);
-          } else {
-            result = addResult(result, funcs[i], obj, key, value, mode, assign);
-          }
-        }
-      }
-      return result;
-    }
-    function strict(obj, mode) {
-      let result = true;
-      let unrecognized = void 0;
-      let seenBits = 0;
-      let seenCount = 0;
-      for (const key in obj) {
-        const value = obj[key];
-        const index = ~invertedIndexes[key];
-        if (index >= 0) {
-          seenCount++;
-          seenBits = setBit(seenBits, index);
-          result = addResult(result, funcs[index], obj, key, value, mode, assignKnown);
-        } else if (mode === 2) {
-          result = result === true ? { code: "ok", value: assignKnown({}, obj) } : result;
-        } else if (unrecognized === void 0) {
-          unrecognized = [key];
-        } else {
-          unrecognized.push(key);
-        }
-      }
-      if (seenCount < totalCount) {
-        result = checkRemainingKeys(result, obj, mode, seenBits, assignKnown);
-      }
-      return unrecognized === void 0 ? result : prependIssue({
-        code: "unrecognized_keys",
-        keys: unrecognized
-      }, result);
-    }
-    function pass(obj, mode) {
-      let result = true;
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        let value = obj[key];
-        if (value === void 0 && !(key in obj)) {
-          if (i < requiredCount) {
-            result = prependIssue(missingValues[i], result);
-            continue;
-          }
-          value = Nothing;
-        }
-        result = addResult(result, funcs[i], obj, key, value, mode, assignKnown);
-      }
-      return result;
-    }
-    function runChecks(obj, result) {
-      if ((result === true || result.code === "ok") && checks) {
-        const value = result === true ? obj : result.value;
-        for (let i = 0; i < checks.length; i++) {
-          if (!checks[i].func(value)) {
-            return checks[i].issue;
-          }
-        }
-      }
-      return result;
+    return result;
+  }
+  func(obj, mode) {
+    if (!isObject(obj)) {
+      return this.invalidType;
     }
     if (this.restType) {
-      const rest = this.restType.func;
-      if (rest.name === "unknown") {
-        if (totalCount === 0) {
-          return (obj, _mode) => {
-            return isObject(obj) ? runChecks(obj, true) : invalidType;
-          };
-        }
-        return (obj, mode) => {
-          return isObject(obj) ? runChecks(obj, pass(obj, mode)) : invalidType;
-        };
-      }
-      return (obj, mode) => {
-        if (!isObject(obj)) {
-          return invalidType;
-        }
-        let result = true;
-        let seenBits = 0;
-        let seenCount = 0;
-        for (const key in obj) {
-          const value = obj[key];
-          const index = ~invertedIndexes[key];
-          if (index >= 0) {
-            seenCount++;
-            seenBits = setBit(seenBits, index);
-            result = addResult(result, funcs[index], obj, key, value, mode, assignEnumerable);
-          } else {
-            result = addResult(result, rest, obj, key, value, mode, assignEnumerable);
-          }
-        }
-        if (seenCount < totalCount) {
-          result = checkRemainingKeys(result, obj, mode, seenBits, assignAll);
-        }
-        return runChecks(obj, result);
-      };
+      return this.runChecks(obj, this.withRest(this.restType, obj, mode));
+    } else if (mode === 0) {
+      return this.runChecks(obj, this.pass(obj, mode));
+    } else {
+      return this.runChecks(obj, this.strict(obj, mode));
     }
-    return (obj, mode) => {
-      if (!isObject(obj)) {
-        return invalidType;
-      }
-      return runChecks(obj, mode === 0 ? pass(obj, mode) : strict(obj, mode));
-    };
   }
   rest(restType) {
     return new ObjectType(this.shape, restType);
@@ -5644,56 +6148,53 @@ var ArrayType = class extends Type {
   constructor(head, rest) {
     super();
     this.head = head;
-    this.rest = rest;
     this.name = "array";
+    this.rest = rest !== null && rest !== void 0 ? rest : never();
+    this.minLength = this.head.length;
+    this.maxLength = rest ? Infinity : this.minLength;
+    this.invalidType = { code: "invalid_type", expected: ["array"] };
+    this.invalidLength = {
+      code: "invalid_length",
+      minLength: this.minLength,
+      maxLength: this.maxLength
+    };
   }
   toTerminals(into) {
     into.push(this);
   }
-  genFunc() {
-    var _a;
-    const headFuncs = this.head.map((t) => t.func);
-    const restFunc = ((_a = this.rest) !== null && _a !== void 0 ? _a : never()).func;
-    const minLength = headFuncs.length;
-    const maxLength = this.rest ? Infinity : minLength;
-    const invalidType = { code: "invalid_type", expected: ["array"] };
-    const invalidLength = {
-      code: "invalid_length",
-      minLength,
-      maxLength
-    };
-    return (arr, mode) => {
-      if (!Array.isArray(arr)) {
-        return invalidType;
-      }
-      const length = arr.length;
-      if (length < minLength || length > maxLength) {
-        return invalidLength;
-      }
-      let issueTree = void 0;
-      let output = arr;
-      for (let i = 0; i < arr.length; i++) {
-        const func = i < minLength ? headFuncs[i] : restFunc;
-        const r = func(arr[i], mode);
-        if (r !== true) {
-          if (r.code === "ok") {
-            if (output === arr) {
-              output = arr.slice();
-            }
-            output[i] = r.value;
-          } else {
-            issueTree = joinIssues(issueTree, prependPath(i, r));
+  func(arr, mode) {
+    if (!Array.isArray(arr)) {
+      return this.invalidType;
+    }
+    const length = arr.length;
+    const minLength = this.minLength;
+    const maxLength = this.maxLength;
+    if (length < minLength || length > maxLength) {
+      return this.invalidLength;
+    }
+    let issueTree = void 0;
+    let output = arr;
+    for (let i = 0; i < arr.length; i++) {
+      const type = i < minLength ? this.head[i] : this.rest;
+      const r = type.func(arr[i], mode);
+      if (r !== true) {
+        if (r.code === "ok") {
+          if (output === arr) {
+            output = arr.slice();
           }
+          output[i] = r.value;
+        } else {
+          issueTree = joinIssues(issueTree, prependPath(i, r));
         }
       }
-      if (issueTree) {
-        return issueTree;
-      } else if (arr === output) {
-        return true;
-      } else {
-        return { code: "ok", value: output };
-      }
-    };
+    }
+    if (issueTree) {
+      return issueTree;
+    } else if (arr === output) {
+      return true;
+    } else {
+      return { code: "ok", value: output };
+    }
   }
 };
 function toBaseType(v) {
@@ -5931,44 +6432,24 @@ var UnionType = class extends Type {
     super();
     this.options = options;
     this.name = "union";
+    const flattened = flatten(options.map((root) => ({ root, type: root })));
+    this.objects = createObjectMatchers(flattened);
+    this.base = createUnionMatcher(flattened);
+    this.hasUnknown = hasTerminal(this, "unknown");
   }
   toTerminals(into) {
     this.options.forEach((o) => o.toTerminals(into));
   }
-  genFunc() {
-    const flattened = flatten(this.options.map((root) => ({ root, type: root })));
-    const hasUnknown = hasTerminal(this, "unknown");
-    const objects = createObjectMatchers(flattened);
-    const base = createUnionMatcher(flattened);
-    return (v, mode) => {
-      if (!hasUnknown && objects.length > 0 && isObject(v)) {
-        const item = objects[0];
-        let value = v[item.key];
-        if (value === void 0 && !(item.key in v)) {
-          value = Nothing;
-        }
-        return item.matcher(v, value, mode);
+  func(v, mode) {
+    if (!this.hasUnknown && this.objects.length > 0 && isObject(v)) {
+      const item = this.objects[0];
+      let value = v[item.key];
+      if (value === void 0 && !(item.key in v)) {
+        value = Nothing;
       }
-      return base(v, v, mode);
-    };
-  }
-  optional() {
-    return new Optional(this);
-  }
-};
-var LiteralType = class extends Type {
-  constructor(value) {
-    super();
-    this.value = value;
-    this.name = "literal";
-  }
-  genFunc() {
-    const value = this.value;
-    const issue = { code: "invalid_literal", expected: [value] };
-    return (v, _) => v === value ? true : issue;
-  }
-  toTerminals(into) {
-    into.push(this);
+      return item.matcher(v, value, mode);
+    }
+    return this.base(v, v, mode);
   }
 };
 var TransformType = class extends Type {
@@ -5977,95 +6458,180 @@ var TransformType = class extends Type {
     this.transformed = transformed;
     this.transform = transform;
     this.name = "transform";
+    this.undef = { code: "ok", value: void 0 };
+    this.transformChain = void 0;
+    this.transformRoot = void 0;
   }
-  genFunc() {
-    const chain = [];
-    let next = this;
-    while (next instanceof TransformType) {
-      chain.push(next.transform);
-      next = next.transformed;
+  func(v, mode) {
+    let chain = this.transformChain;
+    if (!chain) {
+      chain = [];
+      let next = this;
+      while (next instanceof TransformType) {
+        chain.push(next.transform);
+        next = next.transformed;
+      }
+      chain.reverse();
+      this.transformChain = chain;
+      this.transformRoot = next;
     }
-    chain.reverse();
-    const func = next.func;
-    const undef = { code: "ok", value: void 0 };
-    return (v, mode) => {
-      let result = func(v, mode);
-      if (result !== true && result.code !== "ok") {
-        return result;
-      }
-      let current;
-      if (result !== true) {
-        current = result.value;
-      } else if (v === Nothing) {
-        current = void 0;
-        result = undef;
-      } else {
-        current = v;
-      }
-      for (let i = 0; i < chain.length; i++) {
-        const r = chain[i](current, mode);
-        if (r !== true) {
-          if (r.code !== "ok") {
-            return r;
-          }
-          current = r.value;
-          result = r;
-        }
-      }
+    let result = this.transformRoot.func(v, mode);
+    if (result !== true && result.code !== "ok") {
       return result;
-    };
+    }
+    let current;
+    if (result !== true) {
+      current = result.value;
+    } else if (v === Nothing) {
+      current = void 0;
+      result = this.undef;
+    } else {
+      current = v;
+    }
+    for (let i = 0; i < chain.length; i++) {
+      const r = chain[i](current, mode);
+      if (r !== true) {
+        if (r.code !== "ok") {
+          return r;
+        }
+        current = r.value;
+        result = r;
+      }
+    }
+    return result;
   }
   toTerminals(into) {
     this.transformed.toTerminals(into);
   }
 };
-function singleton(name, genFunc) {
-  class Singleton extends Type {
-    constructor() {
-      super(...arguments);
-      this.name = name;
-    }
-    genFunc() {
-      return genFunc();
-    }
-    toTerminals(into) {
-      into.push(this);
-    }
+var NeverType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "never";
+    this.issue = { code: "invalid_type", expected: [] };
   }
-  const instance = new Singleton();
-  return () => instance;
+  func(_, __) {
+    return this.issue;
+  }
+};
+var neverSingleton = new NeverType();
+function never() {
+  return neverSingleton;
 }
-var never = singleton("never", () => {
-  const issue = { code: "invalid_type", expected: [] };
-  return (_v, _mode) => issue;
-});
-var unknown = singleton("unknown", () => {
-  return (_v, _mode) => true;
-});
-var number = singleton("number", () => {
-  const issue = { code: "invalid_type", expected: ["number"] };
-  return (v, _mode) => typeof v === "number" ? true : issue;
-});
-var bigint = singleton("bigint", () => {
-  const issue = { code: "invalid_type", expected: ["bigint"] };
-  return (v, _mode) => typeof v === "bigint" ? true : issue;
-});
-var string = singleton("string", () => {
-  const issue = { code: "invalid_type", expected: ["string"] };
-  return (v, _mode) => typeof v === "string" ? true : issue;
-});
-var boolean = singleton("boolean", () => {
-  const issue = { code: "invalid_type", expected: ["boolean"] };
-  return (v, _mode) => typeof v === "boolean" ? true : issue;
-});
-var undefined_ = singleton("undefined", () => {
-  const issue = { code: "invalid_type", expected: ["undefined"] };
-  return (v, _mode) => v === void 0 ? true : issue;
-});
-var null_ = singleton("null", () => {
-  const issue = { code: "invalid_type", expected: ["null"] };
-  return (v, _mode) => v === null ? true : issue;
-});
+var UnknownType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "unknown";
+  }
+  func(_, __) {
+    return true;
+  }
+};
+var unknownSingleton = new UnknownType();
+var UndefinedType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "undefined";
+    this.issue = {
+      code: "invalid_type",
+      expected: ["undefined"]
+    };
+  }
+  func(v, _) {
+    return v === void 0 ? true : this.issue;
+  }
+};
+var undefinedSingleton = new UndefinedType();
+function undefined_() {
+  return undefinedSingleton;
+}
+var NullType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "null";
+    this.issue = {
+      code: "invalid_type",
+      expected: ["null"]
+    };
+  }
+  func(v, _) {
+    return v === null ? true : this.issue;
+  }
+};
+var nullSingleton = new NullType();
+var NumberType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "number";
+    this.issue = {
+      code: "invalid_type",
+      expected: ["number"]
+    };
+  }
+  func(v, _) {
+    return typeof v === "number" ? true : this.issue;
+  }
+};
+var numberSingleton = new NumberType();
+function number() {
+  return numberSingleton;
+}
+var BigIntType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "bigint";
+    this.issue = {
+      code: "invalid_type",
+      expected: ["bigint"]
+    };
+  }
+  func(v, _) {
+    return typeof v === "bigint" ? true : this.issue;
+  }
+};
+var bigintSingleton = new BigIntType();
+var StringType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "string";
+    this.issue = {
+      code: "invalid_type",
+      expected: ["string"]
+    };
+  }
+  func(v, _) {
+    return typeof v === "string" ? true : this.issue;
+  }
+};
+var stringSingleton = new StringType();
+function string() {
+  return stringSingleton;
+}
+var BooleanType = class extends Type {
+  constructor() {
+    super(...arguments);
+    this.name = "boolean";
+    this.issue = {
+      code: "invalid_type",
+      expected: ["boolean"]
+    };
+  }
+  func(v, _) {
+    return typeof v === "boolean" ? true : this.issue;
+  }
+};
+var booleanSingleton = new BooleanType();
+var LiteralType = class extends Type {
+  constructor(value) {
+    super();
+    this.value = value;
+    this.name = "literal";
+    this.issue = { code: "invalid_literal", expected: [value] };
+  }
+  func(v, _) {
+    return v === this.value ? true : this.issue;
+  }
+};
 function literal(value) {
   return new LiteralType(value);
 }
