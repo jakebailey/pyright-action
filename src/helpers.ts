@@ -1,7 +1,8 @@
+import * as path from "node:path";
+
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
-import * as path from "path";
 import SemVer from "semver/classes/semver";
 import stringArgv from "string-argv";
 

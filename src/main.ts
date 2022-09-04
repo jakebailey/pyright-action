@@ -1,7 +1,8 @@
+import assert from "node:assert";
+import * as cp from "node:child_process";
+
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
-import assert from "assert";
-import * as cp from "child_process";
 
 import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
 import { Diagnostic, isEmptyRange, parseReport } from "./schema";

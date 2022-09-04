@@ -5603,16 +5603,16 @@ var require_string_argv = __commonJS({
 });
 
 // src/main.ts
+var import_node_assert = __toESM(require("node:assert"));
+var cp = __toESM(require("node:child_process"));
 var core2 = __toESM(require_core());
 var command = __toESM(require_command());
-var import_assert = __toESM(require("assert"));
-var cp = __toESM(require("child_process"));
 
 // src/helpers.ts
+var path = __toESM(require("node:path"));
 var core = __toESM(require_core());
 var httpClient = __toESM(require_lib());
 var tc = __toESM(require_tool_cache());
-var path = __toESM(require("path"));
 var import_semver2 = __toESM(require_semver2());
 var import_string_argv = __toESM(require_string_argv());
 
@@ -6860,7 +6860,7 @@ async function main() {
       core2.setFailed(pluralize(errorCount, "error", "errors"));
     }
   } catch (e) {
-    (0, import_assert.default)(typeof e === "string" || e instanceof Error);
+    (0, import_node_assert.default)(typeof e === "string" || e instanceof Error);
     core2.setFailed(e);
   }
 }
