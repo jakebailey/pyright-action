@@ -1,6 +1,7 @@
+import * as cp from "node:child_process";
+
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
-import * as cp from "child_process";
 
 import * as helpers from "./helpers";
 
@@ -12,7 +13,7 @@ jest.mock("@actions/core");
 const mockedCore = jest.mocked(core);
 jest.mock("@actions/core/lib/command");
 const mockedCommand = jest.mocked(command);
-jest.mock("child_process");
+jest.mock("node:child_process");
 const mockedCp = jest.mocked(cp);
 jest.mock("./helpers");
 const mockedHelpers = jest.mocked(helpers);

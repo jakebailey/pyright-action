@@ -1,10 +1,11 @@
+import type { IncomingMessage } from "node:http";
+import * as os from "node:os";
+import * as path from "node:path";
+
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
-import type { IncomingMessage } from "http";
 import serializer from "jest-serializer-path";
-import * as os from "os";
-import * as path from "path";
 
 expect.addSnapshotSerializer(serializer);
 
