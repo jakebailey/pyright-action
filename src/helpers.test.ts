@@ -12,7 +12,7 @@ expect.addSnapshotSerializer(serializer);
 jest.mock("@actions/core");
 const mockedCore = jest.mocked(core);
 jest.mock("@actions/http-client");
-const mockedHttpClient = jest.mocked(httpClient, true);
+const mockedHttpClient = jest.mocked(httpClient);
 jest.mock("@actions/tool-cache");
 const mockedTc = jest.mocked(tc);
 
