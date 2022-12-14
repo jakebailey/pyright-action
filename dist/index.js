@@ -5,8 +5,15 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
   if (from && typeof from === "object" || typeof from === "function") {
@@ -20,6 +27,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/@actions/core/lib/utils.js
 var require_utils = __commonJS({
@@ -140,6 +148,339 @@ var require_command = __commonJS({
   }
 });
 
+// node_modules/uuid/dist/esm-node/rng.js
+function rng() {
+  if (poolPtr > rnds8Pool.length - 16) {
+    import_crypto.default.randomFillSync(rnds8Pool);
+    poolPtr = 0;
+  }
+  return rnds8Pool.slice(poolPtr, poolPtr += 16);
+}
+var import_crypto, rnds8Pool, poolPtr;
+var init_rng = __esm({
+  "node_modules/uuid/dist/esm-node/rng.js"() {
+    import_crypto = __toESM(require("crypto"));
+    rnds8Pool = new Uint8Array(256);
+    poolPtr = rnds8Pool.length;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/regex.js
+var regex_default;
+var init_regex = __esm({
+  "node_modules/uuid/dist/esm-node/regex.js"() {
+    regex_default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/validate.js
+function validate(uuid) {
+  return typeof uuid === "string" && regex_default.test(uuid);
+}
+var validate_default;
+var init_validate = __esm({
+  "node_modules/uuid/dist/esm-node/validate.js"() {
+    init_regex();
+    validate_default = validate;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/stringify.js
+function stringify(arr, offset = 0) {
+  const uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+  if (!validate_default(uuid)) {
+    throw TypeError("Stringified UUID is invalid");
+  }
+  return uuid;
+}
+var byteToHex, stringify_default;
+var init_stringify = __esm({
+  "node_modules/uuid/dist/esm-node/stringify.js"() {
+    init_validate();
+    byteToHex = [];
+    for (let i = 0; i < 256; ++i) {
+      byteToHex.push((i + 256).toString(16).substr(1));
+    }
+    stringify_default = stringify;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/v1.js
+function v1(options, buf, offset) {
+  let i = buf && offset || 0;
+  const b = buf || new Array(16);
+  options = options || {};
+  let node = options.node || _nodeId;
+  let clockseq = options.clockseq !== void 0 ? options.clockseq : _clockseq;
+  if (node == null || clockseq == null) {
+    const seedBytes = options.random || (options.rng || rng)();
+    if (node == null) {
+      node = _nodeId = [seedBytes[0] | 1, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+    }
+    if (clockseq == null) {
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383;
+    }
+  }
+  let msecs = options.msecs !== void 0 ? options.msecs : Date.now();
+  let nsecs = options.nsecs !== void 0 ? options.nsecs : _lastNSecs + 1;
+  const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
+  if (dt < 0 && options.clockseq === void 0) {
+    clockseq = clockseq + 1 & 16383;
+  }
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === void 0) {
+    nsecs = 0;
+  }
+  if (nsecs >= 1e4) {
+    throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+  }
+  _lastMSecs = msecs;
+  _lastNSecs = nsecs;
+  _clockseq = clockseq;
+  msecs += 122192928e5;
+  const tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
+  b[i++] = tl >>> 24 & 255;
+  b[i++] = tl >>> 16 & 255;
+  b[i++] = tl >>> 8 & 255;
+  b[i++] = tl & 255;
+  const tmh = msecs / 4294967296 * 1e4 & 268435455;
+  b[i++] = tmh >>> 8 & 255;
+  b[i++] = tmh & 255;
+  b[i++] = tmh >>> 24 & 15 | 16;
+  b[i++] = tmh >>> 16 & 255;
+  b[i++] = clockseq >>> 8 | 128;
+  b[i++] = clockseq & 255;
+  for (let n = 0; n < 6; ++n) {
+    b[i + n] = node[n];
+  }
+  return buf || stringify_default(b);
+}
+var _nodeId, _clockseq, _lastMSecs, _lastNSecs, v1_default;
+var init_v1 = __esm({
+  "node_modules/uuid/dist/esm-node/v1.js"() {
+    init_rng();
+    init_stringify();
+    _lastMSecs = 0;
+    _lastNSecs = 0;
+    v1_default = v1;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/parse.js
+function parse(uuid) {
+  if (!validate_default(uuid)) {
+    throw TypeError("Invalid UUID");
+  }
+  let v;
+  const arr = new Uint8Array(16);
+  arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
+  arr[1] = v >>> 16 & 255;
+  arr[2] = v >>> 8 & 255;
+  arr[3] = v & 255;
+  arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
+  arr[5] = v & 255;
+  arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
+  arr[7] = v & 255;
+  arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
+  arr[9] = v & 255;
+  arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 1099511627776 & 255;
+  arr[11] = v / 4294967296 & 255;
+  arr[12] = v >>> 24 & 255;
+  arr[13] = v >>> 16 & 255;
+  arr[14] = v >>> 8 & 255;
+  arr[15] = v & 255;
+  return arr;
+}
+var parse_default;
+var init_parse = __esm({
+  "node_modules/uuid/dist/esm-node/parse.js"() {
+    init_validate();
+    parse_default = parse;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/v35.js
+function stringToBytes(str) {
+  str = unescape(encodeURIComponent(str));
+  const bytes = [];
+  for (let i = 0; i < str.length; ++i) {
+    bytes.push(str.charCodeAt(i));
+  }
+  return bytes;
+}
+function v35_default(name, version3, hashfunc) {
+  function generateUUID(value, namespace, buf, offset) {
+    if (typeof value === "string") {
+      value = stringToBytes(value);
+    }
+    if (typeof namespace === "string") {
+      namespace = parse_default(namespace);
+    }
+    if (namespace.length !== 16) {
+      throw TypeError("Namespace must be array-like (16 iterable integer values, 0-255)");
+    }
+    let bytes = new Uint8Array(16 + value.length);
+    bytes.set(namespace);
+    bytes.set(value, namespace.length);
+    bytes = hashfunc(bytes);
+    bytes[6] = bytes[6] & 15 | version3;
+    bytes[8] = bytes[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = bytes[i];
+      }
+      return buf;
+    }
+    return stringify_default(bytes);
+  }
+  try {
+    generateUUID.name = name;
+  } catch (err) {
+  }
+  generateUUID.DNS = DNS;
+  generateUUID.URL = URL2;
+  return generateUUID;
+}
+var DNS, URL2;
+var init_v35 = __esm({
+  "node_modules/uuid/dist/esm-node/v35.js"() {
+    init_stringify();
+    init_parse();
+    DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
+    URL2 = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
+  }
+});
+
+// node_modules/uuid/dist/esm-node/md5.js
+function md5(bytes) {
+  if (Array.isArray(bytes)) {
+    bytes = Buffer.from(bytes);
+  } else if (typeof bytes === "string") {
+    bytes = Buffer.from(bytes, "utf8");
+  }
+  return import_crypto2.default.createHash("md5").update(bytes).digest();
+}
+var import_crypto2, md5_default;
+var init_md5 = __esm({
+  "node_modules/uuid/dist/esm-node/md5.js"() {
+    import_crypto2 = __toESM(require("crypto"));
+    md5_default = md5;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/v3.js
+var v3, v3_default;
+var init_v3 = __esm({
+  "node_modules/uuid/dist/esm-node/v3.js"() {
+    init_v35();
+    init_md5();
+    v3 = v35_default("v3", 48, md5_default);
+    v3_default = v3;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/v4.js
+function v4(options, buf, offset) {
+  options = options || {};
+  const rnds = options.random || (options.rng || rng)();
+  rnds[6] = rnds[6] & 15 | 64;
+  rnds[8] = rnds[8] & 63 | 128;
+  if (buf) {
+    offset = offset || 0;
+    for (let i = 0; i < 16; ++i) {
+      buf[offset + i] = rnds[i];
+    }
+    return buf;
+  }
+  return stringify_default(rnds);
+}
+var v4_default;
+var init_v4 = __esm({
+  "node_modules/uuid/dist/esm-node/v4.js"() {
+    init_rng();
+    init_stringify();
+    v4_default = v4;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/sha1.js
+function sha1(bytes) {
+  if (Array.isArray(bytes)) {
+    bytes = Buffer.from(bytes);
+  } else if (typeof bytes === "string") {
+    bytes = Buffer.from(bytes, "utf8");
+  }
+  return import_crypto3.default.createHash("sha1").update(bytes).digest();
+}
+var import_crypto3, sha1_default;
+var init_sha1 = __esm({
+  "node_modules/uuid/dist/esm-node/sha1.js"() {
+    import_crypto3 = __toESM(require("crypto"));
+    sha1_default = sha1;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/v5.js
+var v5, v5_default;
+var init_v5 = __esm({
+  "node_modules/uuid/dist/esm-node/v5.js"() {
+    init_v35();
+    init_sha1();
+    v5 = v35_default("v5", 80, sha1_default);
+    v5_default = v5;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/nil.js
+var nil_default;
+var init_nil = __esm({
+  "node_modules/uuid/dist/esm-node/nil.js"() {
+    nil_default = "00000000-0000-0000-0000-000000000000";
+  }
+});
+
+// node_modules/uuid/dist/esm-node/version.js
+function version(uuid) {
+  if (!validate_default(uuid)) {
+    throw TypeError("Invalid UUID");
+  }
+  return parseInt(uuid.substr(14, 1), 16);
+}
+var version_default;
+var init_version = __esm({
+  "node_modules/uuid/dist/esm-node/version.js"() {
+    init_validate();
+    version_default = version;
+  }
+});
+
+// node_modules/uuid/dist/esm-node/index.js
+var esm_node_exports = {};
+__export(esm_node_exports, {
+  NIL: () => nil_default,
+  parse: () => parse_default,
+  stringify: () => stringify_default,
+  v1: () => v1_default,
+  v3: () => v3_default,
+  v4: () => v4_default,
+  v5: () => v5_default,
+  validate: () => validate_default,
+  version: () => version_default
+});
+var init_esm_node = __esm({
+  "node_modules/uuid/dist/esm-node/index.js"() {
+    init_v1();
+    init_v3();
+    init_v4();
+    init_v5();
+    init_nil();
+    init_version();
+    init_validate();
+    init_stringify();
+    init_parse();
+  }
+});
+
 // node_modules/@actions/core/lib/file-command.js
 var require_file_command = __commonJS({
   "node_modules/@actions/core/lib/file-command.js"(exports) {
@@ -173,11 +514,12 @@ var require_file_command = __commonJS({
       return result;
     };
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.issueCommand = void 0;
+    exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
     var fs = __importStar(require("fs"));
     var os = __importStar(require("os"));
+    var uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports));
     var utils_1 = require_utils();
-    function issueCommand2(command2, message) {
+    function issueFileCommand(command2, message) {
       const filePath = process.env[`GITHUB_${command2}`];
       if (!filePath) {
         throw new Error(`Unable to find environment variable for file command ${command2}`);
@@ -189,498 +531,19 @@ var require_file_command = __commonJS({
         encoding: "utf8"
       });
     }
-    exports.issueCommand = issueCommand2;
-  }
-});
-
-// node_modules/uuid/dist/rng.js
-var require_rng = __commonJS({
-  "node_modules/uuid/dist/rng.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = rng;
-    var _crypto = _interopRequireDefault(require("crypto"));
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    var rnds8Pool = new Uint8Array(256);
-    var poolPtr = rnds8Pool.length;
-    function rng() {
-      if (poolPtr > rnds8Pool.length - 16) {
-        _crypto.default.randomFillSync(rnds8Pool);
-        poolPtr = 0;
+    exports.issueFileCommand = issueFileCommand;
+    function prepareKeyValueMessage(key, value) {
+      const delimiter = `ghadelimiter_${uuid_1.v4()}`;
+      const convertedValue = utils_1.toCommandValue(value);
+      if (key.includes(delimiter)) {
+        throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
       }
-      return rnds8Pool.slice(poolPtr, poolPtr += 16);
-    }
-  }
-});
-
-// node_modules/uuid/dist/regex.js
-var require_regex = __commonJS({
-  "node_modules/uuid/dist/regex.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _default = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/validate.js
-var require_validate = __commonJS({
-  "node_modules/uuid/dist/validate.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _regex = _interopRequireDefault(require_regex());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function validate(uuid) {
-      return typeof uuid === "string" && _regex.default.test(uuid);
-    }
-    var _default = validate;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/stringify.js
-var require_stringify = __commonJS({
-  "node_modules/uuid/dist/stringify.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _validate = _interopRequireDefault(require_validate());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    var byteToHex = [];
-    for (let i = 0; i < 256; ++i) {
-      byteToHex.push((i + 256).toString(16).substr(1));
-    }
-    function stringify(arr, offset = 0) {
-      const uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
-      if (!(0, _validate.default)(uuid)) {
-        throw TypeError("Stringified UUID is invalid");
+      if (convertedValue.includes(delimiter)) {
+        throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
       }
-      return uuid;
+      return `${key}<<${delimiter}${os.EOL}${convertedValue}${os.EOL}${delimiter}`;
     }
-    var _default = stringify;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/v1.js
-var require_v1 = __commonJS({
-  "node_modules/uuid/dist/v1.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _rng = _interopRequireDefault(require_rng());
-    var _stringify = _interopRequireDefault(require_stringify());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    var _nodeId;
-    var _clockseq;
-    var _lastMSecs = 0;
-    var _lastNSecs = 0;
-    function v1(options, buf, offset) {
-      let i = buf && offset || 0;
-      const b = buf || new Array(16);
-      options = options || {};
-      let node = options.node || _nodeId;
-      let clockseq = options.clockseq !== void 0 ? options.clockseq : _clockseq;
-      if (node == null || clockseq == null) {
-        const seedBytes = options.random || (options.rng || _rng.default)();
-        if (node == null) {
-          node = _nodeId = [seedBytes[0] | 1, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
-        }
-        if (clockseq == null) {
-          clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383;
-        }
-      }
-      let msecs = options.msecs !== void 0 ? options.msecs : Date.now();
-      let nsecs = options.nsecs !== void 0 ? options.nsecs : _lastNSecs + 1;
-      const dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
-      if (dt < 0 && options.clockseq === void 0) {
-        clockseq = clockseq + 1 & 16383;
-      }
-      if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === void 0) {
-        nsecs = 0;
-      }
-      if (nsecs >= 1e4) {
-        throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-      }
-      _lastMSecs = msecs;
-      _lastNSecs = nsecs;
-      _clockseq = clockseq;
-      msecs += 122192928e5;
-      const tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
-      b[i++] = tl >>> 24 & 255;
-      b[i++] = tl >>> 16 & 255;
-      b[i++] = tl >>> 8 & 255;
-      b[i++] = tl & 255;
-      const tmh = msecs / 4294967296 * 1e4 & 268435455;
-      b[i++] = tmh >>> 8 & 255;
-      b[i++] = tmh & 255;
-      b[i++] = tmh >>> 24 & 15 | 16;
-      b[i++] = tmh >>> 16 & 255;
-      b[i++] = clockseq >>> 8 | 128;
-      b[i++] = clockseq & 255;
-      for (let n = 0; n < 6; ++n) {
-        b[i + n] = node[n];
-      }
-      return buf || (0, _stringify.default)(b);
-    }
-    var _default = v1;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/parse.js
-var require_parse = __commonJS({
-  "node_modules/uuid/dist/parse.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _validate = _interopRequireDefault(require_validate());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function parse(uuid) {
-      if (!(0, _validate.default)(uuid)) {
-        throw TypeError("Invalid UUID");
-      }
-      let v;
-      const arr = new Uint8Array(16);
-      arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
-      arr[1] = v >>> 16 & 255;
-      arr[2] = v >>> 8 & 255;
-      arr[3] = v & 255;
-      arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
-      arr[5] = v & 255;
-      arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
-      arr[7] = v & 255;
-      arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
-      arr[9] = v & 255;
-      arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 1099511627776 & 255;
-      arr[11] = v / 4294967296 & 255;
-      arr[12] = v >>> 24 & 255;
-      arr[13] = v >>> 16 & 255;
-      arr[14] = v >>> 8 & 255;
-      arr[15] = v & 255;
-      return arr;
-    }
-    var _default = parse;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/v35.js
-var require_v35 = __commonJS({
-  "node_modules/uuid/dist/v35.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = _default;
-    exports.URL = exports.DNS = void 0;
-    var _stringify = _interopRequireDefault(require_stringify());
-    var _parse = _interopRequireDefault(require_parse());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function stringToBytes(str) {
-      str = unescape(encodeURIComponent(str));
-      const bytes = [];
-      for (let i = 0; i < str.length; ++i) {
-        bytes.push(str.charCodeAt(i));
-      }
-      return bytes;
-    }
-    var DNS = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
-    exports.DNS = DNS;
-    var URL2 = "6ba7b811-9dad-11d1-80b4-00c04fd430c8";
-    exports.URL = URL2;
-    function _default(name, version2, hashfunc) {
-      function generateUUID(value, namespace, buf, offset) {
-        if (typeof value === "string") {
-          value = stringToBytes(value);
-        }
-        if (typeof namespace === "string") {
-          namespace = (0, _parse.default)(namespace);
-        }
-        if (namespace.length !== 16) {
-          throw TypeError("Namespace must be array-like (16 iterable integer values, 0-255)");
-        }
-        let bytes = new Uint8Array(16 + value.length);
-        bytes.set(namespace);
-        bytes.set(value, namespace.length);
-        bytes = hashfunc(bytes);
-        bytes[6] = bytes[6] & 15 | version2;
-        bytes[8] = bytes[8] & 63 | 128;
-        if (buf) {
-          offset = offset || 0;
-          for (let i = 0; i < 16; ++i) {
-            buf[offset + i] = bytes[i];
-          }
-          return buf;
-        }
-        return (0, _stringify.default)(bytes);
-      }
-      try {
-        generateUUID.name = name;
-      } catch (err) {
-      }
-      generateUUID.DNS = DNS;
-      generateUUID.URL = URL2;
-      return generateUUID;
-    }
-  }
-});
-
-// node_modules/uuid/dist/md5.js
-var require_md5 = __commonJS({
-  "node_modules/uuid/dist/md5.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _crypto = _interopRequireDefault(require("crypto"));
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function md5(bytes) {
-      if (Array.isArray(bytes)) {
-        bytes = Buffer.from(bytes);
-      } else if (typeof bytes === "string") {
-        bytes = Buffer.from(bytes, "utf8");
-      }
-      return _crypto.default.createHash("md5").update(bytes).digest();
-    }
-    var _default = md5;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/v3.js
-var require_v3 = __commonJS({
-  "node_modules/uuid/dist/v3.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _v = _interopRequireDefault(require_v35());
-    var _md = _interopRequireDefault(require_md5());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    var v3 = (0, _v.default)("v3", 48, _md.default);
-    var _default = v3;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/v4.js
-var require_v4 = __commonJS({
-  "node_modules/uuid/dist/v4.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _rng = _interopRequireDefault(require_rng());
-    var _stringify = _interopRequireDefault(require_stringify());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function v4(options, buf, offset) {
-      options = options || {};
-      const rnds = options.random || (options.rng || _rng.default)();
-      rnds[6] = rnds[6] & 15 | 64;
-      rnds[8] = rnds[8] & 63 | 128;
-      if (buf) {
-        offset = offset || 0;
-        for (let i = 0; i < 16; ++i) {
-          buf[offset + i] = rnds[i];
-        }
-        return buf;
-      }
-      return (0, _stringify.default)(rnds);
-    }
-    var _default = v4;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/sha1.js
-var require_sha1 = __commonJS({
-  "node_modules/uuid/dist/sha1.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _crypto = _interopRequireDefault(require("crypto"));
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function sha1(bytes) {
-      if (Array.isArray(bytes)) {
-        bytes = Buffer.from(bytes);
-      } else if (typeof bytes === "string") {
-        bytes = Buffer.from(bytes, "utf8");
-      }
-      return _crypto.default.createHash("sha1").update(bytes).digest();
-    }
-    var _default = sha1;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/v5.js
-var require_v5 = __commonJS({
-  "node_modules/uuid/dist/v5.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _v = _interopRequireDefault(require_v35());
-    var _sha = _interopRequireDefault(require_sha1());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    var v5 = (0, _v.default)("v5", 80, _sha.default);
-    var _default = v5;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/nil.js
-var require_nil = __commonJS({
-  "node_modules/uuid/dist/nil.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _default = "00000000-0000-0000-0000-000000000000";
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/version.js
-var require_version = __commonJS({
-  "node_modules/uuid/dist/version.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _validate = _interopRequireDefault(require_validate());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    function version2(uuid) {
-      if (!(0, _validate.default)(uuid)) {
-        throw TypeError("Invalid UUID");
-      }
-      return parseInt(uuid.substr(14, 1), 16);
-    }
-    var _default = version2;
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/dist/index.js
-var require_dist = __commonJS({
-  "node_modules/uuid/dist/index.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    Object.defineProperty(exports, "v1", {
-      enumerable: true,
-      get: function() {
-        return _v.default;
-      }
-    });
-    Object.defineProperty(exports, "v3", {
-      enumerable: true,
-      get: function() {
-        return _v2.default;
-      }
-    });
-    Object.defineProperty(exports, "v4", {
-      enumerable: true,
-      get: function() {
-        return _v3.default;
-      }
-    });
-    Object.defineProperty(exports, "v5", {
-      enumerable: true,
-      get: function() {
-        return _v4.default;
-      }
-    });
-    Object.defineProperty(exports, "NIL", {
-      enumerable: true,
-      get: function() {
-        return _nil.default;
-      }
-    });
-    Object.defineProperty(exports, "version", {
-      enumerable: true,
-      get: function() {
-        return _version.default;
-      }
-    });
-    Object.defineProperty(exports, "validate", {
-      enumerable: true,
-      get: function() {
-        return _validate.default;
-      }
-    });
-    Object.defineProperty(exports, "stringify", {
-      enumerable: true,
-      get: function() {
-        return _stringify.default;
-      }
-    });
-    Object.defineProperty(exports, "parse", {
-      enumerable: true,
-      get: function() {
-        return _parse.default;
-      }
-    });
-    var _v = _interopRequireDefault(require_v1());
-    var _v2 = _interopRequireDefault(require_v3());
-    var _v3 = _interopRequireDefault(require_v4());
-    var _v4 = _interopRequireDefault(require_v5());
-    var _nil = _interopRequireDefault(require_nil());
-    var _version = _interopRequireDefault(require_version());
-    var _validate = _interopRequireDefault(require_validate());
-    var _stringify = _interopRequireDefault(require_stringify());
-    var _parse = _interopRequireDefault(require_parse());
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
+    exports.prepareKeyValueMessage = prepareKeyValueMessage;
   }
 });
 
@@ -2005,7 +1868,6 @@ var require_core = __commonJS({
     var utils_1 = require_utils();
     var os = __importStar(require("os"));
     var path2 = __importStar(require("path"));
-    var uuid_1 = require_dist();
     var oidc_utils_1 = require_oidc_utils();
     var ExitCode;
     (function(ExitCode2) {
@@ -2017,18 +1879,9 @@ var require_core = __commonJS({
       process.env[name] = convertedVal;
       const filePath = process.env["GITHUB_ENV"] || "";
       if (filePath) {
-        const delimiter = `ghadelimiter_${uuid_1.v4()}`;
-        if (name.includes(delimiter)) {
-          throw new Error(`Unexpected input: name should not contain the delimiter "${delimiter}"`);
-        }
-        if (convertedVal.includes(delimiter)) {
-          throw new Error(`Unexpected input: value should not contain the delimiter "${delimiter}"`);
-        }
-        const commandValue = `${name}<<${delimiter}${os.EOL}${convertedVal}${os.EOL}${delimiter}`;
-        file_command_1.issueCommand("ENV", commandValue);
-      } else {
-        command_1.issueCommand("set-env", { name }, convertedVal);
+        return file_command_1.issueFileCommand("ENV", file_command_1.prepareKeyValueMessage(name, val));
       }
+      command_1.issueCommand("set-env", { name }, convertedVal);
     }
     exports.exportVariable = exportVariable;
     function setSecret(secret) {
@@ -2038,7 +1891,7 @@ var require_core = __commonJS({
     function addPath(inputPath) {
       const filePath = process.env["GITHUB_PATH"] || "";
       if (filePath) {
-        file_command_1.issueCommand("PATH", inputPath);
+        file_command_1.issueFileCommand("PATH", inputPath);
       } else {
         command_1.issueCommand("add-path", {}, inputPath);
       }
@@ -2058,7 +1911,10 @@ var require_core = __commonJS({
     exports.getInput = getInput2;
     function getMultilineInput(name, options) {
       const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
-      return inputs;
+      if (options && options.trimWhitespace === false) {
+        return inputs;
+      }
+      return inputs.map((input) => input.trim());
     }
     exports.getMultilineInput = getMultilineInput;
     function getBooleanInput2(name, options) {
@@ -2074,8 +1930,12 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.getBooleanInput = getBooleanInput2;
     function setOutput(name, value) {
+      const filePath = process.env["GITHUB_OUTPUT"] || "";
+      if (filePath) {
+        return file_command_1.issueFileCommand("OUTPUT", file_command_1.prepareKeyValueMessage(name, value));
+      }
       process.stdout.write(os.EOL);
-      command_1.issueCommand("set-output", { name }, value);
+      command_1.issueCommand("set-output", { name }, utils_1.toCommandValue(value));
     }
     exports.setOutput = setOutput;
     function setCommandEcho(enabled) {
@@ -2133,7 +1993,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports.group = group;
     function saveState(name, value) {
-      command_1.issueCommand("save-state", { name }, value);
+      const filePath = process.env["GITHUB_STATE"] || "";
+      if (filePath) {
+        return file_command_1.issueFileCommand("STATE", file_command_1.prepareKeyValueMessage(name, value));
+      }
+      command_1.issueCommand("save-state", { name }, utils_1.toCommandValue(value));
     }
     exports.saveState = saveState;
     function getState(name) {
@@ -2740,74 +2604,74 @@ var require_semver = __commonJS({
       }
     }
     var i;
-    exports.parse = parse;
-    function parse(version2, options) {
+    exports.parse = parse2;
+    function parse2(version3, options) {
       if (!options || typeof options !== "object") {
         options = {
           loose: !!options,
           includePrerelease: false
         };
       }
-      if (version2 instanceof SemVer3) {
-        return version2;
+      if (version3 instanceof SemVer3) {
+        return version3;
       }
-      if (typeof version2 !== "string") {
+      if (typeof version3 !== "string") {
         return null;
       }
-      if (version2.length > MAX_LENGTH) {
+      if (version3.length > MAX_LENGTH) {
         return null;
       }
       var r = options.loose ? re[t.LOOSE] : re[t.FULL];
-      if (!r.test(version2)) {
+      if (!r.test(version3)) {
         return null;
       }
       try {
-        return new SemVer3(version2, options);
+        return new SemVer3(version3, options);
       } catch (er) {
         return null;
       }
     }
     exports.valid = valid;
-    function valid(version2, options) {
-      var v = parse(version2, options);
+    function valid(version3, options) {
+      var v = parse2(version3, options);
       return v ? v.version : null;
     }
     exports.clean = clean;
-    function clean(version2, options) {
-      var s = parse(version2.trim().replace(/^[=v]+/, ""), options);
+    function clean(version3, options) {
+      var s = parse2(version3.trim().replace(/^[=v]+/, ""), options);
       return s ? s.version : null;
     }
     exports.SemVer = SemVer3;
-    function SemVer3(version2, options) {
+    function SemVer3(version3, options) {
       if (!options || typeof options !== "object") {
         options = {
           loose: !!options,
           includePrerelease: false
         };
       }
-      if (version2 instanceof SemVer3) {
-        if (version2.loose === options.loose) {
-          return version2;
+      if (version3 instanceof SemVer3) {
+        if (version3.loose === options.loose) {
+          return version3;
         } else {
-          version2 = version2.version;
+          version3 = version3.version;
         }
-      } else if (typeof version2 !== "string") {
-        throw new TypeError("Invalid Version: " + version2);
+      } else if (typeof version3 !== "string") {
+        throw new TypeError("Invalid Version: " + version3);
       }
-      if (version2.length > MAX_LENGTH) {
+      if (version3.length > MAX_LENGTH) {
         throw new TypeError("version is longer than " + MAX_LENGTH + " characters");
       }
       if (!(this instanceof SemVer3)) {
-        return new SemVer3(version2, options);
+        return new SemVer3(version3, options);
       }
-      debug("SemVer", version2, options);
+      debug("SemVer", version3, options);
       this.options = options;
       this.loose = !!options.loose;
-      var m = version2.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
+      var m = version3.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
       if (!m) {
-        throw new TypeError("Invalid Version: " + version2);
+        throw new TypeError("Invalid Version: " + version3);
       }
-      this.raw = version2;
+      this.raw = version3;
       this.major = +m[1];
       this.minor = +m[2];
       this.patch = +m[3];
@@ -2990,32 +2854,32 @@ var require_semver = __commonJS({
       return this;
     };
     exports.inc = inc;
-    function inc(version2, release, loose, identifier) {
+    function inc(version3, release, loose, identifier) {
       if (typeof loose === "string") {
         identifier = loose;
         loose = void 0;
       }
       try {
-        return new SemVer3(version2, loose).inc(release, identifier).version;
+        return new SemVer3(version3, loose).inc(release, identifier).version;
       } catch (er) {
         return null;
       }
     }
     exports.diff = diff;
-    function diff(version1, version2) {
-      if (eq(version1, version2)) {
+    function diff(version1, version22) {
+      if (eq(version1, version22)) {
         return null;
       } else {
-        var v1 = parse(version1);
-        var v2 = parse(version2);
+        var v12 = parse2(version1);
+        var v2 = parse2(version22);
         var prefix = "";
-        if (v1.prerelease.length || v2.prerelease.length) {
+        if (v12.prerelease.length || v2.prerelease.length) {
           prefix = "pre";
           var defaultResult = "prerelease";
         }
-        for (var key in v1) {
+        for (var key in v12) {
           if (key === "major" || key === "minor" || key === "patch") {
-            if (v1[key] !== v2[key]) {
+            if (v12[key] !== v2[key]) {
               return prefix + key;
             }
           }
@@ -3186,19 +3050,19 @@ var require_semver = __commonJS({
     Comparator.prototype.toString = function() {
       return this.value;
     };
-    Comparator.prototype.test = function(version2) {
-      debug("Comparator.test", version2, this.options.loose);
-      if (this.semver === ANY || version2 === ANY) {
+    Comparator.prototype.test = function(version3) {
+      debug("Comparator.test", version3, this.options.loose);
+      if (this.semver === ANY || version3 === ANY) {
         return true;
       }
-      if (typeof version2 === "string") {
+      if (typeof version3 === "string") {
         try {
-          version2 = new SemVer3(version2, this.options);
+          version3 = new SemVer3(version3, this.options);
         } catch (er) {
           return false;
         }
       }
-      return cmp(version2, this.operator, this.semver, this.options);
+      return cmp(version3, this.operator, this.semver, this.options);
     };
     Comparator.prototype.intersects = function(comp, options) {
       if (!(comp instanceof Comparator)) {
@@ -3509,31 +3373,31 @@ var require_semver = __commonJS({
       }
       return (from + " " + to).trim();
     }
-    Range2.prototype.test = function(version2) {
-      if (!version2) {
+    Range2.prototype.test = function(version3) {
+      if (!version3) {
         return false;
       }
-      if (typeof version2 === "string") {
+      if (typeof version3 === "string") {
         try {
-          version2 = new SemVer3(version2, this.options);
+          version3 = new SemVer3(version3, this.options);
         } catch (er) {
           return false;
         }
       }
       for (var i2 = 0; i2 < this.set.length; i2++) {
-        if (testSet(this.set[i2], version2, this.options)) {
+        if (testSet(this.set[i2], version3, this.options)) {
           return true;
         }
       }
       return false;
     };
-    function testSet(set, version2, options) {
+    function testSet(set, version3, options) {
       for (var i2 = 0; i2 < set.length; i2++) {
-        if (!set[i2].test(version2)) {
+        if (!set[i2].test(version3)) {
           return false;
         }
       }
-      if (version2.prerelease.length && !options.includePrerelease) {
+      if (version3.prerelease.length && !options.includePrerelease) {
         for (i2 = 0; i2 < set.length; i2++) {
           debug(set[i2].semver);
           if (set[i2].semver === ANY) {
@@ -3541,7 +3405,7 @@ var require_semver = __commonJS({
           }
           if (set[i2].semver.prerelease.length > 0) {
             var allowed = set[i2].semver;
-            if (allowed.major === version2.major && allowed.minor === version2.minor && allowed.patch === version2.patch) {
+            if (allowed.major === version3.major && allowed.minor === version3.minor && allowed.patch === version3.patch) {
               return true;
             }
           }
@@ -3551,13 +3415,13 @@ var require_semver = __commonJS({
       return true;
     }
     exports.satisfies = satisfies;
-    function satisfies(version2, range, options) {
+    function satisfies(version3, range, options) {
       try {
         range = new Range2(range, options);
       } catch (er) {
         return false;
       }
-      return range.test(version2);
+      return range.test(version3);
     }
     exports.maxSatisfying = maxSatisfying;
     function maxSatisfying(versions, range, options) {
@@ -3649,16 +3513,16 @@ var require_semver = __commonJS({
       }
     }
     exports.ltr = ltr;
-    function ltr(version2, range, options) {
-      return outside(version2, range, "<", options);
+    function ltr(version3, range, options) {
+      return outside(version3, range, "<", options);
     }
     exports.gtr = gtr;
-    function gtr(version2, range, options) {
-      return outside(version2, range, ">", options);
+    function gtr(version3, range, options) {
+      return outside(version3, range, ">", options);
     }
     exports.outside = outside;
-    function outside(version2, range, hilo, options) {
-      version2 = new SemVer3(version2, options);
+    function outside(version3, range, hilo, options) {
+      version3 = new SemVer3(version3, options);
       range = new Range2(range, options);
       var gtfn, ltefn, ltfn, comp, ecomp;
       switch (hilo) {
@@ -3679,7 +3543,7 @@ var require_semver = __commonJS({
         default:
           throw new TypeError('Must provide a hilo val of "<" or ">"');
       }
-      if (satisfies(version2, range, options)) {
+      if (satisfies(version3, range, options)) {
         return false;
       }
       for (var i2 = 0; i2 < range.set.length; ++i2) {
@@ -3701,17 +3565,17 @@ var require_semver = __commonJS({
         if (high.operator === comp || high.operator === ecomp) {
           return false;
         }
-        if ((!low.operator || low.operator === comp) && ltefn(version2, low.semver)) {
+        if ((!low.operator || low.operator === comp) && ltefn(version3, low.semver)) {
           return false;
-        } else if (low.operator === ecomp && ltfn(version2, low.semver)) {
+        } else if (low.operator === ecomp && ltfn(version3, low.semver)) {
           return false;
         }
       }
       return true;
     }
     exports.prerelease = prerelease;
-    function prerelease(version2, options) {
-      var parsed = parse(version2, options);
+    function prerelease(version3, options) {
+      var parsed = parse2(version3, options);
       return parsed && parsed.prerelease.length ? parsed.prerelease : null;
     }
     exports.intersects = intersects;
@@ -3721,23 +3585,23 @@ var require_semver = __commonJS({
       return r1.intersects(r2);
     }
     exports.coerce = coerce;
-    function coerce(version2, options) {
-      if (version2 instanceof SemVer3) {
-        return version2;
+    function coerce(version3, options) {
+      if (version3 instanceof SemVer3) {
+        return version3;
       }
-      if (typeof version2 === "number") {
-        version2 = String(version2);
+      if (typeof version3 === "number") {
+        version3 = String(version3);
       }
-      if (typeof version2 !== "string") {
+      if (typeof version3 !== "string") {
         return null;
       }
       options = options || {};
       var match = null;
       if (!options.rtl) {
-        match = version2.match(re[t.COERCE]);
+        match = version3.match(re[t.COERCE]);
       } else {
         var next;
-        while ((next = re[t.COERCERTL].exec(version2)) && (!match || match.index + match[0].length !== version2.length)) {
+        while ((next = re[t.COERCERTL].exec(version3)) && (!match || match.index + match[0].length !== version3.length)) {
           if (!match || next.index + next[0].length !== match.index + match[0].length) {
             match = next;
           }
@@ -3748,7 +3612,7 @@ var require_semver = __commonJS({
       if (match === null) {
         return null;
       }
-      return parse(match[2] + "." + (match[3] || "0") + "." + (match[4] || "0"), options);
+      return parse2(match[2] + "." + (match[3] || "0") + "." + (match[4] || "0"), options);
     }
   }
 });
@@ -3826,9 +3690,9 @@ var require_manifest = __commonJS({
         let match;
         let file;
         for (const candidate of candidates) {
-          const version2 = candidate.version;
-          core_1.debug(`check ${version2} satisfies ${versionSpec}`);
-          if (semver.satisfies(version2, versionSpec) && (!stable || candidate.stable === stable)) {
+          const version3 = candidate.version;
+          core_1.debug(`check ${version3} satisfies ${versionSpec}`);
+          if (semver.satisfies(version3, versionSpec) && (!stable || candidate.stable === stable)) {
             file = candidate.files.find((item) => {
               core_1.debug(`${item.arch}===${archFilter} && ${item.platform}===${platFilter}`);
               let chk = item.arch === archFilter && item.platform === platFilter;
@@ -3859,9 +3723,9 @@ var require_manifest = __commonJS({
     exports._findMatch = _findMatch;
     function _getOsVersion() {
       const plat = os.platform();
-      let version2 = "";
+      let version3 = "";
       if (plat === "darwin") {
-        version2 = cp2.execSync("sw_vers -productVersion").toString();
+        version3 = cp2.execSync("sw_vers -productVersion").toString();
       } else if (plat === "linux") {
         const lsbContents = module2.exports._readLinuxVersionFile();
         if (lsbContents) {
@@ -3869,13 +3733,13 @@ var require_manifest = __commonJS({
           for (const line of lines) {
             const parts = line.split("=");
             if (parts.length === 2 && (parts[0].trim() === "VERSION_ID" || parts[0].trim() === "DISTRIB_RELEASE")) {
-              version2 = parts[1].trim().replace(/^"/, "").replace(/"$/, "");
+              version3 = parts[1].trim().replace(/^"/, "").replace(/"$/, "");
               break;
             }
           }
         }
       }
-      return version2;
+      return version3;
     }
     exports._getOsVersion = _getOsVersion;
     function _readLinuxVersionFile() {
@@ -3894,11 +3758,11 @@ var require_manifest = __commonJS({
 });
 
 // node_modules/@actions/tool-cache/node_modules/uuid/lib/rng.js
-var require_rng2 = __commonJS({
+var require_rng = __commonJS({
   "node_modules/@actions/tool-cache/node_modules/uuid/lib/rng.js"(exports, module2) {
-    var crypto = require("crypto");
+    var crypto4 = require("crypto");
     module2.exports = function nodeRNG() {
-      return crypto.randomBytes(16);
+      return crypto4.randomBytes(16);
     };
   }
 });
@@ -3906,14 +3770,14 @@ var require_rng2 = __commonJS({
 // node_modules/@actions/tool-cache/node_modules/uuid/lib/bytesToUuid.js
 var require_bytesToUuid = __commonJS({
   "node_modules/@actions/tool-cache/node_modules/uuid/lib/bytesToUuid.js"(exports, module2) {
-    var byteToHex = [];
+    var byteToHex2 = [];
     for (i = 0; i < 256; ++i) {
-      byteToHex[i] = (i + 256).toString(16).substr(1);
+      byteToHex2[i] = (i + 256).toString(16).substr(1);
     }
     var i;
     function bytesToUuid(buf, offset) {
       var i2 = offset || 0;
-      var bth = byteToHex;
+      var bth = byteToHex2;
       return [
         bth[buf[i2++]],
         bth[buf[i2++]],
@@ -3942,18 +3806,18 @@ var require_bytesToUuid = __commonJS({
 });
 
 // node_modules/@actions/tool-cache/node_modules/uuid/v4.js
-var require_v42 = __commonJS({
+var require_v4 = __commonJS({
   "node_modules/@actions/tool-cache/node_modules/uuid/v4.js"(exports, module2) {
-    var rng = require_rng2();
+    var rng2 = require_rng();
     var bytesToUuid = require_bytesToUuid();
-    function v4(options, buf, offset) {
+    function v42(options, buf, offset) {
       var i = buf && offset || 0;
       if (typeof options == "string") {
         buf = options === "binary" ? new Array(16) : null;
         options = null;
       }
       options = options || {};
-      var rnds = options.random || (options.rng || rng)();
+      var rnds = options.random || (options.rng || rng2)();
       rnds[6] = rnds[6] & 15 | 64;
       rnds[8] = rnds[8] & 63 | 128;
       if (buf) {
@@ -3963,7 +3827,7 @@ var require_v42 = __commonJS({
       }
       return buf || bytesToUuid(rnds);
     }
-    module2.exports = v4;
+    module2.exports = v42;
   }
 });
 
@@ -4741,7 +4605,7 @@ var require_tool_cache = __commonJS({
     var stream = __importStar(require("stream"));
     var util = __importStar(require("util"));
     var assert_1 = require("assert");
-    var v4_1 = __importDefault(require_v42());
+    var v4_1 = __importDefault(require_v4());
     var exec_1 = require_exec();
     var retry_helper_1 = require_retry_helper();
     var HTTPError = class extends Error {
@@ -5010,39 +4874,39 @@ var require_tool_cache = __commonJS({
         yield exec_1.exec(`"${unzipPath}"`, args, { cwd: dest });
       });
     }
-    function cacheDir2(sourceDir, tool, version2, arch) {
+    function cacheDir2(sourceDir, tool, version3, arch) {
       return __awaiter(this, void 0, void 0, function* () {
-        version2 = semver.clean(version2) || version2;
+        version3 = semver.clean(version3) || version3;
         arch = arch || os.arch();
-        core3.debug(`Caching tool ${tool} ${version2} ${arch}`);
+        core3.debug(`Caching tool ${tool} ${version3} ${arch}`);
         core3.debug(`source dir: ${sourceDir}`);
         if (!fs.statSync(sourceDir).isDirectory()) {
           throw new Error("sourceDir is not a directory");
         }
-        const destPath = yield _createToolPath(tool, version2, arch);
+        const destPath = yield _createToolPath(tool, version3, arch);
         for (const itemName of fs.readdirSync(sourceDir)) {
           const s = path2.join(sourceDir, itemName);
           yield io.cp(s, destPath, { recursive: true });
         }
-        _completeToolPath(tool, version2, arch);
+        _completeToolPath(tool, version3, arch);
         return destPath;
       });
     }
     exports.cacheDir = cacheDir2;
-    function cacheFile(sourceFile, targetFile, tool, version2, arch) {
+    function cacheFile(sourceFile, targetFile, tool, version3, arch) {
       return __awaiter(this, void 0, void 0, function* () {
-        version2 = semver.clean(version2) || version2;
+        version3 = semver.clean(version3) || version3;
         arch = arch || os.arch();
-        core3.debug(`Caching tool ${tool} ${version2} ${arch}`);
+        core3.debug(`Caching tool ${tool} ${version3} ${arch}`);
         core3.debug(`source file: ${sourceFile}`);
         if (!fs.statSync(sourceFile).isFile()) {
           throw new Error("sourceFile is not a file");
         }
-        const destFolder = yield _createToolPath(tool, version2, arch);
+        const destFolder = yield _createToolPath(tool, version3, arch);
         const destPath = path2.join(destFolder, targetFile);
         core3.debug(`destination file ${destPath}`);
         yield io.cp(sourceFile, destPath);
-        _completeToolPath(tool, version2, arch);
+        _completeToolPath(tool, version3, arch);
         return destFolder;
       });
     }
@@ -5144,9 +5008,9 @@ var require_tool_cache = __commonJS({
         return dest;
       });
     }
-    function _createToolPath(tool, version2, arch) {
+    function _createToolPath(tool, version3, arch) {
       return __awaiter(this, void 0, void 0, function* () {
-        const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version2) || version2, arch || "");
+        const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version3) || version3, arch || "");
         core3.debug(`destination ${folderPath}`);
         const markerPath = `${folderPath}.complete`;
         yield io.rmRF(folderPath);
@@ -5155,8 +5019,8 @@ var require_tool_cache = __commonJS({
         return folderPath;
       });
     }
-    function _completeToolPath(tool, version2, arch) {
-      const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version2) || version2, arch || "");
+    function _completeToolPath(tool, version3, arch) {
+      const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version3) || version3, arch || "");
       const markerPath = `${folderPath}.complete`;
       fs.writeFileSync(markerPath, "");
       core3.debug("finished caching tool");
@@ -5170,7 +5034,7 @@ var require_tool_cache = __commonJS({
     }
     exports.isExplicitVersion = isExplicitVersion;
     function evaluateVersions(versions, versionSpec) {
-      let version2 = "";
+      let version3 = "";
       core3.debug(`evaluating ${versions.length} versions`);
       versions = versions.sort((a, b) => {
         if (semver.gt(a, b)) {
@@ -5182,16 +5046,16 @@ var require_tool_cache = __commonJS({
         const potential = versions[i];
         const satisfied = semver.satisfies(potential, versionSpec);
         if (satisfied) {
-          version2 = potential;
+          version3 = potential;
           break;
         }
       }
-      if (version2) {
-        core3.debug(`matched: ${version2}`);
+      if (version3) {
+        core3.debug(`matched: ${version3}`);
       } else {
         core3.debug("match not found");
       }
-      return version2;
+      return version3;
     }
     exports.evaluateVersions = evaluateVersions;
     function _getCacheDirectory() {
@@ -5344,31 +5208,31 @@ var require_semver2 = __commonJS({
     var parseOptions = require_parse_options();
     var { compareIdentifiers } = require_identifiers();
     var SemVer3 = class {
-      constructor(version2, options) {
+      constructor(version3, options) {
         options = parseOptions(options);
-        if (version2 instanceof SemVer3) {
-          if (version2.loose === !!options.loose && version2.includePrerelease === !!options.includePrerelease) {
-            return version2;
+        if (version3 instanceof SemVer3) {
+          if (version3.loose === !!options.loose && version3.includePrerelease === !!options.includePrerelease) {
+            return version3;
           } else {
-            version2 = version2.version;
+            version3 = version3.version;
           }
-        } else if (typeof version2 !== "string") {
-          throw new TypeError(`Invalid Version: ${version2}`);
+        } else if (typeof version3 !== "string") {
+          throw new TypeError(`Invalid Version: ${version3}`);
         }
-        if (version2.length > MAX_LENGTH) {
+        if (version3.length > MAX_LENGTH) {
           throw new TypeError(
             `version is longer than ${MAX_LENGTH} characters`
           );
         }
-        debug("SemVer", version2, options);
+        debug("SemVer", version3, options);
         this.options = options;
         this.loose = !!options.loose;
         this.includePrerelease = !!options.includePrerelease;
-        const m = version2.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
+        const m = version3.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
         if (!m) {
-          throw new TypeError(`Invalid Version: ${version2}`);
+          throw new TypeError(`Invalid Version: ${version3}`);
         }
-        this.raw = version2;
+        this.raw = version3;
         this.major = +m[1];
         this.minor = +m[2];
         this.patch = +m[3];
@@ -5617,7 +5481,7 @@ var import_semver2 = __toESM(require_semver2());
 var import_string_argv = __toESM(require_string_argv());
 
 // package.json
-var version = "1.4.1";
+var version2 = "1.4.1";
 
 // node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
@@ -5784,13 +5648,12 @@ function safeSet(obj, key, value) {
     obj[key] = value;
   }
 }
-function toTerminals(type) {
-  const result = [];
-  type.toTerminals(result);
-  return result;
-}
 function hasTerminal(type, name) {
-  return toTerminals(type).some((t) => t.name === name);
+  let has = false;
+  type.toTerminals((t) => {
+    has = has || t.name === name;
+  });
+  return has;
 }
 var Nothing = Symbol();
 var AbstractType = class {
@@ -5856,9 +5719,10 @@ var AbstractType = class {
     });
   }
 };
+var isOptional = Symbol();
 var Type = class extends AbstractType {
-  toTerminals(into) {
-    into.push(this);
+  toTerminals(func) {
+    func(this);
   }
 };
 var Optional = class extends AbstractType {
@@ -5870,10 +5734,10 @@ var Optional = class extends AbstractType {
   func(v, mode) {
     return v === void 0 || v === Nothing ? true : this.type.func(v, mode);
   }
-  toTerminals(into) {
-    into.push(this);
-    into.push(undefined_());
-    this.type.toTerminals(into);
+  toTerminals(func) {
+    func(this);
+    func(undefinedSingleton);
+    this.type.toTerminals(func);
   }
 };
 function prependIssue(issue, result) {
@@ -5938,48 +5802,6 @@ var ObjectType = class extends Type {
     this.restType = restType;
     this.checks = checks;
     this.name = "object";
-    this.invalidType = {
-      code: "invalid_type",
-      expected: ["object"]
-    };
-    const requiredKeys = [];
-    const optionalKeys = [];
-    for (const key in shape) {
-      if (hasTerminal(shape[key], "optional")) {
-        optionalKeys.push(key);
-      } else {
-        requiredKeys.push(key);
-      }
-    }
-    this.requiredCount = requiredKeys.length | 0;
-    this.optionalCount = optionalKeys.length | 0;
-    this.totalCount = this.requiredCount + this.optionalCount | 0;
-    this.keys = [...requiredKeys, ...optionalKeys];
-    this.types = this.keys.map((key) => shape[key]);
-    this.bitsTemplate = createBitsetTemplate(this.totalCount);
-    this.invertedIndexes = /* @__PURE__ */ Object.create(null);
-    this.keys.forEach((key, index) => {
-      this.invertedIndexes[key] = ~index;
-    });
-    this.missingValues = requiredKeys.map((key) => ({
-      code: "missing_value",
-      path: [key]
-    }));
-    this.assignKnown = (to, from) => {
-      const keys = this.keys;
-      const requiredCount = this.requiredCount;
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        const value = from[key];
-        if (i < requiredCount || value !== void 0 || key in from) {
-          safeSet(to, key, value);
-        }
-      }
-      return to;
-    };
-    this.assignAll = (to, from) => {
-      return this.assignKnown(assignEnumerable(to, from), from);
-    };
   }
   check(func, error) {
     var _a;
@@ -5992,127 +5814,13 @@ var ObjectType = class extends Type {
       }
     ]);
   }
-  checkRemainingKeys(initialResult, obj, mode, bits, assign) {
-    const keys = this.keys;
-    const types = this.types;
-    const totalCount = this.totalCount;
-    const requiredCount = this.requiredCount;
-    const missingValues = this.missingValues;
-    let result = initialResult;
-    for (let i = 0; i < totalCount; i++) {
-      if (!getBit(bits, i)) {
-        const key = keys[i];
-        const value = key in obj ? obj[key] : Nothing;
-        if (i < requiredCount && value === Nothing) {
-          result = prependIssue(missingValues[i], result);
-        } else {
-          result = addResult(result, obj, key, value, types[i].func(value, mode), assign);
-        }
-      }
-    }
-    return result;
-  }
-  pass(obj, mode) {
-    const keys = this.keys;
-    const types = this.types;
-    const requiredCount = this.requiredCount;
-    const assignKnown = this.assignKnown;
-    let result = true;
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      let value = obj[key];
-      if (value === void 0 && !(key in obj)) {
-        if (i < requiredCount) {
-          result = prependIssue(this.missingValues[i], result);
-          continue;
-        }
-        value = Nothing;
-      }
-      result = addResult(result, obj, key, value, types[i].func(value, mode), assignKnown);
-    }
-    return result;
-  }
-  strict(obj, mode) {
-    const types = this.types;
-    const invertedIndexes = this.invertedIndexes;
-    const assignKnown = this.assignKnown;
-    const bitsTemplate = this.bitsTemplate;
-    let result = true;
-    let unrecognized = void 0;
-    let seenBits = 0;
-    let seenCount = 0;
-    for (const key in obj) {
-      const value = obj[key];
-      const index = ~invertedIndexes[key];
-      if (index >= 0) {
-        seenCount++;
-        seenBits = setBit(bitsTemplate, seenBits, index);
-        result = addResult(result, obj, key, value, types[index].func(value, mode), assignKnown);
-      } else if (mode === 2) {
-        result = result === true ? { code: "ok", value: assignKnown({}, obj) } : result;
-      } else if (unrecognized === void 0) {
-        unrecognized = [key];
-      } else {
-        unrecognized.push(key);
-      }
-    }
-    if (seenCount < this.totalCount) {
-      result = this.checkRemainingKeys(result, obj, mode, seenBits, assignKnown);
-    }
-    return unrecognized === void 0 ? result : prependIssue({
-      code: "unrecognized_keys",
-      keys: unrecognized
-    }, result);
-  }
-  withRest(rest, obj, mode) {
-    if (rest.name === "unknown" && this.totalCount === 0) {
-      return true;
-    }
-    const types = this.types;
-    const invertedIndexes = this.invertedIndexes;
-    const bitsTemplate = this.bitsTemplate;
-    let result = true;
-    let seenBits = 0;
-    let seenCount = 0;
-    for (const key in obj) {
-      const value = obj[key];
-      const index = ~invertedIndexes[key];
-      if (index >= 0) {
-        seenCount++;
-        seenBits = setBit(bitsTemplate, seenBits, index);
-        result = addResult(result, obj, key, value, types[index].func(value, mode), assignEnumerable);
-      } else {
-        result = addResult(result, obj, key, value, rest.func(value, mode), assignEnumerable);
-      }
-    }
-    if (seenCount < this.totalCount) {
-      result = this.checkRemainingKeys(result, obj, mode, seenBits, this.assignAll);
-    }
-    return result;
-  }
-  runChecks(obj, result) {
-    const checks = this.checks;
-    if ((result === true || result.code === "ok") && checks) {
-      const value = result === true ? obj : result.value;
-      for (let i = 0; i < checks.length; i++) {
-        if (!checks[i].func(value)) {
-          return checks[i].issue;
-        }
-      }
-    }
-    return result;
-  }
   func(obj, mode) {
-    if (!isObject(obj)) {
-      return this.invalidType;
+    let func = this._func;
+    if (func === void 0) {
+      func = createObjectMatcher(this.shape, this.restType, this.checks);
+      this._func = func;
     }
-    if (this.restType) {
-      return this.runChecks(obj, this.withRest(this.restType, obj, mode));
-    } else if (mode === 0) {
-      return this.runChecks(obj, this.pass(obj, mode));
-    } else {
-      return this.runChecks(obj, this.strict(obj, mode));
-    }
+    return func(obj, mode);
   }
   rest(restType) {
     return new ObjectType(this.shape, restType);
@@ -6144,6 +5852,154 @@ var ObjectType = class extends Type {
     return new ObjectType(shape, rest);
   }
 };
+function createObjectMatcher(shape, restType, checks) {
+  const requiredKeys = [];
+  const optionalKeys = [];
+  for (const key in shape) {
+    if (hasTerminal(shape[key], "optional")) {
+      optionalKeys.push(key);
+    } else {
+      requiredKeys.push(key);
+    }
+  }
+  const requiredCount = requiredKeys.length | 0;
+  const optionalCount = optionalKeys.length | 0;
+  const totalCount = requiredCount + optionalCount | 0;
+  const keys = [...requiredKeys, ...optionalKeys];
+  const types = keys.map((key) => shape[key]);
+  const bitsTemplate = createBitsetTemplate(totalCount);
+  const invertedIndexes = /* @__PURE__ */ Object.create(null);
+  keys.forEach((key, index) => {
+    invertedIndexes[key] = ~index;
+  });
+  const invalidType = {
+    code: "invalid_type",
+    expected: ["object"]
+  };
+  const missingValues = requiredKeys.map((key) => ({
+    code: "missing_value",
+    path: [key]
+  }));
+  function assignKnown(to, from) {
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const value = from[key];
+      if (i < requiredCount || value !== void 0 || key in from) {
+        safeSet(to, key, value);
+      }
+    }
+    return to;
+  }
+  function assignAll(to, from) {
+    return assignKnown(assignEnumerable(to, from), from);
+  }
+  function checkRemainingKeys(initialResult, obj, mode, bits, assign) {
+    let result = initialResult;
+    for (let i = 0; i < totalCount; i++) {
+      if (!getBit(bits, i)) {
+        const key = keys[i];
+        const value = key in obj ? obj[key] : Nothing;
+        if (i < requiredCount && value === Nothing) {
+          result = prependIssue(missingValues[i], result);
+        } else {
+          result = addResult(result, obj, key, value, types[i].func(value, mode), assign);
+        }
+      }
+    }
+    return result;
+  }
+  function pass(obj, mode) {
+    let result = true;
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      let value = obj[key];
+      if (value === void 0 && !(key in obj)) {
+        if (i < requiredCount) {
+          result = prependIssue(missingValues[i], result);
+          continue;
+        }
+        value = Nothing;
+      }
+      result = addResult(result, obj, key, value, types[i].func(value, mode), assignKnown);
+    }
+    return result;
+  }
+  function strict(obj, mode) {
+    let result = true;
+    let unrecognized = void 0;
+    let seenBits = 0;
+    let seenCount = 0;
+    for (const key in obj) {
+      const value = obj[key];
+      const index = ~invertedIndexes[key];
+      if (index >= 0) {
+        seenCount++;
+        seenBits = setBit(bitsTemplate, seenBits, index);
+        result = addResult(result, obj, key, value, types[index].func(value, mode), assignKnown);
+      } else if (mode === 2) {
+        result = result === true ? { code: "ok", value: assignKnown({}, obj) } : result;
+      } else if (unrecognized === void 0) {
+        unrecognized = [key];
+      } else {
+        unrecognized.push(key);
+      }
+    }
+    if (seenCount < totalCount) {
+      result = checkRemainingKeys(result, obj, mode, seenBits, assignKnown);
+    }
+    return unrecognized === void 0 ? result : prependIssue({
+      code: "unrecognized_keys",
+      keys: unrecognized
+    }, result);
+  }
+  function withRest(rest, obj, mode) {
+    if (rest.name === "unknown" && totalCount === 0) {
+      return true;
+    }
+    let result = true;
+    let seenBits = 0;
+    let seenCount = 0;
+    for (const key in obj) {
+      const value = obj[key];
+      const index = ~invertedIndexes[key];
+      if (index >= 0) {
+        seenCount++;
+        seenBits = setBit(bitsTemplate, seenBits, index);
+        result = addResult(result, obj, key, value, types[index].func(value, mode), assignEnumerable);
+      } else {
+        result = addResult(result, obj, key, value, rest.func(value, mode), assignEnumerable);
+      }
+    }
+    if (seenCount < totalCount) {
+      result = checkRemainingKeys(result, obj, mode, seenBits, assignAll);
+    }
+    return result;
+  }
+  function runChecks(obj, result) {
+    if ((result === true || result.code === "ok") && checks) {
+      const value = result === true ? obj : result.value;
+      for (let i = 0; i < checks.length; i++) {
+        if (!checks[i].func(value)) {
+          return checks[i].issue;
+        }
+      }
+    }
+    return result;
+  }
+  function func(obj, mode) {
+    if (!isObject(obj)) {
+      return invalidType;
+    }
+    if (restType) {
+      return runChecks(obj, withRest(restType, obj, mode));
+    } else if (mode === 0) {
+      return runChecks(obj, pass(obj, mode));
+    } else {
+      return runChecks(obj, strict(obj, mode));
+    }
+  }
+  return func;
+}
 var ArrayType = class extends Type {
   constructor(head, rest) {
     super();
@@ -6159,8 +6015,8 @@ var ArrayType = class extends Type {
       maxLength: this.maxLength
     };
   }
-  toTerminals(into) {
-    into.push(this);
+  toTerminals(func) {
+    func(this);
   }
   func(arr, mode) {
     if (!Array.isArray(arr)) {
@@ -6235,7 +6091,7 @@ function findCommonKeys(rs) {
   });
   return result;
 }
-function createObjectMatchers(t) {
+function createUnionObjectMatchers(t) {
   const objects = [];
   t.forEach(({ root, terminal }) => {
     if (terminal.name === "object") {
@@ -6251,9 +6107,7 @@ function createObjectMatchers(t) {
     let unknowns = [];
     for (let i = 0; i < shapes.length; i++) {
       const shape = shapes[i];
-      const terminals = toTerminals(shape[key]);
-      for (let j = 0; j < terminals.length; j++) {
-        const terminal = terminals[j];
+      shape[key].toTerminals((terminal) => {
         if (terminal.name === "never") {
         } else if (terminal.name === "unknown") {
           unknowns.push(i);
@@ -6268,7 +6122,7 @@ function createObjectMatchers(t) {
           options.push(i);
           types.set(terminal.name, options);
         }
-      }
+      });
     }
     optionals = dedup(optionals);
     if (optionals.length > 1) {
@@ -6314,11 +6168,11 @@ function createObjectMatchers(t) {
     return {
       key,
       optional,
-      matcher: createUnionMatcher(flattened, [key])
+      matcher: createUnionBaseMatcher(flattened, [key])
     };
   });
 }
-function createUnionMatcher(t, path2) {
+function createUnionBaseMatcher(t, path2) {
   const order = /* @__PURE__ */ new Map();
   t.forEach(({ root }, i) => {
     var _a;
@@ -6422,34 +6276,45 @@ function createUnionMatcher(t, path2) {
 }
 function flatten(t) {
   const result = [];
-  t.forEach(({ root, type }) => toTerminals(type).forEach((terminal) => {
+  t.forEach(({ root, type }) => type.toTerminals((terminal) => {
     result.push({ root, terminal });
   }));
   return result;
 }
-var UnionType = class extends Type {
-  constructor(options) {
-    super();
-    this.options = options;
-    this.name = "union";
-    const flattened = flatten(options.map((root) => ({ root, type: root })));
-    this.objects = createObjectMatchers(flattened);
-    this.base = createUnionMatcher(flattened);
-    this.hasUnknown = hasTerminal(this, "unknown");
-  }
-  toTerminals(into) {
-    this.options.forEach((o) => o.toTerminals(into));
-  }
-  func(v, mode) {
-    if (!this.hasUnknown && this.objects.length > 0 && isObject(v)) {
-      const item = this.objects[0];
+function createUnionMatcher(options) {
+  const flattened = flatten(options.map((root) => ({ root, type: root })));
+  const objects = createUnionObjectMatchers(flattened);
+  const base = createUnionBaseMatcher(flattened);
+  const hasUnknown = options.some((option) => hasTerminal(option, "unknown"));
+  function func(v, mode) {
+    if (!hasUnknown && objects.length > 0 && isObject(v)) {
+      const item = objects[0];
       let value = v[item.key];
       if (value === void 0 && !(item.key in v)) {
         value = Nothing;
       }
       return item.matcher(v, value, mode);
     }
-    return this.base(v, v, mode);
+    return base(v, v, mode);
+  }
+  return func;
+}
+var UnionType = class extends Type {
+  constructor(options) {
+    super();
+    this.options = options;
+    this.name = "union";
+  }
+  toTerminals(func) {
+    this.options.forEach((o) => o.toTerminals(func));
+  }
+  func(v, mode) {
+    let func = this._func;
+    if (func === void 0) {
+      func = createUnionMatcher(this.options);
+      this._func = func;
+    }
+    return func(v, mode);
   }
 };
 var TransformType = class extends Type {
@@ -6500,8 +6365,8 @@ var TransformType = class extends Type {
     }
     return result;
   }
-  toTerminals(into) {
-    this.transformed.toTerminals(into);
+  toTerminals(func) {
+    this.transformed.toTerminals(func);
   }
 };
 var NeverType = class extends Type {
@@ -6542,9 +6407,6 @@ var UndefinedType = class extends Type {
   }
 };
 var undefinedSingleton = new UndefinedType();
-function undefined_() {
-  return undefinedSingleton;
-}
 var NullType = class extends Type {
   constructor() {
     super(...arguments);
@@ -6679,9 +6541,9 @@ var Report = object({
 function parseReport(v) {
   return Report.parse(v, { mode: "strip" });
 }
-function isSemVer(version2) {
+function isSemVer(version3) {
   try {
-    new import_semver.default(version2);
+    new import_semver.default(version3);
     return true;
   } catch {
     return false;
@@ -6699,7 +6561,7 @@ function parseNpmRegistryResponse(v) {
 
 // src/helpers.ts
 function getActionVersion() {
-  return version;
+  return version2;
 }
 function getNodeInfo() {
   return {
@@ -6783,9 +6645,9 @@ async function downloadPyright(info2) {
   return await tc.cacheDir(extractedPath, pyrightToolName, info2.version);
 }
 async function getPyrightInfo() {
-  const version2 = getPyrightVersion();
+  const version3 = getPyrightVersion();
   const client = new httpClient.HttpClient();
-  const resp = await client.get(`https://registry.npmjs.org/pyright/${version2}`);
+  const resp = await client.get(`https://registry.npmjs.org/pyright/${version3}`);
   const body = await resp.readBody();
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
     throw new Error(body);
