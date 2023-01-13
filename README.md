@@ -62,7 +62,7 @@ Unfortunately, you can only publish a GitHub action via the web UI (not via the 
 checkbox will already be checked.
 
 ```
-$ yarn release --ci                    # Release a patch version
-$ yarn release --ci --increment minor  # Release a minor version bump.
-$ yarn release --ci --increment major  # Don't do this unless .release-it.json is updated to potentially retag a new major version.
+$ npx release-it --ci                    # Release a patch version
+$ npx release-it --ci --increment minor  # Release a minor version bump.
+$ npx release-it --ci --increment major  # Don't do this unless .release-it.json is updated to potentially retag a new major version.
 ```

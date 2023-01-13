@@ -45,10 +45,10 @@
     "scripts": {
         "postinstall": "husky install",
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node16",
-        "update:all": "yarn dlx npm-check-updates -u && yarn",
-        "update:all:transitive": "yarn dlx npm-check-updates -u && rimraf yarn.lock && yarn",
-        "release": "yarn dlx release-it",
-        "test": "jest"
+        "update:all": "npx npm-check-updates -u && npm install",
+        "update:all:transitive": "npx npm-check-updates -u && rimraf package-lock.json node_modules && npm install",
+        "test": "jest",
+        "test:coverage": "jest --coverage"
     },
     "release-it": {
         "git": {
@@ -64,12 +64,13 @@
             "web": true
         },
         "hooks": {
-            "before:init": "yarn test",
+            "before:init": "npm run test",
             "after:git:release": "git tag -d v1 && git push origin :refs/tags/v1 && git tag v1 && git push origin v1"
         }
     },
-    "packageManager": "yarn@3.2.2",
+    "packageManager": "npm@8.19.3",
     "volta": {
-        "node": "16.15.0"
+        "node": "16.15.0",
+        "npm": "8.19.3"
     }
 }

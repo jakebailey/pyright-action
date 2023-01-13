@@ -15,8 +15,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: yarn build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - run: npm run build
       - run: git diff --exit-code --name-only dist
 
   typecheck:
@@ -25,8 +29,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: yarn tsc
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - run: npx tsc
 
   test:
     name: Test
@@ -38,8 +46,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: yarn test --coverage
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - run: npm run test:coverage
       - uses: codecov/codecov-action@v2
         with:
           name: ${{ matrix.os }}
@@ -50,8 +62,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: yarn eslint .
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - run: npx eslint .
 
   prettier:
     name: Prettier
@@ -59,5 +75,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-node
-      - run: yarn prettier -c .
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - run: npx prettier -c .
