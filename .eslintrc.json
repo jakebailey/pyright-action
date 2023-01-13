@@ -1,11 +1,11 @@
 {
-    "extends": ["eslint:recommended", "prettier", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
     "env": {
         "browser": false
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": 2021,
+        "ecmaVersion": "latest",
         "sourceType": "module",
         "project": "./tsconfig.json"
     },

@@ -1,6 +1,0 @@
-**/package-lock.json
-**/dist/**
-**/lib/**
-.yarn/**
-README.md
-coverage/**

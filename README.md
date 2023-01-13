@@ -11,7 +11,6 @@ GitHub action for [pyright](https://github.com/microsoft/pyright).
     version: 1.1.244 # Optional
 ```
 
-
 ## Options
 
 ```yml
@@ -53,13 +52,12 @@ inputs:
     default: 'false'
 ```
 
-
 ## Releasing `pyright-action`
 
-Releases are performed by `release-it`, which correctly tags a new version and re-tags `v1`.
-Unfortunately, you can only publish a GitHub action via the web UI (not via the API), so
-`release-it` must be configured to open a browser to create the release, where the marketplace
-checkbox will already be checked.
+Releases are performed by `release-it`, which correctly tags a new version and
+re-tags `v1`. Unfortunately, you can only publish a GitHub action via the web UI
+(not via the API), so `release-it` must be configured to open a browser to
+create the release, where the marketplace checkbox will already be checked.
 
 ```
 $ npx release-it --ci                    # Release a patch version

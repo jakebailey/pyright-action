@@ -69,8 +69,8 @@ jobs:
 
       - run: npx eslint .
 
-  prettier:
-    name: Prettier
+  dprint:
+    name: dprint
     runs-on: ubuntu-latest
 
     steps:
@@ -80,4 +80,4 @@ jobs:
           node-version: 16
           cache: "npm"
 
-      - run: npx prettier -c .
+      - run: npx dprint check
