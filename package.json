@@ -22,8 +22,8 @@
         "string-argv": "^0.3.1"
     },
     "devDependencies": {
+        "@jest/globals": "^29.3.1",
         "@tsconfig/node16-strictest": "^1.0.4",
-        "@types/jest": "^29.2.6",
         "@types/node": "^16.18.11",
         "@types/semver": "^7.3.13",
         "@types/semver-utils": "^1.1.1",

@@ -5,6 +5,7 @@ import * as path from "node:path";
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
+import { afterEach, beforeEach, describe, expect, jest, test } from "@jest/globals";
 import serializer from "jest-serializer-path";
 
 expect.addSnapshotSerializer(serializer);

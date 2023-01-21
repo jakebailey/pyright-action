@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
 import * as cp from "node:child_process";
 
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
+import { afterEach, beforeEach, describe, expect, jest, test } from "@jest/globals";
 
 import * as helpers from "./helpers";
 
@@ -67,8 +69,8 @@ describe("no comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "",
-            stderr: "",
+            stdout: "" as any,
+            stderr: "" as any,
             status: 0,
             signal: null,
         }));
@@ -80,8 +82,8 @@ describe("no comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "",
-            stderr: "",
+            stdout: "" as any,
+            stderr: "" as any,
             status: 1,
             signal: null,
         }));
@@ -106,8 +108,8 @@ describe("with comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "",
-            stderr: "",
+            stdout: "" as any,
+            stderr: "" as any,
             status: 2,
             signal: null,
         }));
@@ -119,8 +121,8 @@ describe("with comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "}",
-            stderr: "",
+            stdout: "}" as any,
+            stderr: "" as any,
             status: 0,
             signal: null,
         }));
@@ -132,8 +134,8 @@ describe("with comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "{}",
-            stderr: "",
+            stdout: "{}" as any,
+            stderr: "" as any,
             status: 0,
             signal: null,
         }));
@@ -152,8 +154,8 @@ describe("with comments", () => {
                     warningCount: 0,
                     informationCount: 0,
                 },
-            }),
-            stderr: "",
+            }) as any,
+            stderr: "" as any,
             status: 0,
             signal: null,
         }));
@@ -204,8 +206,8 @@ describe("with comments", () => {
                     warningCount: 2,
                     informationCount: 1,
                 },
-            }),
-            stderr: "",
+            }) as any,
+            stderr: "" as any,
             status: 1,
             signal: null,
         }));
@@ -244,8 +246,8 @@ describe("with comments", () => {
                     warningCount: 1,
                     informationCount: 1,
                 },
-            }),
-            stderr: "",
+            }) as any,
+            stderr: "" as any,
             status: 1,
             signal: null,
         }));
