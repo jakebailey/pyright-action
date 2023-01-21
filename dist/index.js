@@ -6761,28 +6761,23 @@ async function getArgs() {
   }
   const pythonPlatform = core.getInput("python-platform");
   if (pythonPlatform) {
-    args.push("--pythonplatform");
-    args.push(pythonPlatform);
+    args.push("--pythonplatform", pythonPlatform);
   }
   const pythonVersion = core.getInput("python-version");
   if (pythonVersion) {
-    args.push("--pythonversion");
-    args.push(pythonVersion);
+    args.push("--pythonversion", pythonVersion);
   }
   const typeshedPath = core.getInput("typeshed-path");
   if (typeshedPath) {
-    args.push("--typeshed-path");
-    args.push(typeshedPath);
+    args.push("--typeshed-path", typeshedPath);
   }
   const venvPath = core.getInput("venv-path");
   if (venvPath) {
-    args.push("--venv-path");
-    args.push(venvPath);
+    args.push("--venv-path", venvPath);
   }
   const project = core.getInput("project");
   if (project) {
-    args.push("--project");
-    args.push(project);
+    args.push("--project", project);
   }
   const lib = getBooleanInput("lib", false);
   if (lib) {
@@ -6794,8 +6789,7 @@ async function getArgs() {
   }
   const verifyTypes = core.getInput("verify-types");
   if (verifyTypes) {
-    args.push("--verifytypes");
-    args.push(verifyTypes);
+    args.push("--verifytypes", verifyTypes);
   }
   const extraArgs = core.getInput("extra-args");
   if (extraArgs) {
@@ -6845,6 +6839,7 @@ function getPyrightVersion() {
 
 // src/main.ts
 async function main() {
+  var _a, _b;
   try {
     const node = getNodeInfo();
     const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
@@ -6863,7 +6858,7 @@ async function main() {
       return;
     }
     const { status, stdout } = cp.spawnSync(node.execPath, args, {
-      encoding: "utf-8",
+      encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],
       maxBuffer: 100 * 1024 * 1024
       // 100 MB "ought to be enough for anyone"; https://github.com/nodejs/node/issues/9829
@@ -6873,15 +6868,14 @@ async function main() {
       return;
     }
     const report = parseReport(JSON.parse(stdout));
-    report.generalDiagnostics.forEach((diag) => {
-      var _a, _b;
+    for (const diag of report.generalDiagnostics) {
       core2.info(diagnosticToString(
         diag,
         /* forCommand */
         false
       ));
       if (diag.severity === "information") {
-        return;
+        continue;
       }
       const line = ((_a = diag.range) == null ? void 0 : _a.start.line) ?? 0;
       const col = ((_b = diag.range) == null ? void 0 : _b.start.character) ?? 0;
@@ -6899,7 +6893,7 @@ async function main() {
         },
         message
       );
-    });
+    }
     const { errorCount, warningCount, informationCount } = report.summary;
     core2.info(
       [

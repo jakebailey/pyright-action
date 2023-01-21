@@ -38,7 +38,7 @@ export async function main() {
         }
 
         const { status, stdout } = cp.spawnSync(node.execPath, args, {
-            encoding: "utf-8",
+            encoding: "utf8",
             stdio: ["ignore", "pipe", "inherit"],
             maxBuffer: 100 * 1024 * 1024, // 100 MB "ought to be enough for anyone"; https://github.com/nodejs/node/issues/9829
         });
@@ -51,11 +51,11 @@ export async function main() {
 
         const report = parseReport(JSON.parse(stdout));
 
-        report.generalDiagnostics.forEach((diag) => {
+        for (const diag of report.generalDiagnostics) {
             core.info(diagnosticToString(diag, /* forCommand */ false));
 
             if (diag.severity === "information") {
-                return;
+                continue;
             }
 
             const line = diag.range?.start.line ?? 0;
@@ -73,7 +73,7 @@ export async function main() {
                 },
                 message,
             );
-        });
+        }
 
         const { errorCount, warningCount, informationCount } = report.summary;
 

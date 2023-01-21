@@ -87,6 +87,7 @@ describe("parseNpmRegistryResponse", () => {
             shasum: "fde6d847002bbe0cb34edf035085aaeec6537867",
             tarball: "https://registry.npmjs.org/pyright/-/pyright-1.1.245.tgz",
             fileCount: 2791,
+            // eslint-disable-next-line unicorn/numeric-separators-style
             unpackedSize: 9084811,
             signatures: [
                 {

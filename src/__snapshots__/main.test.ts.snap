@@ -136,7 +136,7 @@ exports[`with comments failure: cp.spawnSync 1`] = `
       "--outputjson",
     ],
     {
-      "encoding": "utf-8",
+      "encoding": "utf8",
       "maxBuffer": 104857600,
       "stdio": [
         "ignore",
@@ -180,7 +180,7 @@ exports[`with comments invalid stdout: cp.spawnSync 1`] = `
       "--outputjson",
     ],
     {
-      "encoding": "utf-8",
+      "encoding": "utf8",
       "maxBuffer": 104857600,
       "stdio": [
         "ignore",
@@ -221,7 +221,7 @@ exports[`with comments no diagnostics: cp.spawnSync 1`] = `
       "--outputjson",
     ],
     {
-      "encoding": "utf-8",
+      "encoding": "utf8",
       "maxBuffer": 104857600,
       "stdio": [
         "ignore",
@@ -265,7 +265,7 @@ exports[`with comments unparsable json: cp.spawnSync 1`] = `
       "--outputjson",
     ],
     {
-      "encoding": "utf-8",
+      "encoding": "utf8",
       "maxBuffer": 104857600,
       "stdio": [
         "ignore",
@@ -342,7 +342,7 @@ exports[`with comments with 1 each: cp.spawnSync 1`] = `
       "--outputjson",
     ],
     {
-      "encoding": "utf-8",
+      "encoding": "utf8",
       "maxBuffer": 104857600,
       "stdio": [
         "ignore",
@@ -443,7 +443,7 @@ exports[`with comments with diagnostics: cp.spawnSync 1`] = `
       "--outputjson",
     ],
     {
-      "encoding": "utf-8",
+      "encoding": "utf8",
       "maxBuffer": 104857600,
       "stdio": [
         "ignore",

@@ -35,32 +35,27 @@ export async function getArgs() {
 
     const pythonPlatform = core.getInput("python-platform");
     if (pythonPlatform) {
-        args.push("--pythonplatform");
-        args.push(pythonPlatform);
+        args.push("--pythonplatform", pythonPlatform);
     }
 
     const pythonVersion = core.getInput("python-version");
     if (pythonVersion) {
-        args.push("--pythonversion");
-        args.push(pythonVersion);
+        args.push("--pythonversion", pythonVersion);
     }
 
     const typeshedPath = core.getInput("typeshed-path");
     if (typeshedPath) {
-        args.push("--typeshed-path");
-        args.push(typeshedPath);
+        args.push("--typeshed-path", typeshedPath);
     }
 
     const venvPath = core.getInput("venv-path");
     if (venvPath) {
-        args.push("--venv-path");
-        args.push(venvPath);
+        args.push("--venv-path", venvPath);
     }
 
     const project = core.getInput("project");
     if (project) {
-        args.push("--project");
-        args.push(project);
+        args.push("--project", project);
     }
 
     const lib = getBooleanInput("lib", false);
@@ -75,8 +70,7 @@ export async function getArgs() {
 
     const verifyTypes = core.getInput("verify-types");
     if (verifyTypes) {
-        args.push("--verifytypes");
-        args.push(verifyTypes);
+        args.push("--verifytypes", verifyTypes);
     }
 
     const extraArgs = core.getInput("extra-args");
@@ -105,6 +99,7 @@ const pyrightToolName = "pyright";
 async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
+    // eslint-disable-next-line unicorn/no-array-callback-reference, unicorn/no-array-method-this-argument
     const found = tc.find(pyrightToolName, info.version);
     if (found) {
         return found;

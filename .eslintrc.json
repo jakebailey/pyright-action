@@ -1,5 +1,9 @@
 {
-    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:unicorn/recommended"
+    ],
     "env": {
         "browser": false
     },
@@ -9,7 +13,7 @@
         "sourceType": "module",
         "project": "./tsconfig.json"
     },
-    "plugins": ["@typescript-eslint/eslint-plugin", "simple-import-sort"],
+    "plugins": ["@typescript-eslint/eslint-plugin", "simple-import-sort", "unicorn"],
     "root": true,
     "rules": {
         "eqeqeq": "error",
@@ -29,7 +33,13 @@
         "@typescript-eslint/no-this-alias": 0,
         "@typescript-eslint/no-unused-vars": 0,
         "@typescript-eslint/no-use-before-define": 0,
-        "@typescript-eslint/require-await": 0
+        "@typescript-eslint/require-await": 0,
+        "unicorn/catch-error-name": 0,
+        "unicorn/filename-case": 0,
+        "unicorn/no-await-expression-member": 0,
+        "unicorn/no-useless-undefined": 0,
+        "unicorn/prevent-abbreviations": 0,
+        "unicorn/switch-case-braces": 0
     },
     "ignorePatterns": ["**/dist/**", "**/node_modules/**", "coverage/**"]
 }
