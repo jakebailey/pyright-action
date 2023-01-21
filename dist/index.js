@@ -5662,7 +5662,7 @@ var import_semver2 = __toESM(require_semver2());
 var import_string_argv = __toESM(require_string_argv());
 
 // package.json
-var version2 = "1.4.1";
+var version2 = "1.4.2";
 
 // node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
