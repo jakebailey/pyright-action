@@ -55,9 +55,10 @@ jobs:
 
       - run: npm ci
       - run: npm run test:coverage
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
         with:
-          name: ${{ matrix.os }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          env_vars: OS,NODE
 
   eslint:
     name: ESLint
