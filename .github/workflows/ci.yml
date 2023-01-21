@@ -20,6 +20,7 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - run: npm ci
       - run: npm run build
       - run: git diff --exit-code --name-only dist
 
@@ -34,6 +35,7 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - run: npm ci
       - run: npx tsc
 
   test:
@@ -51,6 +53,7 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - run: npm ci
       - run: npm run test:coverage
       - uses: codecov/codecov-action@v2
         with:
@@ -67,6 +70,7 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - run: npm ci
       - run: npx eslint .
 
   dprint:
@@ -80,4 +84,5 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - run: npm ci
       - run: npx dprint check
