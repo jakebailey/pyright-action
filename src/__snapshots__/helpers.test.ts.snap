@@ -62,6 +62,9 @@ exports[`getArgs valid version cached: core.getInput 1`] = `
     "verify-types",
   ],
   [
+    "ignore-external",
+  ],
+  [
     "extra-args",
   ],
 ]
@@ -128,6 +131,9 @@ exports[`getArgs valid version many options: core.getInput 1`] = `
   ],
   [
     "verify-types",
+  ],
+  [
+    "ignore-external",
   ],
   [
     "extra-args",
@@ -233,6 +239,9 @@ exports[`getArgs valid version no comments: core.getInput 1`] = `
     "verify-types",
   ],
   [
+    "ignore-external",
+  ],
+  [
     "extra-args",
   ],
 ]
@@ -320,6 +329,9 @@ exports[`getArgs valid version verifytypes: core.getInput 1`] = `
     "verify-types",
   ],
   [
+    "ignore-external",
+  ],
+  [
     "extra-args",
   ],
 ]
@@ -332,6 +344,7 @@ exports[`getArgs valid version verifytypes: result 1`] = `
     "--outputjson",
     "--verifytypes",
     "some.package",
+    "--ignoreexternal",
   ],
   "noComments": false,
   "pyrightVersion": "1.1.240",

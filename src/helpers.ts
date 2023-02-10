@@ -73,6 +73,11 @@ export async function getArgs() {
         args.push("--verifytypes", verifyTypes);
     }
 
+    const ignoreExternal = core.getInput("ignore-external");
+    if (ignoreExternal) {
+        args.push("--ignoreexternal");
+    }
+
     const extraArgs = core.getInput("extra-args");
     if (extraArgs) {
         args.push(...stringArgv(extraArgs));

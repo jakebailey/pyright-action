@@ -43,6 +43,9 @@ inputs:
   verify-types:
     description: 'Package name to run the type verifier on; must be an *installed* library. Any score under 100% will fail the build.'
     required: false
+  ignore-external:
+    description: "Ignore external imports for verify-types."
+    required: false
   extra-args:
     description: 'Extra arguments; can be used to specify specific files to check.'
     required: false

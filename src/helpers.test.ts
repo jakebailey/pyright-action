@@ -125,6 +125,7 @@ describe("getArgs", () => {
 
         test("verifytypes", async () => {
             inputs.set("verify-types", "some.package");
+            inputs.set("ignore-external", "true");
 
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");
