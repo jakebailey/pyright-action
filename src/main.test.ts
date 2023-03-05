@@ -93,7 +93,7 @@ describe("no comments", () => {
 });
 
 describe("with comments", () => {
-    const args = ["/path/to/pyright/dist/index.js", "--outputjson"];
+    const args = ["/path/to/pyright/dist/index.js"];
 
     beforeEach(() => {
         mockedHelpers.getArgs.mockResolvedValue({

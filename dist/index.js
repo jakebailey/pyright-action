@@ -6756,9 +6756,6 @@ async function getArgs() {
   const args = [path.join(pyrightPath, "package", "index.js")];
   const workingDirectory = core.getInput("working-directory");
   const noComments = getBooleanInput("no-comments", false);
-  if (!noComments) {
-    args.push("--outputjson");
-  }
   const pythonPlatform = core.getInput("python-platform");
   if (pythonPlatform) {
     args.push("--pythonplatform", pythonPlatform);
@@ -6842,6 +6839,10 @@ function getPyrightVersion() {
 }
 
 // src/main.ts
+function printInfo(pyrightVersion, node, args) {
+  core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
+  core2.info(`${node.execPath} ${args.join(" ")}`);
+}
 async function main() {
   var _a, _b;
   try {
@@ -6850,9 +6851,8 @@ async function main() {
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
-    core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
-    core2.info(`${node.execPath} ${args.join(" ")}`);
     if (noComments || args.includes("--verifytypes")) {
+      printInfo(pyrightVersion, node, args);
       const { status: status2 } = cp.spawnSync(node.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]
       });
@@ -6861,7 +6861,12 @@ async function main() {
       }
       return;
     }
-    const { status, stdout } = cp.spawnSync(node.execPath, args, {
+    const updatedArgs = [...args];
+    if (!updatedArgs.includes("--outputjson")) {
+      updatedArgs.push("--outputjson");
+    }
+    printInfo(pyrightVersion, node, updatedArgs);
+    const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],
       maxBuffer: 100 * 1024 * 1024

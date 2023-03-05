@@ -4,8 +4,13 @@ import * as cp from "node:child_process";
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
 
-import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
+import { getActionVersion, getArgs, getNodeInfo, NodeInfo } from "./helpers";
 import { Diagnostic, isEmptyRange, parseReport } from "./schema";
+
+function printInfo(pyrightVersion: string, node: NodeInfo, args: string[]) {
+    core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
+    core.info(`${node.execPath} ${args.join(" ")}`);
+}
 
 export async function main() {
     try {
@@ -15,12 +20,10 @@ export async function main() {
             process.chdir(workingDirectory);
         }
 
-        core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
-        core.info(`${node.execPath} ${args.join(" ")}`);
-
         // We check for --verifytypes as an arg instead of a flag because it may have
         // been passed via extra-args.
         if (noComments || args.includes("--verifytypes")) {
+            printInfo(pyrightVersion, node, args);
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.
             // If we're running the type verifier, there's no guarantee that we can even act
@@ -37,7 +40,14 @@ export async function main() {
             return;
         }
 
-        const { status, stdout } = cp.spawnSync(node.execPath, args, {
+        const updatedArgs = [...args];
+        if (!updatedArgs.includes("--outputjson")) {
+            updatedArgs.push("--outputjson");
+        }
+
+        printInfo(pyrightVersion, node, updatedArgs);
+
+        const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
             encoding: "utf8",
             stdio: ["ignore", "pipe", "inherit"],
             maxBuffer: 100 * 1024 * 1024, // 100 MB "ought to be enough for anyone"; https://github.com/nodejs/node/issues/9829

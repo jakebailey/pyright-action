@@ -74,7 +74,6 @@ exports[`getArgs valid version cached: result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
-    "--outputjson",
   ],
   "noComments": false,
   "pyrightVersion": "1.1.240",
@@ -145,7 +144,6 @@ exports[`getArgs valid version many options: result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
-    "--outputjson",
     "--pythonplatform",
     "Linux",
     "--pythonversion",
@@ -341,7 +339,6 @@ exports[`getArgs valid version verifytypes: result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
-    "--outputjson",
     "--verifytypes",
     "some.package",
     "--ignoreexternal",

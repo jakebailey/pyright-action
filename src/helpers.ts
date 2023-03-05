@@ -13,11 +13,23 @@ export function getActionVersion() {
     return actionVersion;
 }
 
-export function getNodeInfo() {
+export interface NodeInfo {
+    version: string;
+    execPath: string;
+}
+
+export function getNodeInfo(): NodeInfo {
     return {
         version: process.version,
         execPath: process.execPath,
     };
+}
+
+export interface Args {
+    workingDirectory: string;
+    noComments: boolean;
+    pyrightVersion: string;
+    args: readonly string[];
 }
 
 export async function getArgs() {
@@ -29,9 +41,6 @@ export async function getArgs() {
     const workingDirectory = core.getInput("working-directory");
 
     const noComments = getBooleanInput("no-comments", false);
-    if (!noComments) {
-        args.push("--outputjson");
-    }
 
     const pythonPlatform = core.getInput("python-platform");
     if (pythonPlatform) {
