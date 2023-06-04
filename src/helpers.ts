@@ -4,7 +4,7 @@ import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
 import SemVer from "semver/classes/semver";
-import stringArgv from "string-argv";
+import { parse } from "shell-quote";
 
 import { version as actionVersion } from "../package.json";
 import { type NpmRegistryResponse, parseNpmRegistryResponse } from "./schema";
@@ -89,7 +89,13 @@ export async function getArgs() {
 
     const extraArgs = core.getInput("extra-args");
     if (extraArgs) {
-        args.push(...stringArgv(extraArgs));
+        for (const arg of parse(extraArgs)) {
+            if (typeof arg !== "string") {
+                // eslint-disable-next-line unicorn/prefer-type-error
+                throw new Error(`invalid value in extra-args: ${JSON.stringify(arg)}`);
+            }
+            args.push(arg);
+        }
     }
 
     return {

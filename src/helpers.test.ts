@@ -143,6 +143,16 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
             expect(mockedTc.cacheDir).toBeCalledTimes(0);
         });
+
+        test("extra-args quotes", async () => {
+            inputs.set("extra-args", `--foo --bar --baz="quoted value"`);
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
     });
 });
 

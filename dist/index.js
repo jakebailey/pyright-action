@@ -2753,8 +2753,8 @@ var require_semver = __commonJS({
       }
     }
     var i;
-    exports.parse = parse2;
-    function parse2(version3, options) {
+    exports.parse = parse3;
+    function parse3(version3, options) {
       if (!options || typeof options !== "object") {
         options = {
           loose: !!options,
@@ -2782,12 +2782,12 @@ var require_semver = __commonJS({
     }
     exports.valid = valid;
     function valid(version3, options) {
-      var v = parse2(version3, options);
+      var v = parse3(version3, options);
       return v ? v.version : null;
     }
     exports.clean = clean;
     function clean(version3, options) {
-      var s = parse2(version3.trim().replace(/^[=v]+/, ""), options);
+      var s = parse3(version3.trim().replace(/^[=v]+/, ""), options);
       return s ? s.version : null;
     }
     exports.SemVer = SemVer3;
@@ -3019,8 +3019,8 @@ var require_semver = __commonJS({
       if (eq(version1, version22)) {
         return null;
       } else {
-        var v12 = parse2(version1);
-        var v2 = parse2(version22);
+        var v12 = parse3(version1);
+        var v2 = parse3(version22);
         var prefix = "";
         if (v12.prerelease.length || v2.prerelease.length) {
           prefix = "pre";
@@ -3724,7 +3724,7 @@ var require_semver = __commonJS({
     }
     exports.prerelease = prerelease;
     function prerelease(version3, options) {
-      var parsed = parse2(version3, options);
+      var parsed = parse3(version3, options);
       return parsed && parsed.prerelease.length ? parsed.prerelease : null;
     }
     exports.intersects = intersects;
@@ -3761,7 +3761,7 @@ var require_semver = __commonJS({
       if (match === null) {
         return null;
       }
-      return parse2(match[2] + "." + (match[3] || "0") + "." + (match[4] || "0"), options);
+      return parse3(match[2] + "." + (match[3] || "0") + "." + (match[4] || "0"), options);
     }
   }
 });
@@ -5616,6 +5616,233 @@ var require_semver2 = __commonJS({
   }
 });
 
+// node_modules/shell-quote/quote.js
+var require_quote = __commonJS({
+  "node_modules/shell-quote/quote.js"(exports, module2) {
+    "use strict";
+    module2.exports = function quote(xs) {
+      return xs.map(function(s) {
+        if (s && typeof s === "object") {
+          return s.op.replace(/(.)/g, "\\$1");
+        }
+        if (/["\s]/.test(s) && !/'/.test(s)) {
+          return "'" + s.replace(/(['\\])/g, "\\$1") + "'";
+        }
+        if (/["'\s]/.test(s)) {
+          return '"' + s.replace(/(["\\$`!])/g, "\\$1") + '"';
+        }
+        return String(s).replace(/([A-Za-z]:)?([#!"$&'()*,:;<=>?@[\\\]^`{|}])/g, "$1\\$2");
+      }).join(" ");
+    };
+  }
+});
+
+// node_modules/shell-quote/parse.js
+var require_parse = __commonJS({
+  "node_modules/shell-quote/parse.js"(exports, module2) {
+    "use strict";
+    var CONTROL = "(?:" + [
+      "\\|\\|",
+      "\\&\\&",
+      ";;",
+      "\\|\\&",
+      "\\<\\(",
+      "\\<\\<\\<",
+      ">>",
+      ">\\&",
+      "<\\&",
+      "[&;()|<>]"
+    ].join("|") + ")";
+    var controlRE = new RegExp("^" + CONTROL + "$");
+    var META = "|&;()<> \\t";
+    var SINGLE_QUOTE = '"((\\\\"|[^"])*?)"';
+    var DOUBLE_QUOTE = "'((\\\\'|[^'])*?)'";
+    var hash = /^#$/;
+    var SQ = "'";
+    var DQ = '"';
+    var DS = "$";
+    var TOKEN = "";
+    var mult = 4294967296;
+    for (i = 0; i < 4; i++) {
+      TOKEN += (mult * Math.random()).toString(16);
+    }
+    var i;
+    var startsWithToken = new RegExp("^" + TOKEN);
+    function matchAll(s, r) {
+      var origIndex = r.lastIndex;
+      var matches = [];
+      var matchObj;
+      while (matchObj = r.exec(s)) {
+        matches.push(matchObj);
+        if (r.lastIndex === matchObj.index) {
+          r.lastIndex += 1;
+        }
+      }
+      r.lastIndex = origIndex;
+      return matches;
+    }
+    function getVar(env, pre, key) {
+      var r = typeof env === "function" ? env(key) : env[key];
+      if (typeof r === "undefined" && key != "") {
+        r = "";
+      } else if (typeof r === "undefined") {
+        r = "$";
+      }
+      if (typeof r === "object") {
+        return pre + TOKEN + JSON.stringify(r) + TOKEN;
+      }
+      return pre + r;
+    }
+    function parseInternal(string2, env, opts) {
+      if (!opts) {
+        opts = {};
+      }
+      var BS = opts.escape || "\\";
+      var BAREWORD = "(\\" + BS + `['"` + META + `]|[^\\s'"` + META + "])+";
+      var chunker = new RegExp([
+        "(" + CONTROL + ")",
+        // control chars
+        "(" + BAREWORD + "|" + SINGLE_QUOTE + "|" + DOUBLE_QUOTE + ")+"
+      ].join("|"), "g");
+      var matches = matchAll(string2, chunker);
+      if (matches.length === 0) {
+        return [];
+      }
+      if (!env) {
+        env = {};
+      }
+      var commented = false;
+      return matches.map(function(match) {
+        var s = match[0];
+        if (!s || commented) {
+          return void 0;
+        }
+        if (controlRE.test(s)) {
+          return { op: s };
+        }
+        var quote = false;
+        var esc = false;
+        var out = "";
+        var isGlob = false;
+        var i2;
+        function parseEnvVar() {
+          i2 += 1;
+          var varend;
+          var varname;
+          var char = s.charAt(i2);
+          if (char === "{") {
+            i2 += 1;
+            if (s.charAt(i2) === "}") {
+              throw new Error("Bad substitution: " + s.slice(i2 - 2, i2 + 1));
+            }
+            varend = s.indexOf("}", i2);
+            if (varend < 0) {
+              throw new Error("Bad substitution: " + s.slice(i2));
+            }
+            varname = s.slice(i2, varend);
+            i2 = varend;
+          } else if (/[*@#?$!_-]/.test(char)) {
+            varname = char;
+            i2 += 1;
+          } else {
+            var slicedFromI = s.slice(i2);
+            varend = slicedFromI.match(/[^\w\d_]/);
+            if (!varend) {
+              varname = slicedFromI;
+              i2 = s.length;
+            } else {
+              varname = slicedFromI.slice(0, varend.index);
+              i2 += varend.index - 1;
+            }
+          }
+          return getVar(env, "", varname);
+        }
+        for (i2 = 0; i2 < s.length; i2++) {
+          var c = s.charAt(i2);
+          isGlob = isGlob || !quote && (c === "*" || c === "?");
+          if (esc) {
+            out += c;
+            esc = false;
+          } else if (quote) {
+            if (c === quote) {
+              quote = false;
+            } else if (quote == SQ) {
+              out += c;
+            } else {
+              if (c === BS) {
+                i2 += 1;
+                c = s.charAt(i2);
+                if (c === DQ || c === BS || c === DS) {
+                  out += c;
+                } else {
+                  out += BS + c;
+                }
+              } else if (c === DS) {
+                out += parseEnvVar();
+              } else {
+                out += c;
+              }
+            }
+          } else if (c === DQ || c === SQ) {
+            quote = c;
+          } else if (controlRE.test(c)) {
+            return { op: s };
+          } else if (hash.test(c)) {
+            commented = true;
+            var commentObj = { comment: string2.slice(match.index + i2 + 1) };
+            if (out.length) {
+              return [out, commentObj];
+            }
+            return [commentObj];
+          } else if (c === BS) {
+            esc = true;
+          } else if (c === DS) {
+            out += parseEnvVar();
+          } else {
+            out += c;
+          }
+        }
+        if (isGlob) {
+          return { op: "glob", pattern: out };
+        }
+        return out;
+      }).reduce(function(prev, arg) {
+        return typeof arg === "undefined" ? prev : prev.concat(arg);
+      }, []);
+    }
+    module2.exports = function parse3(s, env, opts) {
+      var mapped = parseInternal(s, env, opts);
+      if (typeof env !== "function") {
+        return mapped;
+      }
+      return mapped.reduce(function(acc, s2) {
+        if (typeof s2 === "object") {
+          return acc.concat(s2);
+        }
+        var xs = s2.split(RegExp("(" + TOKEN + ".*?" + TOKEN + ")", "g"));
+        if (xs.length === 1) {
+          return acc.concat(xs[0]);
+        }
+        return acc.concat(xs.filter(Boolean).map(function(x) {
+          if (startsWithToken.test(x)) {
+            return JSON.parse(x.split(TOKEN)[1]);
+          }
+          return x;
+        }));
+      }, []);
+    };
+  }
+});
+
+// node_modules/shell-quote/index.js
+var require_shell_quote = __commonJS({
+  "node_modules/shell-quote/index.js"(exports) {
+    "use strict";
+    exports.quote = require_quote();
+    exports.parse = require_parse();
+  }
+});
+
 // src/main.ts
 var import_node_assert = __toESM(require("node:assert"));
 var cp = __toESM(require("node:child_process"));
@@ -5628,39 +5855,7 @@ var core = __toESM(require_core());
 var httpClient = __toESM(require_lib());
 var tc = __toESM(require_tool_cache());
 var import_semver2 = __toESM(require_semver2());
-
-// node_modules/string-argv/index.js
-function parseArgsStringToArgv(value, env, file) {
-  var myRegexp = /([^\s'"]([^\s'"]*(['"])([^\3]*?)\3)+[^\s'"]*)|[^\s'"]+|(['"])([^\5]*?)\5/gi;
-  var myString = value;
-  var myArray = [];
-  if (env) {
-    myArray.push(env);
-  }
-  if (file) {
-    myArray.push(file);
-  }
-  var match;
-  do {
-    match = myRegexp.exec(myString);
-    if (match !== null) {
-      myArray.push(firstString(match[1], match[6], match[0]));
-    }
-  } while (match !== null);
-  return myArray;
-}
-function firstString() {
-  var args = [];
-  for (var _i = 0; _i < arguments.length; _i++) {
-    args[_i] = arguments[_i];
-  }
-  for (var i = 0; i < args.length; i++) {
-    var arg = args[i];
-    if (typeof arg === "string") {
-      return arg;
-    }
-  }
-}
+var import_shell_quote = __toESM(require_shell_quote());
 
 // package.json
 var version2 = "1.5.1";
@@ -6800,7 +6995,12 @@ async function getArgs() {
   }
   const extraArgs = core.getInput("extra-args");
   if (extraArgs) {
-    args.push(...parseArgsStringToArgv(extraArgs));
+    for (const arg of (0, import_shell_quote.parse)(extraArgs)) {
+      if (typeof arg !== "string") {
+        throw new Error(`invalid value in extra-args: ${JSON.stringify(arg)}`);
+      }
+      args.push(arg);
+    }
   }
   return {
     workingDirectory,

@@ -19,7 +19,7 @@
         "@actions/tool-cache": "^2.0.1",
         "@badrap/valita": "^0.2.1",
         "semver": "^7.5.1",
-        "string-argv": "^0.3.2"
+        "shell-quote": "^1.8.1"
     },
     "devDependencies": {
         "@jest/globals": "^29.5.0",
@@ -27,6 +27,7 @@
         "@tsconfig/strictest": "^2.0.1",
         "@types/node": "^16.18.34",
         "@types/semver": "^7.5.0",
+        "@types/shell-quote": "^1.7.1",
         "@typescript-eslint/eslint-plugin": "^5.59.8",
         "@typescript-eslint/parser": "^5.59.8",
         "dprint": "^0.37.1",

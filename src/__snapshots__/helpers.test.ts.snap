@@ -96,6 +96,99 @@ exports[`getArgs valid version cached: tc.find 1`] = `
 ]
 `;
 
+exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+  [
+    "working-directory",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "project",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "extra-args",
+  ],
+]
+`;
+
+exports[`getArgs valid version extra-args quotes: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--foo",
+    "--bar",
+    "--baz=quoted value",
+  ],
+  "noComments": false,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version extra-args quotes: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version extra-args quotes: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version extra-args quotes: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version extra-args quotes: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
 exports[`getArgs valid version many options: core.getInput 1`] = `
 [
   [
