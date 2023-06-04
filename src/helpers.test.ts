@@ -161,6 +161,20 @@ describe("getArgs", () => {
                 'malformed extra-args: --foo --bar --baz="quoted value" > /dev/null',
             );
         });
+
+        test("verifytypes flag", async () => {
+            inputs.set("extra-args", "--verifytypes");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("verbose", async () => {
+            inputs.set("extra-args", "--verbose");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
     });
 });
 

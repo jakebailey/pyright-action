@@ -21,9 +21,7 @@ export async function main() {
             process.chdir(workingDirectory);
         }
 
-        // We check for --verifytypes as an arg instead of a flag because it may have
-        // been passed via extra-args.
-        if (noComments || args.includes("--verifytypes")) {
+        if (noComments) {
             printInfo(pyrightVersion, node, args);
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.

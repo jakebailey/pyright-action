@@ -6952,12 +6952,12 @@ function getNodeInfo() {
     execPath: process.execPath
   };
 }
+var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set(["--verifytypes", "--verbose"]);
 async function getArgs() {
   const pyrightInfo = await getPyrightInfo();
   const pyrightPath = await downloadPyright(pyrightInfo);
   const args = [path.join(pyrightPath, "package", "index.js")];
   const workingDirectory = core.getInput("working-directory");
-  const noComments = getBooleanInput("no-comments", false);
   const pythonPlatform = core.getInput("python-platform");
   if (pythonPlatform) {
     args.push("--pythonplatform", pythonPlatform);
@@ -7003,6 +7003,7 @@ async function getArgs() {
       args.push(arg);
     }
   }
+  const noComments = getBooleanInput("no-comments", false) || args.some((arg) => flagsWithoutCommentingSupport.has(arg));
   return {
     workingDirectory,
     noComments,
@@ -7058,7 +7059,7 @@ async function main() {
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
-    if (noComments || args.includes("--verifytypes")) {
+    if (noComments) {
       printInfo(pyrightVersion, node, args);
       const { status: status2 } = cp.spawnSync(node.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]

@@ -32,6 +32,8 @@ export interface Args {
     args: readonly string[];
 }
 
+const flagsWithoutCommentingSupport = new Set(["--verifytypes", "--verbose"]);
+
 export async function getArgs() {
     const pyrightInfo = await getPyrightInfo();
     const pyrightPath = await downloadPyright(pyrightInfo);
@@ -39,8 +41,6 @@ export async function getArgs() {
     const args = [path.join(pyrightPath, "package", "index.js")];
 
     const workingDirectory = core.getInput("working-directory");
-
-    const noComments = getBooleanInput("no-comments", false);
 
     const pythonPlatform = core.getInput("python-platform");
     if (pythonPlatform) {
@@ -97,6 +97,9 @@ export async function getArgs() {
             args.push(arg);
         }
     }
+
+    const noComments = getBooleanInput("no-comments", false)
+        || args.some((arg) => flagsWithoutCommentingSupport.has(arg));
 
     return {
         workingDirectory,
