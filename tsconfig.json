@@ -1,6 +1,9 @@
 {
-    "extends": "@tsconfig/node16-strictest/tsconfig.json",
+    "extends": ["@tsconfig/strictest/tsconfig", "@tsconfig/node16/tsconfig"],
     "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "verbatimModuleSyntax": true,
         "noEmit": true,
         "resolveJsonModule": true,
         "exactOptionalPropertyTypes": false

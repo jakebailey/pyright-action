@@ -4,8 +4,8 @@ import * as cp from "node:child_process";
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
 
-import { getActionVersion, getArgs, getNodeInfo, NodeInfo } from "./helpers";
-import { Diagnostic, isEmptyRange, parseReport } from "./schema";
+import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
+import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
 function printInfo(pyrightVersion: string, node: NodeInfo, args: string[]) {
     core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);

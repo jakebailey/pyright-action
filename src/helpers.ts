@@ -7,7 +7,7 @@ import SemVer from "semver/classes/semver";
 import stringArgv from "string-argv";
 
 import { version as actionVersion } from "../package.json";
-import { NpmRegistryResponse, parseNpmRegistryResponse } from "./schema";
+import { type NpmRegistryResponse, parseNpmRegistryResponse } from "./schema";
 
 export function getActionVersion() {
     return actionVersion;
