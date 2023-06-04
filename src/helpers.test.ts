@@ -153,6 +153,14 @@ describe("getArgs", () => {
             expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
+
+        test("extra-args malformed", async () => {
+            inputs.set("extra-args", `--foo --bar --baz="quoted value" > /dev/null`);
+
+            await expect(getArgs()).rejects.toThrowError(
+                'malformed extra-args: --foo --bar --baz="quoted value" > /dev/null',
+            );
+        });
     });
 });
 

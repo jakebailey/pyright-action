@@ -92,7 +92,7 @@ export async function getArgs() {
         for (const arg of parse(extraArgs)) {
             if (typeof arg !== "string") {
                 // eslint-disable-next-line unicorn/prefer-type-error
-                throw new Error(`invalid value in extra-args: ${JSON.stringify(arg)}`);
+                throw new Error(`malformed extra-args: ${extraArgs}`);
             }
             args.push(arg);
         }

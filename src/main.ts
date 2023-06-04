@@ -3,13 +3,14 @@ import * as cp from "node:child_process";
 
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
+import { quote } from "shell-quote";
 
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
 function printInfo(pyrightVersion: string, node: NodeInfo, args: string[]) {
     core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
-    core.info(`${node.execPath} ${args.join(" ")}`);
+    core.info(`${node.execPath} ${quote(args)}`);
 }
 
 export async function main() {
