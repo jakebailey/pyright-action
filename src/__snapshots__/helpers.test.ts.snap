@@ -29,13 +29,19 @@ exports[`getArgs bad version: tc.find 1`] = `[]`;
 exports[`getArgs valid version cached: core.getInput 1`] = `
 [
   [
-    "version",
+    "extra-args",
   ],
   [
-    "working-directory",
+    "ignore-external",
+  ],
+  [
+    "lib",
   ],
   [
     "no-comments",
+  ],
+  [
+    "project",
   ],
   [
     "python-platform",
@@ -50,22 +56,16 @@ exports[`getArgs valid version cached: core.getInput 1`] = `
     "venv-path",
   ],
   [
-    "project",
+    "verify-types",
   ],
   [
-    "lib",
+    "version",
   ],
   [
     "warnings",
   ],
   [
-    "verify-types",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "extra-args",
+    "working-directory",
   ],
 ]
 `;
@@ -99,13 +99,19 @@ exports[`getArgs valid version cached: tc.find 1`] = `
 exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
 [
   [
-    "version",
+    "extra-args",
   ],
   [
-    "working-directory",
+    "ignore-external",
+  ],
+  [
+    "lib",
   ],
   [
     "no-comments",
+  ],
+  [
+    "project",
   ],
   [
     "python-platform",
@@ -120,22 +126,16 @@ exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
     "venv-path",
   ],
   [
-    "project",
+    "verify-types",
   ],
   [
-    "lib",
+    "version",
   ],
   [
     "warnings",
   ],
   [
-    "verify-types",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "extra-args",
+    "working-directory",
   ],
 ]
 `;
@@ -178,13 +178,19 @@ exports[`getArgs valid version extra-args malformed: tc.find 1`] = `
 exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
 [
   [
-    "version",
+    "extra-args",
   ],
   [
-    "working-directory",
+    "ignore-external",
+  ],
+  [
+    "lib",
   ],
   [
     "no-comments",
+  ],
+  [
+    "project",
   ],
   [
     "python-platform",
@@ -199,22 +205,16 @@ exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
     "venv-path",
   ],
   [
-    "project",
+    "verify-types",
   ],
   [
-    "lib",
+    "version",
   ],
   [
     "warnings",
   ],
   [
-    "verify-types",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "extra-args",
+    "working-directory",
   ],
 ]
 `;
@@ -271,13 +271,19 @@ exports[`getArgs valid version extra-args quotes: tc.find 1`] = `
 exports[`getArgs valid version many options: core.getInput 1`] = `
 [
   [
-    "version",
+    "extra-args",
   ],
   [
-    "working-directory",
+    "ignore-external",
+  ],
+  [
+    "lib",
   ],
   [
     "no-comments",
+  ],
+  [
+    "project",
   ],
   [
     "python-platform",
@@ -292,22 +298,16 @@ exports[`getArgs valid version many options: core.getInput 1`] = `
     "venv-path",
   ],
   [
-    "project",
+    "verify-types",
   ],
   [
-    "lib",
+    "version",
   ],
   [
     "warnings",
   ],
   [
-    "verify-types",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "extra-args",
+    "working-directory",
   ],
 ]
 `;
@@ -376,13 +376,19 @@ exports[`getArgs valid version many options: tc.find 1`] = `
 exports[`getArgs valid version no comments: core.getInput 1`] = `
 [
   [
-    "version",
+    "extra-args",
   ],
   [
-    "working-directory",
+    "ignore-external",
+  ],
+  [
+    "lib",
   ],
   [
     "no-comments",
+  ],
+  [
+    "project",
   ],
   [
     "python-platform",
@@ -397,22 +403,16 @@ exports[`getArgs valid version no comments: core.getInput 1`] = `
     "venv-path",
   ],
   [
-    "project",
+    "verify-types",
   ],
   [
-    "lib",
+    "version",
   ],
   [
     "warnings",
   ],
   [
-    "verify-types",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "extra-args",
+    "working-directory",
   ],
 ]
 `;
@@ -466,13 +466,19 @@ exports[`getArgs valid version no comments: tc.find 1`] = `
 exports[`getArgs valid version verifytypes: core.getInput 1`] = `
 [
   [
-    "version",
+    "extra-args",
   ],
   [
-    "working-directory",
+    "ignore-external",
+  ],
+  [
+    "lib",
   ],
   [
     "no-comments",
+  ],
+  [
+    "project",
   ],
   [
     "python-platform",
@@ -487,22 +493,16 @@ exports[`getArgs valid version verifytypes: core.getInput 1`] = `
     "venv-path",
   ],
   [
-    "project",
+    "verify-types",
   ],
   [
-    "lib",
+    "version",
   ],
   [
     "warnings",
   ],
   [
-    "verify-types",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "extra-args",
+    "working-directory",
   ],
 ]
 `;

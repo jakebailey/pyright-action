@@ -30,7 +30,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    expect(mockedCore.getInput.mock.calls).toMatchSnapshot("core.getInput");
+    expect([...mockedCore.getInput.mock.calls].sort()).toMatchSnapshot("core.getInput");
     expect(mockedTc.downloadTool.mock.calls).toMatchSnapshot("tc.downloadTool");
     expect(mockedTc.extractTar.mock.calls).toMatchSnapshot("tc.extractTar");
     expect(mockedTc.find.mock.calls).toMatchSnapshot("tc.find");
