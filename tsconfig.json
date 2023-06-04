@@ -3,7 +3,8 @@
     "compilerOptions": {
         "module": "ESNext",
         "moduleResolution": "bundler",
-        "verbatimModuleSyntax": true,
+        // Broken in ts-jest.
+        // "verbatimModuleSyntax": true,
         "noEmit": true,
         "resolveJsonModule": true,
         "exactOptionalPropertyTypes": false
