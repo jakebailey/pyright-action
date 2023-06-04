@@ -29,10 +29,19 @@ exports[`getArgs bad version: tc.find 1`] = `[]`;
 exports[`getArgs valid version cached: core.getInput 1`] = `
 [
   [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -44,16 +53,28 @@ exports[`getArgs valid version cached: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -96,8 +117,14 @@ exports[`getArgs valid version cached: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
+exports[`getArgs valid version createstub: core.getInput 1`] = `
 [
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
   [
     "extra-args",
   ],
@@ -105,10 +132,19 @@ exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
     "ignore-external",
   ],
   [
+    "level",
+  ],
+  [
     "lib",
   ],
   [
+    "no-comments",
+  ],
+  [
     "project",
+  ],
+  [
+    "python-path",
   ],
   [
     "python-platform",
@@ -117,10 +153,242 @@ exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version createstub: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--createstub",
+    "pygame",
+  ],
+  "noComments": true,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version createstub: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version createstub: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version createstub: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version createstub: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version dependencies: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version dependencies: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--dependencies",
+    "TRUE",
+  ],
+  "noComments": true,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version dependencies: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version dependencies: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version dependencies: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version dependencies: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -175,10 +443,19 @@ exports[`getArgs valid version extra-args malformed: tc.find 1`] = `
 exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
 [
   [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -190,16 +467,28 @@ exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -268,10 +557,19 @@ exports[`getArgs valid version extra-args quotes: tc.find 1`] = `
 exports[`getArgs valid version many options: core.getInput 1`] = `
 [
   [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -283,16 +581,28 @@ exports[`getArgs valid version many options: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -313,18 +623,22 @@ exports[`getArgs valid version many options: result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--level",
+    "warning",
+    "--project",
+    "/path/to/pyrightconfig.json",
     "--pythonplatform",
     "Linux",
+    "--pythonpath",
+    "/path/to/python",
     "--pythonversion",
     "3.9",
     "--typeshed-path",
     "/path/to/typeshed",
     "--venv-path",
     "/path/to-venv",
-    "--project",
-    "/path/to/pyrightconfig.json",
-    "--lib",
     "--warnings",
+    "--lib",
     "--foo",
     "--bar",
     "--baz",
@@ -373,10 +687,19 @@ exports[`getArgs valid version many options: tc.find 1`] = `
 exports[`getArgs valid version no comments: core.getInput 1`] = `
 [
   [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -388,16 +711,28 @@ exports[`getArgs valid version no comments: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -460,13 +795,22 @@ exports[`getArgs valid version no comments: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verbose: core.getInput 1`] = `
+exports[`getArgs valid version skip-unannotated: core.getInput 1`] = `
 [
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
   [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -478,16 +822,365 @@ exports[`getArgs valid version verbose: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version skip-unannotated: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--skipunannotated",
+    "TRUE",
+  ],
+  "noComments": false,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version skip-unannotated: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version skip-unannotated: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version skip-unannotated: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version skip-unannotated: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version stats: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version stats: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--stats",
+  ],
+  "noComments": true,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version stats: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version stats: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version stats: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version stats: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version verbose flag: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version verbose flag: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--verbose",
+  ],
+  "noComments": true,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version verbose flag: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version verbose flag: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version verbose flag: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version verbose flag: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs valid version verbose: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -508,9 +1201,9 @@ exports[`getArgs valid version verbose: result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
-    "--verbose",
+    "--lib",
   ],
-  "noComments": true,
+  "noComments": false,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -554,10 +1247,19 @@ exports[`getArgs valid version verbose: tc.find 1`] = `
 exports[`getArgs valid version verifytypes flag: core.getInput 1`] = `
 [
   [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -569,16 +1271,28 @@ exports[`getArgs valid version verifytypes flag: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -645,10 +1359,19 @@ exports[`getArgs valid version verifytypes flag: tc.find 1`] = `
 exports[`getArgs valid version verifytypes: core.getInput 1`] = `
 [
   [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
     "extra-args",
   ],
   [
     "ignore-external",
+  ],
+  [
+    "level",
   ],
   [
     "lib",
@@ -660,16 +1383,28 @@ exports[`getArgs valid version verifytypes: core.getInput 1`] = `
     "project",
   ],
   [
+    "python-path",
+  ],
+  [
     "python-platform",
   ],
   [
     "python-version",
   ],
   [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
     "typeshed-path",
   ],
   [
     "venv-path",
+  ],
+  [
+    "verbose",
   ],
   [
     "verify-types",
@@ -690,9 +1425,9 @@ exports[`getArgs valid version verifytypes: result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--ignoreexternal",
     "--verifytypes",
     "some.package",
-    "--ignoreexternal",
   ],
   "noComments": true,
   "pyrightVersion": "1.1.240",

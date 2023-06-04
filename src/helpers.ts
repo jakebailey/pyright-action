@@ -32,7 +32,25 @@ export interface Args {
     args: readonly string[];
 }
 
-const flagsWithoutCommentingSupport = new Set(["--verifytypes", "--verbose"]);
+// https://github.com/microsoft/pyright/blob/c8a16aa148afea403d985a80bd87998b06135c93/packages/pyright-internal/src/pyright.ts#LL188C35-L188C84
+// But also with --verifytypes, which supports JSON but this action doesn't do anything with it.
+const flagsWithoutCommentingSupport = new Set([
+    "--verifytypes",
+    "--stats",
+    "--verbose",
+    "--createstub",
+    "--dependencies",
+]);
+
+// TODO: For pyright 1.1.309 and above, use --typeshedpath and --venvpath.
+// The dashed forms still work for now, but may go away in the future.
+// https://github.com/microsoft/pyright/commit/ba18f421d1b57c433156cbc6934e0893abc130db
+
+// TODO: allow non-dashed forms to be passed as inputs. A long time ago, I
+// went with dashed names as pyright was not fully consistent, and dashes were
+// consistent with other GitHub actions. However, pyright has now gone the
+// other way and settled on no dashes in flag names. So, it's probably clearer
+// if this action supports the names without dashes.
 
 export async function getArgs() {
     const pyrightInfo = await getPyrightInfo();
@@ -40,16 +58,58 @@ export async function getArgs() {
 
     const args = [path.join(pyrightPath, "package", "index.js")];
 
+    // pyright-action options
     const workingDirectory = core.getInput("working-directory");
+
+    // pyright flags
+    const createStub = core.getInput("create-stub");
+    if (createStub) {
+        args.push("--createstub", createStub);
+    }
+
+    const dependencies = core.getInput("dependencies");
+    if (dependencies) {
+        args.push("--dependencies", dependencies);
+    }
+
+    const ignoreExternal = core.getInput("ignore-external");
+    if (ignoreExternal) {
+        args.push("--ignoreexternal");
+    }
+
+    const level = core.getInput("level");
+    if (level) {
+        args.push("--level", level);
+    }
+
+    const project = core.getInput("project");
+    if (project) {
+        args.push("--project", project);
+    }
 
     const pythonPlatform = core.getInput("python-platform");
     if (pythonPlatform) {
         args.push("--pythonplatform", pythonPlatform);
     }
 
+    const pythonPath = core.getInput("python-path");
+    if (pythonPath) {
+        args.push("--pythonpath", pythonPath);
+    }
+
     const pythonVersion = core.getInput("python-version");
     if (pythonVersion) {
         args.push("--pythonversion", pythonVersion);
+    }
+
+    const skipUnannotated = core.getInput("skip-unannotated");
+    if (skipUnannotated) {
+        args.push("--skipunannotated", skipUnannotated);
+    }
+
+    const stats = getBooleanInput("stats", false);
+    if (stats) {
+        args.push("--stats");
     }
 
     const typeshedPath = core.getInput("typeshed-path");
@@ -62,19 +122,9 @@ export async function getArgs() {
         args.push("--venv-path", venvPath);
     }
 
-    const project = core.getInput("project");
-    if (project) {
-        args.push("--project", project);
-    }
-
-    const lib = getBooleanInput("lib", false);
-    if (lib) {
+    const verbose = getBooleanInput("verbose", false);
+    if (verbose) {
         args.push("--lib");
-    }
-
-    const warnings = getBooleanInput("warnings", false);
-    if (warnings) {
-        args.push("--warnings");
     }
 
     const verifyTypes = core.getInput("verify-types");
@@ -82,9 +132,15 @@ export async function getArgs() {
         args.push("--verifytypes", verifyTypes);
     }
 
-    const ignoreExternal = core.getInput("ignore-external");
-    if (ignoreExternal) {
-        args.push("--ignoreexternal");
+    const warnings = getBooleanInput("warnings", false);
+    if (warnings) {
+        args.push("--warnings");
+    }
+
+    // Deprecated flags
+    const lib = getBooleanInput("lib", false);
+    if (lib) {
+        args.push("--lib");
     }
 
     const extraArgs = core.getInput("extra-args");

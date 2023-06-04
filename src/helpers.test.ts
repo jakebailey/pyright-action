@@ -101,6 +101,7 @@ describe("getArgs", () => {
         test("many options", async () => {
             inputs.set("working-directory", "/path/to/project");
             inputs.set("python-platform", "Linux");
+            inputs.set("python-path", "/path/to/python");
             inputs.set("python-version", "3.9");
             inputs.set("typeshed-path", "/path/to/typeshed");
             inputs.set("venv-path", "/path/to-venv");
@@ -108,6 +109,7 @@ describe("getArgs", () => {
             inputs.set("lib", "True");
             inputs.set("warnings", "TrUe");
             inputs.set("extra-args", "--foo --bar --baz");
+            inputs.set("level", "warning");
 
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");
@@ -169,8 +171,43 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
         });
 
-        test("verbose", async () => {
+        test("verbose flag", async () => {
             inputs.set("extra-args", "--verbose");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("verbose", async () => {
+            inputs.set("verbose", "TRUE");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("dependencies", async () => {
+            inputs.set("dependencies", "TRUE");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("createstub", async () => {
+            inputs.set("create-stub", "pygame");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("skip-unannotated", async () => {
+            inputs.set("skip-unannotated", "TRUE");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("stats", async () => {
+            inputs.set("stats", "TRue");
 
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");

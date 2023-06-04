@@ -6952,19 +6952,57 @@ function getNodeInfo() {
     execPath: process.execPath
   };
 }
-var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set(["--verifytypes", "--verbose"]);
+var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set([
+  "--verifytypes",
+  "--stats",
+  "--verbose",
+  "--createstub",
+  "--dependencies"
+]);
 async function getArgs() {
   const pyrightInfo = await getPyrightInfo();
   const pyrightPath = await downloadPyright(pyrightInfo);
   const args = [path.join(pyrightPath, "package", "index.js")];
   const workingDirectory = core.getInput("working-directory");
+  const createStub = core.getInput("create-stub");
+  if (createStub) {
+    args.push("--createstub", createStub);
+  }
+  const dependencies = core.getInput("dependencies");
+  if (dependencies) {
+    args.push("--dependencies", dependencies);
+  }
+  const ignoreExternal = core.getInput("ignore-external");
+  if (ignoreExternal) {
+    args.push("--ignoreexternal");
+  }
+  const level = core.getInput("level");
+  if (level) {
+    args.push("--level", level);
+  }
+  const project = core.getInput("project");
+  if (project) {
+    args.push("--project", project);
+  }
   const pythonPlatform = core.getInput("python-platform");
   if (pythonPlatform) {
     args.push("--pythonplatform", pythonPlatform);
   }
+  const pythonPath = core.getInput("python-path");
+  if (pythonPath) {
+    args.push("--pythonpath", pythonPath);
+  }
   const pythonVersion = core.getInput("python-version");
   if (pythonVersion) {
     args.push("--pythonversion", pythonVersion);
+  }
+  const skipUnannotated = core.getInput("skip-unannotated");
+  if (skipUnannotated) {
+    args.push("--skipunannotated", skipUnannotated);
+  }
+  const stats = getBooleanInput("stats", false);
+  if (stats) {
+    args.push("--stats");
   }
   const typeshedPath = core.getInput("typeshed-path");
   if (typeshedPath) {
@@ -6974,25 +7012,21 @@ async function getArgs() {
   if (venvPath) {
     args.push("--venv-path", venvPath);
   }
-  const project = core.getInput("project");
-  if (project) {
-    args.push("--project", project);
-  }
-  const lib = getBooleanInput("lib", false);
-  if (lib) {
+  const verbose = getBooleanInput("verbose", false);
+  if (verbose) {
     args.push("--lib");
-  }
-  const warnings = getBooleanInput("warnings", false);
-  if (warnings) {
-    args.push("--warnings");
   }
   const verifyTypes = core.getInput("verify-types");
   if (verifyTypes) {
     args.push("--verifytypes", verifyTypes);
   }
-  const ignoreExternal = core.getInput("ignore-external");
-  if (ignoreExternal) {
-    args.push("--ignoreexternal");
+  const warnings = getBooleanInput("warnings", false);
+  if (warnings) {
+    args.push("--warnings");
+  }
+  const lib = getBooleanInput("lib", false);
+  if (lib) {
+    args.push("--lib");
   }
   const extraArgs = core.getInput("extra-args");
   if (extraArgs) {
