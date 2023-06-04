@@ -26,6 +26,351 @@ exports[`getArgs bad version: tc.extractTar 1`] = `[]`;
 
 exports[`getArgs bad version: tc.find 1`] = `[]`;
 
+exports[`getArgs valid version 1.1.308 dashes: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.308 dashes: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--typeshed-path",
+    "/path/to/typeshed",
+    "--venv-path",
+    "/path/to-venv",
+  ],
+  "noComments": false,
+  "pyrightVersion": "1.1.308",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version 1.1.308 dashes: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.308",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.308 dashes: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.308.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.308 dashes: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.308 dashes: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.308",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.309 dashes: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.309 dashes: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--typeshedpath",
+    "/path/to/typeshed",
+    "--venvpath",
+    "/path/to-venv",
+  ],
+  "noComments": false,
+  "pyrightVersion": "1.1.309",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version 1.1.309 dashes: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.309",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.309 dashes: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.309.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.309 dashes: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.309 dashes: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.309",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.310 dashes: core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.310 dashes: result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--typeshedpath",
+    "/path/to/typeshed",
+    "--venvpath",
+    "/path/to-venv",
+  ],
+  "noComments": false,
+  "pyrightVersion": "1.1.310",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs valid version 1.1.310 dashes: tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.310",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.310 dashes: tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.310.tgz",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.310 dashes: tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs valid version 1.1.310 dashes: tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.310",
+  ],
+]
+`;
+
 exports[`getArgs valid version cached: core.getInput 1`] = `
 [
   [

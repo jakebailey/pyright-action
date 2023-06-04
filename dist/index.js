@@ -6962,6 +6962,8 @@ var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set([
 async function getArgs() {
   const pyrightInfo = await getPyrightInfo();
   const pyrightPath = await downloadPyright(pyrightInfo);
+  const pyrightVersion = new import_semver2.default(pyrightInfo.version);
+  const useDashedFlags = pyrightVersion.compare("1.1.309") === -1;
   const args = [path.join(pyrightPath, "package", "index.js")];
   const workingDirectory = core.getInput("working-directory");
   const createStub = core.getInput("create-stub");
@@ -7006,11 +7008,11 @@ async function getArgs() {
   }
   const typeshedPath = core.getInput("typeshed-path");
   if (typeshedPath) {
-    args.push("--typeshed-path", typeshedPath);
+    args.push(useDashedFlags ? "--typeshed-path" : "--typeshedpath", typeshedPath);
   }
   const venvPath = core.getInput("venv-path");
   if (venvPath) {
-    args.push("--venv-path", venvPath);
+    args.push(useDashedFlags ? "--venv-path" : "--venvpath", venvPath);
   }
   const verbose = getBooleanInput("verbose", false);
   if (verbose) {

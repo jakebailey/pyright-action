@@ -37,6 +37,17 @@ afterEach(() => {
     expect(mockedTc.cacheDir.mock.calls).toMatchSnapshot("tc.cacheDir");
 });
 
+function getNpmResponse(version: string): NpmRegistryResponse {
+    return {
+        version,
+        dist: {
+            tarball: `https://registry.npmjs.org/pyright/-/pyright-${version}.tgz`,
+        },
+    };
+}
+
+const latestPyright = "1.1.240";
+
 describe("getArgs", () => {
     test("bad version", async () => {
         mockedCore.getInput.mockImplementation((name, options) => {
@@ -53,12 +64,6 @@ describe("getArgs", () => {
     });
 
     describe("valid version", () => {
-        const npmResponse: NpmRegistryResponse = {
-            version: "1.1.240",
-            dist: {
-                tarball: "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
-            },
-        };
         const tarballPath = path.join(fakeRoot, "pyright.tar.gz");
         const extractedPath = path.join(fakeRoot, "pyright");
 
@@ -73,25 +78,36 @@ describe("getArgs", () => {
             });
 
             mockedHttpClient.HttpClient.prototype.get.mockImplementation(async (url) => {
-                switch (url) {
-                    case `https://registry.npmjs.org/pyright/${npmResponse.version}`:
-                    case "https://registry.npmjs.org/pyright/latest":
-                        return {
-                            message: {
-                                statusCode: 200,
-                            } as IncomingMessage,
-                            readBody: async () => JSON.stringify(npmResponse),
-                        };
-                    case `https://registry.npmjs.org/pyright/1.1.404`:
-                        return {
-                            message: {
-                                statusCode: 404,
-                            } as IncomingMessage,
-                            readBody: async () => JSON.stringify("version not found: 1.1.404"),
-                        };
-                    default:
-                        throw new Error(`unknown URL ${url}`);
+                const versionPrefix = "https://registry.npmjs.org/pyright/";
+                if (url.startsWith(versionPrefix)) {
+                    const version = url.slice(versionPrefix.length);
+
+                    switch (version) {
+                        case "latest":
+                            return {
+                                message: {
+                                    statusCode: 200,
+                                } as IncomingMessage,
+                                readBody: async () => JSON.stringify(getNpmResponse(latestPyright)),
+                            };
+                        case "999.999.404":
+                            return {
+                                message: {
+                                    statusCode: 404,
+                                } as IncomingMessage,
+                                readBody: async () => JSON.stringify("version not found: 999.999.404"),
+                            };
+                        default:
+                            return {
+                                message: {
+                                    statusCode: 200,
+                                } as IncomingMessage,
+                                readBody: async () => JSON.stringify(getNpmResponse(version)),
+                            };
+                    }
                 }
+
+                throw new Error(`unknown URL ${url}`);
             });
 
             mockedTc.downloadTool.mockResolvedValue(tarballPath);
@@ -114,7 +130,7 @@ describe("getArgs", () => {
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");
 
-            expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.dist.tarball);
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(latestPyright).dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
 
@@ -134,8 +150,8 @@ describe("getArgs", () => {
         });
 
         test("version not found", async () => {
-            inputs.set("version", "1.1.404");
-            await expect(getArgs()).rejects.toThrowError("version not found: 1.1.404");
+            inputs.set("version", "999.999.404");
+            await expect(getArgs()).rejects.toThrowError("version not found: 999.999.404");
         });
 
         test("cached", async () => {
@@ -152,7 +168,7 @@ describe("getArgs", () => {
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");
 
-            expect(mockedTc.downloadTool).toBeCalledWith(npmResponse.dist.tarball);
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(latestPyright).dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
 
@@ -211,6 +227,45 @@ describe("getArgs", () => {
 
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");
+        });
+
+        test("1.1.308 dashes", async () => {
+            const version = "1.1.308";
+            inputs.set("version", version);
+            inputs.set("typeshed-path", "/path/to/typeshed");
+            inputs.set("venv-path", "/path/to-venv");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
+        test("1.1.309 dashes", async () => {
+            const version = "1.1.309";
+            inputs.set("version", version);
+            inputs.set("typeshed-path", "/path/to/typeshed");
+            inputs.set("venv-path", "/path/to-venv");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
+        test("1.1.310 dashes", async () => {
+            const version = "1.1.310";
+            inputs.set("version", version);
+            inputs.set("typeshed-path", "/path/to/typeshed");
+            inputs.set("venv-path", "/path/to-venv");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
     });
 });

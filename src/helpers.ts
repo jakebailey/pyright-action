@@ -42,10 +42,6 @@ const flagsWithoutCommentingSupport = new Set([
     "--dependencies",
 ]);
 
-// TODO: For pyright 1.1.309 and above, use --typeshedpath and --venvpath.
-// The dashed forms still work for now, but may go away in the future.
-// https://github.com/microsoft/pyright/commit/ba18f421d1b57c433156cbc6934e0893abc130db
-
 // TODO: allow non-dashed forms to be passed as inputs. A long time ago, I
 // went with dashed names as pyright was not fully consistent, and dashes were
 // consistent with other GitHub actions. However, pyright has now gone the
@@ -55,6 +51,10 @@ const flagsWithoutCommentingSupport = new Set([
 export async function getArgs() {
     const pyrightInfo = await getPyrightInfo();
     const pyrightPath = await downloadPyright(pyrightInfo);
+
+    const pyrightVersion = new SemVer(pyrightInfo.version);
+    // https://github.com/microsoft/pyright/commit/ba18f421d1b57c433156cbc6934e0893abc130db
+    const useDashedFlags = pyrightVersion.compare("1.1.309") === -1;
 
     const args = [path.join(pyrightPath, "package", "index.js")];
 
@@ -114,12 +114,12 @@ export async function getArgs() {
 
     const typeshedPath = core.getInput("typeshed-path");
     if (typeshedPath) {
-        args.push("--typeshed-path", typeshedPath);
+        args.push(useDashedFlags ? "--typeshed-path" : "--typeshedpath", typeshedPath);
     }
 
     const venvPath = core.getInput("venv-path");
     if (venvPath) {
-        args.push("--venv-path", venvPath);
+        args.push(useDashedFlags ? "--venv-path" : "--venvpath", venvPath);
     }
 
     const verbose = getBooleanInput("verbose", false);
