@@ -3,7 +3,12 @@
 [![ci](https://github.com/jakebailey/pyright-action/actions/workflows/ci.yml/badge.svg)](https://github.com/jakebailey/pyright-action/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/jakebailey/pyright-action/branch/main/graph/badge.svg?token=5OMEFS2LQZ)](https://codecov.io/gh/jakebailey/pyright-action)
 
-GitHub action for [pyright](https://github.com/microsoft/pyright).
+GitHub action for [pyright](https://github.com/microsoft/pyright). Featuring:
+
+- PR/commit annotations for errors/warnings.
+- Super fast startup, via:
+  - Download caching.
+  - No dependency on `setup-node`.
 
 ```yml
 - uses: jakebailey/pyright-action@v1
