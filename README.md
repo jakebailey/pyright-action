@@ -104,14 +104,12 @@ there.
   with:
     cache: 'pip'
 
-- name: Install deps
-  run: |
+- run: |
     python -m venv .venv
     source .venv/bin/activate
     pip install -r requirements.txt
 
-- name: Activate the isolated venv for the rest of the job
-  run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
+- run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
 - uses: jakebailey/pyright-action@v1
 ```
@@ -124,9 +122,7 @@ poetry's python binary is on `$PATH`:
 ```yml
 - uses: actions/checkout@v3
 
-- name: Install poetry
-  run: pipx install poetry
-
+- run: pipx install poetry
 - uses: actions/setup-python@v4
   with:
     cache: 'poetry'
