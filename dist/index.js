@@ -1,3 +1,4 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -975,12 +976,12 @@ var require_lib = __commonJS({
     var RetryableHttpVerbs = ["OPTIONS", "GET", "DELETE", "HEAD"];
     var ExponentialBackoffCeiling = 10;
     var ExponentialBackoffTimeSlice = 5;
-    var HttpClientError = class extends Error {
+    var HttpClientError = class _HttpClientError extends Error {
       constructor(message, statusCode) {
         super(message);
         this.name = "HttpClientError";
         this.statusCode = statusCode;
-        Object.setPrototypeOf(this, HttpClientError.prototype);
+        Object.setPrototypeOf(this, _HttpClientError.prototype);
       }
     };
     exports.HttpClientError = HttpClientError;
@@ -1571,13 +1572,13 @@ var require_oidc_utils = __commonJS({
     var http_client_1 = require_lib();
     var auth_1 = require_auth();
     var core_1 = require_core();
-    var OidcClient = class {
+    var OidcClient = class _OidcClient {
       static createHttpClient(allowRetry = true, maxRetry = 10) {
         const requestOptions = {
           allowRetries: allowRetry,
           maxRetries: maxRetry
         };
-        return new http_client_1.HttpClient("actions/oidc-client", [new auth_1.BearerCredentialHandler(OidcClient.getRequestToken())], requestOptions);
+        return new http_client_1.HttpClient("actions/oidc-client", [new auth_1.BearerCredentialHandler(_OidcClient.getRequestToken())], requestOptions);
       }
       static getRequestToken() {
         const token = process.env["ACTIONS_ID_TOKEN_REQUEST_TOKEN"];
@@ -1596,7 +1597,7 @@ var require_oidc_utils = __commonJS({
       static getCall(id_token_url) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-          const httpclient = OidcClient.createHttpClient();
+          const httpclient = _OidcClient.createHttpClient();
           const res = yield httpclient.getJson(id_token_url).catch((error) => {
             throw new Error(`Failed to get ID Token. 
  
@@ -1614,13 +1615,13 @@ var require_oidc_utils = __commonJS({
       static getIDToken(audience) {
         return __awaiter(this, void 0, void 0, function* () {
           try {
-            let id_token_url = OidcClient.getIDTokenUrl();
+            let id_token_url = _OidcClient.getIDTokenUrl();
             if (audience) {
               const encodedAudience = encodeURIComponent(audience);
               id_token_url = `${id_token_url}&audience=${encodedAudience}`;
             }
             core_1.debug(`ID token url is ${id_token_url}`);
-            const id_token = yield OidcClient.getCall(id_token_url);
+            const id_token = yield _OidcClient.getCall(id_token_url);
             core_1.setSecret(id_token);
             return id_token;
           } catch (error) {
@@ -4631,7 +4632,7 @@ var require_toolrunner = __commonJS({
       return args;
     }
     exports.argStringToArray = argStringToArray;
-    var ExecState = class extends events.EventEmitter {
+    var ExecState = class _ExecState extends events.EventEmitter {
       constructor(options, toolPath) {
         super();
         this.processClosed = false;
@@ -4658,7 +4659,7 @@ var require_toolrunner = __commonJS({
         if (this.processClosed) {
           this._setResult();
         } else if (this.processExited) {
-          this.timeout = timers_1.setTimeout(ExecState.HandleTimeout, this.delay, this);
+          this.timeout = timers_1.setTimeout(_ExecState.HandleTimeout, this.delay, this);
         }
       }
       _debug(message) {
@@ -5480,6 +5481,7 @@ var require_constants = __commonJS({
     var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || /* istanbul ignore next */
     9007199254740991;
     var MAX_SAFE_COMPONENT_LENGTH = 16;
+    var MAX_SAFE_BUILD_LENGTH = MAX_LENGTH - 6;
     var RELEASE_TYPES = [
       "major",
       "premajor",
@@ -5492,6 +5494,7 @@ var require_constants = __commonJS({
     module2.exports = {
       MAX_LENGTH,
       MAX_SAFE_COMPONENT_LENGTH,
+      MAX_SAFE_BUILD_LENGTH,
       MAX_SAFE_INTEGER,
       RELEASE_TYPES,
       SEMVER_SPEC_VERSION,
@@ -5504,30 +5507,45 @@ var require_constants = __commonJS({
 // node_modules/semver/internal/re.js
 var require_re = __commonJS({
   "node_modules/semver/internal/re.js"(exports, module2) {
-    var { MAX_SAFE_COMPONENT_LENGTH } = require_constants();
+    var { MAX_SAFE_COMPONENT_LENGTH, MAX_SAFE_BUILD_LENGTH } = require_constants();
     var debug = require_debug();
     exports = module2.exports = {};
     var re = exports.re = [];
+    var safeRe = exports.safeRe = [];
     var src = exports.src = [];
     var t = exports.t = {};
     var R = 0;
+    var LETTERDASHNUMBER = "[a-zA-Z0-9-]";
+    var safeRegexReplacements = [
+      ["\\s", 1],
+      ["\\d", MAX_SAFE_COMPONENT_LENGTH],
+      [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH]
+    ];
+    var makeSafeRegex = (value) => {
+      for (const [token, max] of safeRegexReplacements) {
+        value = value.split(`${token}*`).join(`${token}{0,${max}}`).split(`${token}+`).join(`${token}{1,${max}}`);
+      }
+      return value;
+    };
     var createToken = (name, value, isGlobal) => {
+      const safe = makeSafeRegex(value);
       const index = R++;
       debug(name, index, value);
       t[name] = index;
       src[index] = value;
       re[index] = new RegExp(value, isGlobal ? "g" : void 0);
+      safeRe[index] = new RegExp(safe, isGlobal ? "g" : void 0);
     };
     createToken("NUMERICIDENTIFIER", "0|[1-9]\\d*");
-    createToken("NUMERICIDENTIFIERLOOSE", "[0-9]+");
-    createToken("NONNUMERICIDENTIFIER", "\\d*[a-zA-Z-][a-zA-Z0-9-]*");
+    createToken("NUMERICIDENTIFIERLOOSE", "\\d+");
+    createToken("NONNUMERICIDENTIFIER", `\\d*[a-zA-Z-]${LETTERDASHNUMBER}*`);
     createToken("MAINVERSION", `(${src[t.NUMERICIDENTIFIER]})\\.(${src[t.NUMERICIDENTIFIER]})\\.(${src[t.NUMERICIDENTIFIER]})`);
     createToken("MAINVERSIONLOOSE", `(${src[t.NUMERICIDENTIFIERLOOSE]})\\.(${src[t.NUMERICIDENTIFIERLOOSE]})\\.(${src[t.NUMERICIDENTIFIERLOOSE]})`);
     createToken("PRERELEASEIDENTIFIER", `(?:${src[t.NUMERICIDENTIFIER]}|${src[t.NONNUMERICIDENTIFIER]})`);
     createToken("PRERELEASEIDENTIFIERLOOSE", `(?:${src[t.NUMERICIDENTIFIERLOOSE]}|${src[t.NONNUMERICIDENTIFIER]})`);
     createToken("PRERELEASE", `(?:-(${src[t.PRERELEASEIDENTIFIER]}(?:\\.${src[t.PRERELEASEIDENTIFIER]})*))`);
     createToken("PRERELEASELOOSE", `(?:-?(${src[t.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${src[t.PRERELEASEIDENTIFIERLOOSE]})*))`);
-    createToken("BUILDIDENTIFIER", "[0-9A-Za-z-]+");
+    createToken("BUILDIDENTIFIER", `${LETTERDASHNUMBER}+`);
     createToken("BUILD", `(?:\\+(${src[t.BUILDIDENTIFIER]}(?:\\.${src[t.BUILDIDENTIFIER]})*))`);
     createToken("FULLPLAIN", `v?${src[t.MAINVERSION]}${src[t.PRERELEASE]}?${src[t.BUILD]}?`);
     createToken("FULL", `^${src[t.FULLPLAIN]}$`);
@@ -5608,13 +5626,13 @@ var require_semver2 = __commonJS({
   "node_modules/semver/classes/semver.js"(exports, module2) {
     var debug = require_debug();
     var { MAX_LENGTH, MAX_SAFE_INTEGER } = require_constants();
-    var { re, t } = require_re();
+    var { safeRe: re, t } = require_re();
     var parseOptions = require_parse_options();
     var { compareIdentifiers } = require_identifiers();
-    var SemVer3 = class {
+    var SemVer3 = class _SemVer {
       constructor(version3, options) {
         options = parseOptions(options);
-        if (version3 instanceof SemVer3) {
+        if (version3 instanceof _SemVer) {
           if (version3.loose === !!options.loose && version3.includePrerelease === !!options.includePrerelease) {
             return version3;
           } else {
@@ -5677,11 +5695,11 @@ var require_semver2 = __commonJS({
       }
       compare(other) {
         debug("SemVer.compare", this.version, this.options, other);
-        if (!(other instanceof SemVer3)) {
+        if (!(other instanceof _SemVer)) {
           if (typeof other === "string" && other === this.version) {
             return 0;
           }
-          other = new SemVer3(other, this.options);
+          other = new _SemVer(other, this.options);
         }
         if (other.version === this.version) {
           return 0;
@@ -5689,14 +5707,14 @@ var require_semver2 = __commonJS({
         return this.compareMain(other) || this.comparePre(other);
       }
       compareMain(other) {
-        if (!(other instanceof SemVer3)) {
-          other = new SemVer3(other, this.options);
+        if (!(other instanceof _SemVer)) {
+          other = new _SemVer(other, this.options);
         }
         return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
       }
       comparePre(other) {
-        if (!(other instanceof SemVer3)) {
-          other = new SemVer3(other, this.options);
+        if (!(other instanceof _SemVer)) {
+          other = new _SemVer(other, this.options);
         }
         if (this.prerelease.length && !other.prerelease.length) {
           return -1;
@@ -5724,8 +5742,8 @@ var require_semver2 = __commonJS({
         } while (++i);
       }
       compareBuild(other) {
-        if (!(other instanceof SemVer3)) {
-          other = new SemVer3(other, this.options);
+        if (!(other instanceof _SemVer)) {
+          other = new _SemVer(other, this.options);
         }
         let i = 0;
         do {
@@ -5834,8 +5852,10 @@ var require_semver2 = __commonJS({
           default:
             throw new Error(`invalid increment argument: ${release}`);
         }
-        this.format();
-        this.raw = this.version;
+        this.raw = this.format();
+        if (this.build.length) {
+          this.raw += `+${this.build.join(".")}`;
+        }
         return this;
       }
     };
@@ -6175,7 +6195,7 @@ function getBit(bits, index) {
     return bits[index >> 5] >>> index % 32 & 1;
   }
 }
-var ObjectType = class extends Type {
+var ObjectType = class _ObjectType extends Type {
   constructor(shape, restType, checks) {
     super();
     this.shape = shape;
@@ -6186,7 +6206,7 @@ var ObjectType = class extends Type {
   check(func, error) {
     var _a;
     const issue = { code: "custom_error", path: void 0, error };
-    return new ObjectType(this.shape, this.restType, [
+    return new _ObjectType(this.shape, this.restType, [
       ...(_a = this.checks) !== null && _a !== void 0 ? _a : [],
       {
         func,
@@ -6203,24 +6223,24 @@ var ObjectType = class extends Type {
     return func(obj, mode);
   }
   rest(restType) {
-    return new ObjectType(this.shape, restType);
+    return new _ObjectType(this.shape, restType);
   }
   extend(shape) {
-    return new ObjectType({ ...this.shape, ...shape }, this.restType);
+    return new _ObjectType({ ...this.shape, ...shape }, this.restType);
   }
   pick(...keys) {
     const shape = {};
     keys.forEach((key) => {
       shape[key] = this.shape[key];
     });
-    return new ObjectType(shape, void 0);
+    return new _ObjectType(shape, void 0);
   }
   omit(...keys) {
     const shape = { ...this.shape };
     keys.forEach((key) => {
       delete shape[key];
     });
-    return new ObjectType(shape, this.restType);
+    return new _ObjectType(shape, this.restType);
   }
   partial() {
     var _a;
@@ -6229,7 +6249,7 @@ var ObjectType = class extends Type {
       shape[key] = this.shape[key].optional();
     });
     const rest = (_a = this.restType) === null || _a === void 0 ? void 0 : _a.optional();
-    return new ObjectType(shape, rest);
+    return new _ObjectType(shape, rest);
   }
 };
 function createObjectMatcher(shape, restType, checks) {
@@ -6686,7 +6706,7 @@ var UnionType = class extends Type {
     return func(v, mode);
   }
 };
-var TransformType = class extends Type {
+var TransformType = class _TransformType extends Type {
   constructor(transformed, transform) {
     super();
     this.transformed = transformed;
@@ -6701,7 +6721,7 @@ var TransformType = class extends Type {
     if (!chain) {
       chain = [];
       let next = this;
-      while (next instanceof TransformType) {
+      while (next instanceof _TransformType) {
         chain.push(next.transform);
         next = next.transformed;
       }
