@@ -94,7 +94,7 @@ inputs:
 
 ## Use with a virtualenv
 
-The easiest way to use a virtualenv with this action is to "activagte" the
+The easiest way to use a virtualenv with this action is to "activate" the
 environment by adding its bin to `$PATH`, then allowing `pyright` to find it
 there.
 
