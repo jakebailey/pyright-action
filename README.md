@@ -92,15 +92,47 @@ inputs:
     default: "false"
 ```
 
-## Releasing `pyright-action`
+## Use with a virtualenv
 
-Releases are performed by `release-it`, which correctly tags a new version and
-re-tags `v1`. Unfortunately, you can only publish a GitHub action via the web UI
-(not via the API), so `release-it` must be configured to open a browser to
-create the release, where the marketplace checkbox will already be checked.
+The easiest way to use a virtualenv with this action is to "activagte" the
+environment by adding its bin to `$PATH`, then allowing `pyright` to find it
+there.
 
+```yml
+- uses: actions/checkout@v3
+- uses: actions/setup-python@v4
+  with:
+    cache: 'pip'
+
+- name: Install deps
+  run: |
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+
+- name: Activate the isolated venv for the rest of the job
+  run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+- uses: jakebailey/pyright-action@v1
 ```
-$ npx release-it --ci                    # Release a patch version
-$ npx release-it --ci --increment minor  # Release a minor version bump.
-$ npx release-it --ci --increment major  # Don't do this unless .release-it.json is updated to potentially retag a new major version.
+
+## Use with poetry
+
+Similarly to a virtualenv, the easiest way to get it working is to ensure that
+poetry's python binary is on `$PATH`:
+
+```yml
+- uses: actions/checkout@v3
+
+- name: Install poetry
+  run: pipx install poetry
+
+- uses: actions/setup-python@v4
+  with:
+    cache: 'poetry'
+
+- run: poetry install
+- run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
+
+- uses: jakebailey/pyright-action@v1
 ```
