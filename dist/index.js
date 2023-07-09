@@ -5507,7 +5507,11 @@ var require_constants = __commonJS({
 // node_modules/semver/internal/re.js
 var require_re = __commonJS({
   "node_modules/semver/internal/re.js"(exports, module2) {
-    var { MAX_SAFE_COMPONENT_LENGTH, MAX_SAFE_BUILD_LENGTH } = require_constants();
+    var {
+      MAX_SAFE_COMPONENT_LENGTH,
+      MAX_SAFE_BUILD_LENGTH,
+      MAX_LENGTH
+    } = require_constants();
     var debug = require_debug();
     exports = module2.exports = {};
     var re = exports.re = [];
@@ -5518,7 +5522,7 @@ var require_re = __commonJS({
     var LETTERDASHNUMBER = "[a-zA-Z0-9-]";
     var safeRegexReplacements = [
       ["\\s", 1],
-      ["\\d", MAX_SAFE_COMPONENT_LENGTH],
+      ["\\d", MAX_LENGTH],
       [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH]
     ];
     var makeSafeRegex = (value) => {

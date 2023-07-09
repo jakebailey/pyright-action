@@ -15,9 +15,14 @@
         "lineWidth": 80
     },
     "prettier": {
-        "tabWidth": 2 // for yaml
+        "associations": [
+            "**/*.{yaml,yml}"
+        ],
+        "yml.tabWidth": 2,
+        "yaml.tabWidth": 2,
+        "yml.singleQuote": true,
+        "yaml.singleQuote": true
     },
-    "includes": ["**/*.{ts,tsx,js,jsx,cjs,mjs,json,md,yml}"],
     "excludes": [
         "**/node_modules",
         "**/*-lock.json",
