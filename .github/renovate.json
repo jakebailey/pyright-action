@@ -5,5 +5,13 @@
     ],
     "nvm": {
         "enabled": false
+    },
+    "npm": {
+        "packageRules": [
+            {
+                "matchPackageNames": ["@types/node"],
+                "rangeStrategy": "bump"
+            }
+        ]
     }
 }
