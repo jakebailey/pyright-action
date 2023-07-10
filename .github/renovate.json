@@ -11,7 +11,7 @@
             "matchPackageNames": [
                 "@types/node"
             ],
-            "matchUpdateTypes": "minor"
+            "allowedVersions": "^16"
         }
     ]
 }
