@@ -10,6 +10,12 @@
     "packageRules": [
         {
             "matchPackageNames": [
+                "npm"
+            ],
+            "allowedVersions": "^8"
+        },
+        {
+            "matchPackageNames": [
                 "@types/node"
             ],
             "allowedVersions": "^16"
