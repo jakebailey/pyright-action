@@ -11,7 +11,7 @@
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "project": "./tsconfig.json"
+        "project": true
     },
     "plugins": ["@typescript-eslint/eslint-plugin", "simple-import-sort", "unicorn"],
     "root": true,
@@ -20,6 +20,7 @@
         "no-constant-condition": 0,
         "no-inner-declarations": 0,
         "no-undef": 0,
+        "no-unused-vars": 0, // Doesn't work in TS.
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
         "@typescript-eslint/explicit-function-return-type": 0,
@@ -40,7 +41,8 @@
         "unicorn/no-await-expression-member": 0,
         "unicorn/no-useless-undefined": 0,
         "unicorn/prevent-abbreviations": 0,
-        "unicorn/switch-case-braces": 0
+        "unicorn/switch-case-braces": 0,
+        "unicorn/no-empty-file": 0
     },
     "ignorePatterns": ["**/dist/**", "**/node_modules/**", "coverage/**"]
 }
