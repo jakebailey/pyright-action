@@ -570,7 +570,12 @@ var require_proxy = __commonJS({
         }
       })();
       if (proxyVar) {
-        return new URL(proxyVar);
+        try {
+          return new URL(proxyVar);
+        } catch (_a) {
+          if (!proxyVar.startsWith("http://") && !proxyVar.startsWith("https://"))
+            return new URL(`http://${proxyVar}`);
+        }
       } else {
         return void 0;
       }
@@ -998,6 +1003,19 @@ var require_lib = __commonJS({
             });
             this.message.on("end", () => {
               resolve(output.toString());
+            });
+          }));
+        });
+      }
+      readBodyBuffer() {
+        return __awaiter(this, void 0, void 0, function* () {
+          return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+            const chunks = [];
+            this.message.on("data", (chunk) => {
+              chunks.push(chunk);
+            });
+            this.message.on("end", () => {
+              resolve(Buffer.concat(chunks));
             });
           }));
         });
@@ -5913,29 +5931,45 @@ function joinIssues(left, right) {
 function prependPath(key, tree) {
   return { code: "prepend", key, tree };
 }
-function _collectIssues(tree, path2, issues) {
-  if (tree.code === "join") {
-    _collectIssues(tree.left, path2, issues);
-    _collectIssues(tree.right, path2, issues);
-  } else if (tree.code === "prepend") {
-    path2.push(tree.key);
-    _collectIssues(tree.tree, path2, issues);
-    path2.pop();
-  } else {
-    const finalPath = path2.slice();
-    if (tree.path !== void 0) {
-      finalPath.push(tree.path);
-    }
-    if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
-      finalPath.push(...tree.error.path);
-    }
-    issues.push({ ...tree, path: finalPath });
+function cloneIssueWithPath(tree, path2) {
+  switch (tree.code) {
+    case "invalid_type":
+      return { code: "invalid_type", path: path2, expected: tree.expected };
+    case "invalid_literal":
+      return { code: "invalid_literal", path: path2, expected: tree.expected };
+    case "missing_value":
+      return { code: "missing_value", path: path2 };
+    case "invalid_length":
+      return {
+        code: "invalid_length",
+        path: path2,
+        minLength: tree.minLength,
+        maxLength: tree.maxLength
+      };
+    case "unrecognized_keys":
+      return { code: "unrecognized_keys", path: path2, keys: tree.keys };
+    case "invalid_union":
+      return { code: "invalid_union", path: path2, tree: tree.tree };
+    default:
+      return { code: "custom_error", path: path2, error: tree.error };
   }
 }
-function collectIssues(tree) {
-  const issues = [];
-  const path2 = [];
-  _collectIssues(tree, path2, issues);
+function collectIssues(tree, path2 = [], issues = []) {
+  if (tree.code === "join") {
+    collectIssues(tree.left, path2.slice(), issues);
+    collectIssues(tree.right, path2, issues);
+  } else if (tree.code === "prepend") {
+    path2.push(tree.key);
+    collectIssues(tree.tree, path2, issues);
+  } else {
+    if (tree.path !== void 0) {
+      path2.push(tree.path);
+    }
+    if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
+      path2.push(...tree.error.path);
+    }
+    issues.push(cloneIssueWithPath(tree, path2));
+  }
   return issues;
 }
 function separatedList(list, separator) {
@@ -5964,7 +5998,7 @@ function findOneIssue(tree, path2 = []) {
     if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
       path2.push(...tree.error.path);
     }
-    return { ...tree, path: path2 };
+    return cloneIssueWithPath(tree, path2);
   }
 }
 function countIssues(tree) {
@@ -6074,14 +6108,7 @@ function safeSet(obj, key, value) {
     obj[key] = value;
   }
 }
-function hasTerminal(type, name) {
-  let has = false;
-  type.toTerminals((t) => {
-    has = has || t.name === name;
-  });
-  return has;
-}
-var Nothing = Symbol();
+var Nothing = Symbol.for("valita.Nothing");
 var AbstractType = class {
   optional() {
     return new Optional(this);
@@ -6113,8 +6140,10 @@ var AbstractType = class {
     });
   }
 };
-var isOptional = Symbol();
 var Type = class extends AbstractType {
+  nullable() {
+    return union(nullSingleton, this);
+  }
   toTerminals(func) {
     func(this);
   }
@@ -6281,7 +6310,11 @@ function createObjectMatcher(shape, restType, checks) {
   const requiredKeys = [];
   const optionalKeys = [];
   for (const key in shape) {
-    if (hasTerminal(shape[key], "optional")) {
+    let hasOptional = false;
+    shape[key].toTerminals((t) => {
+      hasOptional || (hasOptional = t.name === "optional");
+    });
+    if (hasOptional) {
       optionalKeys.push(key);
     } else {
       requiredKeys.push(key);
@@ -6491,7 +6524,7 @@ var ArrayType = class extends Type {
     }
   }
 };
-function toBaseType(v) {
+function toInputType(v) {
   const type = typeof v;
   if (type !== "object") {
     return type;
@@ -6528,28 +6561,28 @@ function groupTerminals(terminals) {
   const unknowns = [];
   const optionals = [];
   const expectedTypes = [];
-  terminals.forEach(({ groupKey, terminal }) => {
+  terminals.forEach(({ root, terminal }) => {
     var _a;
-    order.set(groupKey, (_a = order.get(groupKey)) !== null && _a !== void 0 ? _a : order.size);
+    order.set(root, (_a = order.get(root)) !== null && _a !== void 0 ? _a : order.size);
     if (terminal.name === "never") {
     } else if (terminal.name === "optional") {
-      optionals.push(groupKey);
+      optionals.push(root);
     } else if (terminal.name === "unknown") {
-      unknowns.push(groupKey);
+      unknowns.push(root);
     } else if (terminal.name === "literal") {
       const roots = literals.get(terminal.value) || [];
-      roots.push(groupKey);
+      roots.push(root);
       literals.set(terminal.value, roots);
-      expectedTypes.push(toBaseType(terminal.value));
+      expectedTypes.push(toInputType(terminal.value));
     } else {
       const roots = types.get(terminal.name) || [];
-      roots.push(groupKey);
+      roots.push(root);
       types.set(terminal.name, roots);
       expectedTypes.push(terminal.name);
     }
   });
   literals.forEach((roots, value) => {
-    const options = types.get(toBaseType(value));
+    const options = types.get(toInputType(value));
     if (options) {
       options.push(...roots);
       literals.delete(value);
@@ -6569,148 +6602,114 @@ function groupTerminals(terminals) {
     expectedTypes: dedup(expectedTypes)
   };
 }
+function createObjectKeyMatcher(objects, key) {
+  const list = [];
+  for (const { root, terminal } of objects) {
+    terminal.shape[key].toTerminals((t) => list.push({ root, terminal: t }));
+  }
+  const { types, literals, optionals, unknowns, expectedTypes } = groupTerminals(list);
+  if (unknowns.length > 0 || optionals.length > 1) {
+    return void 0;
+  }
+  for (const roots of literals.values()) {
+    if (roots.length > 1) {
+      return void 0;
+    }
+  }
+  for (const roots of types.values()) {
+    if (roots.length > 1) {
+      return void 0;
+    }
+  }
+  const missingValue = { code: "missing_value", path: key };
+  const issue = types.size === 0 ? {
+    code: "invalid_literal",
+    path: key,
+    expected: Array.from(literals.keys())
+  } : {
+    code: "invalid_type",
+    path: key,
+    expected: expectedTypes
+  };
+  const litMap = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
+  for (const [literal2, options] of literals) {
+    litMap.set(literal2, options[0]);
+  }
+  const byType = types.size > 0 ? {} : void 0;
+  for (const [type, options] of types) {
+    byType[type] = options[0];
+  }
+  return function(_obj, mode) {
+    var _a;
+    const obj = _obj;
+    const value = obj[key];
+    if (value === void 0 && !(key in obj)) {
+      return optionals.length > 0 ? optionals[0].func(obj, mode) : missingValue;
+    }
+    const option = (_a = byType === null || byType === void 0 ? void 0 : byType[toInputType(value)]) !== null && _a !== void 0 ? _a : litMap === null || litMap === void 0 ? void 0 : litMap.get(value);
+    return option ? option.func(obj, mode) : issue;
+  };
+}
 function createUnionObjectMatcher(terminals) {
+  if (terminals.some(({ terminal: t }) => t.name === "unknown")) {
+    return void 0;
+  }
   const objects = terminals.filter((item) => {
-    return item.terminal instanceof ObjectType;
+    return item.terminal.name === "object";
   });
   if (objects.length < 2) {
     return void 0;
   }
   const shapes = objects.map(({ terminal }) => terminal.shape);
-  const common = findCommonKeys(shapes);
-  const discriminants = common.filter((key2) => {
-    const list = [];
-    for (let i = 0; i < shapes.length; i++) {
-      const shape = shapes[i];
-      shape[key2].toTerminals((terminal) => list.push({ groupKey: i, terminal }));
-    }
-    const { types, literals, optionals, unknowns } = groupTerminals(list);
-    if (optionals.length > 1 || unknowns.length > 1) {
-      return false;
-    }
-    for (const [_, found] of literals) {
-      if (found.length > 1) {
-        return false;
-      }
-    }
-    for (const [_, found] of types) {
-      if (found.length > 1) {
-        return false;
-      }
-    }
-    return true;
-  });
-  if (discriminants.length === 0) {
-    return void 0;
-  }
-  const key = discriminants[0];
-  const flattened = flatten(objects.map(({ groupKey, terminal }) => ({
-    groupKey,
-    type: terminal.shape[key]
-  })));
-  let optional = void 0;
-  for (let i = 0; i < flattened.length; i++) {
-    const { groupKey, terminal } = flattened[i];
-    if (terminal instanceof Optional) {
-      optional = groupKey;
-      break;
+  for (const key of findCommonKeys(shapes)) {
+    const matcher = createObjectKeyMatcher(objects, key);
+    if (matcher) {
+      return matcher;
     }
   }
-  return {
-    key,
-    optional,
-    matcher: createUnionBaseMatcher(flattened, key)
-  };
+  return void 0;
 }
-function createUnionBaseMatcher(terminals, path2) {
+function createUnionBaseMatcher(terminals) {
   const { expectedTypes, literals, types, unknowns, optionals } = groupTerminals(terminals);
-  const invalidType = {
-    code: "invalid_type",
-    path: path2,
-    expected: dedup(expectedTypes)
-  };
-  const invalidLiteral = {
+  const issue = types.size === 0 && unknowns.length === 0 ? {
     code: "invalid_literal",
-    path: path2,
+    path: void 0,
     expected: Array.from(literals.keys())
+  } : {
+    code: "invalid_type",
+    path: void 0,
+    expected: expectedTypes
   };
-  const byType = {};
-  types.forEach((roots, type) => {
-    byType[type] = {
-      types: roots,
-      literals: void 0,
-      defaultIssue: invalidType
-    };
-  });
-  literals.forEach((roots, value) => {
-    var _a;
-    const type = toBaseType(value);
-    let item = byType[type];
-    if (!item) {
-      item = { types: [], literals: /* @__PURE__ */ new Map(), defaultIssue: invalidLiteral };
-      byType[type] = item;
+  const litMap = literals.size > 0 ? literals : void 0;
+  const byType = types.size > 0 ? {} : void 0;
+  for (const [type, options] of types) {
+    byType[type] = options;
+  }
+  return function(value, mode) {
+    var _a, _b;
+    let options;
+    if (value === Nothing) {
+      options = optionals;
+    } else {
+      options = (_b = (_a = byType === null || byType === void 0 ? void 0 : byType[toInputType(value)]) !== null && _a !== void 0 ? _a : litMap === null || litMap === void 0 ? void 0 : litMap.get(value)) !== null && _b !== void 0 ? _b : unknowns;
     }
-    (_a = item.literals) === null || _a === void 0 ? void 0 : _a.set(value, roots);
-  });
-  const fallback = {
-    types: unknowns,
-    literals: void 0,
-    defaultIssue: invalidType
-  };
-  const optionalFallback = {
-    types: optionals,
-    literals: void 0,
-    defaultIssue: invalidType
-  };
-  return (rootValue, value, mode) => {
-    var _a;
+    if (!options) {
+      return issue;
+    }
     let count = 0;
-    let issueTree;
-    const item = value === Nothing ? optionalFallback : (_a = byType[toBaseType(value)]) !== null && _a !== void 0 ? _a : fallback;
-    const options = item.literals === void 0 ? item.types : item.literals.get(value) || unknowns;
+    let issueTree = issue;
     for (let i = 0; i < options.length; i++) {
-      const r = options[i].func(rootValue, mode);
+      const r = options[i].func(value, mode);
       if (r === true || r.code === "ok") {
         return r;
       }
-      issueTree = joinIssues(issueTree, r);
+      issueTree = count > 0 ? joinIssues(issueTree, r) : r;
       count++;
     }
-    if (!issueTree) {
-      return item.defaultIssue;
-    } else if (count > 1) {
+    if (count > 1) {
       return { code: "invalid_union", path: void 0, tree: issueTree };
-    } else {
-      return issueTree;
     }
-  };
-}
-function flatten(t) {
-  const result = [];
-  t.forEach(({ groupKey, type }) => type.toTerminals((terminal) => {
-    result.push({ groupKey, terminal });
-  }));
-  return result;
-}
-function createUnionMatcher(options) {
-  const flattened = flatten(options.map((root) => ({ groupKey: root, type: root })));
-  const base = createUnionBaseMatcher(flattened);
-  const object2 = createUnionObjectMatcher(flattened);
-  const hasUnknown = options.some((option) => hasTerminal(option, "unknown"));
-  if (hasUnknown || !object2) {
-    return function(v, mode) {
-      return base(v, v, mode);
-    };
-  }
-  return function(v, mode) {
-    if (isObject(v)) {
-      let value = v[object2.key];
-      if (value === void 0 && !(object2.key in v)) {
-        value = Nothing;
-      }
-      return object2.matcher(v, value, mode);
-    }
-    return base(v, v, mode);
+    return issueTree;
   };
 }
 var UnionType = class extends Type {
@@ -6725,7 +6724,22 @@ var UnionType = class extends Type {
   func(v, mode) {
     let func = this._func;
     if (func === void 0) {
-      func = createUnionMatcher(this.options);
+      const flattened = [];
+      this.options.forEach((option) => option.toTerminals((terminal) => {
+        flattened.push({ root: option, terminal });
+      }));
+      const base = createUnionBaseMatcher(flattened);
+      const object2 = createUnionObjectMatcher(flattened);
+      if (!object2) {
+        func = base;
+      } else {
+        func = function(v2, mode2) {
+          if (isObject(v2)) {
+            return object2(v2, mode2);
+          }
+          return base(v2, mode2);
+        };
+      }
       this._func = func;
     }
     return func(v, mode);
