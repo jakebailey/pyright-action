@@ -166,7 +166,7 @@ exports[`with comments invalid stdout: core.info 1`] = `
 exports[`with comments invalid stdout: core.setFailed 1`] = `
 [
   [
-    [ValitaError: missing_value at .summary (missing value) (+ 1 other issue)],
+    [ValitaError: missing_value at .generalDiagnostics (missing value) (+ 1 other issue)],
   ],
 ]
 `;
