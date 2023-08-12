@@ -5926,10 +5926,10 @@ var version2 = "1.6.0";
 
 // node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
-  return left ? { code: "join", left, right } : right;
+  return left ? { ok: false, code: "join", left, right } : right;
 }
 function prependPath(key, tree) {
-  return { code: "prepend", key, tree };
+  return { ok: false, code: "prepend", key, tree };
 }
 function cloneIssueWithPath(tree, path2) {
   switch (tree.code) {
@@ -5955,77 +5955,74 @@ function cloneIssueWithPath(tree, path2) {
   }
 }
 function collectIssues(tree, path2 = [], issues = []) {
-  if (tree.code === "join") {
-    collectIssues(tree.left, path2.slice(), issues);
-    collectIssues(tree.right, path2, issues);
-  } else if (tree.code === "prepend") {
-    path2.push(tree.key);
-    collectIssues(tree.tree, path2, issues);
-  } else {
-    if (tree.path !== void 0) {
-      path2.push(tree.path);
+  for (; ; ) {
+    if (tree.code === "join") {
+      collectIssues(tree.left, path2.slice(), issues);
+      tree = tree.right;
+    } else if (tree.code === "prepend") {
+      path2.push(tree.key);
+      tree = tree.tree;
+    } else {
+      if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
+        path2.push(...tree.error.path);
+      }
+      issues.push(cloneIssueWithPath(tree, path2));
+      return issues;
     }
-    if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
-      path2.push(...tree.error.path);
-    }
-    issues.push(cloneIssueWithPath(tree, path2));
   }
-  return issues;
 }
-function separatedList(list, separator) {
+function separatedList(list, sep) {
   if (list.length === 0) {
     return "nothing";
+  } else if (list.length === 1) {
+    return list[0];
+  } else {
+    return `${list.slice(0, -1).join(", ")} ${sep} ${list[list.length - 1]}`;
   }
-  const last = list[list.length - 1];
-  if (list.length < 2) {
-    return last;
-  }
-  return `${list.slice(0, -1).join(", ")} ${separator} ${last}`;
 }
 function formatLiteral(value) {
   return typeof value === "bigint" ? `${value}n` : JSON.stringify(value);
 }
-function findOneIssue(tree, path2 = []) {
-  if (tree.code === "join") {
-    return findOneIssue(tree.left, path2);
-  } else if (tree.code === "prepend") {
-    path2.push(tree.key);
-    return findOneIssue(tree.tree, path2);
-  } else {
-    if (tree.path !== void 0) {
-      path2.push(tree.path);
-    }
-    if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
-      path2.push(...tree.error.path);
-    }
-    return cloneIssueWithPath(tree, path2);
-  }
-}
 function countIssues(tree) {
-  if (tree.code === "join") {
-    return countIssues(tree.left) + countIssues(tree.right);
-  } else if (tree.code === "prepend") {
-    return countIssues(tree.tree);
-  } else {
-    return 1;
+  let count = 0;
+  for (; ; ) {
+    if (tree.code === "join") {
+      count += countIssues(tree.left);
+      tree = tree.right;
+    } else if (tree.code === "prepend") {
+      tree = tree.tree;
+    } else {
+      return count + 1;
+    }
   }
 }
-function formatIssueTree(issueTree) {
-  const count = countIssues(issueTree);
-  const issue = findOneIssue(issueTree);
+function formatIssueTree(tree) {
+  let path2 = "";
+  let count = 0;
+  for (; ; ) {
+    if (tree.code === "join") {
+      count += countIssues(tree.right);
+      tree = tree.left;
+    } else if (tree.code === "prepend") {
+      path2 += "." + tree.key;
+      tree = tree.tree;
+    } else {
+      break;
+    }
+  }
   let message = "validation failed";
-  if (issue.code === "invalid_type") {
-    message = `expected ${separatedList(issue.expected, "or")}`;
-  } else if (issue.code === "invalid_literal") {
-    message = `expected ${separatedList(issue.expected.map(formatLiteral), "or")}`;
-  } else if (issue.code === "missing_value") {
+  if (tree.code === "invalid_type") {
+    message = `expected ${separatedList(tree.expected, "or")}`;
+  } else if (tree.code === "invalid_literal") {
+    message = `expected ${separatedList(tree.expected.map(formatLiteral), "or")}`;
+  } else if (tree.code === "missing_value") {
     message = `missing value`;
-  } else if (issue.code === "unrecognized_keys") {
-    const keys = issue.keys;
+  } else if (tree.code === "unrecognized_keys") {
+    const keys = tree.keys;
     message = `unrecognized ${keys.length === 1 ? "key" : "keys"} ${separatedList(keys.map(formatLiteral), "and")}`;
-  } else if (issue.code === "invalid_length") {
-    const min = issue.minLength;
-    const max = issue.maxLength;
+  } else if (tree.code === "invalid_length") {
+    const min = tree.minLength;
+    const max = tree.maxLength;
     message = `expected an array with `;
     if (min > 0) {
       if (max === min) {
@@ -6039,19 +6036,24 @@ function formatIssueTree(issueTree) {
       message += `at most ${max}`;
     }
     message += ` item(s)`;
-  } else if (issue.code === "custom_error") {
-    const error = issue.error;
+  } else if (tree.code === "custom_error") {
+    const error = tree.error;
     if (typeof error === "string") {
       message = error;
-    } else if (error && error.message === "string") {
-      message = error.message;
+    } else if (error !== void 0) {
+      if (error.message !== void 0) {
+        message = error.message;
+      }
+      if (error.path !== void 0) {
+        path2 += "." + error.path.join(".");
+      }
     }
   }
-  let msg = `${issue.code} at .${issue.path.join(".")} (${message})`;
-  if (count === 2) {
+  let msg = `${tree.code} at .${path2.slice(1)} (${message})`;
+  if (count === 1) {
     msg += ` (+ 1 other issue)`;
-  } else if (count > 2) {
-    msg += ` (+ ${count - 1} other issues)`;
+  } else if (count > 1) {
+    msg += ` (+ ${count} other issues)`;
   }
   return msg;
 }
@@ -6093,20 +6095,11 @@ var Err = class {
     throw new ValitaError(this.issueTree);
   }
 };
+function ok(value) {
+  return { ok: true, value };
+}
 function isObject(v) {
   return typeof v === "object" && v !== null && !Array.isArray(v);
-}
-function safeSet(obj, key, value) {
-  if (key === "__proto__") {
-    Object.defineProperty(obj, key, {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    });
-  } else {
-    obj[key] = value;
-  }
 }
 var Nothing = Symbol.for("valita.Nothing");
 var AbstractType = class {
@@ -6114,29 +6107,25 @@ var AbstractType = class {
     return new Optional(this);
   }
   default(defaultValue) {
-    const defaultResult = { code: "ok", value: defaultValue };
+    const defaultResult = ok(defaultValue);
     return new TransformType(this.optional(), (v) => {
-      return v === void 0 ? defaultResult : true;
+      return v === void 0 ? defaultResult : void 0;
     });
   }
   assert(func, error) {
-    const err = { code: "custom_error", path: void 0, error };
-    return new TransformType(this, (v) => func(v) ? true : err);
+    const err = { ok: false, code: "custom_error", error };
+    return new TransformType(this, (v) => func(v) ? void 0 : err);
   }
   map(func) {
     return new TransformType(this, (v) => ({
-      code: "ok",
+      ok: true,
       value: func(v)
     }));
   }
   chain(func) {
     return new TransformType(this, (v) => {
       const r = func(v);
-      if (r.ok) {
-        return { code: "ok", value: r.value };
-      } else {
-        return r.issueTree;
-      }
+      return r.ok ? r : r.issueTree;
     });
   }
 };
@@ -6149,15 +6138,17 @@ var Type = class extends AbstractType {
   }
   try(v, options) {
     let mode = 1;
-    if (options && options.mode === "passthrough") {
-      mode = 0;
-    } else if (options && options.mode === "strip") {
-      mode = 2;
+    if (options !== void 0) {
+      if (options.mode === "passthrough") {
+        mode = 0;
+      } else if (options.mode === "strip") {
+        mode = 2;
+      }
     }
     const r = this.func(v, mode);
-    if (r === true) {
+    if (r === void 0) {
       return { ok: true, value: v };
-    } else if (r.code === "ok") {
+    } else if (r.ok) {
       return { ok: true, value: r.value };
     } else {
       return new Err(r);
@@ -6165,15 +6156,17 @@ var Type = class extends AbstractType {
   }
   parse(v, options) {
     let mode = 1;
-    if (options && options.mode === "passthrough") {
-      mode = 0;
-    } else if (options && options.mode === "strip") {
-      mode = 2;
+    if (options !== void 0) {
+      if (options.mode === "passthrough") {
+        mode = 0;
+      } else if (options.mode === "strip") {
+        mode = 2;
+      }
     }
     const r = this.func(v, mode);
-    if (r === true) {
+    if (r === void 0) {
       return v;
-    } else if (r.code === "ok") {
+    } else if (r.ok) {
       return r.value;
     } else {
       throw new ValitaError(r);
@@ -6187,7 +6180,7 @@ var Optional = class extends AbstractType {
     this.name = "optional";
   }
   func(v, mode) {
-    return v === void 0 || v === Nothing ? true : this.type.func(v, mode);
+    return v === void 0 || v === Nothing ? void 0 : this.type.func(v, mode);
   }
   toTerminals(func) {
     func(this);
@@ -6198,36 +6191,6 @@ var Optional = class extends AbstractType {
     return this;
   }
 };
-function prependIssue(issue, result) {
-  return result === true || result.code === "ok" ? issue : joinIssues(issue, result);
-}
-function assignEnumerable(to, from) {
-  for (const key in from) {
-    safeSet(to, key, from[key]);
-  }
-  return to;
-}
-function addResult(objResult, obj, key, value, keyResult, assign) {
-  if (keyResult === true) {
-    if (objResult !== true && objResult.code === "ok" && value !== Nothing) {
-      safeSet(objResult.value, key, value);
-    }
-    return objResult;
-  } else if (keyResult.code === "ok") {
-    if (objResult === true) {
-      const copy = assign({}, obj);
-      safeSet(copy, key, keyResult.value);
-      return { code: "ok", value: copy };
-    } else if (objResult.code === "ok") {
-      safeSet(objResult.value, key, keyResult.value);
-      return objResult;
-    } else {
-      return objResult;
-    }
-  } else {
-    return prependIssue(prependPath(key, keyResult), objResult);
-  }
-}
 function setBit(bits, index) {
   if (typeof bits !== "number") {
     const idx = index >> 5;
@@ -6259,7 +6222,7 @@ var ObjectType = class _ObjectType extends Type {
   }
   check(func, error) {
     var _a;
-    const issue = { code: "custom_error", path: void 0, error };
+    const issue = { ok: false, code: "custom_error", error };
     return new _ObjectType(this.shape, this.restType, [
       ...(_a = this.checks) !== null && _a !== void 0 ? _a : [],
       {
@@ -6268,13 +6231,13 @@ var ObjectType = class _ObjectType extends Type {
       }
     ]);
   }
-  func(obj, mode) {
+  func(v, mode) {
     let func = this._func;
     if (func === void 0) {
       func = createObjectMatcher(this.shape, this.restType, this.checks);
       this._func = func;
     }
-    return func(obj, mode);
+    return func(v, mode);
   }
   rest(restType) {
     return new _ObjectType(this.shape, restType);
@@ -6306,7 +6269,8 @@ var ObjectType = class _ObjectType extends Type {
     return new _ObjectType(shape, rest);
   }
 };
-function createObjectMatcher(shape, restType, checks) {
+var protoless = Object.freeze(/* @__PURE__ */ Object.create(null));
+function createObjectMatcher(shape, rest, checks) {
   const requiredKeys = [];
   const optionalKeys = [];
   for (const key in shape) {
@@ -6320,151 +6284,173 @@ function createObjectMatcher(shape, restType, checks) {
       requiredKeys.push(key);
     }
   }
-  const requiredCount = requiredKeys.length | 0;
-  const optionalCount = optionalKeys.length | 0;
-  const totalCount = requiredCount + optionalCount | 0;
   const keys = [...requiredKeys, ...optionalKeys];
+  const totalCount = keys.length;
+  const invalidType = {
+    ok: false,
+    code: "invalid_type",
+    expected: ["object"]
+  };
+  if (totalCount === 0 && rest === unknownSingleton) {
+    return function(obj, _) {
+      if (!isObject(obj)) {
+        return invalidType;
+      }
+      if (checks !== void 0) {
+        for (let i = 0; i < checks.length; i++) {
+          if (!checks[i].func(obj)) {
+            return checks[i].issue;
+          }
+        }
+      }
+      return void 0;
+    };
+  }
   const types = keys.map((key) => shape[key]);
+  const requiredCount = requiredKeys.length;
   const invertedIndexes = /* @__PURE__ */ Object.create(null);
   keys.forEach((key, index) => {
     invertedIndexes[key] = ~index;
   });
-  const invalidType = {
-    code: "invalid_type",
-    path: void 0,
-    expected: ["object"]
-  };
-  const missingValues = requiredKeys.map((key) => ({
-    code: "missing_value",
-    path: key
+  const missingValues = requiredKeys.map((key) => prependPath(key, {
+    ok: false,
+    code: "missing_value"
   }));
-  function assignKnown(to, from) {
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const value = from[key];
-      if (i < requiredCount || value !== void 0 || key in from) {
-        safeSet(to, key, value);
-      }
+  return function(obj, mode) {
+    if (!isObject(obj)) {
+      return invalidType;
     }
-    return to;
-  }
-  function assignAll(to, from) {
-    return assignKnown(assignEnumerable(to, from), from);
-  }
-  function checkRemainingKeys(initialResult, obj, mode, bits, assign) {
-    let result = initialResult;
-    for (let i = 0; i < totalCount; i++) {
-      if (!getBit(bits, i)) {
-        const key = keys[i];
-        const value = key in obj ? obj[key] : Nothing;
-        if (i < requiredCount && value === Nothing) {
-          result = prependIssue(missingValues[i], result);
-        } else {
-          result = addResult(result, obj, key, value, types[i].func(value, mode), assign);
-        }
-      }
-    }
-    return result;
-  }
-  function pass(obj, mode) {
-    let result = true;
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      let value = obj[key];
-      if (value === void 0 && !(key in obj)) {
-        if (i < requiredCount) {
-          result = prependIssue(missingValues[i], result);
-          continue;
-        }
-        value = Nothing;
-      }
-      result = addResult(result, obj, key, value, types[i].func(value, mode), assignKnown);
-    }
-    return result;
-  }
-  function strict(obj, mode) {
-    let result = true;
+    let copied = false;
+    let output = obj;
+    let issues;
     let unrecognized = void 0;
     let seenBits = 0;
     let seenCount = 0;
-    for (const key in obj) {
-      const value = obj[key];
-      const index = ~invertedIndexes[key];
-      if (index >= 0) {
-        seenCount++;
-        seenBits = setBit(seenBits, index);
-        result = addResult(result, obj, key, value, types[index].func(value, mode), assignKnown);
-      } else if (mode === 2) {
-        result = result === true ? { code: "ok", value: assignKnown({}, obj) } : result;
-      } else if (unrecognized === void 0) {
-        unrecognized = [key];
-      } else {
-        unrecognized.push(key);
-      }
-    }
-    if (seenCount < totalCount) {
-      result = checkRemainingKeys(result, obj, mode, seenBits, assignKnown);
-    }
-    return unrecognized === void 0 ? result : prependIssue({
-      code: "unrecognized_keys",
-      path: void 0,
-      keys: unrecognized
-    }, result);
-  }
-  function withRest(rest, obj, mode) {
-    if (totalCount === 0) {
-      if (rest.name === "unknown") {
-        return true;
-      }
-      let result2 = true;
+    if (mode !== 0 || rest !== void 0) {
       for (const key in obj) {
         const value = obj[key];
-        result2 = addResult(result2, obj, key, value, rest.func(value, mode), assignEnumerable);
-      }
-    }
-    let result = true;
-    let seenBits = 0;
-    let seenCount = 0;
-    for (const key in obj) {
-      const value = obj[key];
-      const index = ~invertedIndexes[key];
-      if (index >= 0) {
-        seenCount++;
-        seenBits = setBit(seenBits, index);
-        result = addResult(result, obj, key, value, types[index].func(value, mode), assignEnumerable);
-      } else {
-        result = addResult(result, obj, key, value, rest.func(value, mode), assignEnumerable);
+        const index = ~invertedIndexes[key];
+        let r;
+        if (index >= 0) {
+          seenCount++;
+          seenBits = setBit(seenBits, index);
+          r = types[index].func(value, mode);
+        } else if (rest !== void 0) {
+          r = rest.func(value, mode);
+        } else {
+          if (mode === 1) {
+            if (unrecognized === void 0) {
+              unrecognized = [key];
+            } else {
+              unrecognized.push(key);
+            }
+          } else if (mode === 2 && issues === void 0 && !copied) {
+            output = Object.create(protoless);
+            copied = true;
+            for (let m = 0; m < totalCount; m++) {
+              if (getBit(seenBits, m)) {
+                const k = keys[m];
+                output[k] = obj[k];
+              }
+            }
+          }
+          continue;
+        }
+        if (r === void 0) {
+          if (copied && issues === void 0) {
+            output[key] = value;
+          }
+        } else if (!r.ok) {
+          issues = joinIssues(issues, prependPath(key, r));
+        } else if (issues === void 0) {
+          if (!copied) {
+            output = Object.create(protoless);
+            copied = true;
+            if (rest === void 0) {
+              for (let m = 0; m < totalCount; m++) {
+                if (m !== index && getBit(seenBits, m)) {
+                  const k = keys[m];
+                  output[k] = obj[k];
+                }
+              }
+            } else {
+              for (const k in obj) {
+                output[k] = obj[k];
+              }
+            }
+          }
+          output[key] = r.value;
+        }
       }
     }
     if (seenCount < totalCount) {
-      result = checkRemainingKeys(result, obj, mode, seenBits, assignAll);
+      for (let i = 0; i < totalCount; i++) {
+        if (getBit(seenBits, i)) {
+          continue;
+        }
+        const key = keys[i];
+        let value = obj[key];
+        if (value === void 0 && !(key in obj)) {
+          if (i < requiredCount) {
+            issues = joinIssues(issues, missingValues[i]);
+            continue;
+          }
+          value = Nothing;
+        }
+        const r = types[i].func(value, mode);
+        if (r === void 0) {
+          if (copied && issues === void 0 && value !== Nothing) {
+            output[key] = value;
+          }
+        } else if (!r.ok) {
+          issues = joinIssues(issues, prependPath(key, r));
+        } else if (issues === void 0) {
+          if (!copied) {
+            output = Object.create(protoless);
+            copied = true;
+            if (rest === void 0) {
+              for (let m = 0; m < totalCount; m++) {
+                if (m < i || getBit(seenBits, m)) {
+                  const k = keys[m];
+                  output[k] = obj[k];
+                }
+              }
+            } else {
+              for (const k in obj) {
+                output[k] = obj[k];
+              }
+              for (let m = 0; m < i; m++) {
+                if (!getBit(seenBits, m)) {
+                  const k = keys[m];
+                  output[k] = obj[k];
+                }
+              }
+            }
+          }
+          output[key] = r.value;
+        }
+      }
     }
-    return result;
-  }
-  function runChecks(obj, result) {
-    if ((result === true || result.code === "ok") && checks) {
-      const value = result === true ? obj : result.value;
+    if (unrecognized !== void 0) {
+      issues = joinIssues(issues, {
+        ok: false,
+        code: "unrecognized_keys",
+        keys: unrecognized
+      });
+    }
+    if (issues === void 0 && checks !== void 0) {
       for (let i = 0; i < checks.length; i++) {
-        if (!checks[i].func(value)) {
+        if (!checks[i].func(output)) {
           return checks[i].issue;
         }
       }
     }
-    return result;
-  }
-  function func(obj, mode) {
-    if (!isObject(obj)) {
-      return invalidType;
-    }
-    if (restType) {
-      return runChecks(obj, withRest(restType, obj, mode));
-    } else if (mode === 0) {
-      return runChecks(obj, pass(obj, mode));
+    if (issues === void 0 && copied) {
+      return { ok: true, value: output };
     } else {
-      return runChecks(obj, strict(obj, mode));
+      return issues;
     }
-  }
-  return func;
+  };
 }
 var ArrayType = class extends Type {
   constructor(head, rest) {
@@ -6475,13 +6461,13 @@ var ArrayType = class extends Type {
     this.minLength = this.head.length;
     this.maxLength = rest ? Infinity : this.minLength;
     this.invalidType = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["array"]
     };
     this.invalidLength = {
+      ok: false,
       code: "invalid_length",
-      path: void 0,
       minLength: this.minLength,
       maxLength: this.maxLength
     };
@@ -6504,8 +6490,8 @@ var ArrayType = class extends Type {
     for (let i = 0; i < arr.length; i++) {
       const type = i < minLength ? this.head[i] : this.rest;
       const r = type.func(arr[i], mode);
-      if (r !== true) {
-        if (r.code === "ok") {
+      if (r !== void 0) {
+        if (r.ok) {
           if (output === arr) {
             output = arr.slice();
           }
@@ -6518,9 +6504,9 @@ var ArrayType = class extends Type {
     if (issueTree) {
       return issueTree;
     } else if (arr === output) {
-      return true;
+      return void 0;
     } else {
-      return { code: "ok", value: output };
+      return { ok: true, value: output };
     }
   }
 };
@@ -6621,16 +6607,16 @@ function createObjectKeyMatcher(objects, key) {
       return void 0;
     }
   }
-  const missingValue = { code: "missing_value", path: key };
-  const issue = types.size === 0 ? {
+  const missingValue = prependPath(key, { ok: false, code: "missing_value" });
+  const issue = prependPath(key, types.size === 0 ? {
+    ok: false,
     code: "invalid_literal",
-    path: key,
     expected: Array.from(literals.keys())
   } : {
+    ok: false,
     code: "invalid_type",
-    path: key,
     expected: expectedTypes
-  };
+  });
   const litMap = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
   for (const [literal2, options] of literals) {
     litMap.set(literal2, options[0]);
@@ -6672,12 +6658,12 @@ function createUnionObjectMatcher(terminals) {
 function createUnionBaseMatcher(terminals) {
   const { expectedTypes, literals, types, unknowns, optionals } = groupTerminals(terminals);
   const issue = types.size === 0 && unknowns.length === 0 ? {
+    ok: false,
     code: "invalid_literal",
-    path: void 0,
     expected: Array.from(literals.keys())
   } : {
+    ok: false,
     code: "invalid_type",
-    path: void 0,
     expected: expectedTypes
   };
   const litMap = literals.size > 0 ? literals : void 0;
@@ -6700,14 +6686,14 @@ function createUnionBaseMatcher(terminals) {
     let issueTree = issue;
     for (let i = 0; i < options.length; i++) {
       const r = options[i].func(value, mode);
-      if (r === true || r.code === "ok") {
+      if (r === void 0 || r.ok) {
         return r;
       }
       issueTree = count > 0 ? joinIssues(issueTree, r) : r;
       count++;
     }
     if (count > 1) {
-      return { code: "invalid_union", path: void 0, tree: issueTree };
+      return { ok: false, code: "invalid_union", tree: issueTree };
     }
     return issueTree;
   };
@@ -6751,7 +6737,7 @@ var TransformType = class _TransformType extends Type {
     this.transformed = transformed;
     this.transform = transform;
     this.name = "transform";
-    this.undef = { code: "ok", value: void 0 };
+    this.undef = ok(void 0);
     this.transformChain = void 0;
     this.transformRoot = void 0;
   }
@@ -6769,11 +6755,11 @@ var TransformType = class _TransformType extends Type {
       this.transformRoot = next;
     }
     let result = this.transformRoot.func(v, mode);
-    if (result !== true && result.code !== "ok") {
+    if (result !== void 0 && !result.ok) {
       return result;
     }
     let current;
-    if (result !== true) {
+    if (result !== void 0) {
       current = result.value;
     } else if (v === Nothing) {
       current = void 0;
@@ -6783,8 +6769,8 @@ var TransformType = class _TransformType extends Type {
     }
     for (let i = 0; i < chain.length; i++) {
       const r = chain[i](current, mode);
-      if (r !== true) {
-        if (r.code !== "ok") {
+      if (r !== void 0) {
+        if (!r.ok) {
           return r;
         }
         current = r.value;
@@ -6802,8 +6788,8 @@ var NeverType = class extends Type {
     super(...arguments);
     this.name = "never";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: []
     };
   }
@@ -6821,7 +6807,7 @@ var UnknownType = class extends Type {
     this.name = "unknown";
   }
   func(_, __) {
-    return true;
+    return void 0;
   }
 };
 var unknownSingleton = new UnknownType();
@@ -6830,13 +6816,13 @@ var UndefinedType = class extends Type {
     super(...arguments);
     this.name = "undefined";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["undefined"]
     };
   }
   func(v, _) {
-    return v === void 0 ? true : this.issue;
+    return v === void 0 ? void 0 : this.issue;
   }
 };
 var undefinedSingleton = new UndefinedType();
@@ -6845,13 +6831,13 @@ var NullType = class extends Type {
     super(...arguments);
     this.name = "null";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["null"]
     };
   }
   func(v, _) {
-    return v === null ? true : this.issue;
+    return v === null ? void 0 : this.issue;
   }
 };
 var nullSingleton = new NullType();
@@ -6860,13 +6846,13 @@ var NumberType = class extends Type {
     super(...arguments);
     this.name = "number";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["number"]
     };
   }
   func(v, _) {
-    return typeof v === "number" ? true : this.issue;
+    return typeof v === "number" ? void 0 : this.issue;
   }
 };
 var numberSingleton = new NumberType();
@@ -6878,13 +6864,13 @@ var BigIntType = class extends Type {
     super(...arguments);
     this.name = "bigint";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["bigint"]
     };
   }
   func(v, _) {
-    return typeof v === "bigint" ? true : this.issue;
+    return typeof v === "bigint" ? void 0 : this.issue;
   }
 };
 var bigintSingleton = new BigIntType();
@@ -6893,13 +6879,13 @@ var StringType = class extends Type {
     super(...arguments);
     this.name = "string";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["string"]
     };
   }
   func(v, _) {
-    return typeof v === "string" ? true : this.issue;
+    return typeof v === "string" ? void 0 : this.issue;
   }
 };
 var stringSingleton = new StringType();
@@ -6911,13 +6897,13 @@ var BooleanType = class extends Type {
     super(...arguments);
     this.name = "boolean";
     this.issue = {
+      ok: false,
       code: "invalid_type",
-      path: void 0,
       expected: ["boolean"]
     };
   }
   func(v, _) {
-    return typeof v === "boolean" ? true : this.issue;
+    return typeof v === "boolean" ? void 0 : this.issue;
   }
 };
 var booleanSingleton = new BooleanType();
@@ -6927,13 +6913,13 @@ var LiteralType = class extends Type {
     this.value = value;
     this.name = "literal";
     this.issue = {
+      ok: false,
       code: "invalid_literal",
-      path: void 0,
       expected: [value]
     };
   }
   func(v, _) {
-    return v === this.value ? true : this.issue;
+    return v === this.value ? void 0 : this.issue;
   }
 };
 function literal(value) {
