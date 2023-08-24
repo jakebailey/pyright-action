@@ -41,7 +41,7 @@
         "klona": "^2.0.6",
         "rimraf": "^5.0.1",
         "ts-jest": "^29.1.1",
-        "typescript": "~5.1.6"
+        "typescript": "~5.2.0"
     },
     "scripts": {
         "postinstall": "husky install",
