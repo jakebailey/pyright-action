@@ -15,7 +15,7 @@ function printInfo(pyrightVersion: string, node: NodeInfo, args: string[]) {
 
 export async function main() {
     try {
-        const node = getNodeInfo();
+        const node = getNodeInfo(process);
         const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
         if (workingDirectory) {
             process.chdir(workingDirectory);

@@ -1,3 +1,5 @@
+import * as cp from "node:child_process";
+import * as fs from "node:fs";
 import * as path from "node:path";
 
 import * as core from "@actions/core";
@@ -18,10 +20,22 @@ export interface NodeInfo {
     execPath: string;
 }
 
-export function getNodeInfo(): NodeInfo {
+export function getNodeInfo(process: NodeInfo): NodeInfo {
+    let version = process.version;
+    let execPath = process.execPath;
+    if (/[/\\]externals[/\\]node16[/\\]/.test(execPath)) {
+        // This action currently uses node16, but attempt to use node20
+        // if the runner has it in the typical location as it should be faster.
+        const node20 = execPath.replace("node16", "node20");
+        if (fs.existsSync(node20)) {
+            execPath = node20;
+            version = cp.execFileSync(node20, ["--version"], { encoding: "utf8" }).trim();
+        }
+    }
+
     return {
-        version: process.version,
-        execPath: process.execPath,
+        version,
+        execPath,
     };
 }
 

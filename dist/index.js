@@ -519,7 +519,7 @@ var require_file_command = __commonJS({
     };
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
-    var fs = __importStar(require("fs"));
+    var fs2 = __importStar(require("fs"));
     var os = __importStar(require("os"));
     var uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports));
     var utils_1 = require_utils();
@@ -528,10 +528,10 @@ var require_file_command = __commonJS({
       if (!filePath) {
         throw new Error(`Unable to find environment variable for file command ${command2}`);
       }
-      if (!fs.existsSync(filePath)) {
+      if (!fs2.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
       }
-      fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+      fs2.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
         encoding: "utf8"
       });
     }
@@ -2514,12 +2514,12 @@ var require_io_util = __commonJS({
     var _a;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
-    var fs = __importStar(require("fs"));
+    var fs2 = __importStar(require("fs"));
     var path2 = __importStar(require("path"));
-    _a = fs.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
+    _a = fs2.promises, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
     exports.IS_WINDOWS = process.platform === "win32";
     exports.UV_FS_O_EXLOCK = 268435456;
-    exports.READONLY = fs.constants.O_RDONLY;
+    exports.READONLY = fs2.constants.O_RDONLY;
     function exists(fsPath) {
       return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -2694,7 +2694,7 @@ var require_io = __commonJS({
     var assert_1 = require("assert");
     var path2 = __importStar(require("path"));
     var ioUtil = __importStar(require_io_util());
-    function cp2(source, dest, options = {}) {
+    function cp3(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         const { force, recursive, copySourceDirectory } = readCopyOptions(options);
         const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
@@ -2720,7 +2720,7 @@ var require_io = __commonJS({
         }
       });
     }
-    exports.cp = cp2;
+    exports.cp = cp3;
     function mv(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         if (yield ioUtil.exists(dest)) {
@@ -4097,8 +4097,8 @@ var require_manifest = __commonJS({
     var semver = __importStar(require_semver());
     var core_1 = require_core();
     var os = require("os");
-    var cp2 = require("child_process");
-    var fs = require("fs");
+    var cp3 = require("child_process");
+    var fs2 = require("fs");
     function _findMatch(versionSpec, stable, candidates, archFilter) {
       return __awaiter(this, void 0, void 0, function* () {
         const platFilter = os.platform();
@@ -4141,7 +4141,7 @@ var require_manifest = __commonJS({
       const plat = os.platform();
       let version3 = "";
       if (plat === "darwin") {
-        version3 = cp2.execSync("sw_vers -productVersion").toString();
+        version3 = cp3.execSync("sw_vers -productVersion").toString();
       } else if (plat === "linux") {
         const lsbContents = module2.exports._readLinuxVersionFile();
         if (lsbContents) {
@@ -4162,10 +4162,10 @@ var require_manifest = __commonJS({
       const lsbReleaseFile = "/etc/lsb-release";
       const osReleaseFile = "/etc/os-release";
       let contents = "";
-      if (fs.existsSync(lsbReleaseFile)) {
-        contents = fs.readFileSync(lsbReleaseFile).toString();
-      } else if (fs.existsSync(osReleaseFile)) {
-        contents = fs.readFileSync(osReleaseFile).toString();
+      if (fs2.existsSync(lsbReleaseFile)) {
+        contents = fs2.readFileSync(lsbReleaseFile).toString();
+      } else if (fs2.existsSync(osReleaseFile)) {
+        contents = fs2.readFileSync(osReleaseFile).toString();
       }
       return contents;
     }
@@ -4547,10 +4547,10 @@ var require_toolrunner = __commonJS({
               return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
             }
             const fileName = this._getSpawnFileName();
-            const cp2 = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
+            const cp3 = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
             let stdbuffer = "";
-            if (cp2.stdout) {
-              cp2.stdout.on("data", (data) => {
+            if (cp3.stdout) {
+              cp3.stdout.on("data", (data) => {
                 if (this.options.listeners && this.options.listeners.stdout) {
                   this.options.listeners.stdout(data);
                 }
@@ -4565,8 +4565,8 @@ var require_toolrunner = __commonJS({
               });
             }
             let errbuffer = "";
-            if (cp2.stderr) {
-              cp2.stderr.on("data", (data) => {
+            if (cp3.stderr) {
+              cp3.stderr.on("data", (data) => {
                 state.processStderr = true;
                 if (this.options.listeners && this.options.listeners.stderr) {
                   this.options.listeners.stderr(data);
@@ -4582,19 +4582,19 @@ var require_toolrunner = __commonJS({
                 });
               });
             }
-            cp2.on("error", (err) => {
+            cp3.on("error", (err) => {
               state.processError = err.message;
               state.processExited = true;
               state.processClosed = true;
               state.CheckComplete();
             });
-            cp2.on("exit", (code) => {
+            cp3.on("exit", (code) => {
               state.processExitCode = code;
               state.processExited = true;
               this._debug(`Exit code ${code} received from tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            cp2.on("close", (code) => {
+            cp3.on("close", (code) => {
               state.processExitCode = code;
               state.processExited = true;
               state.processClosed = true;
@@ -4608,7 +4608,7 @@ var require_toolrunner = __commonJS({
               if (errbuffer.length > 0) {
                 this.emit("errline", errbuffer);
               }
-              cp2.removeAllListeners();
+              cp3.removeAllListeners();
               if (error) {
                 reject(error);
               } else {
@@ -4616,10 +4616,10 @@ var require_toolrunner = __commonJS({
               }
             });
             if (this.options.input) {
-              if (!cp2.stdin) {
+              if (!cp3.stdin) {
                 throw new Error("child process missing stdin");
               }
-              cp2.stdin.end(this.options.input);
+              cp3.stdin.end(this.options.input);
             }
           }));
         });
@@ -5021,7 +5021,7 @@ var require_tool_cache = __commonJS({
     exports.evaluateVersions = exports.isExplicitVersion = exports.findFromManifest = exports.getManifestFromRepo = exports.findAllVersions = exports.find = exports.cacheFile = exports.cacheDir = exports.extractZip = exports.extractXar = exports.extractTar = exports.extract7z = exports.downloadTool = exports.HTTPError = void 0;
     var core3 = __importStar(require_core());
     var io = __importStar(require_io());
-    var fs = __importStar(require("fs"));
+    var fs2 = __importStar(require("fs"));
     var mm = __importStar(require_manifest());
     var os = __importStar(require("os"));
     var path2 = __importStar(require("path"));
@@ -5069,7 +5069,7 @@ var require_tool_cache = __commonJS({
     exports.downloadTool = downloadTool2;
     function downloadToolAttempt(url, dest, auth, headers) {
       return __awaiter(this, void 0, void 0, function* () {
-        if (fs.existsSync(dest)) {
+        if (fs2.existsSync(dest)) {
           throw new Error(`Destination file path ${dest} already exists`);
         }
         const http = new httpm.HttpClient(userAgent, [], {
@@ -5093,7 +5093,7 @@ var require_tool_cache = __commonJS({
         const readStream = responseMessageFactory();
         let succeeded = false;
         try {
-          yield pipeline(readStream, fs.createWriteStream(dest));
+          yield pipeline(readStream, fs2.createWriteStream(dest));
           core3.debug("download complete");
           succeeded = true;
           return dest;
@@ -5305,11 +5305,11 @@ var require_tool_cache = __commonJS({
         arch = arch || os.arch();
         core3.debug(`Caching tool ${tool} ${version3} ${arch}`);
         core3.debug(`source dir: ${sourceDir}`);
-        if (!fs.statSync(sourceDir).isDirectory()) {
+        if (!fs2.statSync(sourceDir).isDirectory()) {
           throw new Error("sourceDir is not a directory");
         }
         const destPath = yield _createToolPath(tool, version3, arch);
-        for (const itemName of fs.readdirSync(sourceDir)) {
+        for (const itemName of fs2.readdirSync(sourceDir)) {
           const s = path2.join(sourceDir, itemName);
           yield io.cp(s, destPath, { recursive: true });
         }
@@ -5324,7 +5324,7 @@ var require_tool_cache = __commonJS({
         arch = arch || os.arch();
         core3.debug(`Caching tool ${tool} ${version3} ${arch}`);
         core3.debug(`source file: ${sourceFile}`);
-        if (!fs.statSync(sourceFile).isFile()) {
+        if (!fs2.statSync(sourceFile).isFile()) {
           throw new Error("sourceFile is not a file");
         }
         const destFolder = yield _createToolPath(tool, version3, arch);
@@ -5354,7 +5354,7 @@ var require_tool_cache = __commonJS({
         versionSpec = semver.clean(versionSpec) || "";
         const cachePath = path2.join(_getCacheDirectory(), toolName, versionSpec, arch);
         core3.debug(`checking cache: ${cachePath}`);
-        if (fs.existsSync(cachePath) && fs.existsSync(`${cachePath}.complete`)) {
+        if (fs2.existsSync(cachePath) && fs2.existsSync(`${cachePath}.complete`)) {
           core3.debug(`Found tool in cache ${toolName} ${versionSpec} ${arch}`);
           toolPath = cachePath;
         } else {
@@ -5368,12 +5368,12 @@ var require_tool_cache = __commonJS({
       const versions = [];
       arch = arch || os.arch();
       const toolPath = path2.join(_getCacheDirectory(), toolName);
-      if (fs.existsSync(toolPath)) {
-        const children = fs.readdirSync(toolPath);
+      if (fs2.existsSync(toolPath)) {
+        const children = fs2.readdirSync(toolPath);
         for (const child of children) {
           if (isExplicitVersion(child)) {
             const fullPath = path2.join(toolPath, child, arch || "");
-            if (fs.existsSync(fullPath) && fs.existsSync(`${fullPath}.complete`)) {
+            if (fs2.existsSync(fullPath) && fs2.existsSync(`${fullPath}.complete`)) {
               versions.push(child);
             }
           }
@@ -5447,7 +5447,7 @@ var require_tool_cache = __commonJS({
     function _completeToolPath(tool, version3, arch) {
       const folderPath = path2.join(_getCacheDirectory(), tool, semver.clean(version3) || version3, arch || "");
       const markerPath = `${folderPath}.complete`;
-      fs.writeFileSync(markerPath, "");
+      fs2.writeFileSync(markerPath, "");
       core3.debug("finished caching tool");
     }
     function isExplicitVersion(versionSpec) {
@@ -5908,12 +5908,14 @@ var require_semver2 = __commonJS({
 
 // src/main.ts
 var import_node_assert = __toESM(require("node:assert"));
-var cp = __toESM(require("node:child_process"));
+var cp2 = __toESM(require("node:child_process"));
 var core2 = __toESM(require_core());
 var command = __toESM(require_command());
 var import_shell_quote2 = __toESM(require_shell_quote());
 
 // src/helpers.ts
+var cp = __toESM(require("node:child_process"));
+var fs = __toESM(require("node:fs"));
 var path = __toESM(require("node:path"));
 var core = __toESM(require_core());
 var httpClient = __toESM(require_lib());
@@ -7000,10 +7002,19 @@ function parseNpmRegistryResponse(v) {
 function getActionVersion() {
   return version2;
 }
-function getNodeInfo() {
+function getNodeInfo(process2) {
+  let version3 = process2.version;
+  let execPath = process2.execPath;
+  if (/[/\\]externals[/\\]node16[/\\]/.test(execPath)) {
+    const node20 = execPath.replace("node16", "node20");
+    if (fs.existsSync(node20)) {
+      execPath = node20;
+      version3 = cp.execFileSync(node20, ["--version"], { encoding: "utf8" }).trim();
+    }
+  }
   return {
-    version: process.version,
-    execPath: process.execPath
+    version: version3,
+    execPath
   };
 }
 var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set([
@@ -7144,14 +7155,14 @@ function printInfo(pyrightVersion, node, args) {
 async function main() {
   var _a, _b;
   try {
-    const node = getNodeInfo();
+    const node = getNodeInfo(process);
     const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
     if (noComments) {
       printInfo(pyrightVersion, node, args);
-      const { status: status2 } = cp.spawnSync(node.execPath, args, {
+      const { status: status2 } = cp2.spawnSync(node.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]
       });
       if (status2 !== 0) {
@@ -7164,7 +7175,7 @@ async function main() {
       updatedArgs.push("--outputjson");
     }
     printInfo(pyrightVersion, node, updatedArgs);
-    const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
+    const { status, stdout } = cp2.spawnSync(node.execPath, updatedArgs, {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],
       maxBuffer: 100 * 1024 * 1024

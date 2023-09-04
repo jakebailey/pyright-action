@@ -1831,6 +1831,16 @@ exports[`getArgs valid version version not found: tc.extractTar 1`] = `[]`;
 
 exports[`getArgs valid version version not found: tc.find 1`] = `[]`;
 
+exports[`getNodeInfo node20: core.getInput 1`] = `[]`;
+
+exports[`getNodeInfo node20: tc.cacheDir 1`] = `[]`;
+
+exports[`getNodeInfo node20: tc.downloadTool 1`] = `[]`;
+
+exports[`getNodeInfo node20: tc.extractTar 1`] = `[]`;
+
+exports[`getNodeInfo node20: tc.find 1`] = `[]`;
+
 exports[`getNodeInfo: core.getInput 1`] = `[]`;
 
 exports[`getNodeInfo: tc.cacheDir 1`] = `[]`;
