@@ -19,6 +19,11 @@
                 "@types/node"
             ],
             "allowedVersions": "^16"
+        },
+        {
+            "matchManagers": ["github-actions"],
+            "groupName": "github actions",
+            "groupSlug": "github-actions"
         }
     ]
 }
