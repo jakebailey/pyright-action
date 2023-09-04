@@ -1,5 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
 import { klona } from "klona";
+import { describe, expect, test } from "vitest";
 
 import { parseNpmRegistryResponse, parseReport } from "./schema";
 

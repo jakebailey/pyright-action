@@ -4,7 +4,7 @@ import * as cp from "node:child_process";
 
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
-import { afterEach, beforeEach, describe, expect, jest, test } from "@jest/globals";
+import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 import * as helpers from "./helpers";
 
@@ -12,22 +12,22 @@ const nodeVersion = "v16.14.2";
 const nodeExecPath = "/path/to/node";
 const pyrightVersion = "1.1.240";
 
-jest.mock("@actions/core");
-const mockedCore = jest.mocked(core);
-jest.mock("@actions/core/lib/command");
-const mockedCommand = jest.mocked(command);
-jest.mock("node:child_process");
-const mockedCp = jest.mocked(cp);
-jest.mock("./helpers");
-const mockedHelpers = jest.mocked(helpers);
+vitest.mock("@actions/core");
+const mockedCore = vitest.mocked(core);
+vitest.mock("@actions/core/lib/command");
+const mockedCommand = vitest.mocked(command);
+vitest.mock("node:child_process");
+const mockedCp = vitest.mocked(cp);
+vitest.mock("./helpers");
+const mockedHelpers = vitest.mocked(helpers);
 
-const mockedProcessChdir = jest.spyOn(process, "chdir");
+const mockedProcessChdir = vitest.spyOn(process, "chdir");
 
 import { main } from "./main";
 import type { Report } from "./schema";
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vitest.clearAllMocks();
     mockedHelpers.getNodeInfo.mockReturnValue({
         version: nodeVersion,
         execPath: nodeExecPath,

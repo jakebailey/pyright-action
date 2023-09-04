@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`parseNpmRegistryResponse good: response 1`] = `
+exports[`parseNpmRegistryResponse > good > response 1`] = `
 {
   "dist": {
     "tarball": "https://registry.npmjs.org/pyright/-/pyright-1.1.245.tgz",
@@ -9,12 +9,12 @@ exports[`parseNpmRegistryResponse good: response 1`] = `
 }
 `;
 
-exports[`parseReport good: report 1`] = `
+exports[`parseReport > good > report 1`] = `
 {
   "generalDiagnostics": [
     {
       "file": "/home/jake/work/python/typeshed/stubs/cryptography/cryptography/x509/__init__.pyi",
-      "message": ""X509Backend" is unknown import symbol",
+      "message": "\\"X509Backend\\" is unknown import symbol",
       "range": {
         "end": {
           "character": 63,

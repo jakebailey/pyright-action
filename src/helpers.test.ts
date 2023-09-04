@@ -7,21 +7,21 @@ import * as path from "node:path";
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
-import { afterEach, beforeEach, describe, expect, jest, test } from "@jest/globals";
 import serializer from "jest-serializer-path";
+import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 expect.addSnapshotSerializer(serializer);
 
-jest.mock("@actions/core");
-const mockedCore = jest.mocked(core);
-jest.mock("@actions/http-client");
-const mockedHttpClient = jest.mocked(httpClient);
-jest.mock("@actions/tool-cache");
-const mockedTc = jest.mocked(tc);
-jest.mock("node:child_process");
-const mockedCp = jest.mocked(cp);
-jest.mock("node:fs");
-const mockedFs = jest.mocked(fs);
+vitest.mock("@actions/core");
+const mockedCore = vitest.mocked(core);
+vitest.mock("@actions/http-client");
+const mockedHttpClient = vitest.mocked(httpClient, true);
+vitest.mock("@actions/tool-cache");
+const mockedTc = vitest.mocked(tc);
+vitest.mock("node:child_process");
+const mockedCp = vitest.mocked(cp);
+vitest.mock("node:fs");
+const mockedFs = vitest.mocked(fs);
 
 import { version as actionVersion } from "../package.json";
 import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
@@ -30,7 +30,7 @@ import type { NpmRegistryResponse } from "./schema";
 const fakeRoot = path.join(os.tmpdir(), "rootDir");
 
 beforeEach(() => {
-    jest.clearAllMocks();
+    vitest.clearAllMocks();
     mockedTc.find.mockReturnValue("");
     mockedTc.cacheDir.mockImplementation(async (dir) => path.join(fakeRoot, "cached", path.relative(fakeRoot, dir)));
 });
@@ -83,7 +83,8 @@ describe("getArgs", () => {
                 return inputs.get(name) ?? "";
             });
 
-            mockedHttpClient.HttpClient.prototype.get.mockImplementation(async (url) => {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+            mockedHttpClient.HttpClient.prototype.get.mockImplementation(async (url: string) => {
                 const versionPrefix = "https://registry.npmjs.org/pyright/";
                 if (url.startsWith(versionPrefix)) {
                     const version = url.slice(versionPrefix.length);

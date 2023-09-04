@@ -1,16 +1,16 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getActionVersion: core.getInput 1`] = `[]`;
+exports[`getActionVersion > core.getInput 1`] = `[]`;
 
-exports[`getActionVersion: tc.cacheDir 1`] = `[]`;
+exports[`getActionVersion > tc.cacheDir 1`] = `[]`;
 
-exports[`getActionVersion: tc.downloadTool 1`] = `[]`;
+exports[`getActionVersion > tc.downloadTool 1`] = `[]`;
 
-exports[`getActionVersion: tc.extractTar 1`] = `[]`;
+exports[`getActionVersion > tc.extractTar 1`] = `[]`;
 
-exports[`getActionVersion: tc.find 1`] = `[]`;
+exports[`getActionVersion > tc.find 1`] = `[]`;
 
-exports[`getArgs bad version: core.getInput 1`] = `
+exports[`getArgs > bad version > core.getInput 1`] = `
 [
   [
     "version",
@@ -18,15 +18,15 @@ exports[`getArgs bad version: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs bad version: tc.cacheDir 1`] = `[]`;
+exports[`getArgs > bad version > tc.cacheDir 1`] = `[]`;
 
-exports[`getArgs bad version: tc.downloadTool 1`] = `[]`;
+exports[`getArgs > bad version > tc.downloadTool 1`] = `[]`;
 
-exports[`getArgs bad version: tc.extractTar 1`] = `[]`;
+exports[`getArgs > bad version > tc.extractTar 1`] = `[]`;
 
-exports[`getArgs bad version: tc.find 1`] = `[]`;
+exports[`getArgs > bad version > tc.find 1`] = `[]`;
 
-exports[`getArgs valid version 1.1.308 dashes: core.getInput 1`] = `
+exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -91,7 +91,7 @@ exports[`getArgs valid version 1.1.308 dashes: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.308 dashes: result 1`] = `
+exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -106,7 +106,7 @@ exports[`getArgs valid version 1.1.308 dashes: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version 1.1.308 dashes: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > 1.1.308 dashes > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -116,7 +116,7 @@ exports[`getArgs valid version 1.1.308 dashes: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.308 dashes: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > 1.1.308 dashes > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.308.tgz",
@@ -124,7 +124,7 @@ exports[`getArgs valid version 1.1.308 dashes: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.308 dashes: tc.extractTar 1`] = `
+exports[`getArgs > valid version > 1.1.308 dashes > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -132,7 +132,7 @@ exports[`getArgs valid version 1.1.308 dashes: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.308 dashes: tc.find 1`] = `
+exports[`getArgs > valid version > 1.1.308 dashes > tc.find 1`] = `
 [
   [
     "pyright",
@@ -141,7 +141,7 @@ exports[`getArgs valid version 1.1.308 dashes: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.309 dashes: core.getInput 1`] = `
+exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -206,7 +206,7 @@ exports[`getArgs valid version 1.1.309 dashes: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.309 dashes: result 1`] = `
+exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -221,7 +221,7 @@ exports[`getArgs valid version 1.1.309 dashes: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version 1.1.309 dashes: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > 1.1.309 dashes > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -231,7 +231,7 @@ exports[`getArgs valid version 1.1.309 dashes: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.309 dashes: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > 1.1.309 dashes > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.309.tgz",
@@ -239,7 +239,7 @@ exports[`getArgs valid version 1.1.309 dashes: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.309 dashes: tc.extractTar 1`] = `
+exports[`getArgs > valid version > 1.1.309 dashes > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -247,7 +247,7 @@ exports[`getArgs valid version 1.1.309 dashes: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.309 dashes: tc.find 1`] = `
+exports[`getArgs > valid version > 1.1.309 dashes > tc.find 1`] = `
 [
   [
     "pyright",
@@ -256,7 +256,7 @@ exports[`getArgs valid version 1.1.309 dashes: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.310 dashes: core.getInput 1`] = `
+exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -321,7 +321,7 @@ exports[`getArgs valid version 1.1.310 dashes: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.310 dashes: result 1`] = `
+exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -336,7 +336,7 @@ exports[`getArgs valid version 1.1.310 dashes: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version 1.1.310 dashes: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > 1.1.310 dashes > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -346,7 +346,7 @@ exports[`getArgs valid version 1.1.310 dashes: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.310 dashes: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > 1.1.310 dashes > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.310.tgz",
@@ -354,7 +354,7 @@ exports[`getArgs valid version 1.1.310 dashes: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.310 dashes: tc.extractTar 1`] = `
+exports[`getArgs > valid version > 1.1.310 dashes > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -362,7 +362,7 @@ exports[`getArgs valid version 1.1.310 dashes: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version 1.1.310 dashes: tc.find 1`] = `
+exports[`getArgs > valid version > 1.1.310 dashes > tc.find 1`] = `
 [
   [
     "pyright",
@@ -371,7 +371,7 @@ exports[`getArgs valid version 1.1.310 dashes: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version cached: core.getInput 1`] = `
+exports[`getArgs > valid version > cached > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -436,7 +436,7 @@ exports[`getArgs valid version cached: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version cached: result 1`] = `
+exports[`getArgs > valid version > cached > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -447,13 +447,13 @@ exports[`getArgs valid version cached: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version cached: tc.cacheDir 1`] = `[]`;
+exports[`getArgs > valid version > cached > tc.cacheDir 1`] = `[]`;
 
-exports[`getArgs valid version cached: tc.downloadTool 1`] = `[]`;
+exports[`getArgs > valid version > cached > tc.downloadTool 1`] = `[]`;
 
-exports[`getArgs valid version cached: tc.extractTar 1`] = `[]`;
+exports[`getArgs > valid version > cached > tc.extractTar 1`] = `[]`;
 
-exports[`getArgs valid version cached: tc.find 1`] = `
+exports[`getArgs > valid version > cached > tc.find 1`] = `
 [
   [
     "pyright",
@@ -462,7 +462,7 @@ exports[`getArgs valid version cached: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version createstub: core.getInput 1`] = `
+exports[`getArgs > valid version > createstub > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -527,7 +527,7 @@ exports[`getArgs valid version createstub: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version createstub: result 1`] = `
+exports[`getArgs > valid version > createstub > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -540,7 +540,7 @@ exports[`getArgs valid version createstub: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version createstub: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > createstub > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -550,7 +550,7 @@ exports[`getArgs valid version createstub: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version createstub: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > createstub > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -558,7 +558,7 @@ exports[`getArgs valid version createstub: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version createstub: tc.extractTar 1`] = `
+exports[`getArgs > valid version > createstub > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -566,7 +566,7 @@ exports[`getArgs valid version createstub: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version createstub: tc.find 1`] = `
+exports[`getArgs > valid version > createstub > tc.find 1`] = `
 [
   [
     "pyright",
@@ -575,7 +575,7 @@ exports[`getArgs valid version createstub: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version dependencies: core.getInput 1`] = `
+exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -640,7 +640,7 @@ exports[`getArgs valid version dependencies: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version dependencies: result 1`] = `
+exports[`getArgs > valid version > dependencies > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -653,7 +653,7 @@ exports[`getArgs valid version dependencies: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version dependencies: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > dependencies > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -663,7 +663,7 @@ exports[`getArgs valid version dependencies: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version dependencies: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > dependencies > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -671,7 +671,7 @@ exports[`getArgs valid version dependencies: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version dependencies: tc.extractTar 1`] = `
+exports[`getArgs > valid version > dependencies > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -679,7 +679,7 @@ exports[`getArgs valid version dependencies: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version dependencies: tc.find 1`] = `
+exports[`getArgs > valid version > dependencies > tc.find 1`] = `
 [
   [
     "pyright",
@@ -688,7 +688,7 @@ exports[`getArgs valid version dependencies: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
+exports[`getArgs > valid version > extra-args malformed > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -750,7 +750,7 @@ exports[`getArgs valid version extra-args malformed: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args malformed: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > extra-args malformed > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -760,7 +760,7 @@ exports[`getArgs valid version extra-args malformed: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args malformed: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > extra-args malformed > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -768,7 +768,7 @@ exports[`getArgs valid version extra-args malformed: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args malformed: tc.extractTar 1`] = `
+exports[`getArgs > valid version > extra-args malformed > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -776,7 +776,7 @@ exports[`getArgs valid version extra-args malformed: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args malformed: tc.find 1`] = `
+exports[`getArgs > valid version > extra-args malformed > tc.find 1`] = `
 [
   [
     "pyright",
@@ -785,7 +785,7 @@ exports[`getArgs valid version extra-args malformed: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
+exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -850,7 +850,7 @@ exports[`getArgs valid version extra-args quotes: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args quotes: result 1`] = `
+exports[`getArgs > valid version > extra-args quotes > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -864,7 +864,7 @@ exports[`getArgs valid version extra-args quotes: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version extra-args quotes: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > extra-args quotes > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -874,7 +874,7 @@ exports[`getArgs valid version extra-args quotes: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args quotes: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > extra-args quotes > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -882,7 +882,7 @@ exports[`getArgs valid version extra-args quotes: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args quotes: tc.extractTar 1`] = `
+exports[`getArgs > valid version > extra-args quotes > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -890,7 +890,7 @@ exports[`getArgs valid version extra-args quotes: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version extra-args quotes: tc.find 1`] = `
+exports[`getArgs > valid version > extra-args quotes > tc.find 1`] = `
 [
   [
     "pyright",
@@ -899,7 +899,7 @@ exports[`getArgs valid version extra-args quotes: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version many options: core.getInput 1`] = `
+exports[`getArgs > valid version > many options > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -964,7 +964,7 @@ exports[`getArgs valid version many options: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version many options: result 1`] = `
+exports[`getArgs > valid version > many options > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -994,7 +994,7 @@ exports[`getArgs valid version many options: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version many options: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > many options > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1004,7 +1004,7 @@ exports[`getArgs valid version many options: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version many options: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > many options > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1012,7 +1012,7 @@ exports[`getArgs valid version many options: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version many options: tc.extractTar 1`] = `
+exports[`getArgs > valid version > many options > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1020,7 +1020,7 @@ exports[`getArgs valid version many options: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version many options: tc.find 1`] = `
+exports[`getArgs > valid version > many options > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1029,7 +1029,7 @@ exports[`getArgs valid version many options: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version no comments: core.getInput 1`] = `
+exports[`getArgs > valid version > no comments > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -1094,7 +1094,7 @@ exports[`getArgs valid version no comments: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version no comments: result 1`] = `
+exports[`getArgs > valid version > no comments > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -1105,7 +1105,7 @@ exports[`getArgs valid version no comments: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version no comments: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > no comments > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1115,7 +1115,7 @@ exports[`getArgs valid version no comments: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version no comments: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > no comments > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1123,7 +1123,7 @@ exports[`getArgs valid version no comments: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version no comments: tc.extractTar 1`] = `
+exports[`getArgs > valid version > no comments > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1131,7 +1131,7 @@ exports[`getArgs valid version no comments: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version no comments: tc.find 1`] = `
+exports[`getArgs > valid version > no comments > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1140,7 +1140,7 @@ exports[`getArgs valid version no comments: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version skip-unannotated: core.getInput 1`] = `
+exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -1205,7 +1205,7 @@ exports[`getArgs valid version skip-unannotated: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version skip-unannotated: result 1`] = `
+exports[`getArgs > valid version > skip-unannotated > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -1218,7 +1218,7 @@ exports[`getArgs valid version skip-unannotated: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version skip-unannotated: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > skip-unannotated > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1228,7 +1228,7 @@ exports[`getArgs valid version skip-unannotated: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version skip-unannotated: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > skip-unannotated > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1236,7 +1236,7 @@ exports[`getArgs valid version skip-unannotated: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version skip-unannotated: tc.extractTar 1`] = `
+exports[`getArgs > valid version > skip-unannotated > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1244,7 +1244,7 @@ exports[`getArgs valid version skip-unannotated: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version skip-unannotated: tc.find 1`] = `
+exports[`getArgs > valid version > skip-unannotated > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1253,7 +1253,7 @@ exports[`getArgs valid version skip-unannotated: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version stats: core.getInput 1`] = `
+exports[`getArgs > valid version > stats > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -1318,7 +1318,7 @@ exports[`getArgs valid version stats: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version stats: result 1`] = `
+exports[`getArgs > valid version > stats > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -1330,7 +1330,7 @@ exports[`getArgs valid version stats: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version stats: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > stats > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1340,7 +1340,7 @@ exports[`getArgs valid version stats: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version stats: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > stats > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1348,7 +1348,7 @@ exports[`getArgs valid version stats: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version stats: tc.extractTar 1`] = `
+exports[`getArgs > valid version > stats > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1356,7 +1356,7 @@ exports[`getArgs valid version stats: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version stats: tc.find 1`] = `
+exports[`getArgs > valid version > stats > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1365,7 +1365,7 @@ exports[`getArgs valid version stats: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verbose flag: core.getInput 1`] = `
+exports[`getArgs > valid version > verbose > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -1430,119 +1430,7 @@ exports[`getArgs valid version verbose flag: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verbose flag: result 1`] = `
-{
-  "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
-    "--verbose",
-  ],
-  "noComments": true,
-  "pyrightVersion": "1.1.240",
-  "workingDirectory": "",
-}
-`;
-
-exports[`getArgs valid version verbose flag: tc.cacheDir 1`] = `
-[
-  [
-    "<TEMP_DIR>/rootDir/pyright",
-    "pyright",
-    "1.1.240",
-  ],
-]
-`;
-
-exports[`getArgs valid version verbose flag: tc.downloadTool 1`] = `
-[
-  [
-    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
-  ],
-]
-`;
-
-exports[`getArgs valid version verbose flag: tc.extractTar 1`] = `
-[
-  [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
-  ],
-]
-`;
-
-exports[`getArgs valid version verbose flag: tc.find 1`] = `
-[
-  [
-    "pyright",
-    "1.1.240",
-  ],
-]
-`;
-
-exports[`getArgs valid version verbose: core.getInput 1`] = `
-[
-  [
-    "create-stub",
-  ],
-  [
-    "dependencies",
-  ],
-  [
-    "extra-args",
-  ],
-  [
-    "ignore-external",
-  ],
-  [
-    "level",
-  ],
-  [
-    "lib",
-  ],
-  [
-    "no-comments",
-  ],
-  [
-    "project",
-  ],
-  [
-    "python-path",
-  ],
-  [
-    "python-platform",
-  ],
-  [
-    "python-version",
-  ],
-  [
-    "skip-unannotated",
-  ],
-  [
-    "stats",
-  ],
-  [
-    "typeshed-path",
-  ],
-  [
-    "venv-path",
-  ],
-  [
-    "verbose",
-  ],
-  [
-    "verify-types",
-  ],
-  [
-    "version",
-  ],
-  [
-    "warnings",
-  ],
-  [
-    "working-directory",
-  ],
-]
-`;
-
-exports[`getArgs valid version verbose: result 1`] = `
+exports[`getArgs > valid version > verbose > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -1554,7 +1442,7 @@ exports[`getArgs valid version verbose: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version verbose: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > verbose > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1564,7 +1452,7 @@ exports[`getArgs valid version verbose: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verbose: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > verbose > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1572,7 +1460,7 @@ exports[`getArgs valid version verbose: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verbose: tc.extractTar 1`] = `
+exports[`getArgs > valid version > verbose > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1580,7 +1468,7 @@ exports[`getArgs valid version verbose: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verbose: tc.find 1`] = `
+exports[`getArgs > valid version > verbose > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1589,7 +1477,7 @@ exports[`getArgs valid version verbose: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes flag: core.getInput 1`] = `
+exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -1654,11 +1542,11 @@ exports[`getArgs valid version verifytypes flag: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes flag: result 1`] = `
+exports[`getArgs > valid version > verbose flag > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
-    "--verifytypes",
+    "--verbose",
   ],
   "noComments": true,
   "pyrightVersion": "1.1.240",
@@ -1666,7 +1554,7 @@ exports[`getArgs valid version verifytypes flag: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version verifytypes flag: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > verbose flag > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1676,7 +1564,7 @@ exports[`getArgs valid version verifytypes flag: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes flag: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > verbose flag > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1684,7 +1572,7 @@ exports[`getArgs valid version verifytypes flag: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes flag: tc.extractTar 1`] = `
+exports[`getArgs > valid version > verbose flag > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1692,7 +1580,7 @@ exports[`getArgs valid version verifytypes flag: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes flag: tc.find 1`] = `
+exports[`getArgs > valid version > verbose flag > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1701,7 +1589,7 @@ exports[`getArgs valid version verifytypes flag: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes: core.getInput 1`] = `
+exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
 [
   [
     "create-stub",
@@ -1766,7 +1654,7 @@ exports[`getArgs valid version verifytypes: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes: result 1`] = `
+exports[`getArgs > valid version > verifytypes > result 1`] = `
 {
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
@@ -1780,7 +1668,7 @@ exports[`getArgs valid version verifytypes: result 1`] = `
 }
 `;
 
-exports[`getArgs valid version verifytypes: tc.cacheDir 1`] = `
+exports[`getArgs > valid version > verifytypes > tc.cacheDir 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright",
@@ -1790,7 +1678,7 @@ exports[`getArgs valid version verifytypes: tc.cacheDir 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes: tc.downloadTool 1`] = `
+exports[`getArgs > valid version > verifytypes > tc.downloadTool 1`] = `
 [
   [
     "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
@@ -1798,7 +1686,7 @@ exports[`getArgs valid version verifytypes: tc.downloadTool 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes: tc.extractTar 1`] = `
+exports[`getArgs > valid version > verifytypes > tc.extractTar 1`] = `
 [
   [
     "<TEMP_DIR>/rootDir/pyright.tar.gz",
@@ -1806,7 +1694,7 @@ exports[`getArgs valid version verifytypes: tc.extractTar 1`] = `
 ]
 `;
 
-exports[`getArgs valid version verifytypes: tc.find 1`] = `
+exports[`getArgs > valid version > verifytypes > tc.find 1`] = `
 [
   [
     "pyright",
@@ -1815,7 +1703,119 @@ exports[`getArgs valid version verifytypes: tc.find 1`] = `
 ]
 `;
 
-exports[`getArgs valid version version not found: core.getInput 1`] = `
+exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > verifytypes flag > result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "--verifytypes",
+  ],
+  "noComments": true,
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > verifytypes flag > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > verifytypes flag > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > verifytypes flag > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > verifytypes flag > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version not found > core.getInput 1`] = `
 [
   [
     "version",
@@ -1823,30 +1823,30 @@ exports[`getArgs valid version version not found: core.getInput 1`] = `
 ]
 `;
 
-exports[`getArgs valid version version not found: tc.cacheDir 1`] = `[]`;
+exports[`getArgs > valid version > version not found > tc.cacheDir 1`] = `[]`;
 
-exports[`getArgs valid version version not found: tc.downloadTool 1`] = `[]`;
+exports[`getArgs > valid version > version not found > tc.downloadTool 1`] = `[]`;
 
-exports[`getArgs valid version version not found: tc.extractTar 1`] = `[]`;
+exports[`getArgs > valid version > version not found > tc.extractTar 1`] = `[]`;
 
-exports[`getArgs valid version version not found: tc.find 1`] = `[]`;
+exports[`getArgs > valid version > version not found > tc.find 1`] = `[]`;
 
-exports[`getNodeInfo node20: core.getInput 1`] = `[]`;
+exports[`getNodeInfo > core.getInput 1`] = `[]`;
 
-exports[`getNodeInfo node20: tc.cacheDir 1`] = `[]`;
+exports[`getNodeInfo > tc.cacheDir 1`] = `[]`;
 
-exports[`getNodeInfo node20: tc.downloadTool 1`] = `[]`;
+exports[`getNodeInfo > tc.downloadTool 1`] = `[]`;
 
-exports[`getNodeInfo node20: tc.extractTar 1`] = `[]`;
+exports[`getNodeInfo > tc.extractTar 1`] = `[]`;
 
-exports[`getNodeInfo node20: tc.find 1`] = `[]`;
+exports[`getNodeInfo > tc.find 1`] = `[]`;
 
-exports[`getNodeInfo: core.getInput 1`] = `[]`;
+exports[`getNodeInfo node20 > core.getInput 1`] = `[]`;
 
-exports[`getNodeInfo: tc.cacheDir 1`] = `[]`;
+exports[`getNodeInfo node20 > tc.cacheDir 1`] = `[]`;
 
-exports[`getNodeInfo: tc.downloadTool 1`] = `[]`;
+exports[`getNodeInfo node20 > tc.downloadTool 1`] = `[]`;
 
-exports[`getNodeInfo: tc.extractTar 1`] = `[]`;
+exports[`getNodeInfo node20 > tc.extractTar 1`] = `[]`;
 
-exports[`getNodeInfo: tc.find 1`] = `[]`;
+exports[`getNodeInfo node20 > tc.find 1`] = `[]`;
