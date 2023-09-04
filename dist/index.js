@@ -5932,26 +5932,27 @@ function prependPath(key, tree) {
   return { ok: false, code: "prepend", key, tree };
 }
 function cloneIssueWithPath(tree, path2) {
-  switch (tree.code) {
+  const code = tree.code;
+  switch (code) {
     case "invalid_type":
-      return { code: "invalid_type", path: path2, expected: tree.expected };
+      return { code, path: path2, expected: tree.expected };
     case "invalid_literal":
-      return { code: "invalid_literal", path: path2, expected: tree.expected };
+      return { code, path: path2, expected: tree.expected };
     case "missing_value":
-      return { code: "missing_value", path: path2 };
+      return { code, path: path2 };
     case "invalid_length":
       return {
-        code: "invalid_length",
+        code,
         path: path2,
         minLength: tree.minLength,
         maxLength: tree.maxLength
       };
     case "unrecognized_keys":
-      return { code: "unrecognized_keys", path: path2, keys: tree.keys };
+      return { code, path: path2, keys: tree.keys };
     case "invalid_union":
-      return { code: "invalid_union", path: path2, tree: tree.tree };
+      return { code, path: path2, tree: tree.tree };
     default:
-      return { code: "custom_error", path: path2, error: tree.error };
+      return { code, path: path2, error: tree.error };
   }
 }
 function collectIssues(tree, path2 = [], issues = []) {
@@ -6269,7 +6270,6 @@ var ObjectType = class _ObjectType extends Type {
     return new _ObjectType(shape, rest);
   }
 };
-var protoless = Object.freeze(/* @__PURE__ */ Object.create(null));
 function createObjectMatcher(shape, rest, checks) {
   const requiredKeys = [];
   const optionalKeys = [];
@@ -6291,7 +6291,7 @@ function createObjectMatcher(shape, rest, checks) {
     code: "invalid_type",
     expected: ["object"]
   };
-  if (totalCount === 0 && rest === unknownSingleton) {
+  if (totalCount === 0 && (rest === null || rest === void 0 ? void 0 : rest.name) === "unknown") {
     return function(obj, _) {
       if (!isObject(obj)) {
         return invalidType;
@@ -6316,6 +6316,18 @@ function createObjectMatcher(shape, rest, checks) {
     ok: false,
     code: "missing_value"
   }));
+  function set(obj, key, value) {
+    if (key === "__proto__") {
+      Object.defineProperty(obj, key, {
+        value,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+  }
   return function(obj, mode) {
     if (!isObject(obj)) {
       return invalidType;
@@ -6345,12 +6357,12 @@ function createObjectMatcher(shape, rest, checks) {
               unrecognized.push(key);
             }
           } else if (mode === 2 && issues === void 0 && !copied) {
-            output = Object.create(protoless);
+            output = {};
             copied = true;
             for (let m = 0; m < totalCount; m++) {
               if (getBit(seenBits, m)) {
                 const k = keys[m];
-                output[k] = obj[k];
+                set(output, k, obj[k]);
               }
             }
           }
@@ -6358,28 +6370,28 @@ function createObjectMatcher(shape, rest, checks) {
         }
         if (r === void 0) {
           if (copied && issues === void 0) {
-            output[key] = value;
+            set(output, key, value);
           }
         } else if (!r.ok) {
           issues = joinIssues(issues, prependPath(key, r));
         } else if (issues === void 0) {
           if (!copied) {
-            output = Object.create(protoless);
+            output = {};
             copied = true;
             if (rest === void 0) {
               for (let m = 0; m < totalCount; m++) {
                 if (m !== index && getBit(seenBits, m)) {
                   const k = keys[m];
-                  output[k] = obj[k];
+                  set(output, k, obj[k]);
                 }
               }
             } else {
               for (const k in obj) {
-                output[k] = obj[k];
+                set(output, k, obj[k]);
               }
             }
           }
-          output[key] = r.value;
+          set(output, key, r.value);
         }
       }
     }
@@ -6400,34 +6412,34 @@ function createObjectMatcher(shape, rest, checks) {
         const r = types[i].func(value, mode);
         if (r === void 0) {
           if (copied && issues === void 0 && value !== Nothing) {
-            output[key] = value;
+            set(output, key, value);
           }
         } else if (!r.ok) {
           issues = joinIssues(issues, prependPath(key, r));
         } else if (issues === void 0) {
           if (!copied) {
-            output = Object.create(protoless);
+            output = {};
             copied = true;
             if (rest === void 0) {
               for (let m = 0; m < totalCount; m++) {
                 if (m < i || getBit(seenBits, m)) {
                   const k = keys[m];
-                  output[k] = obj[k];
+                  set(output, k, obj[k]);
                 }
               }
             } else {
               for (const k in obj) {
-                output[k] = obj[k];
+                set(output, k, obj[k]);
               }
               for (let m = 0; m < i; m++) {
                 if (!getBit(seenBits, m)) {
                   const k = keys[m];
-                  output[k] = obj[k];
+                  set(output, k, obj[k]);
                 }
               }
             }
           }
-          output[key] = r.value;
+          set(output, key, r.value);
         }
       }
     }
@@ -6471,9 +6483,6 @@ var ArrayType = class extends Type {
       minLength: this.minLength,
       maxLength: this.maxLength
     };
-  }
-  toTerminals(func) {
-    func(this);
   }
   func(arr, mode) {
     if (!Array.isArray(arr)) {
