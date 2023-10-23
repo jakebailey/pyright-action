@@ -1621,7 +1621,7 @@ var require_oidc_utils = __commonJS({
  
         Error Code : ${error.statusCode}
  
-        Error Message: ${error.result.message}`);
+        Error Message: ${error.message}`);
           });
           const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
           if (!id_token) {
@@ -6224,10 +6224,9 @@ var ObjectType = class _ObjectType extends Type {
     this.name = "object";
   }
   check(func, error) {
-    var _a;
     const issue = { ok: false, code: "custom_error", error };
     return new _ObjectType(this.shape, this.restType, [
-      ...(_a = this.checks) !== null && _a !== void 0 ? _a : [],
+      ...this.checks ?? [],
       {
         func,
         issue
@@ -6268,7 +6267,7 @@ var ObjectType = class _ObjectType extends Type {
     Object.keys(this.shape).forEach((key) => {
       shape[key] = this.shape[key].optional();
     });
-    const rest = (_a = this.restType) === null || _a === void 0 ? void 0 : _a.optional();
+    const rest = (_a = this.restType) == null ? void 0 : _a.optional();
     return new _ObjectType(shape, rest);
   }
 };
@@ -6278,7 +6277,7 @@ function createObjectMatcher(shape, rest, checks) {
   for (const key in shape) {
     let hasOptional = false;
     shape[key].toTerminals((t) => {
-      hasOptional || (hasOptional = t.name === "optional");
+      hasOptional ||= t.name === "optional";
     });
     if (hasOptional) {
       optionalKeys.push(key);
@@ -6293,7 +6292,7 @@ function createObjectMatcher(shape, rest, checks) {
     code: "invalid_type",
     expected: ["object"]
   };
-  if (totalCount === 0 && (rest === null || rest === void 0 ? void 0 : rest.name) === "unknown") {
+  if (totalCount === 0 && (rest == null ? void 0 : rest.name) === "unknown") {
     return function(obj, _) {
       if (!isObject(obj)) {
         return invalidType;
@@ -6471,7 +6470,7 @@ var ArrayType = class extends Type {
     super();
     this.head = head;
     this.name = "array";
-    this.rest = rest !== null && rest !== void 0 ? rest : never();
+    this.rest = rest ?? never();
     this.minLength = this.head.length;
     this.maxLength = rest ? Infinity : this.minLength;
     this.invalidType = {
@@ -6559,8 +6558,7 @@ function groupTerminals(terminals) {
   const optionals = [];
   const expectedTypes = [];
   terminals.forEach(({ root, terminal }) => {
-    var _a;
-    order.set(root, (_a = order.get(root)) !== null && _a !== void 0 ? _a : order.size);
+    order.set(root, order.get(root) ?? order.size);
     if (terminal.name === "never") {
     } else if (terminal.name === "optional") {
       optionals.push(root);
@@ -6586,8 +6584,7 @@ function groupTerminals(terminals) {
     }
   });
   const byOrder = (a, b) => {
-    var _a, _b;
-    return ((_a = order.get(a)) !== null && _a !== void 0 ? _a : 0) - ((_b = order.get(b)) !== null && _b !== void 0 ? _b : 0);
+    return (order.get(a) ?? 0) - (order.get(b) ?? 0);
   };
   types.forEach((roots, type) => types.set(type, dedup(roots.concat(unknowns).sort(byOrder))));
   literals.forEach((roots, value) => literals.set(value, dedup(roots.concat(unknowns)).sort(byOrder)));
@@ -6637,13 +6634,12 @@ function createObjectKeyMatcher(objects, key) {
     byType[type] = options[0];
   }
   return function(_obj, mode) {
-    var _a;
     const obj = _obj;
     const value = obj[key];
     if (value === void 0 && !(key in obj)) {
       return optionals.length > 0 ? optionals[0].func(obj, mode) : missingValue;
     }
-    const option = (_a = byType === null || byType === void 0 ? void 0 : byType[toInputType(value)]) !== null && _a !== void 0 ? _a : litMap === null || litMap === void 0 ? void 0 : litMap.get(value);
+    const option = (byType == null ? void 0 : byType[toInputType(value)]) ?? (litMap == null ? void 0 : litMap.get(value));
     return option ? option.func(obj, mode) : issue;
   };
 }
@@ -6683,12 +6679,11 @@ function createUnionBaseMatcher(terminals) {
     byType[type] = options;
   }
   return function(value, mode) {
-    var _a, _b;
     let options;
     if (value === Nothing) {
       options = optionals;
     } else {
-      options = (_b = (_a = byType === null || byType === void 0 ? void 0 : byType[toInputType(value)]) !== null && _a !== void 0 ? _a : litMap === null || litMap === void 0 ? void 0 : litMap.get(value)) !== null && _b !== void 0 ? _b : unknowns;
+      options = (byType == null ? void 0 : byType[toInputType(value)]) ?? (litMap == null ? void 0 : litMap.get(value)) ?? unknowns;
     }
     if (!options) {
       return issue;
