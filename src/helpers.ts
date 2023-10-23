@@ -116,9 +116,9 @@ export async function getArgs() {
         args.push("--pythonversion", pythonVersion);
     }
 
-    const skipUnannotated = core.getInput("skip-unannotated");
+    const skipUnannotated = getBooleanInput("skip-unannotated", false);
     if (skipUnannotated) {
-        args.push("--skipunannotated", skipUnannotated);
+        args.push("--skipunannotated");
     }
 
     const stats = getBooleanInput("stats", false);

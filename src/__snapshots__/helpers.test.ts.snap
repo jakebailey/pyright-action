@@ -1210,7 +1210,6 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--skipunannotated",
-    "TRUE",
   ],
   "noComments": false,
   "pyrightVersion": "1.1.240",
