@@ -1,10 +1,10 @@
 {
     "[typescript][javascript][json][jsonc][markdown][yaml]": {
         "editor.defaultFormatter": "dprint.dprint",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": true,
     },
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
 }
