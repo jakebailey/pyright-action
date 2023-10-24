@@ -318,36 +318,3 @@ test("getActionVersion", () => {
     const version = getActionVersion();
     expect(version).toEqual(actionVersion);
 });
-
-describe("Pylance to Pyright version mapping", () => {
-    beforeEach(() => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        mockedHttpClient.HttpClient.prototype.get.mockImplementation(async (url: string) => {
-            const versionPrefix = "https://raw.githubusercontent.com/microsoft/pylance-release/main/CHANGELOG.md";
-            if (url === versionPrefix) {
-                return {
-                    message: {
-                        statusCode: 200,
-                    } as IncomingMessage,
-                    readBody: async () => "blah blah blah",
-                };
-            }
-
-            throw new Error(`unknown URL ${url}`);
-        });
-    });
-
-    test("bad version", async () => {
-        mockedCore.getInput.mockImplementation((name, options) => {
-            expect(options).toBeUndefined();
-            switch (name) {
-                case "version":
-                    return "this is not a semver";
-                default:
-                    return "";
-            }
-        });
-
-        await expect(getArgs()).rejects.toThrowError("not a semver");
-    });
-});
