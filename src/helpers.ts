@@ -217,7 +217,7 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
 async function getPyrightVersion() {
     const versionSpec = core.getInput("version");
     if (versionSpec) {
-        if (versionSpec === "pylance-stable" || versionSpec === "pylance-prerelease") {
+        if (versionSpec === "pylance-release" || versionSpec === "pylance-prerelease") {
             return await getPylancePyrightVersion(versionSpec);
         }
 
@@ -235,7 +235,7 @@ interface PylanceBuildMap {
     versions: PylanceBuild[];
 }
 
-async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance-prerelease") {
+async function getPylancePyrightVersion(versionSpec: "pylance-release" | "pylance-prerelease") {
     const client = new httpClient.HttpClient();
     const resp = await client.get(
         "https://raw.githubusercontent.com/debonte/pylance-release/main/pyrightVersions.json",
@@ -250,7 +250,7 @@ async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance
     for (const build of jsonObject.versions) {
         if (
             (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance))
-            || (versionSpec === "pylance-stable" && isPylanceStableVersion(build.pylance))
+            || (versionSpec === "pylance-release" && isPylanceReleaseVersion(build.pylance))
         ) {
             return build.pyright;
         }
@@ -260,9 +260,9 @@ async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance
 }
 
 function isPylancePrereleaseVersion(versionSpec: string) {
-    return !isPylanceStableVersion(versionSpec);
+    return !isPylanceReleaseVersion(versionSpec);
 }
 
-function isPylanceStableVersion(versionSpec: string) {
+function isPylanceReleaseVersion(versionSpec: string) {
     return versionSpec.endsWith("0");
 }

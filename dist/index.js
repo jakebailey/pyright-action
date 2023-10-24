@@ -7142,7 +7142,7 @@ async function getPyrightInfo() {
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
-    if (versionSpec === "pylance-stable" || versionSpec === "pylance-prerelease") {
+    if (versionSpec === "pylance-release" || versionSpec === "pylance-prerelease") {
       return await getPylancePyrightVersion(versionSpec);
     }
     return new import_semver2.default(versionSpec).format();
@@ -7160,16 +7160,16 @@ async function getPylancePyrightVersion(versionSpec) {
   }
   const jsonObject = JSON.parse(versionJson);
   for (const build of jsonObject.versions) {
-    if (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance) || versionSpec === "pylance-stable" && isPylanceStableVersion(build.pylance)) {
+    if (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance) || versionSpec === "pylance-release" && isPylanceReleaseVersion(build.pylance)) {
       return build.pyright;
     }
   }
   throw new Error("Unknown Pylance version");
 }
 function isPylancePrereleaseVersion(versionSpec) {
-  return !isPylanceStableVersion(versionSpec);
+  return !isPylanceReleaseVersion(versionSpec);
 }
-function isPylanceStableVersion(versionSpec) {
+function isPylanceReleaseVersion(versionSpec) {
   return versionSpec.endsWith("0");
 }
 
