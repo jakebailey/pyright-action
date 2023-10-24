@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "preLaunchTask": "npm: build",
+            "runtimeExecutable": "C:\\Progra~1\\nodejs\\node.exe",
+            "runtimeArgs": ["--inspect-brk"],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/dist/index.js",
+            "outFiles": [
+                "${workspaceFolder}/out/**/*.js"
+            ],
+            "env": {
+                "INPUT_version": "pylance-stable",
+                "RUNNER_TOOL_CACHE": "c:\\src\\RUNNER_TOOL_CACHE",
+                "RUNNER_TEMP": "c:\\temp\\RUNNER_TEMP"
+            },
+            "smartStep": true,
+            "sourceMaps": true
+        }
+    ]
+}

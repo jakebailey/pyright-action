@@ -204,7 +204,7 @@ async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
 }
 
 async function getPyrightInfo(): Promise<NpmRegistryResponse> {
-    const version = getPyrightVersion();
+    const version = await getPyrightVersion();
     const client = new httpClient.HttpClient();
     const resp = await client.get(`https://registry.npmjs.org/pyright/${version}`);
     const body = await resp.readBody();
@@ -214,10 +214,105 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
     return parseNpmRegistryResponse(JSON.parse(body));
 }
 
-function getPyrightVersion() {
+async function getPyrightVersion() {
     const versionSpec = core.getInput("version");
     if (versionSpec) {
+        if (versionSpec === "pylance-stable" || versionSpec === "pylance-prerelease") {
+            return await getPylancePyrightVersion(versionSpec);
+        }
+
         return new SemVer(versionSpec).format();
     }
     return "latest";
 }
+
+interface PylanceBuild {
+    pylance: string;
+    pyright: string;
+}
+
+interface PylanceBuildMap {
+    versions: PylanceBuild[];
+}
+
+async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance-prerelease") {
+    const client = new httpClient.HttpClient();
+    const resp = await client.get(
+        "https://raw.githubusercontent.com/debonte/pylance-release/main/pyrightVersions.json",
+    );
+    const versionJson = await resp.readBody();
+
+    if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
+        throw new Error("Failed to download Pylance version map");
+    }
+
+    const jsonObject = JSON.parse(versionJson) as PylanceBuildMap;
+    for (const build of jsonObject.versions) {
+        if (
+            (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance))
+            || (versionSpec === "pylance-stable" && isPylanceStableVersion(build.pylance))
+        ) {
+            return build.pyright;
+        }
+    }
+
+    throw new Error("Unknown Pylance version");
+
+    // if (versionSpec === "pylance-stable") {
+    //     return getPyrightVersionForPylanceStable(pylanceChangelog);
+    // } else if (versionSpec === "pylance-prerelease") {
+    //     return getPyrightVersionForPylancePrerelease(pylanceChangelog);
+    // }
+}
+
+function isPylancePrereleaseVersion(versionSpec: string) {
+    return !isPylanceStableVersion(versionSpec);
+}
+
+function isPylanceStableVersion(versionSpec: string) {
+    return versionSpec.endsWith("0");
+}
+
+// async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance-prerelease") {
+//     const client = new httpClient.HttpClient();
+//     const resp = await client.get("https://raw.githubusercontent.com/microsoft/pylance-release/main/CHANGELOG.md");
+//     const pylanceChangelog = await resp.readBody();
+
+//     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
+//         throw new Error("Failed to download Pylance changelog");
+//     }
+
+//     if (versionSpec === "pylance-stable") {
+//         return getPyrightVersionForPylanceStable(pylanceChangelog);
+//     } else if (versionSpec === "pylance-prerelease") {
+//         return getPyrightVersionForPylancePrerelease(pylanceChangelog);
+//     }
+// }
+
+// function getPyrightVersionForPylancePrerelease(changelog: string, version?: string): string{
+//     const prereleaseRegex = /##.*PreRelease[\w\W]*?Pylance's copy of Pyright has been updated from \d+\.\d+\.\d+ to (\d+\.\d+\.\d+)/m;
+
+//     const match = changelog.match(prereleaseRegex);
+//     if (!match) {
+//         throw new Error(`Could not find pyright version for pylance prerelease version {version}`);
+//     }
+
+//     return match[0];
+// }
+
+// function getPyrightVersionForPylanceStable(changelog: string, version?: string): string {
+//     const stableRegex = /##.* Release[\w\W]*?Release version that includes changes through the \[(\d+\.\d+\.\d+)/m;
+
+//     const match = changelog.match(stableRegex);
+//     if (!match) {
+//         throw new Error(`Could not find pyright version for pylance stable version {version}`);
+//     }
+
+//     return getPyrightVersionForPylancePrerelease(match[0]);
+// }
+
+// Scenarios to support:
+// Normal prerelease (easy)
+// Normal stable -- need to find prerelease it is based on and get its pyright version
+// Prerelease hotfix without pyright update -- need to find next oldest prerelease
+// Stable hotfix -- need to find next oldest stable and start there

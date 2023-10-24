@@ -7130,7 +7130,7 @@ async function downloadPyright(info2) {
   return await tc.cacheDir(extractedPath, pyrightToolName, info2.version);
 }
 async function getPyrightInfo() {
-  const version3 = getPyrightVersion();
+  const version3 = await getPyrightVersion();
   const client = new httpClient.HttpClient();
   const resp = await client.get(`https://registry.npmjs.org/pyright/${version3}`);
   const body = await resp.readBody();
@@ -7139,12 +7139,38 @@ async function getPyrightInfo() {
   }
   return parseNpmRegistryResponse(JSON.parse(body));
 }
-function getPyrightVersion() {
+async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
+    if (versionSpec === "pylance-stable" || versionSpec === "pylance-prerelease") {
+      return await getPylancePyrightVersion(versionSpec);
+    }
     return new import_semver2.default(versionSpec).format();
   }
   return "latest";
+}
+async function getPylancePyrightVersion(versionSpec) {
+  const client = new httpClient.HttpClient();
+  const resp = await client.get(
+    "https://raw.githubusercontent.com/debonte/pylance-release/main/pyrightVersions.json"
+  );
+  const versionJson = await resp.readBody();
+  if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
+    throw new Error("Failed to download Pylance version map");
+  }
+  const jsonObject = JSON.parse(versionJson);
+  for (const build of jsonObject.versions) {
+    if (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance) || versionSpec === "pylance-stable" && isPylanceStableVersion(build.pylance)) {
+      return build.pyright;
+    }
+  }
+  throw new Error("Unknown Pylance version");
+}
+function isPylancePrereleaseVersion(versionSpec) {
+  return !isPylanceStableVersion(versionSpec);
+}
+function isPylanceStableVersion(versionSpec) {
+  return versionSpec.endsWith("0");
 }
 
 // src/main.ts
