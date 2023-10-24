@@ -257,12 +257,6 @@ async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance
     }
 
     throw new Error("Unknown Pylance version");
-
-    // if (versionSpec === "pylance-stable") {
-    //     return getPyrightVersionForPylanceStable(pylanceChangelog);
-    // } else if (versionSpec === "pylance-prerelease") {
-    //     return getPyrightVersionForPylancePrerelease(pylanceChangelog);
-    // }
 }
 
 function isPylancePrereleaseVersion(versionSpec: string) {
@@ -272,47 +266,3 @@ function isPylancePrereleaseVersion(versionSpec: string) {
 function isPylanceStableVersion(versionSpec: string) {
     return versionSpec.endsWith("0");
 }
-
-// async function getPylancePyrightVersion(versionSpec: "pylance-stable" | "pylance-prerelease") {
-//     const client = new httpClient.HttpClient();
-//     const resp = await client.get("https://raw.githubusercontent.com/microsoft/pylance-release/main/CHANGELOG.md");
-//     const pylanceChangelog = await resp.readBody();
-
-//     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-//         throw new Error("Failed to download Pylance changelog");
-//     }
-
-//     if (versionSpec === "pylance-stable") {
-//         return getPyrightVersionForPylanceStable(pylanceChangelog);
-//     } else if (versionSpec === "pylance-prerelease") {
-//         return getPyrightVersionForPylancePrerelease(pylanceChangelog);
-//     }
-// }
-
-// function getPyrightVersionForPylancePrerelease(changelog: string, version?: string): string{
-//     const prereleaseRegex = /##.*PreRelease[\w\W]*?Pylance's copy of Pyright has been updated from \d+\.\d+\.\d+ to (\d+\.\d+\.\d+)/m;
-
-//     const match = changelog.match(prereleaseRegex);
-//     if (!match) {
-//         throw new Error(`Could not find pyright version for pylance prerelease version {version}`);
-//     }
-
-//     return match[0];
-// }
-
-// function getPyrightVersionForPylanceStable(changelog: string, version?: string): string {
-//     const stableRegex = /##.* Release[\w\W]*?Release version that includes changes through the \[(\d+\.\d+\.\d+)/m;
-
-//     const match = changelog.match(stableRegex);
-//     if (!match) {
-//         throw new Error(`Could not find pyright version for pylance stable version {version}`);
-//     }
-
-//     return getPyrightVersionForPylancePrerelease(match[0]);
-// }
-
-// Scenarios to support:
-// Normal prerelease (easy)
-// Normal stable -- need to find prerelease it is based on and get its pyright version
-// Prerelease hotfix without pyright update -- need to find next oldest prerelease
-// Stable hotfix -- need to find next oldest stable and start there
