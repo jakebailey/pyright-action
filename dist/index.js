@@ -7140,16 +7140,16 @@ async function getPyrightInfo() {
   return parseNpmRegistryResponse(JSON.parse(body));
 }
 async function getPyrightVersion() {
+  const versionSpec = core.getInput("version");
+  if (versionSpec) {
+    return new import_semver2.default(versionSpec).format();
+  }
   const pylanceVersion = core.getInput("pylance-version");
   if (pylanceVersion) {
     if (pylanceVersion !== "latest-release" && pylanceVersion !== "latest-prerelease") {
       new import_semver2.default(pylanceVersion);
     }
     return await getPylancePyrightVersion(pylanceVersion);
-  }
-  const versionSpec = core.getInput("version");
-  if (versionSpec) {
-    return new import_semver2.default(versionSpec).format();
   }
   return "latest";
 }

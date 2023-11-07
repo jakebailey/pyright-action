@@ -215,6 +215,11 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
 }
 
 async function getPyrightVersion() {
+    const versionSpec = core.getInput("version");
+    if (versionSpec) {
+        return new SemVer(versionSpec).format();
+    }
+
     const pylanceVersion = core.getInput("pylance-version");
     if (pylanceVersion) {
         if (pylanceVersion !== "latest-release" && pylanceVersion !== "latest-prerelease") {
@@ -222,11 +227,6 @@ async function getPyrightVersion() {
         }
 
         return await getPylancePyrightVersion(pylanceVersion);
-    }
-
-    const versionSpec = core.getInput("version");
-    if (versionSpec) {
-        return new SemVer(versionSpec).format();
     }
 
     return "latest";
