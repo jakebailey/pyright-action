@@ -7158,11 +7158,11 @@ async function getPylancePyrightVersion(versionSpec) {
   const resp = await client.get(
     `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${versionSpec}.json`
   );
-  const versionJson = await resp.readBody();
+  const body = await resp.readBody();
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-    throw new Error(`Failed to download build metadata for Pylance ${versionSpec}`);
+    throw new Error(`Failed to download build metadata for Pylance ${versionSpec} -- ${body}`);
   }
-  const jsonObject = JSON.parse(versionJson);
+  const jsonObject = JSON.parse(body);
   return jsonObject.pyrightVersion;
 }
 
