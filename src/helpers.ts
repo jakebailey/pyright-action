@@ -1,7 +1,6 @@
 import * as cp from "node:child_process";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { json } from "node:stream/consumers";
 
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
@@ -238,16 +237,20 @@ interface PylanceBuildMetadata {
     pyrightVersion: string;
 }
 
-async function getPylancePyrightVersion(versionSpec: string) {
+async function getPylancePyrightVersion(pylanceVersion: string) {
     const client = new httpClient.HttpClient();
     const resp = await client.get(
-        `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${versionSpec}.json`,
+        `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${pylanceVersion}.json`,
     );
     const body = await resp.readBody();
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-        throw new Error(`Failed to download build metadata for Pylance ${versionSpec} -- ${body}`);
+        throw new Error(`Failed to download build metadata for Pylance ${pylanceVersion} -- ${body}`);
     }
 
     const jsonObject = JSON.parse(body) as PylanceBuildMetadata;
-    return jsonObject.pyrightVersion;
+    const pyrightVersion = jsonObject.pyrightVersion;
+
+    core.info(`Pylance ${pylanceVersion} uses pyright ${pyrightVersion}`);
+
+    return pyrightVersion;
 }
