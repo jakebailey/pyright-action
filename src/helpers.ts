@@ -1,6 +1,7 @@
 import * as cp from "node:child_process";
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { json } from "node:stream/consumers";
 
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
@@ -215,54 +216,39 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
 }
 
 async function getPyrightVersion() {
-    const versionSpec = core.getInput("version");
-    if (versionSpec) {
-        if (versionSpec === "pylance-release" || versionSpec === "pylance-prerelease") {
-            return await getPylancePyrightVersion(versionSpec);
+    const pylanceVersion = core.getInput("pylance-version");
+    if (pylanceVersion) {
+        if (pylanceVersion !== "latest-release" && pylanceVersion !== "latest-prerelease") {
+            new SemVer(pylanceVersion); // validate version string
         }
 
+        return await getPylancePyrightVersion(pylanceVersion);
+    }
+
+    const versionSpec = core.getInput("version");
+    if (versionSpec) {
         return new SemVer(versionSpec).format();
     }
+
     return "latest";
 }
 
-interface PylanceBuild {
-    pylance: string;
-    pyright: string;
+interface PylanceBuildMetadata {
+    pylanceVersion: string;
+    pyrightVersion: string;
 }
 
-interface PylanceBuildMap {
-    versions: PylanceBuild[];
-}
-
-async function getPylancePyrightVersion(versionSpec: "pylance-release" | "pylance-prerelease") {
+async function getPylancePyrightVersion(versionSpec: string) {
     const client = new httpClient.HttpClient();
     const resp = await client.get(
-        "https://raw.githubusercontent.com/debonte/pylance-release/main/pyrightVersions.json",
+        `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${versionSpec}.json`,
     );
     const versionJson = await resp.readBody();
 
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-        throw new Error("Failed to download Pylance version map");
+        throw new Error(`Failed to download build metadata for Pylance ${versionSpec}`);
     }
 
-    const jsonObject = JSON.parse(versionJson) as PylanceBuildMap;
-    for (const build of jsonObject.versions) {
-        if (
-            (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance))
-            || (versionSpec === "pylance-release" && isPylanceReleaseVersion(build.pylance))
-        ) {
-            return build.pyright;
-        }
-    }
-
-    throw new Error("Unknown Pylance version");
-}
-
-function isPylancePrereleaseVersion(versionSpec: string) {
-    return !isPylanceReleaseVersion(versionSpec);
-}
-
-function isPylanceReleaseVersion(versionSpec: string) {
-    return versionSpec.endsWith("0");
+    const jsonObject = JSON.parse(versionJson) as PylanceBuildMetadata;
+    return jsonObject.pyrightVersion;
 }

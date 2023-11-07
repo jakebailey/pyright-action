@@ -7140,11 +7140,15 @@ async function getPyrightInfo() {
   return parseNpmRegistryResponse(JSON.parse(body));
 }
 async function getPyrightVersion() {
+  const pylanceVersion = core.getInput("pylance-version");
+  if (pylanceVersion) {
+    if (pylanceVersion !== "latest-release" && pylanceVersion !== "latest-prerelease") {
+      new import_semver2.default(pylanceVersion);
+    }
+    return await getPylancePyrightVersion(pylanceVersion);
+  }
   const versionSpec = core.getInput("version");
   if (versionSpec) {
-    if (versionSpec === "pylance-release" || versionSpec === "pylance-prerelease") {
-      return await getPylancePyrightVersion(versionSpec);
-    }
     return new import_semver2.default(versionSpec).format();
   }
   return "latest";
@@ -7152,25 +7156,14 @@ async function getPyrightVersion() {
 async function getPylancePyrightVersion(versionSpec) {
   const client = new httpClient.HttpClient();
   const resp = await client.get(
-    "https://raw.githubusercontent.com/debonte/pylance-release/main/pyrightVersions.json"
+    `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${versionSpec}.json`
   );
   const versionJson = await resp.readBody();
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-    throw new Error("Failed to download Pylance version map");
+    throw new Error(`Failed to download build metadata for Pylance ${versionSpec}`);
   }
   const jsonObject = JSON.parse(versionJson);
-  for (const build of jsonObject.versions) {
-    if (versionSpec === "pylance-prerelease" && isPylancePrereleaseVersion(build.pylance) || versionSpec === "pylance-release" && isPylanceReleaseVersion(build.pylance)) {
-      return build.pyright;
-    }
-  }
-  throw new Error("Unknown Pylance version");
-}
-function isPylancePrereleaseVersion(versionSpec) {
-  return !isPylanceReleaseVersion(versionSpec);
-}
-function isPylanceReleaseVersion(versionSpec) {
-  return versionSpec.endsWith("0");
+  return jsonObject.pyrightVersion;
 }
 
 // src/main.ts
