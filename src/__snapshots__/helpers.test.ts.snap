@@ -1,5 +1,50 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`getActionVersion > core.getInput 1`] = `[]`;
+
+exports[`getActionVersion > tc.cacheDir 1`] = `[]`;
+
+exports[`getActionVersion > tc.downloadTool 1`] = `[]`;
+
+exports[`getActionVersion > tc.extractTar 1`] = `[]`;
+
+exports[`getActionVersion > tc.find 1`] = `[]`;
+
+exports[`getArgs > bad pylance-version > core.getInput 1`] = `
+[
+  [
+    "pylance-version",
+  ],
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > bad pylance-version > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > bad pylance-version > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > bad pylance-version > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > bad pylance-version > tc.find 1`] = `[]`;
+
+exports[`getArgs > bad version > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > bad version > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > bad version > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > bad version > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > bad version > tc.find 1`] = `[]`;
+
 exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
 [
   [
@@ -1843,3 +1888,23 @@ exports[`getArgs > valid version > version not found > tc.downloadTool 1`] = `[]
 exports[`getArgs > valid version > version not found > tc.extractTar 1`] = `[]`;
 
 exports[`getArgs > valid version > version not found > tc.find 1`] = `[]`;
+
+exports[`getNodeInfo > core.getInput 1`] = `[]`;
+
+exports[`getNodeInfo > tc.cacheDir 1`] = `[]`;
+
+exports[`getNodeInfo > tc.downloadTool 1`] = `[]`;
+
+exports[`getNodeInfo > tc.extractTar 1`] = `[]`;
+
+exports[`getNodeInfo > tc.find 1`] = `[]`;
+
+exports[`getNodeInfo node20 > core.getInput 1`] = `[]`;
+
+exports[`getNodeInfo node20 > tc.cacheDir 1`] = `[]`;
+
+exports[`getNodeInfo node20 > tc.downloadTool 1`] = `[]`;
+
+exports[`getNodeInfo node20 > tc.extractTar 1`] = `[]`;
+
+exports[`getNodeInfo node20 > tc.find 1`] = `[]`;

@@ -69,6 +69,20 @@ describe("getArgs", () => {
         await expect(getArgs()).rejects.toThrowError("not a semver");
     });
 
+    test("bad pylance-version", async () => {
+        mockedCore.getInput.mockImplementation((name, options) => {
+            expect(options).toBeUndefined();
+            switch (name) {
+                case "pylance-version":
+                    return "this is not a semver";
+                default:
+                    return "";
+            }
+        });
+
+        await expect(getArgs()).rejects.toThrowError("not a semver");
+    });
+
     describe("valid version", () => {
         const tarballPath = path.join(fakeRoot, "pyright.tar.gz");
         const extractedPath = path.join(fakeRoot, "pyright");
