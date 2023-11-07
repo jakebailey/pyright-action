@@ -10,6 +10,9 @@ inputs:
   version:
     description: 'Version of pyright to run. If not specified, the latest version will be used.'
     required: false
+  pylance-version:
+    description: 'Version of pylance whose pyright version should be run. If specified, takes precedence over the version option.'
+    required: false
   working-directory:
     description: 'Directory to run pyright in. If not specified, the repo root will be used.'
     required: false
