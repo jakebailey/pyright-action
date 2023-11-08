@@ -324,13 +324,25 @@ describe("getArgs", () => {
         });
 
         test("pylance-version", async () => {
-            const pylanceVersion = "9999.99.100";
+            const pylanceVersion = "2023.11.11";
             inputs.set("pylance-version", pylanceVersion);
 
             const result = await getArgs();
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse("9.9.999").dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
+        test("version takes precedence over pylance-version", async () => {
+            const version = "1.1.310";
+            inputs.set("version", version);
+            inputs.set("pylance-version", "2023.11.11");
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
     });

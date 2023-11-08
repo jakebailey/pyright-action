@@ -232,7 +232,7 @@ async function getPyrightVersion() {
     return "latest";
 }
 
-interface PylanceBuildMetadata {
+export interface PylanceBuildMetadata {
     pylanceVersion: string;
     pyrightVersion: string;
 }
