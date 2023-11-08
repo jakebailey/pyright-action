@@ -1180,6 +1180,139 @@ exports[`getArgs > valid version > no comments > tc.find 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
+[
+  [
+    "pylance-version",
+  ],
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > pylance-version > result 1`] = `
+{
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "noComments": false,
+  "pyrightVersion": "9.9.999",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > pylance-version > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > pylance-version > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > pylance-version > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > pylance-version > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > pylance-version not found > core.getInput 1`] = `
+[
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > pylance-version not found > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "9.9.999",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > pylance-version not found > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-9.9.999.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > pylance-version not found > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > pylance-version not found > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "9.9.999",
+  ],
+]
+`;
+
 exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
 [
   [

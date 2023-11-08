@@ -24,7 +24,7 @@ vitest.mock("node:fs");
 const mockedFs = vitest.mocked(fs);
 
 import { version as actionVersion } from "../package.json";
-import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
+import { getActionVersion, getArgs, getNodeInfo, PylanceBuildMetadata } from "./helpers";
 import type { NpmRegistryResponse } from "./schema";
 
 const fakeRoot = path.join(os.tmpdir(), "rootDir");
@@ -49,6 +49,13 @@ function getNpmResponse(version: string): NpmRegistryResponse {
         dist: {
             tarball: `https://registry.npmjs.org/pyright/-/pyright-${version}.tgz`,
         },
+    };
+}
+
+function getPylanceMetadata(pylanceVersion: string, pyrightVersion: string): PylanceBuildMetadata {
+    return {
+        pylanceVersion,
+        pyrightVersion,
     };
 }
 
@@ -124,6 +131,28 @@ describe("getArgs", () => {
                                     statusCode: 200,
                                 } as IncomingMessage,
                                 readBody: async () => JSON.stringify(getNpmResponse(version)),
+                            };
+                    }
+                }
+
+                const pylanceVersionPrefix = "https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/";
+                if (url.startsWith(pylanceVersionPrefix)) {
+                    const pylanceVersion = url.slice(pylanceVersionPrefix.length, -5);
+
+                    switch (pylanceVersion) {
+                        case "9999.99.404":
+                            return {
+                                message: {
+                                    statusCode: 404,
+                                } as IncomingMessage,
+                                readBody: async () => JSON.stringify("version not found: 9999.99.404"),
+                            };
+                        default:
+                            return {
+                                message: {
+                                    statusCode: 200,
+                                } as IncomingMessage,
+                                readBody: async () => JSON.stringify(getPylanceMetadata(pylanceVersion, "9.9.999")),
                             };
                     }
                 }
@@ -286,6 +315,22 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
+        test("pylance-version not found", async () => {
+            inputs.set("pylance-version", "9999.99.404");
+            await expect(getArgs()).rejects.toThrowError("version not found: 9999.99.404");
+        });
+
+        test("pylance-version", async () => {
+            const pylanceVersion = "9999.99.100";
+            inputs.set("pylance-version", pylanceVersion);
+
+            const result = await getArgs();
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse("9.9.999").dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
         });
     });
