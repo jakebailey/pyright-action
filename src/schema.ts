@@ -64,3 +64,13 @@ const NpmRegistryResponse = v.object({
 export function parseNpmRegistryResponse(v: unknown): NpmRegistryResponse {
     return NpmRegistryResponse.parse(v, { mode: "strip" });
 }
+
+export type PylanceBuildMetadata = v.Infer<typeof PylanceBuildMetadata>;
+const PylanceBuildMetadata = v.object({
+    pylanceVersion: v.string().assert(isSemVer, "must be a semver"),
+    pyrightVersion: v.string().assert(isSemVer, "must be a semver"),
+});
+
+export function parsePylanceBuildMetadata(v: unknown): PylanceBuildMetadata {
+    return PylanceBuildMetadata.parse(v, { mode: "strip" });
+}

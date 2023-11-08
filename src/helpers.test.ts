@@ -24,8 +24,8 @@ vitest.mock("node:fs");
 const mockedFs = vitest.mocked(fs);
 
 import { version as actionVersion } from "../package.json";
-import { getActionVersion, getArgs, getNodeInfo, PylanceBuildMetadata } from "./helpers";
-import type { NpmRegistryResponse } from "./schema";
+import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
+import type { NpmRegistryResponse, PylanceBuildMetadata } from "./schema";
 
 const fakeRoot = path.join(os.tmpdir(), "rootDir");
 

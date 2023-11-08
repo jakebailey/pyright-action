@@ -9,7 +9,7 @@ import SemVer from "semver/classes/semver";
 import { parse } from "shell-quote";
 
 import { version as actionVersion } from "../package.json";
-import { type NpmRegistryResponse, parseNpmRegistryResponse } from "./schema";
+import { type NpmRegistryResponse, parseNpmRegistryResponse, parsePylanceBuildMetadata } from "./schema";
 
 export function getActionVersion() {
     return actionVersion;
@@ -214,7 +214,7 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
     return parseNpmRegistryResponse(JSON.parse(body));
 }
 
-async function getPyrightVersion() {
+async function getPyrightVersion(): Promise<string> {
     const versionSpec = core.getInput("version");
     if (versionSpec) {
         return new SemVer(versionSpec).format();
@@ -232,12 +232,7 @@ async function getPyrightVersion() {
     return "latest";
 }
 
-export interface PylanceBuildMetadata {
-    pylanceVersion: string;
-    pyrightVersion: string;
-}
-
-async function getPylancePyrightVersion(pylanceVersion: string) {
+async function getPylancePyrightVersion(pylanceVersion: string): Promise<string> {
     const client = new httpClient.HttpClient();
     const resp = await client.get(
         `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${pylanceVersion}.json`,
@@ -247,8 +242,8 @@ async function getPylancePyrightVersion(pylanceVersion: string) {
         throw new Error(`Failed to download build metadata for Pylance ${pylanceVersion} -- ${body}`);
     }
 
-    const jsonObject = JSON.parse(body) as PylanceBuildMetadata;
-    const pyrightVersion = jsonObject.pyrightVersion;
+    const buildMetadata = parsePylanceBuildMetadata(JSON.parse(body));
+    const pyrightVersion = buildMetadata.pyrightVersion;
 
     core.info(`Pylance ${pylanceVersion} uses pyright ${pyrightVersion}`);
 

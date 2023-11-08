@@ -6997,6 +6997,13 @@ var NpmRegistryResponse = object({
 function parseNpmRegistryResponse(v) {
   return NpmRegistryResponse.parse(v, { mode: "strip" });
 }
+var PylanceBuildMetadata = object({
+  pylanceVersion: string().assert(isSemVer, "must be a semver"),
+  pyrightVersion: string().assert(isSemVer, "must be a semver")
+});
+function parsePylanceBuildMetadata(v) {
+  return PylanceBuildMetadata.parse(v, { mode: "strip" });
+}
 
 // src/helpers.ts
 function getActionVersion() {
@@ -7162,8 +7169,8 @@ async function getPylancePyrightVersion(pylanceVersion) {
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
     throw new Error(`Failed to download build metadata for Pylance ${pylanceVersion} -- ${body}`);
   }
-  const jsonObject = JSON.parse(body);
-  const pyrightVersion = jsonObject.pyrightVersion;
+  const buildMetadata = parsePylanceBuildMetadata(JSON.parse(body));
+  const pyrightVersion = buildMetadata.pyrightVersion;
   core.info(`Pylance ${pylanceVersion} uses pyright ${pyrightVersion}`);
   return pyrightVersion;
 }
