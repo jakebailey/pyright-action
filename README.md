@@ -135,3 +135,23 @@ poetry's python binary is on `$PATH`:
 
 - uses: jakebailey/pyright-action@v1
 ```
+
+## Keeping Pyright and Pylance in sync
+
+If you use Pylance as your language server, you'll likely want pyright-action to
+use the same version of `pyright` that Pylance does. The `pylance-version`
+option makes this easy.
+
+If you allow VS Code to auto-update Pylance, then set `pylance-version` to
+`latest-release` if you use Pylance's Release builds, or `latest-prerelease` if
+you use Pylance's Pre-Release builds. Alternatively, you can set it to a
+particular Pylance version number (ex. `2023.11.11`).
+
+Note that the `version` option takes precedence over `pylance-version`, so
+you'll want to set one or the other, not both.
+
+```yml
+- uses: jakebailey/pyright-action@v1
+  with:
+    pylance-version: latest-release
+```
