@@ -22,7 +22,10 @@ GitHub action for [pyright](https://github.com/microsoft/pyright). Featuring:
 inputs:
   # Options for pyright-action
   version:
-    description: 'Version of pyright to run. If not specified, the latest version will be used.'
+    description: 'Version of pyright to run. If neither version nor pylance-version are specified, the latest version will be used.'
+    required: false
+  pylance-version:
+    description: 'Version of pylance whose pyright version should be run. Can be latest-release, latest-prerelease, or a specific pylance version. Ignored if version option is specified.'
     required: false
   working-directory:
     description: 'Directory to run pyright in. If not specified, the repo root will be used.'
