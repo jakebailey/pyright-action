@@ -135,7 +135,8 @@ describe("getArgs", () => {
                     }
                 }
 
-                const pylanceVersionPrefix = "https://raw.githubusercontent.com/microsoft/pylance-release/main/releases/";
+                const pylanceVersionPrefix =
+                    "https://raw.githubusercontent.com/microsoft/pylance-release/main/releases/";
                 if (url.startsWith(pylanceVersionPrefix)) {
                     const pylanceVersion = url.slice(pylanceVersionPrefix.length, -5);
 
