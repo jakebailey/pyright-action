@@ -234,12 +234,11 @@ async function getPyrightVersion(): Promise<string> {
 
 async function getPylancePyrightVersion(pylanceVersion: string): Promise<string> {
     const client = new httpClient.HttpClient();
-    const resp = await client.get(
-        `https://raw.githubusercontent.com/microsoft/pylance-release/main/builds/${pylanceVersion}.json`,
-    );
+    const url = `https://raw.githubusercontent.com/microsoft/pylance-release/main/releases/${pylanceVersion}.json`;
+    const resp = await client.get(url);
     const body = await resp.readBody();
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-        throw new Error(`Failed to download build metadata for Pylance ${pylanceVersion} -- ${body}`);
+        throw new Error(`Failed to download build metadata for Pylance ${pylanceVersion} from ${url} -- ${body}`);
     }
 
     const buildMetadata = parsePylanceBuildMetadata(JSON.parse(body));
