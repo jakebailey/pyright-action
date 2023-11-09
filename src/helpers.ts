@@ -238,7 +238,7 @@ async function getPylancePyrightVersion(pylanceVersion: string): Promise<string>
     const resp = await client.get(url);
     const body = await resp.readBody();
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-        throw new Error(`Failed to download build metadata for Pylance ${pylanceVersion} from ${url} -- ${body}`);
+        throw new Error(`Failed to download release metadata for Pylance ${pylanceVersion} from ${url} -- ${body}`);
     }
 
     const buildMetadata = parsePylanceBuildMetadata(JSON.parse(body));
