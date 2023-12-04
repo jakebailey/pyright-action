@@ -29,7 +29,7 @@
         "@types/shell-quote": "^1.7.5",
         "@typescript-eslint/eslint-plugin": "^6.13.1",
         "@typescript-eslint/parser": "^6.13.1",
-        "@vitest/coverage-v8": "^0.34.6",
+        "@vitest/coverage-v8": "^1.0.0",
         "dprint": "^0.43.1",
         "esbuild": "^0.19.8",
         "eslint": "^8.54.0",
@@ -40,7 +40,7 @@
         "klona": "^2.0.6",
         "rimraf": "^5.0.5",
         "typescript": "~5.3.2",
-        "vitest": "^0.34.6"
+        "vitest": "^1.0.0"
     },
     "scripts": {
         "postinstall": "husky install",
