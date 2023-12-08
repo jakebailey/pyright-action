@@ -7134,10 +7134,11 @@ async function downloadPyright(info3) {
 async function getPyrightInfo() {
   const version3 = await getPyrightVersion();
   const client = new httpClient.HttpClient();
-  const resp = await client.get(`https://registry.npmjs.org/pyright/${version3}`);
+  const url = `https://registry.npmjs.org/pyright/${version3}`;
+  const resp = await client.get(url);
   const body = await resp.readBody();
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-    throw new Error(body);
+    throw new Error(`Failed to download metadata for pyright ${version3} from ${url} -- ${body}`);
   }
   return parseNpmRegistryResponse(JSON.parse(body));
 }

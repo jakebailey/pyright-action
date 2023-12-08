@@ -206,10 +206,11 @@ async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
 async function getPyrightInfo(): Promise<NpmRegistryResponse> {
     const version = await getPyrightVersion();
     const client = new httpClient.HttpClient();
-    const resp = await client.get(`https://registry.npmjs.org/pyright/${version}`);
+    const url = `https://registry.npmjs.org/pyright/${version}`;
+    const resp = await client.get(url);
     const body = await resp.readBody();
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-        throw new Error(body);
+        throw new Error(`Failed to download metadata for pyright ${version} from ${url} -- ${body}`);
     }
     return parseNpmRegistryResponse(JSON.parse(body));
 }
