@@ -34,7 +34,7 @@
         "esbuild": "^0.19.8",
         "eslint": "^8.54.0",
         "eslint-plugin-simple-import-sort": "^10.0.0",
-        "eslint-plugin-unicorn": "^49.0.0",
+        "eslint-plugin-unicorn": "^50.0.0",
         "husky": "^8.0.3",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
