@@ -2141,13 +2141,3 @@ exports[`getNodeInfo > tc.downloadTool 1`] = `[]`;
 exports[`getNodeInfo > tc.extractTar 1`] = `[]`;
 
 exports[`getNodeInfo > tc.find 1`] = `[]`;
-
-exports[`getNodeInfo node20 > core.getInput 1`] = `[]`;
-
-exports[`getNodeInfo node20 > tc.cacheDir 1`] = `[]`;
-
-exports[`getNodeInfo node20 > tc.downloadTool 1`] = `[]`;
-
-exports[`getNodeInfo node20 > tc.extractTar 1`] = `[]`;
-
-exports[`getNodeInfo node20 > tc.find 1`] = `[]`;

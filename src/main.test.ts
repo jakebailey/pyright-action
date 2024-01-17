@@ -8,7 +8,7 @@ import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 import * as helpers from "./helpers";
 
-const nodeVersion = "v16.14.2";
+const nodeVersion = "v20.8.1";
 const nodeExecPath = "/path/to/node";
 const pyrightVersion = "1.1.240";
 

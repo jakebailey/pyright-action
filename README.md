@@ -11,7 +11,7 @@ GitHub action for [pyright](https://github.com/microsoft/pyright). Featuring:
   - No dependency on `setup-node`.
 
 ```yml
-- uses: jakebailey/pyright-action@v1
+- uses: jakebailey/pyright-action@v2
   with:
     version: 1.1.311 # Optional (change me!)
 ```
@@ -114,7 +114,7 @@ there.
 
 - run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
 
-- uses: jakebailey/pyright-action@v1
+- uses: jakebailey/pyright-action@v2
 ```
 
 ## Use with poetry
@@ -133,7 +133,7 @@ poetry's python binary is on `$PATH`:
 - run: poetry install
 - run: echo "$(poetry env info --path)/bin" >> $GITHUB_PATH
 
-- uses: jakebailey/pyright-action@v1
+- uses: jakebailey/pyright-action@v2
 ```
 
 ## Keeping Pyright and Pylance in sync
@@ -151,7 +151,7 @@ Note that the `version` option takes precedence over `pylance-version`, so
 you'll want to set one or the other, not both.
 
 ```yml
-- uses: jakebailey/pyright-action@v1
+- uses: jakebailey/pyright-action@v2
   with:
     pylance-version: latest-release
 ```

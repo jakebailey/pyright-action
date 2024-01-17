@@ -1,5 +1,3 @@
-import * as cp from "node:child_process";
-import * as fs from "node:fs";
 import type { IncomingMessage } from "node:http";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -18,10 +16,6 @@ vitest.mock("@actions/http-client");
 const mockedHttpClient = vitest.mocked(httpClient, true);
 vitest.mock("@actions/tool-cache");
 const mockedTc = vitest.mocked(tc);
-vitest.mock("node:child_process");
-const mockedCp = vitest.mocked(cp);
-vitest.mock("node:fs");
-const mockedFs = vitest.mocked(fs);
 
 import { version as actionVersion } from "../package.json";
 import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
@@ -354,35 +348,6 @@ test("getNodeInfo", () => {
     expect(info).toEqual({
         version: process.version,
         execPath: process.execPath,
-    });
-});
-
-test("getNodeInfo node20", () => {
-    const fakeNode16 = "/home/runner/runners/2.308.0/externals/node16/bin/node";
-    const fakeNode20 = "/home/runner/runners/2.308.0/externals/node20/bin/node";
-    const fakeNode20Version = "v20.5.0";
-
-    mockedFs.existsSync.mockImplementation((path) => {
-        expect(path).toEqual(fakeNode20);
-        return true;
-    });
-
-    function mockExecFileSync(file: string, args: string[]): string {
-        expect(file).toEqual(fakeNode20);
-        expect(args).toEqual(["--version"]);
-        return fakeNode20Version + "\n";
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    mockedCp.execFileSync.mockImplementation(mockExecFileSync as any);
-
-    const info = getNodeInfo({
-        execPath: fakeNode16,
-        version: process.version,
-    });
-
-    expect(info).toEqual({
-        version: fakeNode20Version,
-        execPath: fakeNode20,
     });
 });
 

@@ -5,7 +5,7 @@ exports[`no comments > failure > command.issueCommand 1`] = `[]`;
 exports[`no comments > failure > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -53,7 +53,7 @@ exports[`no comments > success > command.issueCommand 1`] = `[]`;
 exports[`no comments > success > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -111,7 +111,7 @@ exports[`with comments > failure > command.issueCommand 1`] = `[]`;
 exports[`with comments > failure > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -155,7 +155,7 @@ exports[`with comments > invalid stdout > command.issueCommand 1`] = `[]`;
 exports[`with comments > invalid stdout > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -199,7 +199,7 @@ exports[`with comments > no diagnostics > command.issueCommand 1`] = `[]`;
 exports[`with comments > no diagnostics > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -240,7 +240,7 @@ exports[`with comments > unparsable json > command.issueCommand 1`] = `[]`;
 exports[`with comments > unparsable json > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -251,7 +251,7 @@ exports[`with comments > unparsable json > core.info 1`] = `
 exports[`with comments > unparsable json > core.setFailed 1`] = `
 [
   [
-    [SyntaxError: Unexpected token } in JSON at position 0],
+    [SyntaxError: Unexpected token '}', "}" is not valid JSON],
   ],
 ]
 `;
@@ -305,7 +305,7 @@ exports[`with comments > with 1 each > command.issueCommand 1`] = `
 exports[`with comments > with 1 each > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",
@@ -400,7 +400,7 @@ exports[`with comments > with diagnostics > command.issueCommand 1`] = `
 exports[`with comments > with diagnostics > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v16.14.2, pyright-action 1.1.0",
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
     "/path/to/node /path/to/pyright/dist/index.js --outputjson",

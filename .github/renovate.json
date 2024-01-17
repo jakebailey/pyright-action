@@ -18,7 +18,7 @@
             "matchPackageNames": [
                 "@types/node"
             ],
-            "allowedVersions": "^16"
+            "allowedVersions": "^20"
         },
         {
             "matchManagers": ["github-actions"],

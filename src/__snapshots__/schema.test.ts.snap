@@ -14,7 +14,7 @@ exports[`parseReport > good > report 1`] = `
   "generalDiagnostics": [
     {
       "file": "/home/jake/work/python/typeshed/stubs/cryptography/cryptography/x509/__init__.pyi",
-      "message": "\\"X509Backend\\" is unknown import symbol",
+      "message": ""X509Backend" is unknown import symbol",
       "range": {
         "end": {
           "character": 63,
