@@ -12,7 +12,7 @@
             "matchPackageNames": [
                 "npm"
             ],
-            "allowedVersions": "^8"
+            "allowedVersions": "^10"
         },
         {
             "matchPackageNames": [
