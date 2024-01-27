@@ -31,7 +31,7 @@
         "@typescript-eslint/parser": "^6.19.0",
         "@vitest/coverage-v8": "^1.2.1",
         "dprint": "^0.45.0",
-        "esbuild": "^0.19.11",
+        "esbuild": "^0.20.0",
         "eslint": "^8.56.0",
         "eslint-plugin-simple-import-sort": "^10.0.0",
         "eslint-plugin-unicorn": "^50.0.1",
