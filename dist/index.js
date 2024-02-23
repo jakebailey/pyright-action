@@ -7162,9 +7162,10 @@ async function getPylancePyrightVersion(pylanceVersion) {
 }
 
 // src/main.ts
-function printInfo(pyrightVersion, node, args) {
+function printInfo(pyrightVersion, node, cwd, args) {
   core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
-  core2.info(`${node.execPath} ${(0, import_shell_quote2.quote)(args)}`);
+  core2.info(`Working directory: ${cwd}`);
+  core2.info(`Running: ${node.execPath} ${(0, import_shell_quote2.quote)(args)}`);
 }
 async function main() {
   try {
@@ -7174,7 +7175,7 @@ async function main() {
       process.chdir(workingDirectory);
     }
     if (noComments) {
-      printInfo(pyrightVersion, node, args);
+      printInfo(pyrightVersion, node, process.cwd(), args);
       const { status: status2 } = cp.spawnSync(node.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]
       });
@@ -7187,7 +7188,7 @@ async function main() {
     if (!updatedArgs.includes("--outputjson")) {
       updatedArgs.push("--outputjson");
     }
-    printInfo(pyrightVersion, node, updatedArgs);
+    printInfo(pyrightVersion, node, process.cwd(), updatedArgs);
     const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],

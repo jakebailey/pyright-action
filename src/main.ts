@@ -8,9 +8,10 @@ import { quote } from "shell-quote";
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
-function printInfo(pyrightVersion: string, node: NodeInfo, args: string[]) {
+function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: string[]) {
     core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
-    core.info(`${node.execPath} ${quote(args)}`);
+    core.info(`Working directory: ${cwd}`);
+    core.info(`Running: ${node.execPath} ${quote(args)}`);
 }
 
 export async function main() {
@@ -22,7 +23,7 @@ export async function main() {
         }
 
         if (noComments) {
-            printInfo(pyrightVersion, node, args);
+            printInfo(pyrightVersion, node, process.cwd(), args);
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.
             // If we're running the type verifier, there's no guarantee that we can even act
@@ -44,7 +45,7 @@ export async function main() {
             updatedArgs.push("--outputjson");
         }
 
-        printInfo(pyrightVersion, node, updatedArgs);
+        printInfo(pyrightVersion, node, process.cwd(), updatedArgs);
 
         const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
             encoding: "utf8",

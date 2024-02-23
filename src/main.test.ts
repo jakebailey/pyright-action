@@ -22,6 +22,9 @@ vitest.mock("./helpers");
 const mockedHelpers = vitest.mocked(helpers);
 
 const mockedProcessChdir = vitest.spyOn(process, "chdir");
+const mockedProcessCwd = vitest.spyOn(process, "cwd");
+
+let currentWorkingDirectory = "/some/default/cwd";
 
 import { main } from "./main";
 import type { Report } from "./schema";
@@ -33,7 +36,10 @@ beforeEach(() => {
         execPath: nodeExecPath,
     });
     mockedHelpers.getActionVersion.mockReturnValue("1.1.0");
-    mockedProcessChdir.mockReturnValue(undefined); // This is a spy mock; prevent real process from being called.
+    mockedProcessChdir.mockImplementation((dir) => {
+        currentWorkingDirectory = dir;
+    });
+    mockedProcessCwd.mockImplementation(() => currentWorkingDirectory);
 });
 
 afterEach(() => {

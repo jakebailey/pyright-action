@@ -8,7 +8,10 @@ exports[`no comments > failure > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
 ]
 `;
@@ -56,7 +59,10 @@ exports[`no comments > success > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
 ]
 `;
@@ -114,7 +120,10 @@ exports[`with comments > failure > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
 ]
 `;
@@ -158,7 +167,10 @@ exports[`with comments > invalid stdout > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
 ]
 `;
@@ -202,7 +214,10 @@ exports[`with comments > no diagnostics > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
   [
     "0 errors, 0 warnings, 0 informations",
@@ -243,7 +258,10 @@ exports[`with comments > unparsable json > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
 ]
 `;
@@ -308,7 +326,10 @@ exports[`with comments > with 1 each > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
   [
     "/path/to/file1.py:1:1 - error: some error",
@@ -403,7 +424,10 @@ exports[`with comments > with diagnostics > core.info 1`] = `
     "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
   ],
   [
-    "/path/to/node /path/to/pyright/dist/index.js --outputjson",
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
   ],
   [
     "/path/to/file1.py:1:1 - error: some error",
