@@ -87,3 +87,13 @@ jobs:
 
       - run: npm ci
       - run: npx dprint check
+
+  smoke-test:
+    name: Smoke Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
