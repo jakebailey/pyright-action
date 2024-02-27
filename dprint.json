@@ -31,9 +31,9 @@
         "coverage/**"
     ],
     "plugins": [
-        "https://plugins.dprint.dev/typescript-0.88.9.wasm",
-        "https://plugins.dprint.dev/json-0.19.1.wasm",
-        "https://plugins.dprint.dev/markdown-0.16.3.wasm",
-        "https://plugins.dprint.dev/prettier-0.34.0.json@637611b35f5815edf865bd677927159fae0a3f00db5142c840b4ff430a787286"
+        "https://plugins.dprint.dev/typescript-0.89.3.wasm",
+        "https://plugins.dprint.dev/json-0.19.2.wasm",
+        "https://plugins.dprint.dev/markdown-0.16.4.wasm",
+        "https://plugins.dprint.dev/prettier-0.38.1.json@ae9b60b1ca7e22223cb47325b3d42c681444b46863d28ed92edc426f8a177e58"
     ]
 }
