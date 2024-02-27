@@ -157,6 +157,11 @@ function checkOverriddenFlags(args: readonly string[]) {
             break;
         }
     }
+
+    if (configPath && !configPath.endsWith(".json")) {
+        configPath = path.posix.join(configPath, "pyrightconfig.json");
+    }
+
     configPath ??= "pyrightconfig.json";
 
     let parsed: unknown;

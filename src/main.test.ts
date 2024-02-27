@@ -347,6 +347,29 @@ describe("with overridden flags", () => {
         await main();
     });
 
+    test("explicit pyrightconfig.json directory", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args: [...flags, "--project", "/some/path/to"],
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("/some/path/to/pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("/some/path/to/pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
     test("explicit pyrightconfig.json bad json", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
             noComments: true,

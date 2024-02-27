@@ -10164,6 +10164,9 @@ function checkOverriddenFlags(args) {
       break;
     }
   }
+  if (configPath && !configPath.endsWith(".json")) {
+    configPath = path2.posix.join(configPath, "pyrightconfig.json");
+  }
   configPath ??= "pyrightconfig.json";
   let parsed;
   if (fs.existsSync(configPath)) {
