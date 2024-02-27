@@ -9495,7 +9495,7 @@ function checkOverriddenFlags(args) {
     let cwd = process.cwd();
     const root = path2.parse(cwd).root;
     while (cwd !== root) {
-      const pyprojectPath = path2.join(cwd, "pyproject.toml");
+      const pyprojectPath = path2.posix.join(cwd, "pyproject.toml");
       if (fs.existsSync(pyprojectPath)) {
         const pyproject = TOML.parse(fs.readFileSync(pyprojectPath, "utf8"));
         parsed = pyproject["tool"]["pyright"];
