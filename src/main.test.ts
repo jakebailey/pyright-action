@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
 import * as cp from "node:child_process";
+import * as fs from "node:fs";
 
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
+import * as TOML from "@iarna/toml";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 import * as helpers from "./helpers";
@@ -20,6 +22,8 @@ vitest.mock("node:child_process");
 const mockedCp = vitest.mocked(cp);
 vitest.mock("./helpers");
 const mockedHelpers = vitest.mocked(helpers);
+vitest.mock("node:fs");
+const mockedFs = vitest.mocked(fs);
 
 const mockedProcessChdir = vitest.spyOn(process, "chdir");
 const mockedProcessCwd = vitest.spyOn(process, "cwd");
@@ -46,8 +50,12 @@ afterEach(() => {
     expect(mockedProcessChdir.mock.calls).toMatchSnapshot("process.chdir");
     expect(mockedCore.setFailed.mock.calls).toMatchSnapshot("core.setFailed");
     expect(mockedCore.info.mock.calls).toMatchSnapshot("core.info");
+    expect(mockedCore.warning.mock.calls).toMatchSnapshot("core.warning");
+    expect(mockedCore.error.mock.calls).toMatchSnapshot("core.error");
     expect(mockedCommand.issueCommand.mock.calls).toMatchSnapshot("command.issueCommand");
     expect(mockedCp.spawnSync.mock.calls).toMatchSnapshot("cp.spawnSync");
+    expect(mockedFs.readFileSync.mock.calls).toMatchSnapshot("fs.readFileSync");
+    expect(mockedFs.existsSync.mock.calls).toMatchSnapshot("fs.existsSync");
 });
 
 test("thrown error at first call", async () => {
@@ -257,6 +265,175 @@ describe("with comments", () => {
             status: 1,
             signal: null,
         }));
+
+        await main();
+    });
+});
+
+describe("with overridden flags", () => {
+    const wd = "/some/wd/is/deep";
+
+    const config = {
+        pythonPlatform: "Linux",
+        pythonVersion: "3.9",
+        typeshedPath: "/path/to/typeshed",
+        venvPath: "/path/to/venv",
+    };
+
+    const configJSON = JSON.stringify(config);
+
+    const configToml = TOML.stringify({
+        tool: {
+            pyright: config,
+        },
+    });
+
+    const flags = [...helpers.flagsOverriddenByConfig];
+
+    beforeEach(() => {
+        mockedCp.spawnSync.mockImplementation(() => ({
+            pid: -1,
+            output: [],
+            stdout: "" as any,
+            stderr: "" as any,
+            status: 0,
+            signal: null,
+        }));
+    });
+
+    test("implicit pyrightconfig.json", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("explicit pyrightconfig.json", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args: [...flags, "--project", "/some/path/to/pyrightconfig.json"],
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("/some/path/to/pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("/some/path/to/pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("explicit pyrightconfig.json bad json", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args: [...flags, "--project", "/some/path/to/pyrightconfig.json"],
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("/some/path/to/pyrightconfig.json");
+                return "this is not JSON";
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("/some/path/to/pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("pyproject.toml", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("/some/wd/pyproject.toml");
+                return configToml;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            switch (p) {
+                case "pyrightconfig.json":
+                    return false;
+                case "/some/wd/is/deep/pyproject.toml":
+                    return false;
+                case "/some/wd/is/pyproject.toml":
+                    return false;
+                case "/some/wd/pyproject.toml":
+                    return true;
+                default:
+                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                    throw new Error(`unexpected path: ${p}`);
+            }
+        });
+
+        await main();
+    });
+
+    test("pyproject.toml bad toml", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            noComments: true,
+            workingDirectory: wd,
+            pyrightVersion,
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("/some/wd/pyproject.toml");
+                return "this is not toml";
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            switch (p) {
+                case "pyrightconfig.json":
+                    return false;
+                case "/some/wd/is/deep/pyproject.toml":
+                    return false;
+                case "/some/wd/is/pyproject.toml":
+                    return false;
+                case "/some/wd/pyproject.toml":
+                    return true;
+                default:
+                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                    throw new Error(`unexpected path: ${p}`);
+            }
+        });
 
         await main();
     });

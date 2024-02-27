@@ -2,6 +2,8 @@
 
 exports[`no comments > failure > command.issueCommand 1`] = `[]`;
 
+exports[`no comments > failure > core.error 1`] = `[]`;
+
 exports[`no comments > failure > core.info 1`] = `
 [
   [
@@ -24,6 +26,8 @@ exports[`no comments > failure > core.setFailed 1`] = `
 ]
 `;
 
+exports[`no comments > failure > core.warning 1`] = `[]`;
+
 exports[`no comments > failure > cp.spawnSync 1`] = `
 [
   [
@@ -43,6 +47,10 @@ exports[`no comments > failure > cp.spawnSync 1`] = `
 ]
 `;
 
+exports[`no comments > failure > fs.existsSync 1`] = `[]`;
+
+exports[`no comments > failure > fs.readFileSync 1`] = `[]`;
+
 exports[`no comments > failure > process.chdir 1`] = `
 [
   [
@@ -52,6 +60,8 @@ exports[`no comments > failure > process.chdir 1`] = `
 `;
 
 exports[`no comments > success > command.issueCommand 1`] = `[]`;
+
+exports[`no comments > success > core.error 1`] = `[]`;
 
 exports[`no comments > success > core.info 1`] = `
 [
@@ -68,6 +78,8 @@ exports[`no comments > success > core.info 1`] = `
 `;
 
 exports[`no comments > success > core.setFailed 1`] = `[]`;
+
+exports[`no comments > success > core.warning 1`] = `[]`;
 
 exports[`no comments > success > cp.spawnSync 1`] = `
 [
@@ -88,6 +100,10 @@ exports[`no comments > success > cp.spawnSync 1`] = `
 ]
 `;
 
+exports[`no comments > success > fs.existsSync 1`] = `[]`;
+
+exports[`no comments > success > fs.readFileSync 1`] = `[]`;
+
 exports[`no comments > success > process.chdir 1`] = `
 [
   [
@@ -97,6 +113,8 @@ exports[`no comments > success > process.chdir 1`] = `
 `;
 
 exports[`thrown error at first call > command.issueCommand 1`] = `[]`;
+
+exports[`thrown error at first call > core.error 1`] = `[]`;
 
 exports[`thrown error at first call > core.info 1`] = `[]`;
 
@@ -108,11 +126,19 @@ exports[`thrown error at first call > core.setFailed 1`] = `
 ]
 `;
 
+exports[`thrown error at first call > core.warning 1`] = `[]`;
+
 exports[`thrown error at first call > cp.spawnSync 1`] = `[]`;
+
+exports[`thrown error at first call > fs.existsSync 1`] = `[]`;
+
+exports[`thrown error at first call > fs.readFileSync 1`] = `[]`;
 
 exports[`thrown error at first call > process.chdir 1`] = `[]`;
 
 exports[`with comments > failure > command.issueCommand 1`] = `[]`;
+
+exports[`with comments > failure > core.error 1`] = `[]`;
 
 exports[`with comments > failure > core.info 1`] = `
 [
@@ -136,6 +162,8 @@ exports[`with comments > failure > core.setFailed 1`] = `
 ]
 `;
 
+exports[`with comments > failure > core.warning 1`] = `[]`;
+
 exports[`with comments > failure > cp.spawnSync 1`] = `
 [
   [
@@ -157,9 +185,15 @@ exports[`with comments > failure > cp.spawnSync 1`] = `
 ]
 `;
 
+exports[`with comments > failure > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > failure > fs.readFileSync 1`] = `[]`;
+
 exports[`with comments > failure > process.chdir 1`] = `[]`;
 
 exports[`with comments > invalid stdout > command.issueCommand 1`] = `[]`;
+
+exports[`with comments > invalid stdout > core.error 1`] = `[]`;
 
 exports[`with comments > invalid stdout > core.info 1`] = `
 [
@@ -183,6 +217,8 @@ exports[`with comments > invalid stdout > core.setFailed 1`] = `
 ]
 `;
 
+exports[`with comments > invalid stdout > core.warning 1`] = `[]`;
+
 exports[`with comments > invalid stdout > cp.spawnSync 1`] = `
 [
   [
@@ -204,9 +240,15 @@ exports[`with comments > invalid stdout > cp.spawnSync 1`] = `
 ]
 `;
 
+exports[`with comments > invalid stdout > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > invalid stdout > fs.readFileSync 1`] = `[]`;
+
 exports[`with comments > invalid stdout > process.chdir 1`] = `[]`;
 
 exports[`with comments > no diagnostics > command.issueCommand 1`] = `[]`;
+
+exports[`with comments > no diagnostics > core.error 1`] = `[]`;
 
 exports[`with comments > no diagnostics > core.info 1`] = `
 [
@@ -226,6 +268,8 @@ exports[`with comments > no diagnostics > core.info 1`] = `
 `;
 
 exports[`with comments > no diagnostics > core.setFailed 1`] = `[]`;
+
+exports[`with comments > no diagnostics > core.warning 1`] = `[]`;
 
 exports[`with comments > no diagnostics > cp.spawnSync 1`] = `
 [
@@ -248,9 +292,15 @@ exports[`with comments > no diagnostics > cp.spawnSync 1`] = `
 ]
 `;
 
+exports[`with comments > no diagnostics > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > no diagnostics > fs.readFileSync 1`] = `[]`;
+
 exports[`with comments > no diagnostics > process.chdir 1`] = `[]`;
 
 exports[`with comments > unparsable json > command.issueCommand 1`] = `[]`;
+
+exports[`with comments > unparsable json > core.error 1`] = `[]`;
 
 exports[`with comments > unparsable json > core.info 1`] = `
 [
@@ -274,6 +324,8 @@ exports[`with comments > unparsable json > core.setFailed 1`] = `
 ]
 `;
 
+exports[`with comments > unparsable json > core.warning 1`] = `[]`;
+
 exports[`with comments > unparsable json > cp.spawnSync 1`] = `
 [
   [
@@ -294,6 +346,10 @@ exports[`with comments > unparsable json > cp.spawnSync 1`] = `
   ],
 ]
 `;
+
+exports[`with comments > unparsable json > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > unparsable json > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > unparsable json > process.chdir 1`] = `[]`;
 
@@ -319,6 +375,8 @@ exports[`with comments > with 1 each > command.issueCommand 1`] = `
   ],
 ]
 `;
+
+exports[`with comments > with 1 each > core.error 1`] = `[]`;
 
 exports[`with comments > with 1 each > core.info 1`] = `
 [
@@ -354,6 +412,8 @@ exports[`with comments > with 1 each > core.setFailed 1`] = `
 ]
 `;
 
+exports[`with comments > with 1 each > core.warning 1`] = `[]`;
+
 exports[`with comments > with 1 each > cp.spawnSync 1`] = `
 [
   [
@@ -374,6 +434,10 @@ exports[`with comments > with 1 each > cp.spawnSync 1`] = `
   ],
 ]
 `;
+
+exports[`with comments > with 1 each > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > with 1 each > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > with 1 each > process.chdir 1`] = `[]`;
 
@@ -418,6 +482,8 @@ exports[`with comments > with diagnostics > command.issueCommand 1`] = `
 ]
 `;
 
+exports[`with comments > with diagnostics > core.error 1`] = `[]`;
+
 exports[`with comments > with diagnostics > core.info 1`] = `
 [
   [
@@ -458,6 +524,8 @@ exports[`with comments > with diagnostics > core.setFailed 1`] = `
 ]
 `;
 
+exports[`with comments > with diagnostics > core.warning 1`] = `[]`;
+
 exports[`with comments > with diagnostics > cp.spawnSync 1`] = `
 [
   [
@@ -479,4 +547,415 @@ exports[`with comments > with diagnostics > cp.spawnSync 1`] = `
 ]
 `;
 
+exports[`with comments > with diagnostics > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > with diagnostics > fs.readFileSync 1`] = `[]`;
+
 exports[`with comments > with diagnostics > process.chdir 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > core.error 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath --project /some/path/to/pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > core.warning 1`] = `
+[
+  [
+    "/some/path/to/pyrightconfig.json contains { pythonPlatform: 'Linux' }; --pythonplatform as passed by pyright-action will have no effect.",
+  ],
+  [
+    "/some/path/to/pyrightconfig.json contains { pythonVersion: '3.9' }; --pythonversion as passed by pyright-action will have no effect.",
+  ],
+  [
+    "/some/path/to/pyrightconfig.json contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "/some/path/to/pyrightconfig.json contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+      "--project",
+      "/some/path/to/pyrightconfig.json",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > fs.existsSync 1`] = `
+[
+  [
+    "/some/path/to/pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > fs.readFileSync 1`] = `
+[
+  [
+    "/some/path/to/pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > core.error 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath --project /some/path/to/pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > core.warning 1`] = `[]`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+      "--project",
+      "/some/path/to/pyrightconfig.json",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > fs.existsSync 1`] = `
+[
+  [
+    "/some/path/to/pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > fs.readFileSync 1`] = `
+[
+  [
+    "/some/path/to/pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > explicit pyrightconfig.json bad json > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > core.error 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > core.warning 1`] = `
+[
+  [
+    "pyrightconfig.json contains { pythonPlatform: 'Linux' }; --pythonplatform as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { pythonVersion: '3.9' }; --pythonversion as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > fs.readFileSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml > core.error 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml > core.warning 1`] = `
+[
+  [
+    "/some/wd/pyproject.toml contains { pythonPlatform: 'Linux' }; --pythonplatform as passed by pyright-action will have no effect.",
+  ],
+  [
+    "/some/wd/pyproject.toml contains { pythonVersion: '3.9' }; --pythonversion as passed by pyright-action will have no effect.",
+  ],
+  [
+    "/some/wd/pyproject.toml contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "/some/wd/pyproject.toml contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+  [
+    "/some/wd/is/deep/pyproject.toml",
+  ],
+  [
+    "/some/wd/is/pyproject.toml",
+  ],
+  [
+    "/some/wd/pyproject.toml",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml > fs.readFileSync 1`] = `
+[
+  [
+    "/some/wd/pyproject.toml",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml bad toml > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml bad toml > core.error 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml bad toml > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml bad toml > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml bad toml > core.warning 1`] = `[]`;
+
+exports[`with overridden flags > pyproject.toml bad toml > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml bad toml > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+  [
+    "/some/wd/is/deep/pyproject.toml",
+  ],
+  [
+    "/some/wd/is/pyproject.toml",
+  ],
+  [
+    "/some/wd/pyproject.toml",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml bad toml > fs.readFileSync 1`] = `
+[
+  [
+    "/some/wd/pyproject.toml",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > pyproject.toml bad toml > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;

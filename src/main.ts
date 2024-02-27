@@ -1,11 +1,16 @@
 import assert from "node:assert";
 import * as cp from "node:child_process";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { inspect } from "node:util";
 
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
+import * as TOML from "@iarna/toml";
+import JSONC from "jsonc-parser";
 import { quote } from "shell-quote";
 
-import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
+import { flagsOverriddenByConfig, getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
 function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: string[]) {
@@ -20,6 +25,12 @@ export async function main() {
         const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
         if (workingDirectory) {
             process.chdir(workingDirectory);
+        }
+
+        try {
+            checkOverriddenFlags(args);
+        } catch {
+            // Just ignore.
         }
 
         if (noComments) {
@@ -129,4 +140,60 @@ function diagnosticToString(diag: Diagnostic, forCommand: boolean): string {
 
 function pluralize(n: number, singular: string, plural: string) {
     return `${n} ${n === 1 ? singular : plural}`;
+}
+
+function checkOverriddenFlags(args: readonly string[]) {
+    const overriddenFlags = new Set(
+        args.map((arg) => arg.toLowerCase()).filter((arg) => flagsOverriddenByConfig.has(arg)),
+    );
+    if (overriddenFlags.size === 0) {
+        return;
+    }
+
+    let configPath: string | undefined;
+    for (let i = 0; i < args.length; i++) {
+        if (args[i] === "-p" || args[i] === "--project") {
+            configPath = args[i + 1];
+            break;
+        }
+    }
+    configPath ??= "pyrightconfig.json";
+
+    let parsed: unknown;
+    if (fs.existsSync(configPath)) {
+        const errors: JSONC.ParseError[] = [];
+        parsed = JSONC.parse(fs.readFileSync(configPath, "utf8"), errors, {
+            allowTrailingComma: true,
+        });
+        if (errors.length > 0) {
+            return;
+        }
+    } else {
+        let cwd = process.cwd();
+        const root = path.parse(cwd).root;
+
+        while (cwd !== root) {
+            const pyprojectPath = path.join(cwd, "pyproject.toml");
+            if (fs.existsSync(pyprojectPath)) {
+                const pyproject = TOML.parse(fs.readFileSync(pyprojectPath, "utf8"));
+                parsed = (pyproject as { tool: { pyright: any; }; })["tool"]["pyright"];
+                configPath = pyprojectPath;
+                break;
+            }
+            cwd = path.dirname(cwd);
+        }
+    }
+
+    if (parsed !== undefined && parsed !== null) {
+        for (const [key, value] of Object.entries<unknown>(parsed as {})) {
+            const flag = `--${key.toLowerCase()}`;
+            if (overriddenFlags.has(flag)) {
+                core.warning(
+                    `${configPath} contains ${
+                        inspect({ [key]: value })
+                    }; ${flag} as passed by pyright-action will have no effect.`,
+                );
+            }
+        }
+    }
 }
