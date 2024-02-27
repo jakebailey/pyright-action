@@ -7,7 +7,7 @@ import { inspect } from "node:util";
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
-import JSONC from "jsonc-parser";
+import * as JSONC from "jsonc-parser";
 import { quote } from "shell-quote";
 
 import { flagsOverriddenByConfig, getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";

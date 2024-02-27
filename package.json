@@ -51,7 +51,7 @@
     },
     "scripts": {
         "postinstall": "husky install",
-        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node20",
+        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node20 --main-fields=module,main",
         "update:all": "npx npm-check-updates -u && npm install",
         "update:all:transitive": "npx npm-check-updates -u && rimraf package-lock.json node_modules && npm install",
         "test": "vitest",
