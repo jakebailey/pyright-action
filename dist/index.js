@@ -8118,7 +8118,7 @@ var import_semver2 = __toESM(require_semver2());
 var import_shell_quote = __toESM(require_shell_quote());
 
 // package.json
-var version2 = "2.0.2";
+var version2 = "2.1.0";
 
 // node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
