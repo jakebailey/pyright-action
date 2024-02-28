@@ -13,7 +13,7 @@ import { quote } from "shell-quote";
 import { flagsOverriddenByConfig, getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
-function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: string[]) {
+function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: readonly string[]) {
     core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
     core.info(`Working directory: ${cwd}`);
     core.info(`Running: ${node.execPath} ${quote(args)}`);
@@ -22,7 +22,7 @@ function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: st
 export async function main() {
     try {
         const node = getNodeInfo(process);
-        const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
+        const { workingDirectory, annotate, pyrightVersion, args } = await getArgs();
         if (workingDirectory) {
             process.chdir(workingDirectory);
         }
@@ -33,7 +33,7 @@ export async function main() {
             // Just ignore.
         }
 
-        if (noComments) {
+        if (annotate.size === 0) {
             printInfo(pyrightVersion, node, process.cwd(), args);
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.
@@ -76,6 +76,10 @@ export async function main() {
             core.info(diagnosticToString(diag, /* forCommand */ false));
 
             if (diag.severity === "information") {
+                continue;
+            }
+
+            if (!annotate.has(diag.severity)) {
                 continue;
             }
 

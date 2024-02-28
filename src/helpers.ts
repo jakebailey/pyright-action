@@ -27,7 +27,7 @@ export function getNodeInfo(process: NodeInfo): NodeInfo {
 
 export interface Args {
     workingDirectory: string;
-    noComments: boolean;
+    annotate: ReadonlySet<"error" | "warning">;
     pyrightVersion: string;
     args: readonly string[];
 }
@@ -59,7 +59,7 @@ export const flagsOverriddenByConfig = new Set([
 // other way and settled on no dashes in flag names. So, it's probably clearer
 // if this action supports the names without dashes.
 
-export async function getArgs() {
+export async function getArgs(): Promise<Args> {
     const pyrightInfo = await getPyrightInfo();
     const pyrightPath = await downloadPyright(pyrightInfo);
 
@@ -165,15 +165,54 @@ export async function getArgs() {
         }
     }
 
+    let annotateInput = core.getInput("annotate").trim() || "all";
+    if (isAnnotateNone(annotateInput)) {
+        annotateInput = "";
+    } else if (isAnnotateAll(annotateInput)) {
+        annotateInput = "errors, warnings";
+    }
+
+    const split = annotateInput ? annotateInput.split(",") : [];
+    const annotate = new Set<"error" | "warning">();
+
+    for (let value of split) {
+        value = value.trim();
+        switch (value) {
+            case "errors":
+                annotate.add("error");
+                break;
+            case "warnings":
+                annotate.add("warning");
+                break;
+            default:
+                if (isAnnotateAll(value) || isAnnotateNone(value)) {
+                    throw new Error(`invalid value ${JSON.stringify(value)} in comma-separated annotate`);
+                }
+                throw new Error(`invalid value ${JSON.stringify(value)} for annotate`);
+        }
+    }
+
     const noComments = getBooleanInput("no-comments", false)
         || args.some((arg) => flagsWithoutCommentingSupport.has(arg));
 
+    if (noComments) {
+        annotate.clear();
+    }
+
     return {
         workingDirectory,
-        noComments,
+        annotate,
         pyrightVersion: pyrightInfo.version,
         args,
     };
+}
+
+function isAnnotateNone(name: string): boolean {
+    return name === "none" || name.toUpperCase() === "FALSE";
+}
+
+function isAnnotateAll(name: string): boolean {
+    return name === "all" || name.toUpperCase() === "TRUE";
 }
 
 function getBooleanInput(name: string, defaultValue: boolean): boolean {

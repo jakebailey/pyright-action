@@ -30,10 +30,10 @@ inputs:
   working-directory:
     description: 'Directory to run pyright in. If not specified, the repo root will be used.'
     required: false
-  no-comments:
-    description: 'Disable issue/commit comments.'
+  annotate:
+    description: 'A comma separated list of check annotations to emit. May be "none"/"false", "errors", "warnings", or "all"/"true" (shorthand for "errors, warnings").'
     required: false
-    default: 'false'
+    default: 'all'
 
   # Shorthand for pyright flags
   create-stub:
@@ -93,6 +93,13 @@ inputs:
     description: 'Use library code to infer types when stubs are missing.'
     required: false
     default: 'false'
+
+  # Deprecated
+  no-comments:
+    description: 'Disable issue/commit comments.'
+    required: false
+    default: 'false'
+    deprecationMessage: 'Use "annotate" instead.'
 ```
 
 ## Use with a virtualenv

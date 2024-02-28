@@ -72,7 +72,7 @@ describe("no comments", () => {
 
     beforeEach(() => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args,
@@ -111,7 +111,7 @@ describe("with comments", () => {
 
     beforeEach(() => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: false,
+            annotate: new Set(["error", "warning"]),
             workingDirectory: "",
             pyrightVersion,
             args,
@@ -178,6 +178,124 @@ describe("with comments", () => {
     });
 
     test("with diagnostics", async () => {
+        mockedCp.spawnSync.mockImplementation(() => ({
+            pid: -1,
+            output: [],
+            stdout: reportToString({
+                generalDiagnostics: [
+                    {
+                        file: "/path/to/file1.py",
+                        range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
+                        severity: "error",
+                        message: "some error",
+                    },
+                    {
+                        file: "/path/to/file2.py",
+                        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+                        severity: "warning",
+                        message: "some warning",
+                    },
+                    {
+                        file: "/path/to/file3.py",
+                        range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
+                        severity: "information",
+                        message: "some info",
+                        rule: "reportSomeInformation",
+                    },
+                    {
+                        file: "/path/to/file3.py",
+                        severity: "warning",
+                        message: "another warning",
+                        rule: "reportSomeWarning",
+                    },
+                    {
+                        file: "/path/to/file1.py",
+                        range: { start: { line: 5, character: 9 }, end: { line: 5, character: 15 } },
+                        severity: "error",
+                        message: "some error",
+                    },
+                ],
+                summary: {
+                    errorCount: 2,
+                    warningCount: 2,
+                    informationCount: 1,
+                },
+            }) as any,
+            stderr: "" as any,
+            status: 1,
+            signal: null,
+        }));
+
+        await main();
+    });
+
+    test("errors", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(["error"]),
+            workingDirectory: "",
+            pyrightVersion,
+            args,
+        });
+
+        mockedCp.spawnSync.mockImplementation(() => ({
+            pid: -1,
+            output: [],
+            stdout: reportToString({
+                generalDiagnostics: [
+                    {
+                        file: "/path/to/file1.py",
+                        range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
+                        severity: "error",
+                        message: "some error",
+                    },
+                    {
+                        file: "/path/to/file2.py",
+                        range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+                        severity: "warning",
+                        message: "some warning",
+                    },
+                    {
+                        file: "/path/to/file3.py",
+                        range: { start: { line: 0, character: 0 }, end: { line: 1, character: 1 } },
+                        severity: "information",
+                        message: "some info",
+                        rule: "reportSomeInformation",
+                    },
+                    {
+                        file: "/path/to/file3.py",
+                        severity: "warning",
+                        message: "another warning",
+                        rule: "reportSomeWarning",
+                    },
+                    {
+                        file: "/path/to/file1.py",
+                        range: { start: { line: 5, character: 9 }, end: { line: 5, character: 15 } },
+                        severity: "error",
+                        message: "some error",
+                    },
+                ],
+                summary: {
+                    errorCount: 2,
+                    warningCount: 2,
+                    informationCount: 1,
+                },
+            }) as any,
+            stderr: "" as any,
+            status: 1,
+            signal: null,
+        }));
+
+        await main();
+    });
+
+    test("errors,warnings", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(["error", "warning"]),
+            workingDirectory: "",
+            pyrightVersion,
+            args,
+        });
+
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
@@ -303,7 +421,7 @@ describe("with overridden flags", () => {
 
     test("implicit pyrightconfig.json", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args: flags,
@@ -326,7 +444,7 @@ describe("with overridden flags", () => {
 
     test("explicit pyrightconfig.json", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args: [...flags, "--project", "/some/path/to/pyrightconfig.json"],
@@ -349,7 +467,7 @@ describe("with overridden flags", () => {
 
     test("explicit pyrightconfig.json directory", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args: [...flags, "--project", "/some/path/to"],
@@ -372,7 +490,7 @@ describe("with overridden flags", () => {
 
     test("explicit pyrightconfig.json bad json", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args: [...flags, "--project", "/some/path/to/pyrightconfig.json"],
@@ -395,7 +513,7 @@ describe("with overridden flags", () => {
 
     test("pyproject.toml", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args: flags,
@@ -429,7 +547,7 @@ describe("with overridden flags", () => {
 
     test("pyproject.toml bad toml", async () => {
         mockedHelpers.getArgs.mockResolvedValue({
-            noComments: true,
+            annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
             args: flags,

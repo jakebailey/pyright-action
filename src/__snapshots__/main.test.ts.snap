@@ -136,6 +136,212 @@ exports[`thrown error at first call > fs.readFileSync 1`] = `[]`;
 
 exports[`thrown error at first call > process.chdir 1`] = `[]`;
 
+exports[`with comments > errors > command.issueCommand 1`] = `
+[
+  [
+    "error",
+    {
+      "col": 1,
+      "file": "/path/to/file1.py",
+      "line": 1,
+    },
+    "some error",
+  ],
+  [
+    "error",
+    {
+      "col": 10,
+      "file": "/path/to/file1.py",
+      "line": 6,
+    },
+    "some error",
+  ],
+]
+`;
+
+exports[`with comments > errors > core.error 1`] = `[]`;
+
+exports[`with comments > errors > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+  [
+    "/path/to/file1.py:1:1 - error: some error",
+  ],
+  [
+    "/path/to/file2.py: warning: some warning",
+  ],
+  [
+    "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
+  ],
+  [
+    "/path/to/file3.py: warning: another warning (reportSomeWarning)",
+  ],
+  [
+    "/path/to/file1.py:6:10 - error: some error",
+  ],
+  [
+    "2 errors, 2 warnings, 1 information",
+  ],
+]
+`;
+
+exports[`with comments > errors > core.setFailed 1`] = `
+[
+  [
+    "2 errors",
+  ],
+]
+`;
+
+exports[`with comments > errors > core.warning 1`] = `[]`;
+
+exports[`with comments > errors > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    {
+      "encoding": "utf8",
+      "maxBuffer": 104857600,
+      "stdio": [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments > errors > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > errors > fs.readFileSync 1`] = `[]`;
+
+exports[`with comments > errors > process.chdir 1`] = `[]`;
+
+exports[`with comments > errors,warnings > command.issueCommand 1`] = `
+[
+  [
+    "error",
+    {
+      "col": 1,
+      "file": "/path/to/file1.py",
+      "line": 1,
+    },
+    "some error",
+  ],
+  [
+    "warning",
+    {
+      "col": 1,
+      "file": "/path/to/file2.py",
+      "line": 1,
+    },
+    "some warning",
+  ],
+  [
+    "warning",
+    {
+      "col": 1,
+      "file": "/path/to/file3.py",
+      "line": 1,
+    },
+    "another warning (reportSomeWarning)",
+  ],
+  [
+    "error",
+    {
+      "col": 10,
+      "file": "/path/to/file1.py",
+      "line": 6,
+    },
+    "some error",
+  ],
+]
+`;
+
+exports[`with comments > errors,warnings > core.error 1`] = `[]`;
+
+exports[`with comments > errors,warnings > core.info 1`] = `
+[
+  [
+    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd",
+  ],
+  [
+    "Running: /path/to/node /path/to/pyright/dist/index.js --outputjson",
+  ],
+  [
+    "/path/to/file1.py:1:1 - error: some error",
+  ],
+  [
+    "/path/to/file2.py: warning: some warning",
+  ],
+  [
+    "/path/to/file3.py:1:1 - information: some info (reportSomeInformation)",
+  ],
+  [
+    "/path/to/file3.py: warning: another warning (reportSomeWarning)",
+  ],
+  [
+    "/path/to/file1.py:6:10 - error: some error",
+  ],
+  [
+    "2 errors, 2 warnings, 1 information",
+  ],
+]
+`;
+
+exports[`with comments > errors,warnings > core.setFailed 1`] = `
+[
+  [
+    "2 errors",
+  ],
+]
+`;
+
+exports[`with comments > errors,warnings > core.warning 1`] = `[]`;
+
+exports[`with comments > errors,warnings > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "/path/to/pyright/dist/index.js",
+      "--outputjson",
+    ],
+    {
+      "encoding": "utf8",
+      "maxBuffer": 104857600,
+      "stdio": [
+        "ignore",
+        "pipe",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with comments > errors,warnings > fs.existsSync 1`] = `[]`;
+
+exports[`with comments > errors,warnings > fs.readFileSync 1`] = `[]`;
+
+exports[`with comments > errors,warnings > process.chdir 1`] = `[]`;
+
 exports[`with comments > failure > command.issueCommand 1`] = `[]`;
 
 exports[`with comments > failure > core.error 1`] = `[]`;

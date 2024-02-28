@@ -48,6 +48,9 @@ exports[`getArgs > bad version > tc.find 1`] = `[]`;
 exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
 [
   [
+    "annotate",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -112,6 +115,10 @@ exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
 
 exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--typeshed-path",
@@ -119,7 +126,6 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
     "--venv-path",
     "/path/to-venv",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.308",
   "workingDirectory": "",
 }
@@ -162,6 +168,9 @@ exports[`getArgs > valid version > 1.1.308 dashes > tc.find 1`] = `
 
 exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -227,6 +236,10 @@ exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
 
 exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--typeshedpath",
@@ -234,7 +247,6 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
     "--venvpath",
     "/path/to-venv",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.309",
   "workingDirectory": "",
 }
@@ -277,6 +289,9 @@ exports[`getArgs > valid version > 1.1.309 dashes > tc.find 1`] = `
 
 exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -342,6 +357,10 @@ exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
 
 exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--typeshedpath",
@@ -349,7 +368,6 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
     "--venvpath",
     "/path/to-venv",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.310",
   "workingDirectory": "",
 }
@@ -390,8 +408,1052 @@ exports[`getArgs > valid version > 1.1.310 dashes > tc.find 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "" > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "all" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "all" > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "all" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "all" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "all" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "all" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors" > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "errors" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "none" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "none" > result 1`] = `
+{
+  "annotate": Set {},
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "none" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "none" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "none" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "none" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
+{
+  "annotate": Set {
+    "warning",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "warnings" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
+{
+  "annotate": Set {
+    "warning",
+    "error",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid comma > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "project",
+  ],
+  [
+    "pylance-version",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid comma > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid comma > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid comma > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > annotate invalid comma > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
 exports[`getArgs > valid version > cached > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -460,10 +1522,13 @@ exports[`getArgs > valid version > cached > core.getInput 1`] = `
 
 exports[`getArgs > valid version > cached > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -486,6 +1551,9 @@ exports[`getArgs > valid version > cached > tc.find 1`] = `
 
 exports[`getArgs > valid version > createstub > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -554,12 +1622,12 @@ exports[`getArgs > valid version > createstub > core.getInput 1`] = `
 
 exports[`getArgs > valid version > createstub > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--createstub",
     "pygame",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -602,6 +1670,9 @@ exports[`getArgs > valid version > createstub > tc.find 1`] = `
 
 exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -670,12 +1741,12 @@ exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
 
 exports[`getArgs > valid version > dependencies > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--dependencies",
     "TRUE",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -819,6 +1890,9 @@ exports[`getArgs > valid version > extra-args malformed > tc.find 1`] = `
 exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
 [
   [
+    "annotate",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -886,13 +1960,16 @@ exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
 
 exports[`getArgs > valid version > extra-args quotes > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--foo",
     "--bar",
     "--baz=quoted value",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -935,6 +2012,9 @@ exports[`getArgs > valid version > extra-args quotes > tc.find 1`] = `
 
 exports[`getArgs > valid version > many options > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1003,6 +2083,10 @@ exports[`getArgs > valid version > many options > core.getInput 1`] = `
 
 exports[`getArgs > valid version > many options > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--level",
@@ -1025,7 +2109,6 @@ exports[`getArgs > valid version > many options > result 1`] = `
     "--bar",
     "--baz",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "/path/to/project",
 }
@@ -1068,6 +2151,9 @@ exports[`getArgs > valid version > many options > tc.find 1`] = `
 
 exports[`getArgs > valid version > no comments > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1136,10 +2222,10 @@ exports[`getArgs > valid version > no comments > core.getInput 1`] = `
 
 exports[`getArgs > valid version > no comments > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1182,6 +2268,9 @@ exports[`getArgs > valid version > no comments > tc.find 1`] = `
 
 exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1250,10 +2339,13 @@ exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
 
 exports[`getArgs > valid version > pylance-version > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
-  "noComments": false,
   "pyrightVersion": "9.9.999",
   "workingDirectory": "",
 }
@@ -1315,6 +2407,9 @@ exports[`getArgs > valid version > pylance-version not found > tc.find 1`] = `[]
 
 exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1383,11 +2478,14 @@ exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
 
 exports[`getArgs > valid version > skip-unannotated > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--skipunannotated",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1430,6 +2528,9 @@ exports[`getArgs > valid version > skip-unannotated > tc.find 1`] = `
 
 exports[`getArgs > valid version > stats > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1498,11 +2599,11 @@ exports[`getArgs > valid version > stats > core.getInput 1`] = `
 
 exports[`getArgs > valid version > stats > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--stats",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1545,6 +2646,9 @@ exports[`getArgs > valid version > stats > tc.find 1`] = `
 
 exports[`getArgs > valid version > verbose > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1613,11 +2717,14 @@ exports[`getArgs > valid version > verbose > core.getInput 1`] = `
 
 exports[`getArgs > valid version > verbose > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--lib",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1660,6 +2767,9 @@ exports[`getArgs > valid version > verbose > tc.find 1`] = `
 
 exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1728,11 +2838,11 @@ exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
 
 exports[`getArgs > valid version > verbose flag > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--verbose",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1775,6 +2885,9 @@ exports[`getArgs > valid version > verbose flag > tc.find 1`] = `
 
 exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1843,13 +2956,13 @@ exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
 
 exports[`getArgs > valid version > verifytypes > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--ignoreexternal",
     "--verifytypes",
     "some.package",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1892,6 +3005,9 @@ exports[`getArgs > valid version > verifytypes > tc.find 1`] = `
 
 exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -1960,11 +3076,11 @@ exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
 
 exports[`getArgs > valid version > verifytypes flag > result 1`] = `
 {
+  "annotate": Set {},
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--verifytypes",
   ],
-  "noComments": true,
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2023,6 +3139,9 @@ exports[`getArgs > valid version > version not found > tc.find 1`] = `[]`;
 
 exports[`getArgs > valid version > version takes precedence over pylance-version > core.getInput 1`] = `
 [
+  [
+    "annotate",
+  ],
   [
     "create-stub",
   ],
@@ -2088,10 +3207,13 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
 
 exports[`getArgs > valid version > version takes precedence over pylance-version > result 1`] = `
 {
+  "annotate": Set {
+    "error",
+    "warning",
+  },
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
-  "noComments": false,
   "pyrightVersion": "1.1.310",
   "workingDirectory": "",
 }

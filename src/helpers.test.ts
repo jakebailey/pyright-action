@@ -186,6 +186,28 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
         });
 
+        test.each(["", "all", "none", "errors", "errors, warnings", "warnings", "warnings,errors"])(
+            "annotate %j",
+            async (input) => {
+                inputs.set("annotate", input);
+
+                const result = await getArgs();
+                expect(result).toMatchSnapshot("result");
+            },
+        );
+
+        test("annotate invalid", async () => {
+            inputs.set("annotate", "invalid");
+
+            await expect(getArgs()).rejects.toThrowError('invalid value "invalid" for annotate');
+        });
+
+        test("annotate invalid comma", async () => {
+            inputs.set("annotate", "errors,all");
+
+            await expect(getArgs()).rejects.toThrowError('invalid value "all" in comma-separated annotate');
+        });
+
         test("verifytypes", async () => {
             inputs.set("verify-types", "some.package");
             inputs.set("ignore-external", "true");

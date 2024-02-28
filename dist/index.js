@@ -9981,13 +9981,46 @@ async function getArgs() {
       args.push(arg);
     }
   }
+  let annotateInput = core.getInput("annotate").trim() || "all";
+  if (isAnnotateNone(annotateInput)) {
+    annotateInput = "";
+  } else if (isAnnotateAll(annotateInput)) {
+    annotateInput = "errors, warnings";
+  }
+  const split = annotateInput ? annotateInput.split(",") : [];
+  const annotate = /* @__PURE__ */ new Set();
+  for (let value of split) {
+    value = value.trim();
+    switch (value) {
+      case "errors":
+        annotate.add("error");
+        break;
+      case "warnings":
+        annotate.add("warning");
+        break;
+      default:
+        if (isAnnotateAll(value) || isAnnotateNone(value)) {
+          throw new Error(`invalid value ${JSON.stringify(value)} in comma-separated annotate`);
+        }
+        throw new Error(`invalid value ${JSON.stringify(value)} for annotate`);
+    }
+  }
   const noComments = getBooleanInput("no-comments", false) || args.some((arg) => flagsWithoutCommentingSupport.has(arg));
+  if (noComments) {
+    annotate.clear();
+  }
   return {
     workingDirectory,
-    noComments,
+    annotate,
     pyrightVersion: pyrightInfo.version,
     args
   };
+}
+function isAnnotateNone(name) {
+  return name === "none" || name.toUpperCase() === "FALSE";
+}
+function isAnnotateAll(name) {
+  return name === "all" || name.toUpperCase() === "TRUE";
 }
 function getBooleanInput(name, defaultValue) {
   const input = core.getInput(name);
@@ -10054,7 +10087,7 @@ function printInfo(pyrightVersion, node, cwd, args) {
 async function main() {
   try {
     const node = getNodeInfo(process);
-    const { workingDirectory, noComments, pyrightVersion, args } = await getArgs();
+    const { workingDirectory, annotate, pyrightVersion, args } = await getArgs();
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
@@ -10062,7 +10095,7 @@ async function main() {
       checkOverriddenFlags(args);
     } catch {
     }
-    if (noComments) {
+    if (annotate.size === 0) {
       printInfo(pyrightVersion, node, process.cwd(), args);
       const { status: status2 } = cp.spawnSync(node.execPath, args, {
         stdio: ["ignore", "inherit", "inherit"]
@@ -10095,6 +10128,9 @@ async function main() {
         false
       ));
       if (diag.severity === "information") {
+        continue;
+      }
+      if (!annotate.has(diag.severity)) {
         continue;
       }
       const line = diag.range?.start.line ?? 0;
