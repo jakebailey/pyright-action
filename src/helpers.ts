@@ -42,17 +42,6 @@ const flagsWithoutCommentingSupport = new Set([
     "--dependencies",
 ]);
 
-// These settings have no effect when also set in a pyrightconfig.json.
-// https://github.com/microsoft/pyright/issues/7330
-export const flagsOverriddenByConfig = new Set([
-    "--pythonplatform",
-    "--pythonversion",
-    // pyright warns about these itself, but still takes the config file.
-    // Report these anyway, as the user should really stop configuring the action with these.
-    "--typeshedpath",
-    "--venvpath",
-]);
-
 // TODO: allow non-dashed forms to be passed as inputs. A long time ago, I
 // went with dashed names as pyright was not fully consistent, and dashes were
 // consistent with other GitHub actions. However, pyright has now gone the

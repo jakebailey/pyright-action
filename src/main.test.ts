@@ -30,7 +30,7 @@ const mockedProcessCwd = vitest.spyOn(process, "cwd");
 
 let currentWorkingDirectory = "/some/default/cwd";
 
-import { main } from "./main";
+import { flagsOverriddenByConfig351AndBefore, main } from "./main";
 import type { Report } from "./schema";
 
 beforeEach(() => {
@@ -406,7 +406,7 @@ describe("with overridden flags", () => {
         },
     });
 
-    const flags = [...helpers.flagsOverriddenByConfig];
+    const flags = [...flagsOverriddenByConfig351AndBefore];
 
     beforeEach(() => {
         mockedCp.spawnSync.mockImplementation(() => ({
@@ -424,6 +424,98 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("implicit pyrightconfig.json 1.1.350", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(),
+            workingDirectory: wd,
+            pyrightVersion: "1.1.350",
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("implicit pyrightconfig.json 1.1.351", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(),
+            workingDirectory: wd,
+            pyrightVersion: "1.1.351",
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("implicit pyrightconfig.json 1.1.352", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(),
+            workingDirectory: wd,
+            pyrightVersion: "1.1.352",
+            args: flags,
+        });
+
+        mockedFs.readFileSync.mockImplementation(
+            ((p) => {
+                expect(p).toBe("pyrightconfig.json");
+                return configJSON;
+            }) as typeof fs.readFileSync,
+        );
+
+        mockedFs.existsSync.mockImplementation((p) => {
+            expect(p).toBe("pyrightconfig.json");
+            return true;
+        });
+
+        await main();
+    });
+
+    test("implicit pyrightconfig.json 1.1.353", async () => {
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(),
+            workingDirectory: wd,
+            pyrightVersion: "1.1.353",
             args: flags,
         });
 

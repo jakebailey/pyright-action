@@ -1082,6 +1082,326 @@ exports[`with overridden flags > implicit pyrightconfig.json > process.chdir 1`]
 ]
 `;
 
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.error 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.info 1`] = `
+[
+  [
+    "pyright 1.1.350, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.warning 1`] = `
+[
+  [
+    "pyrightconfig.json contains { pythonPlatform: 'Linux' }; --pythonplatform as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { pythonVersion: '3.9' }; --pythonversion as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > fs.readFileSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.error 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.info 1`] = `
+[
+  [
+    "pyright 1.1.351, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.warning 1`] = `
+[
+  [
+    "pyrightconfig.json contains { pythonPlatform: 'Linux' }; --pythonplatform as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { pythonVersion: '3.9' }; --pythonversion as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > fs.readFileSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.error 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.info 1`] = `
+[
+  [
+    "pyright 1.1.352, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.warning 1`] = `
+[
+  [
+    "pyrightconfig.json contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > fs.readFileSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > command.issueCommand 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.error 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.info 1`] = `
+[
+  [
+    "pyright 1.1.353, node v20.8.1, pyright-action 1.1.0",
+  ],
+  [
+    "Working directory: /some/wd/is/deep",
+  ],
+  [
+    "Running: /path/to/node --pythonplatform --pythonversion --typeshedpath --venvpath",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.setFailed 1`] = `[]`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.warning 1`] = `
+[
+  [
+    "pyrightconfig.json contains { typeshedPath: '/path/to/typeshed' }; --typeshedpath as passed by pyright-action will have no effect.",
+  ],
+  [
+    "pyrightconfig.json contains { venvPath: '/path/to/venv' }; --venvpath as passed by pyright-action will have no effect.",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > cp.spawnSync 1`] = `
+[
+  [
+    "/path/to/node",
+    [
+      "--pythonplatform",
+      "--pythonversion",
+      "--typeshedpath",
+      "--venvpath",
+    ],
+    {
+      "stdio": [
+        "ignore",
+        "inherit",
+        "inherit",
+      ],
+    },
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > fs.existsSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > fs.readFileSync 1`] = `
+[
+  [
+    "pyrightconfig.json",
+    "utf8",
+  ],
+]
+`;
+
+exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > process.chdir 1`] = `
+[
+  [
+    "/some/wd/is/deep",
+  ],
+]
+`;
+
 exports[`with overridden flags > pyproject.toml > command.issueCommand 1`] = `[]`;
 
 exports[`with overridden flags > pyproject.toml > core.error 1`] = `[]`;

@@ -8,9 +8,10 @@ import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
 import * as JSONC from "jsonc-parser";
+import SemVer from "semver/classes/semver";
 import { quote } from "shell-quote";
 
-import { flagsOverriddenByConfig, getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
+import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
 function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: readonly string[]) {
@@ -28,7 +29,7 @@ export async function main() {
         }
 
         try {
-            checkOverriddenFlags(args);
+            checkOverriddenFlags(pyrightVersion, args);
         } catch {
             // Just ignore.
         }
@@ -146,7 +147,31 @@ function pluralize(n: number, singular: string, plural: string) {
     return `${n} ${n === 1 ? singular : plural}`;
 }
 
-function checkOverriddenFlags(args: readonly string[]) {
+const flagsOverriddenByConfig352AndAfter = new Set([
+    // pyright warns about these itself, but still takes the config file.
+    // Report these anyway, as the user should really stop configuring the action with these.
+    "--typeshedpath",
+    "--venvpath",
+]);
+
+// These settings have no effect when also set in a pyrightconfig.json.
+// https://github.com/microsoft/pyright/issues/7330
+export const flagsOverriddenByConfig351AndBefore = new Set([
+    "--pythonplatform",
+    "--pythonversion",
+    ...flagsOverriddenByConfig352AndAfter,
+]);
+
+function getFlagsOverriddenByConfig(version: string): ReadonlySet<string> {
+    const pyrightVersion = new SemVer(version);
+    return pyrightVersion.compare("1.1.352") === -1
+        ? flagsOverriddenByConfig351AndBefore
+        : flagsOverriddenByConfig352AndAfter;
+}
+
+function checkOverriddenFlags(version: string, args: readonly string[]) {
+    const flagsOverriddenByConfig = getFlagsOverriddenByConfig(version);
+
     const overriddenFlags = new Set(
         args.map((arg) => arg.toLowerCase()).filter((arg) => flagsOverriddenByConfig.has(arg)),
     );
