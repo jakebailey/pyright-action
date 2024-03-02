@@ -8953,7 +8953,7 @@ var ValitaError = class extends Error {
     return this._issues;
   }
 };
-var Err = class {
+var ErrImpl = class {
   constructor(issueTree) {
     this.issueTree = issueTree;
     this.ok = false;
@@ -8982,7 +8982,9 @@ function ok(value) {
 function isObject(v) {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
-var Nothing = Symbol.for("valita.Nothing");
+var FLAG_FORBID_EXTRA_KEYS = 1;
+var FLAG_STRIP_EXTRA_KEYS = 2;
+var FLAG_MISSING_VALUE = 4;
 var AbstractType = class {
   optional() {
     return new Optional(this);
@@ -8995,56 +8997,61 @@ var AbstractType = class {
   }
   assert(func, error) {
     const err = { ok: false, code: "custom_error", error };
-    return new TransformType(this, (v) => func(v) ? void 0 : err);
+    return new TransformType(this, (v, options) => func(v, options) ? void 0 : err);
   }
   map(func) {
-    return new TransformType(this, (v) => ({
+    return new TransformType(this, (v, options) => ({
       ok: true,
-      value: func(v)
+      value: func(v, options)
     }));
   }
   chain(func) {
-    return new TransformType(this, (v) => {
-      const r = func(v);
+    return new TransformType(this, (v, options) => {
+      const r = func(v, options);
       return r.ok ? r : r.issueTree;
     });
   }
 };
 var Type = class extends AbstractType {
+  /**
+   * Return new validator that accepts both the original type and `null`.
+   */
   nullable() {
-    return union(nullSingleton, this);
+    return new Nullable(this);
   }
   toTerminals(func) {
     func(this);
   }
+  /**
+   * Parse a value without throwing.
+   */
   try(v, options) {
-    let mode = 1;
-    if (options !== void 0) {
-      if (options.mode === "passthrough") {
-        mode = 0;
-      } else if (options.mode === "strip") {
-        mode = 2;
-      }
+    let flags = FLAG_FORBID_EXTRA_KEYS;
+    if (options?.mode === "passthrough") {
+      flags = 0;
+    } else if (options?.mode === "strip") {
+      flags = FLAG_STRIP_EXTRA_KEYS;
     }
-    const r = this.func(v, mode);
+    const r = this.func(v, flags);
     if (r === void 0) {
       return { ok: true, value: v };
     } else if (r.ok) {
       return { ok: true, value: r.value };
     } else {
-      return new Err(r);
+      return new ErrImpl(r);
     }
   }
+  /**
+   * Parse a value. Throw a ValitaError on failure.
+   */
   parse(v, options) {
-    let mode = 1;
-    if (options !== void 0) {
-      if (options.mode === "passthrough") {
-        mode = 0;
-      } else if (options.mode === "strip") {
-        mode = 2;
-      }
+    let flags = FLAG_FORBID_EXTRA_KEYS;
+    if (options?.mode === "passthrough") {
+      flags = 0;
+    } else if (options?.mode === "strip") {
+      flags = FLAG_STRIP_EXTRA_KEYS;
     }
-    const r = this.func(v, mode);
+    const r = this.func(v, flags);
     if (r === void 0) {
       return v;
     } else if (r.ok) {
@@ -9054,14 +9061,31 @@ var Type = class extends AbstractType {
     }
   }
 };
+var Nullable = class extends Type {
+  constructor(type) {
+    super();
+    this.type = type;
+    this.name = "nullable";
+  }
+  func(v, flags) {
+    return v === null ? void 0 : this.type.func(v, flags);
+  }
+  toTerminals(func) {
+    func(nullSingleton);
+    this.type.toTerminals(func);
+  }
+  nullable() {
+    return this;
+  }
+};
 var Optional = class extends AbstractType {
   constructor(type) {
     super();
     this.type = type;
     this.name = "optional";
   }
-  func(v, mode) {
-    return v === void 0 || v === Nothing ? void 0 : this.type.func(v, mode);
+  func(v, flags) {
+    return v === void 0 || flags & FLAG_MISSING_VALUE ? void 0 : this.type.func(v, flags);
   }
   toTerminals(func) {
     func(this);
@@ -9111,13 +9135,13 @@ var ObjectType = class _ObjectType extends Type {
       }
     ]);
   }
-  func(v, mode) {
+  func(v, flags) {
     let func = this._func;
     if (func === void 0) {
       func = createObjectMatcher(this.shape, this.restType, this.checks);
       this._func = func;
     }
-    return func(v, mode);
+    return func(v, flags);
   }
   rest(restType) {
     return new _ObjectType(this.shape, restType);
@@ -9206,7 +9230,7 @@ function createObjectMatcher(shape, rest, checks) {
       obj[key] = value;
     }
   }
-  return function(obj, mode) {
+  return function(obj, flags) {
     if (!isObject(obj)) {
       return invalidType;
     }
@@ -9216,7 +9240,7 @@ function createObjectMatcher(shape, rest, checks) {
     let unrecognized = void 0;
     let seenBits = 0;
     let seenCount = 0;
-    if (mode !== 0 || rest !== void 0) {
+    if (flags & FLAG_FORBID_EXTRA_KEYS || flags & FLAG_STRIP_EXTRA_KEYS || rest !== void 0) {
       for (const key in obj) {
         const value = obj[key];
         const index = ~invertedIndexes[key];
@@ -9224,17 +9248,17 @@ function createObjectMatcher(shape, rest, checks) {
         if (index >= 0) {
           seenCount++;
           seenBits = setBit(seenBits, index);
-          r = types[index].func(value, mode);
+          r = types[index].func(value, flags);
         } else if (rest !== void 0) {
-          r = rest.func(value, mode);
+          r = rest.func(value, flags);
         } else {
-          if (mode === 1) {
+          if (flags & FLAG_FORBID_EXTRA_KEYS) {
             if (unrecognized === void 0) {
               unrecognized = [key];
             } else {
               unrecognized.push(key);
             }
-          } else if (mode === 2 && issues === void 0 && !copied) {
+          } else if (flags & FLAG_STRIP_EXTRA_KEYS && issues === void 0 && !copied) {
             output = {};
             copied = true;
             for (let m = 0; m < totalCount; m++) {
@@ -9279,17 +9303,18 @@ function createObjectMatcher(shape, rest, checks) {
           continue;
         }
         const key = keys[i];
-        let value = obj[key];
+        const value = obj[key];
+        let keyFlags = flags & ~FLAG_MISSING_VALUE;
         if (value === void 0 && !(key in obj)) {
           if (i < requiredCount) {
             issues = joinIssues(issues, missingValues[i]);
             continue;
           }
-          value = Nothing;
+          keyFlags |= FLAG_MISSING_VALUE;
         }
-        const r = types[i].func(value, mode);
+        const r = types[i].func(value, keyFlags);
         if (r === void 0) {
-          if (copied && issues === void 0 && value !== Nothing) {
+          if (copied && issues === void 0 && !(keyFlags & FLAG_MISSING_VALUE)) {
             set(output, key, value);
           }
         } else if (!r.ok) {
@@ -9362,7 +9387,7 @@ var ArrayType = class extends Type {
       maxLength: this.maxLength
     };
   }
-  func(arr, mode) {
+  func(arr, flags) {
     if (!Array.isArray(arr)) {
       return this.invalidType;
     }
@@ -9376,7 +9401,7 @@ var ArrayType = class extends Type {
     let output = arr;
     for (let i = 0; i < arr.length; i++) {
       const type = i < minLength ? this.head[i] : this.rest;
-      const r = type.func(arr[i], mode);
+      const r = type.func(arr[i], flags);
       if (r !== void 0) {
         if (r.ok) {
           if (output === arr) {
@@ -9510,14 +9535,14 @@ function createObjectKeyMatcher(objects, key) {
   for (const [type, options] of types) {
     byType[type] = options[0];
   }
-  return function(_obj, mode) {
+  return function(_obj, flags) {
     const obj = _obj;
     const value = obj[key];
     if (value === void 0 && !(key in obj)) {
-      return optionals.length > 0 ? optionals[0].func(obj, mode) : missingValue;
+      return optionals.length > 0 ? optionals[0].func(obj, flags) : missingValue;
     }
     const option = byType?.[toInputType(value)] ?? litMap?.get(value);
-    return option ? option.func(obj, mode) : issue;
+    return option ? option.func(obj, flags) : issue;
   };
 }
 function createUnionObjectMatcher(terminals) {
@@ -9555,9 +9580,9 @@ function createUnionBaseMatcher(terminals) {
   for (const [type, options] of types) {
     byType[type] = options;
   }
-  return function(value, mode) {
+  return function(value, flags) {
     let options;
-    if (value === Nothing) {
+    if (flags & FLAG_MISSING_VALUE) {
       options = optionals;
     } else {
       options = byType?.[toInputType(value)] ?? litMap?.get(value) ?? unknowns;
@@ -9568,7 +9593,7 @@ function createUnionBaseMatcher(terminals) {
     let count = 0;
     let issueTree = issue;
     for (let i = 0; i < options.length; i++) {
-      const r = options[i].func(value, mode);
+      const r = options[i].func(value, flags);
       if (r === void 0 || r.ok) {
         return r;
       }
@@ -9590,7 +9615,7 @@ var UnionType = class extends Type {
   toTerminals(func) {
     this.options.forEach((o) => o.toTerminals(func));
   }
-  func(v, mode) {
+  func(v, flags) {
     let func = this._func;
     if (func === void 0) {
       const flattened = [];
@@ -9602,18 +9627,21 @@ var UnionType = class extends Type {
       if (!object2) {
         func = base;
       } else {
-        func = function(v2, mode2) {
+        func = function(v2, f) {
           if (isObject(v2)) {
-            return object2(v2, mode2);
+            return object2(v2, f);
           }
-          return base(v2, mode2);
+          return base(v2, f);
         };
       }
       this._func = func;
     }
-    return func(v, mode);
+    return func(v, flags);
   }
 };
+var STRICT = Object.freeze({ mode: "strict" });
+var STRIP = Object.freeze({ mode: "strip" });
+var PASSTHROUGH = Object.freeze({ mode: "passthrough" });
 var TransformType = class _TransformType extends Type {
   constructor(transformed, transform) {
     super();
@@ -9624,7 +9652,7 @@ var TransformType = class _TransformType extends Type {
     this.transformChain = void 0;
     this.transformRoot = void 0;
   }
-  func(v, mode) {
+  func(v, flags) {
     let chain = this.transformChain;
     if (!chain) {
       chain = [];
@@ -9637,21 +9665,22 @@ var TransformType = class _TransformType extends Type {
       this.transformChain = chain;
       this.transformRoot = next;
     }
-    let result = this.transformRoot.func(v, mode);
+    let result = this.transformRoot.func(v, flags);
     if (result !== void 0 && !result.ok) {
       return result;
     }
     let current;
     if (result !== void 0) {
       current = result.value;
-    } else if (v === Nothing) {
+    } else if (flags & FLAG_MISSING_VALUE) {
       current = void 0;
       result = this.undef;
     } else {
       current = v;
     }
+    const options = flags & FLAG_FORBID_EXTRA_KEYS ? STRICT : flags & FLAG_STRIP_EXTRA_KEYS ? STRIP : PASSTHROUGH;
     for (let i = 0; i < chain.length; i++) {
-      const r = chain[i](current, mode);
+      const r = chain[i](current, options);
       if (r !== void 0) {
         if (!r.ok) {
           return r;
