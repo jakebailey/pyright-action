@@ -1,9 +1,5 @@
 name: Setup
 
-defaults:
-  run:
-    shell: bash
-
 runs:
   using: composite
   steps:
@@ -13,3 +9,4 @@ runs:
         cache: 'npm'
 
     - run: npm ci
+      shell: bash
