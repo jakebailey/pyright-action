@@ -52,8 +52,6 @@
     "scripts": {
         "prepare": "husky",
         "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node20 --main-fields=module,main",
-        "update:all": "npx npm-check-updates -u && npm install",
-        "update:all:transitive": "npx npm-check-updates -u && rimraf package-lock.json node_modules && npm install",
         "test": "vitest",
         "test:coverage": "vitest run --coverage"
     },
@@ -71,9 +69,9 @@
             "web": true
         },
         "hooks": {
-            "before:init": "npm run test -- run",
+            "before:init": "pnpm run test --run",
             "after:git:release": "(git tag -d v2 && git push origin :refs/tags/v2) || true && git tag v2 && git push origin v2"
         }
     },
-    "packageManager": "npm@10.5.0+sha256.17ca6e08e7633b624e8f870db81a78f46afe119de62bcaf0a7407574139198fc"
+    "packageManager": "pnpm@8.15.4+sha256.cea6d0bdf2de3a0549582da3983c70c92ffc577ff4410cbf190817ddc35137c2"
 }

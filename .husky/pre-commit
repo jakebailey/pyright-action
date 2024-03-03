@@ -1,2 +1,2 @@
-npm run build
+pnpm build
 git add dist

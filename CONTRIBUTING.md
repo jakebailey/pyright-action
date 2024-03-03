@@ -8,7 +8,7 @@ re-tags `v2`. Unfortunately, you can only publish a GitHub action via the web UI
 create the release, where the marketplace checkbox will already be checked.
 
 ```
-$ npx release-it --ci                    # Release a patch version
-$ npx release-it --ci --increment minor  # Release a minor version bump.
-$ npx release-it --ci --increment major  # Don't do this unless .release-it.json is updated to potentially retag a new major version.
+$ pnpx release-it --ci                    # Release a patch version
+$ pnpx release-it --ci --increment minor  # Release a minor version bump.
+$ pnpx release-it --ci --increment major  # Don't do this unless .release-it.json is updated to potentially retag a new major version.
 ```
