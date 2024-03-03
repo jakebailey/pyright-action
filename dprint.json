@@ -28,7 +28,8 @@
         "**/node_modules",
         "**/*-lock.json",
         "dist/**",
-        "coverage/**"
+        "coverage/**",
+        "**/pnpm-lock.yaml"
     ],
     "plugins": [
         "https://plugins.dprint.dev/typescript-0.89.3.wasm",
