@@ -1,5 +1,9 @@
 name: Setup
 
+defaults:
+  run:
+    shell: bash
+
 runs:
   using: composite
   steps:
