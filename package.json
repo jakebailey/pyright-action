@@ -73,5 +73,5 @@
             "after:git:release": "(git tag -d v2 && git push origin :refs/tags/v2) || true && git tag v2 && git push origin v2"
         }
     },
-    "packageManager": "pnpm@8.15.4+sha256.cea6d0bdf2de3a0549582da3983c70c92ffc577ff4410cbf190817ddc35137c2"
+    "packageManager": "pnpm@8.15.5"
 }
