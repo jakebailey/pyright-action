@@ -186,7 +186,19 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
         });
 
-        test.each(["", "all", "none", "errors", "errors, warnings", "warnings", "warnings,errors"])(
+        test.each([
+            "",
+            "all",
+            "none",
+            "errors",
+            "errors, warnings",
+            "warnings",
+            "warnings,errors",
+            "true",
+            "false",
+            "True",
+            "False",
+        ])(
             "annotate %j",
             async (input) => {
                 inputs.set("annotate", input);
