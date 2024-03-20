@@ -16,7 +16,7 @@ dependencies:
     version: 2.0.1
   '@badrap/valita':
     specifier: ^0.3.6
-    version: 0.3.6
+    version: 0.3.8
   '@iarna/toml':
     specifier: ^2.2.5
     version: 2.2.5
@@ -182,8 +182,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@badrap/valita@0.3.6:
-    resolution: {integrity: sha512-muC3CXyRXw95wpLhWoPPp0grzjq8p50Z8taaaGZnWZaEEUY7O2mQ6xPhiNkv/kJbpYDI7bVlZ6pSZsmsrJv+3g==}
+  /@badrap/valita@0.3.8:
+    resolution: {integrity: sha512-aqzw+V8XSOkYlu7Aq1QhXqfxz5V6Vm6e0p6XZYZDEaGwSc6ac9OJ4B7U4BOo3mm7FzzRRHJ5yizeGKnj+REjBQ==}
     engines: {node: '>= 16'}
     dev: false
 
