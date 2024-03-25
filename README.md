@@ -162,3 +162,35 @@ you'll want to set one or the other, not both.
   with:
     pylance-version: latest-release
 ```
+
+## Keeping Pyright in sync with your project
+
+If you use Pyright in your project out of the CI, chances are that the Pyright
+version is already specified somewhere. We'll try to share in this section
+recipes for tying the version of Pyright used in the CI to the version used in
+your project. Those are generic recipes that you may need to adapt to your
+project's needs.
+
+### `pre-commit`
+
+If you're using `https://github.com/RobertCraigie/pyright-python` or any other
+pre-commit hook where the version of Pyright is the revision of the repo (with a
+leading `v` character), you may use the following snippet:
+
+```yaml
+- name: Extract pyright version from pre-commit
+  id: pre-commit-pyright-version
+  run: |
+    yq '.repos[]
+      | select( .repo | contains("pyright" )).rev
+      | "pyright-version="+sub("^v", "")' \
+      .pre-commit-config.yaml >> $GITHUB_OUTPUT
+
+- uses: jakebailey/pyright-action@v2
+  with:
+    version: ${{ steps.pre-commit-pyright-version.outputs.pyright-version }}
+```
+
+Feel free to contribute other recipes, such as for `pyproject.toml`
+(poetry-style or PEP 621-style), `poetry.lock`, `pdm.lock`, `requirements.txt`
+etc.
