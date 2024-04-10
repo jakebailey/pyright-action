@@ -1,3 +1,4 @@
+import * as cp from "node:child_process";
 import * as path from "node:path";
 
 import * as core from "@actions/core";
@@ -5,6 +6,7 @@ import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
 import SemVer from "semver/classes/semver";
 import { parse } from "shell-quote";
+import which from "which";
 
 import { version as actionVersion } from "../package.json";
 import { parseNpmRegistryResponse, parsePylanceBuildMetadata } from "./schema";
@@ -33,7 +35,6 @@ export interface Args {
     args: readonly string[];
 }
 
-
 // https://github.com/microsoft/pyright/blob/c8a16aa148afea403d985a80bd87998b06135c93/packages/pyright-internal/src/pyright.ts#LL188C35-L188C84
 // But also with --verifytypes, which supports JSON but this action doesn't do anything with it.
 const flagsWithoutCommentingSupport = new Set([
@@ -52,14 +53,26 @@ const flagsWithoutCommentingSupport = new Set([
 
 export async function getArgs(execPath: string): Promise<Args> {
     const pyrightInfo = await getPyrightInfo();
-    const pyrightPath = await downloadPyright(pyrightInfo);
-    const command = execPath;
+    let pyrightPath: string | undefined;
+    let command: string;
+    switch (pyrightInfo.kind) {
+        case "npm":
+            pyrightPath = await downloadPyright(pyrightInfo);
+            command = execPath;
+            break;
+        case "path":
+            command = pyrightInfo.command;
+            break;
+    }
 
     const pyrightVersion = new SemVer(pyrightInfo.version);
     // https://github.com/microsoft/pyright/commit/ba18f421d1b57c433156cbc6934e0893abc130db
     const useDashedFlags = pyrightVersion.compare("1.1.309") === -1;
 
-    const args = [path.join(pyrightPath, "package", "index.js")];
+    const args = [];
+    if (pyrightPath) {
+        args.push(path.join(pyrightPath, "package", "index.js"));
+    }
 
     // pyright-action options
     const workingDirectory = core.getInput("working-directory");
@@ -232,12 +245,26 @@ async function downloadPyright(info: PyrightInfoFromNpm): Promise<string> {
     return await tc.cacheDir(extractedPath, pyrightToolName, info.version);
 }
 
-type PyrightInfo = PyrightInfoFromNpm;
+type PyrightInfo = PyrightInfoFromNpm | PyrightInfoFromPath;
 
 type PyrightInfoFromNpm = { kind: "npm"; version: string; tarball: string; };
+type PyrightInfoFromPath = { kind: "path"; version: string; command: string; };
 
 async function getPyrightInfo(): Promise<PyrightInfo> {
     const version = await getPyrightVersion();
+    if (version === "PATH") {
+        const command = which.sync("pyright");
+        const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
+        const versionRaw = versionOut.trim().split(/\s+/).at(-1);
+        if (!versionRaw) throw new Error(`Failed to parse pyright version from ${versionOut}`);
+        const version = new SemVer(versionRaw).format();
+        return {
+            kind: "path",
+            version,
+            command: command,
+        };
+    }
+
     const client = new httpClient.HttpClient();
     const url = `https://registry.npmjs.org/pyright/${version}`;
     const resp = await client.get(url);
@@ -256,6 +283,9 @@ async function getPyrightInfo(): Promise<PyrightInfo> {
 async function getPyrightVersion(): Promise<string> {
     const versionSpec = core.getInput("version");
     if (versionSpec) {
+        if (versionSpec.toUpperCase() === "PATH") {
+            return "PATH";
+        }
         return new SemVer(versionSpec).format();
     }
 

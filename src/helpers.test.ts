@@ -1,3 +1,4 @@
+import * as cp from "node:child_process";
 import type { IncomingMessage } from "node:http";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -7,6 +8,7 @@ import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
 import serializer from "jest-serializer-path";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
+import which from "which";
 
 expect.addSnapshotSerializer(serializer);
 
@@ -16,6 +18,10 @@ vitest.mock("@actions/http-client");
 const mockedHttpClient = vitest.mocked(httpClient, true);
 vitest.mock("@actions/tool-cache");
 const mockedTc = vitest.mocked(tc);
+vitest.mock("node:child_process");
+const mockedCp = vitest.mocked(cp);
+vitest.mock("which");
+const mockedWhich = vitest.mocked(which, { deep: true });
 
 import { version as actionVersion } from "../package.json";
 import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
@@ -27,6 +33,12 @@ beforeEach(() => {
     vitest.clearAllMocks();
     mockedTc.find.mockReturnValue("");
     mockedTc.cacheDir.mockImplementation(async (dir) => path.join(fakeRoot, "cached", path.relative(fakeRoot, dir)));
+    mockedCp.execFileSync.mockImplementation(() => {
+        throw new Error("should not have been called");
+    });
+    mockedWhich.sync.mockImplementation((cmd) => {
+        throw new Error(`not found: ${cmd}`);
+    });
 });
 
 afterEach(() => {
@@ -35,6 +47,8 @@ afterEach(() => {
     expect(mockedTc.extractTar.mock.calls).toMatchSnapshot("tc.extractTar");
     expect(mockedTc.find.mock.calls).toMatchSnapshot("tc.find");
     expect(mockedTc.cacheDir.mock.calls).toMatchSnapshot("tc.cacheDir");
+    expect(mockedCp.execFileSync.mock.calls).toMatchSnapshot("cp.execFileSync");
+    expect(mockedWhich.sync.mock.calls).toMatchSnapshot("which.sync");
 });
 
 function getNpmResponse(version: string): NpmRegistryResponse {
@@ -375,6 +389,31 @@ describe("getArgs", () => {
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
+        test("version path", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(`pyright ${latestPyright}`);
+
+            const result = await getArgs(execPath);
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("version path not found", async () => {
+            inputs.set("version", "path");
+
+            await expect(getArgs(execPath)).rejects.toThrowError("not found: pyright");
+        });
+
+        test("version path error executing", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockImplementation(() => {
+                throw new Error("error executing");
+            });
+
+            await expect(getArgs(execPath)).rejects.toThrowError("error executing");
         });
     });
 });

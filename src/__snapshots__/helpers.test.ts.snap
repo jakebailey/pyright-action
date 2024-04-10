@@ -2,6 +2,8 @@
 
 exports[`getActionVersion > core.getInput 1`] = `[]`;
 
+exports[`getActionVersion > cp.execFileSync 1`] = `[]`;
+
 exports[`getActionVersion > tc.cacheDir 1`] = `[]`;
 
 exports[`getActionVersion > tc.downloadTool 1`] = `[]`;
@@ -9,6 +11,8 @@ exports[`getActionVersion > tc.downloadTool 1`] = `[]`;
 exports[`getActionVersion > tc.extractTar 1`] = `[]`;
 
 exports[`getActionVersion > tc.find 1`] = `[]`;
+
+exports[`getActionVersion > which.sync 1`] = `[]`;
 
 exports[`getArgs > bad pylance-version > core.getInput 1`] = `
 [
@@ -21,6 +25,8 @@ exports[`getArgs > bad pylance-version > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > bad pylance-version > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > bad pylance-version > tc.cacheDir 1`] = `[]`;
 
 exports[`getArgs > bad pylance-version > tc.downloadTool 1`] = `[]`;
@@ -28,6 +34,8 @@ exports[`getArgs > bad pylance-version > tc.downloadTool 1`] = `[]`;
 exports[`getArgs > bad pylance-version > tc.extractTar 1`] = `[]`;
 
 exports[`getArgs > bad pylance-version > tc.find 1`] = `[]`;
+
+exports[`getArgs > bad pylance-version > which.sync 1`] = `[]`;
 
 exports[`getArgs > bad version > core.getInput 1`] = `
 [
@@ -37,6 +45,8 @@ exports[`getArgs > bad version > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > bad version > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > bad version > tc.cacheDir 1`] = `[]`;
 
 exports[`getArgs > bad version > tc.downloadTool 1`] = `[]`;
@@ -44,6 +54,8 @@ exports[`getArgs > bad version > tc.downloadTool 1`] = `[]`;
 exports[`getArgs > bad version > tc.extractTar 1`] = `[]`;
 
 exports[`getArgs > bad version > tc.find 1`] = `[]`;
+
+exports[`getArgs > bad version > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
 [
@@ -113,6 +125,8 @@ exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > 1.1.308 dashes > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
 {
   "annotate": Set {
@@ -166,6 +180,8 @@ exports[`getArgs > valid version > 1.1.308 dashes > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > 1.1.308 dashes > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
 [
@@ -235,6 +251,8 @@ exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > 1.1.309 dashes > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
 {
   "annotate": Set {
@@ -288,6 +306,8 @@ exports[`getArgs > valid version > 1.1.309 dashes > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > 1.1.309 dashes > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
 [
@@ -357,6 +377,8 @@ exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > 1.1.310 dashes > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
 {
   "annotate": Set {
@@ -410,6 +432,8 @@ exports[`getArgs > valid version > 1.1.310 dashes > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > 1.1.310 dashes > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "" > core.getInput 1`] = `
 [
@@ -482,6 +506,8 @@ exports[`getArgs > valid version > annotate "" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "" > result 1`] = `
 {
   "annotate": Set {
@@ -531,6 +557,8 @@ exports[`getArgs > valid version > annotate "" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "False" > core.getInput 1`] = `
 [
@@ -603,6 +631,8 @@ exports[`getArgs > valid version > annotate "False" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "False" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "False" > result 1`] = `
 {
   "annotate": Set {},
@@ -649,6 +679,8 @@ exports[`getArgs > valid version > annotate "False" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "False" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "True" > core.getInput 1`] = `
 [
@@ -721,6 +753,8 @@ exports[`getArgs > valid version > annotate "True" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "True" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "True" > result 1`] = `
 {
   "annotate": Set {
@@ -770,6 +804,8 @@ exports[`getArgs > valid version > annotate "True" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "True" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "all" > core.getInput 1`] = `
 [
@@ -842,6 +878,8 @@ exports[`getArgs > valid version > annotate "all" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "all" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "all" > result 1`] = `
 {
   "annotate": Set {
@@ -891,6 +929,8 @@ exports[`getArgs > valid version > annotate "all" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "all" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "errors" > core.getInput 1`] = `
 [
@@ -963,6 +1003,8 @@ exports[`getArgs > valid version > annotate "errors" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "errors" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "errors" > result 1`] = `
 {
   "annotate": Set {
@@ -1011,6 +1053,8 @@ exports[`getArgs > valid version > annotate "errors" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "errors" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "errors, warnings" > core.getInput 1`] = `
 [
@@ -1083,6 +1127,8 @@ exports[`getArgs > valid version > annotate "errors, warnings" > core.getInput 1
 ]
 `;
 
+exports[`getArgs > valid version > annotate "errors, warnings" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
 {
   "annotate": Set {
@@ -1132,6 +1178,8 @@ exports[`getArgs > valid version > annotate "errors, warnings" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "errors, warnings" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "false" > core.getInput 1`] = `
 [
@@ -1204,6 +1252,8 @@ exports[`getArgs > valid version > annotate "false" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "false" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "false" > result 1`] = `
 {
   "annotate": Set {},
@@ -1250,6 +1300,8 @@ exports[`getArgs > valid version > annotate "false" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "false" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "none" > core.getInput 1`] = `
 [
@@ -1322,6 +1374,8 @@ exports[`getArgs > valid version > annotate "none" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "none" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "none" > result 1`] = `
 {
   "annotate": Set {},
@@ -1368,6 +1422,8 @@ exports[`getArgs > valid version > annotate "none" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "none" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "true" > core.getInput 1`] = `
 [
@@ -1440,6 +1496,8 @@ exports[`getArgs > valid version > annotate "true" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "true" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "true" > result 1`] = `
 {
   "annotate": Set {
@@ -1489,6 +1547,8 @@ exports[`getArgs > valid version > annotate "true" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "true" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "warnings" > core.getInput 1`] = `
 [
@@ -1561,6 +1621,8 @@ exports[`getArgs > valid version > annotate "warnings" > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate "warnings" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
 {
   "annotate": Set {
@@ -1609,6 +1671,8 @@ exports[`getArgs > valid version > annotate "warnings" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "warnings" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate "warnings,errors" > core.getInput 1`] = `
 [
@@ -1681,6 +1745,8 @@ exports[`getArgs > valid version > annotate "warnings,errors" > core.getInput 1`
 ]
 `;
 
+exports[`getArgs > valid version > annotate "warnings,errors" > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
 {
   "annotate": Set {
@@ -1730,6 +1796,8 @@ exports[`getArgs > valid version > annotate "warnings,errors" > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate "warnings,errors" > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate invalid > core.getInput 1`] = `
 [
@@ -1799,6 +1867,8 @@ exports[`getArgs > valid version > annotate invalid > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > annotate invalid > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate invalid > tc.cacheDir 1`] = `
 [
   [
@@ -1833,6 +1903,8 @@ exports[`getArgs > valid version > annotate invalid > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate invalid > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > annotate invalid comma > core.getInput 1`] = `
 [
@@ -1902,6 +1974,8 @@ exports[`getArgs > valid version > annotate invalid comma > core.getInput 1`] = 
 ]
 `;
 
+exports[`getArgs > valid version > annotate invalid comma > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > annotate invalid comma > tc.cacheDir 1`] = `
 [
   [
@@ -1936,6 +2010,8 @@ exports[`getArgs > valid version > annotate invalid comma > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > annotate invalid comma > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > cached > core.getInput 1`] = `
 [
@@ -2008,6 +2084,8 @@ exports[`getArgs > valid version > cached > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > cached > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > cached > result 1`] = `
 {
   "annotate": Set {
@@ -2037,6 +2115,8 @@ exports[`getArgs > valid version > cached > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > cached > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > createstub > core.getInput 1`] = `
 [
@@ -2109,6 +2189,8 @@ exports[`getArgs > valid version > createstub > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > createstub > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > createstub > result 1`] = `
 {
   "annotate": Set {},
@@ -2157,6 +2239,8 @@ exports[`getArgs > valid version > createstub > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > createstub > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
 [
@@ -2229,6 +2313,8 @@ exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > dependencies > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > dependencies > result 1`] = `
 {
   "annotate": Set {},
@@ -2277,6 +2363,8 @@ exports[`getArgs > valid version > dependencies > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > dependencies > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > extra-args malformed > core.getInput 1`] = `
 [
@@ -2343,6 +2431,8 @@ exports[`getArgs > valid version > extra-args malformed > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > extra-args malformed > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > extra-args malformed > tc.cacheDir 1`] = `
 [
   [
@@ -2377,6 +2467,8 @@ exports[`getArgs > valid version > extra-args malformed > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > extra-args malformed > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
 [
@@ -2449,6 +2541,8 @@ exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > extra-args quotes > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > extra-args quotes > result 1`] = `
 {
   "annotate": Set {
@@ -2501,6 +2595,8 @@ exports[`getArgs > valid version > extra-args quotes > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > extra-args quotes > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > many options > core.getInput 1`] = `
 [
@@ -2573,6 +2669,8 @@ exports[`getArgs > valid version > many options > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > many options > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > many options > result 1`] = `
 {
   "annotate": Set {
@@ -2641,6 +2739,8 @@ exports[`getArgs > valid version > many options > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > many options > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > no comments > core.getInput 1`] = `
 [
@@ -2713,6 +2813,8 @@ exports[`getArgs > valid version > no comments > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > no comments > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > no comments > result 1`] = `
 {
   "annotate": Set {},
@@ -2759,6 +2861,8 @@ exports[`getArgs > valid version > no comments > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > no comments > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
 [
@@ -2831,6 +2935,8 @@ exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > pylance-version > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > pylance-version > result 1`] = `
 {
   "annotate": Set {
@@ -2881,6 +2987,8 @@ exports[`getArgs > valid version > pylance-version > tc.find 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > pylance-version > which.sync 1`] = `[]`;
+
 exports[`getArgs > valid version > pylance-version not found > core.getInput 1`] = `
 [
   [
@@ -2892,6 +3000,8 @@ exports[`getArgs > valid version > pylance-version not found > core.getInput 1`]
 ]
 `;
 
+exports[`getArgs > valid version > pylance-version not found > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > pylance-version not found > tc.cacheDir 1`] = `[]`;
 
 exports[`getArgs > valid version > pylance-version not found > tc.downloadTool 1`] = `[]`;
@@ -2899,6 +3009,8 @@ exports[`getArgs > valid version > pylance-version not found > tc.downloadTool 1
 exports[`getArgs > valid version > pylance-version not found > tc.extractTar 1`] = `[]`;
 
 exports[`getArgs > valid version > pylance-version not found > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > pylance-version not found > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
 [
@@ -2971,6 +3083,8 @@ exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > skip-unannotated > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > skip-unannotated > result 1`] = `
 {
   "annotate": Set {
@@ -3021,6 +3135,8 @@ exports[`getArgs > valid version > skip-unannotated > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > skip-unannotated > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > stats > core.getInput 1`] = `
 [
@@ -3093,6 +3209,8 @@ exports[`getArgs > valid version > stats > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > stats > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > stats > result 1`] = `
 {
   "annotate": Set {},
@@ -3140,6 +3258,8 @@ exports[`getArgs > valid version > stats > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > stats > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > verbose > core.getInput 1`] = `
 [
@@ -3212,6 +3332,8 @@ exports[`getArgs > valid version > verbose > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > verbose > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > verbose > result 1`] = `
 {
   "annotate": Set {
@@ -3262,6 +3384,8 @@ exports[`getArgs > valid version > verbose > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > verbose > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
 [
@@ -3334,6 +3458,8 @@ exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > verbose flag > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > verbose flag > result 1`] = `
 {
   "annotate": Set {},
@@ -3381,6 +3507,8 @@ exports[`getArgs > valid version > verbose flag > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > verbose flag > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
 [
@@ -3453,6 +3581,8 @@ exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > verifytypes > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > verifytypes > result 1`] = `
 {
   "annotate": Set {},
@@ -3502,6 +3632,8 @@ exports[`getArgs > valid version > verifytypes > tc.find 1`] = `
   ],
 ]
 `;
+
+exports[`getArgs > valid version > verifytypes > which.sync 1`] = `[]`;
 
 exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
 [
@@ -3574,6 +3706,8 @@ exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > verifytypes flag > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > verifytypes flag > result 1`] = `
 {
   "annotate": Set {},
@@ -3622,6 +3756,8 @@ exports[`getArgs > valid version > verifytypes flag > tc.find 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > verifytypes flag > which.sync 1`] = `[]`;
+
 exports[`getArgs > valid version > version not found > core.getInput 1`] = `
 [
   [
@@ -3630,6 +3766,8 @@ exports[`getArgs > valid version > version not found > core.getInput 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > version not found > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > version not found > tc.cacheDir 1`] = `[]`;
 
 exports[`getArgs > valid version > version not found > tc.downloadTool 1`] = `[]`;
@@ -3637,6 +3775,183 @@ exports[`getArgs > valid version > version not found > tc.downloadTool 1`] = `[]
 exports[`getArgs > valid version > version not found > tc.extractTar 1`] = `[]`;
 
 exports[`getArgs > valid version > version not found > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version not found > which.sync 1`] = `[]`;
+
+exports[`getArgs > valid version > version path > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [],
+  "command": "/path/to/which/pyright",
+  "pyrightVersion": "1.1.240",
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > version path > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version path > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version path > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version path > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version path > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path error executing > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path error executing > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path error executing > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version path error executing > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version path error executing > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version path error executing > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version path error executing > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path not found > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path not found > cp.execFileSync 1`] = `[]`;
+
+exports[`getArgs > valid version > version path not found > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version path not found > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version path not found > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version path not found > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version path not found > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
 
 exports[`getArgs > valid version > version takes precedence over pylance-version > core.getInput 1`] = `
 [
@@ -3706,6 +4021,8 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
 ]
 `;
 
+exports[`getArgs > valid version > version takes precedence over pylance-version > cp.execFileSync 1`] = `[]`;
+
 exports[`getArgs > valid version > version takes precedence over pylance-version > result 1`] = `
 {
   "annotate": Set {
@@ -3756,7 +4073,11 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
 ]
 `;
 
+exports[`getArgs > valid version > version takes precedence over pylance-version > which.sync 1`] = `[]`;
+
 exports[`getNodeInfo > core.getInput 1`] = `[]`;
+
+exports[`getNodeInfo > cp.execFileSync 1`] = `[]`;
 
 exports[`getNodeInfo > tc.cacheDir 1`] = `[]`;
 
@@ -3765,3 +4086,5 @@ exports[`getNodeInfo > tc.downloadTool 1`] = `[]`;
 exports[`getNodeInfo > tc.extractTar 1`] = `[]`;
 
 exports[`getNodeInfo > tc.find 1`] = `[]`;
+
+exports[`getNodeInfo > which.sync 1`] = `[]`;
