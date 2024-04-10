@@ -8804,7 +8804,7 @@ var import_shell_quote = __toESM(require_shell_quote());
 // package.json
 var version2 = "2.2.1";
 
-// node_modules/.pnpm/@badrap+valita@0.3.6/node_modules/@badrap/valita/dist/node-mjs/index.mjs
+// node_modules/.pnpm/@badrap+valita@0.3.8/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
   return left ? { ok: false, code: "join", left, right } : right;
 }
