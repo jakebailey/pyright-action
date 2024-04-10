@@ -101,8 +101,8 @@ var require_command = __commonJS({
     exports2.issue = exports2.issueCommand = void 0;
     var os = __importStar(require("os"));
     var utils_1 = require_utils();
-    function issueCommand2(command2, properties, message) {
-      const cmd = new Command(command2, properties, message);
+    function issueCommand2(command, properties, message) {
+      const cmd = new Command(command, properties, message);
       process.stdout.write(cmd.toString() + os.EOL);
     }
     exports2.issueCommand = issueCommand2;
@@ -112,11 +112,11 @@ var require_command = __commonJS({
     exports2.issue = issue;
     var CMD_STRING = "::";
     var Command = class {
-      constructor(command2, properties, message) {
-        if (!command2) {
-          command2 = "missing.command";
+      constructor(command, properties, message) {
+        if (!command) {
+          command = "missing.command";
         }
-        this.command = command2;
+        this.command = command;
         this.properties = properties;
         this.message = message;
       }
@@ -523,10 +523,10 @@ var require_file_command = __commonJS({
     var os = __importStar(require("os"));
     var uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports));
     var utils_1 = require_utils();
-    function issueFileCommand(command2, message) {
-      const filePath = process.env[`GITHUB_${command2}`];
+    function issueFileCommand(command, message) {
+      const filePath = process.env[`GITHUB_${command}`];
       if (!filePath) {
-        throw new Error(`Unable to find environment variable for file command ${command2}`);
+        throw new Error(`Unable to find environment variable for file command ${command}`);
       }
       if (!fs2.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
@@ -7582,7 +7582,7 @@ var require_tool_cache = __commonJS({
           const escapedScript = path3.join(__dirname, "..", "scripts", "Invoke-7zdec.ps1").replace(/'/g, "''").replace(/"|\n|\r/g, "");
           const escapedFile = file.replace(/'/g, "''").replace(/"|\n|\r/g, "");
           const escapedTarget = dest.replace(/'/g, "''").replace(/"|\n|\r/g, "");
-          const command2 = `& '${escapedScript}' -Source '${escapedFile}' -Target '${escapedTarget}'`;
+          const command = `& '${escapedScript}' -Source '${escapedFile}' -Target '${escapedTarget}'`;
           const args = [
             "-NoLogo",
             "-Sta",
@@ -7591,7 +7591,7 @@ var require_tool_cache = __commonJS({
             "-ExecutionPolicy",
             "Unrestricted",
             "-Command",
-            command2
+            command
           ];
           const options = {
             silent: true
@@ -7955,7 +7955,7 @@ var fs = __toESM(require("node:fs"));
 var path2 = __toESM(require("node:path"));
 var import_node_util = require("node:util");
 var core2 = __toESM(require_core());
-var command = __toESM(require_command());
+var actionsCommand = __toESM(require_command());
 var TOML = __toESM(require_toml());
 
 // node_modules/.pnpm/jsonc-parser@3.2.1/node_modules/jsonc-parser/lib/esm/impl/scanner.js
@@ -9923,9 +9923,10 @@ var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set([
   "--createstub",
   "--dependencies"
 ]);
-async function getArgs() {
+async function getArgs(execPath) {
   const pyrightInfo = await getPyrightInfo();
   const pyrightPath = await downloadPyright(pyrightInfo);
+  const command = execPath;
   const pyrightVersion = new import_semver2.default(pyrightInfo.version);
   const useDashedFlags = pyrightVersion.compare("1.1.309") === -1;
   const args = [path.join(pyrightPath, "package", "index.js")];
@@ -10035,6 +10036,7 @@ async function getArgs() {
     workingDirectory,
     annotate,
     pyrightVersion: pyrightInfo.version,
+    command,
     args
   };
 }
@@ -10057,7 +10059,7 @@ async function downloadPyright(info3) {
   if (found) {
     return found;
   }
-  const tarballPath = await tc.downloadTool(info3.dist.tarball);
+  const tarballPath = await tc.downloadTool(info3.tarball);
   const extractedPath = await tc.extractTar(tarballPath);
   return await tc.cacheDir(extractedPath, pyrightToolName, info3.version);
 }
@@ -10070,7 +10072,12 @@ async function getPyrightInfo() {
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
     throw new Error(`Failed to download metadata for pyright ${version3} from ${url} -- ${body}`);
   }
-  return parseNpmRegistryResponse(JSON.parse(body));
+  const parsed = parseNpmRegistryResponse(JSON.parse(body));
+  return {
+    kind: "npm",
+    version: parsed.version,
+    tarball: parsed.dist.tarball
+  };
 }
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
@@ -10101,15 +10108,15 @@ async function getPylancePyrightVersion(pylanceVersion) {
 }
 
 // src/main.ts
-function printInfo(pyrightVersion, node, cwd, args) {
+function printInfo(pyrightVersion, node, cwd, command, args) {
   core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
   core2.info(`Working directory: ${cwd}`);
-  core2.info(`Running: ${node.execPath} ${(0, import_shell_quote2.quote)(args)}`);
+  core2.info(`Running: ${(0, import_shell_quote2.quote)([command, ...args])}`);
 }
 async function main() {
   try {
     const node = getNodeInfo(process);
-    const { workingDirectory, annotate, pyrightVersion, args } = await getArgs();
+    const { workingDirectory, annotate, pyrightVersion, command, args } = await getArgs(node.execPath);
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
@@ -10118,8 +10125,8 @@ async function main() {
     } catch {
     }
     if (annotate.size === 0) {
-      printInfo(pyrightVersion, node, process.cwd(), args);
-      const { status: status2 } = cp.spawnSync(node.execPath, args, {
+      printInfo(pyrightVersion, node, process.cwd(), command, args);
+      const { status: status2 } = cp.spawnSync(command, args, {
         stdio: ["ignore", "inherit", "inherit"]
       });
       if (status2 !== 0) {
@@ -10131,8 +10138,8 @@ async function main() {
     if (!updatedArgs.includes("--outputjson")) {
       updatedArgs.push("--outputjson");
     }
-    printInfo(pyrightVersion, node, process.cwd(), updatedArgs);
-    const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
+    printInfo(pyrightVersion, node, process.cwd(), command, updatedArgs);
+    const { status, stdout } = cp.spawnSync(command, updatedArgs, {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],
       maxBuffer: 100 * 1024 * 1024
@@ -10162,7 +10169,7 @@ async function main() {
         /* forCommand */
         true
       );
-      command.issueCommand(
+      actionsCommand.issueCommand(
         diag.severity,
         {
           file: diag.file,

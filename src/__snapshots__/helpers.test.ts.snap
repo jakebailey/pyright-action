@@ -126,6 +126,7 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
     "--venv-path",
     "/path/to-venv",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.308",
   "workingDirectory": "",
 }
@@ -247,6 +248,7 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
     "--venvpath",
     "/path/to-venv",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.309",
   "workingDirectory": "",
 }
@@ -368,6 +370,7 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
     "--venvpath",
     "/path/to-venv",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.310",
   "workingDirectory": "",
 }
@@ -488,6 +491,7 @@ exports[`getArgs > valid version > annotate "" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -605,6 +609,7 @@ exports[`getArgs > valid version > annotate "False" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -725,6 +730,7 @@ exports[`getArgs > valid version > annotate "True" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -845,6 +851,7 @@ exports[`getArgs > valid version > annotate "all" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -964,6 +971,7 @@ exports[`getArgs > valid version > annotate "errors" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1084,6 +1092,7 @@ exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1201,6 +1210,7 @@ exports[`getArgs > valid version > annotate "false" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1318,6 +1328,7 @@ exports[`getArgs > valid version > annotate "none" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1438,6 +1449,7 @@ exports[`getArgs > valid version > annotate "true" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1557,6 +1569,7 @@ exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -1677,6 +1690,7 @@ exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2003,6 +2017,7 @@ exports[`getArgs > valid version > cached > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2102,6 +2117,7 @@ exports[`getArgs > valid version > createstub > result 1`] = `
     "--createstub",
     "pygame",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2221,6 +2237,7 @@ exports[`getArgs > valid version > dependencies > result 1`] = `
     "--dependencies",
     "TRUE",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2444,6 +2461,7 @@ exports[`getArgs > valid version > extra-args quotes > result 1`] = `
     "--bar",
     "--baz=quoted value",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2583,6 +2601,7 @@ exports[`getArgs > valid version > many options > result 1`] = `
     "--bar",
     "--baz",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "/path/to/project",
 }
@@ -2700,6 +2719,7 @@ exports[`getArgs > valid version > no comments > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -2820,6 +2840,7 @@ exports[`getArgs > valid version > pylance-version > result 1`] = `
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "9.9.999",
   "workingDirectory": "",
 }
@@ -2960,6 +2981,7 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--skipunannotated",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -3078,6 +3100,7 @@ exports[`getArgs > valid version > stats > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--stats",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -3199,6 +3222,7 @@ exports[`getArgs > valid version > verbose > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--lib",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -3317,6 +3341,7 @@ exports[`getArgs > valid version > verbose flag > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--verbose",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -3437,6 +3462,7 @@ exports[`getArgs > valid version > verifytypes > result 1`] = `
     "--verifytypes",
     "some.package",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -3555,6 +3581,7 @@ exports[`getArgs > valid version > verifytypes flag > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
     "--verifytypes",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.240",
   "workingDirectory": "",
 }
@@ -3688,6 +3715,7 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
   "args": [
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
+  "command": "<execPath>",
   "pyrightVersion": "1.1.310",
   "workingDirectory": "",
 }

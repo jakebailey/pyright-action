@@ -7,7 +7,7 @@ import SemVer from "semver/classes/semver";
 import { parse } from "shell-quote";
 
 import { version as actionVersion } from "../package.json";
-import { type NpmRegistryResponse, parseNpmRegistryResponse, parsePylanceBuildMetadata } from "./schema";
+import { parseNpmRegistryResponse, parsePylanceBuildMetadata } from "./schema";
 
 export function getActionVersion() {
     return actionVersion;
@@ -29,8 +29,10 @@ export interface Args {
     workingDirectory: string;
     annotate: ReadonlySet<"error" | "warning">;
     pyrightVersion: string;
+    command: string;
     args: readonly string[];
 }
+
 
 // https://github.com/microsoft/pyright/blob/c8a16aa148afea403d985a80bd87998b06135c93/packages/pyright-internal/src/pyright.ts#LL188C35-L188C84
 // But also with --verifytypes, which supports JSON but this action doesn't do anything with it.
@@ -48,9 +50,10 @@ const flagsWithoutCommentingSupport = new Set([
 // other way and settled on no dashes in flag names. So, it's probably clearer
 // if this action supports the names without dashes.
 
-export async function getArgs(): Promise<Args> {
+export async function getArgs(execPath: string): Promise<Args> {
     const pyrightInfo = await getPyrightInfo();
     const pyrightPath = await downloadPyright(pyrightInfo);
+    const command = execPath;
 
     const pyrightVersion = new SemVer(pyrightInfo.version);
     // https://github.com/microsoft/pyright/commit/ba18f421d1b57c433156cbc6934e0893abc130db
@@ -192,6 +195,7 @@ export async function getArgs(): Promise<Args> {
         workingDirectory,
         annotate,
         pyrightVersion: pyrightInfo.version,
+        command,
         args,
     };
 }
@@ -214,7 +218,7 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
 
 const pyrightToolName = "pyright";
 
-async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
+async function downloadPyright(info: PyrightInfoFromNpm): Promise<string> {
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
     // eslint-disable-next-line unicorn/no-array-callback-reference, unicorn/no-array-method-this-argument
@@ -223,12 +227,16 @@ async function downloadPyright(info: NpmRegistryResponse): Promise<string> {
         return found;
     }
 
-    const tarballPath = await tc.downloadTool(info.dist.tarball);
+    const tarballPath = await tc.downloadTool(info.tarball);
     const extractedPath = await tc.extractTar(tarballPath);
     return await tc.cacheDir(extractedPath, pyrightToolName, info.version);
 }
 
-async function getPyrightInfo(): Promise<NpmRegistryResponse> {
+type PyrightInfo = PyrightInfoFromNpm;
+
+type PyrightInfoFromNpm = { kind: "npm"; version: string; tarball: string; };
+
+async function getPyrightInfo(): Promise<PyrightInfo> {
     const version = await getPyrightVersion();
     const client = new httpClient.HttpClient();
     const url = `https://registry.npmjs.org/pyright/${version}`;
@@ -237,7 +245,12 @@ async function getPyrightInfo(): Promise<NpmRegistryResponse> {
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
         throw new Error(`Failed to download metadata for pyright ${version} from ${url} -- ${body}`);
     }
-    return parseNpmRegistryResponse(JSON.parse(body));
+    const parsed = parseNpmRegistryResponse(JSON.parse(body));
+    return {
+        kind: "npm",
+        version: parsed.version,
+        tarball: parsed.dist.tarball,
+    };
 }
 
 async function getPyrightVersion(): Promise<string> {
