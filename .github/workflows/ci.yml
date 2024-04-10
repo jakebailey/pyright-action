@@ -88,4 +88,4 @@ jobs:
       - uses: ./
         with:
           working-directory: ./smoke-test
-          version: path
+          version: PATH
