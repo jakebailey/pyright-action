@@ -415,6 +415,30 @@ describe("getArgs", () => {
 
             await expect(getArgs(execPath)).rejects.toThrowError("error executing");
         });
+
+        test("version path bad version", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(`oops`);
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Invalid Version");
+        });
+
+        test("version path bad version 2", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(`pyright xasdnodgu 38gnoan`);
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Invalid Version");
+        });
+
+        test("version path bad version 3", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(``);
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Failed to parse");
+        });
     });
 });
 

@@ -3889,6 +3889,120 @@ exports[`getArgs > valid version > version path > which.sync 1`] = `
 ]
 `;
 
+exports[`getArgs > valid version > version path bad version > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version 2 > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version 2 > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version 2 > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 2 > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 2 > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 2 > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 2 > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version 3 > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version 3 > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version path bad version 3 > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 3 > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 3 > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 3 > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version path bad version 3 > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
 exports[`getArgs > valid version > version path error executing > core.getInput 1`] = `
 [
   [

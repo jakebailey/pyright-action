@@ -256,7 +256,7 @@ async function getPyrightInfo(): Promise<PyrightInfo> {
         const command = which.sync("pyright");
         const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
         const versionRaw = versionOut.trim().split(/\s+/).at(-1);
-        if (!versionRaw) throw new Error(`Failed to parse pyright version from ${versionOut}`);
+        if (!versionRaw) throw new Error(`Failed to parse pyright version from ${JSON.stringify(versionOut)}`);
         const version = new SemVer(versionRaw).format();
         return {
             kind: "path",

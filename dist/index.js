@@ -10339,7 +10339,7 @@ async function getPyrightInfo() {
     const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
     const versionRaw = versionOut.trim().split(/\s+/).at(-1);
     if (!versionRaw)
-      throw new Error(`Failed to parse pyright version from ${versionOut}`);
+      throw new Error(`Failed to parse pyright version from ${JSON.stringify(versionOut)}`);
     const version4 = new import_semver2.default(versionRaw).format();
     return {
       kind: "path",
