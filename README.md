@@ -22,7 +22,7 @@ GitHub action for [pyright](https://github.com/microsoft/pyright). Featuring:
 inputs:
   # Options for pyright-action
   version:
-    description: 'Version of pyright to run, or "path" to use pyright from $PATH. If neither version nor pylance-version are specified, the latest version will be used.'
+    description: 'Version of pyright to run, or "PATH" to use pyright from $PATH. If neither version nor pylance-version are specified, the latest version will be used.'
     required: false
   pylance-version:
     description: 'Version of pylance whose pyright version should be run. Can be latest-release, latest-prerelease, or a specific pylance version. Ignored if version option is specified.'
@@ -143,7 +143,31 @@ poetry's python binary is on `$PATH`:
 - uses: jakebailey/pyright-action@v2
 ```
 
-## Keeping Pyright and Pylance in sync
+## Providing a pyright version sourced from preexisting dependencies
+
+The `version` input only accepts "latest" or a specific version number. However,
+there are many ways to use specify a version of `pyright` derived from other
+tools.
+
+### Using pyright from `$PATH`
+
+If you have `pyright` installed in your environment, e.g. via the `pyright` PyPI
+package, specify `version: PATH` to use the version that's on `$PATH`.
+
+```yml
+- run: |
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r dev-requirements.txt # includes pyright
+
+- run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+- uses: jakebailey/pyright-action@v2
+  with:
+    version: PATH
+```
+
+### Keeping Pyright and Pylance in sync
 
 If you use Pylance as your language server, you'll likely want pyright-action to
 use the same version of `pyright` that Pylance does. The `pylance-version`

@@ -8,7 +8,7 @@ branding:
 inputs:
   # Options for pyright-action
   version:
-    description: 'Version of pyright to run, or "path" to use pyright from $PATH. If neither version nor pylance-version are specified, the latest version will be used.'
+    description: 'Version of pyright to run, or "PATH" to use pyright from $PATH. If neither version nor pylance-version are specified, the latest version will be used.'
     required: false
   pylance-version:
     description: 'Version of pylance whose pyright version should be run. Can be latest-release, latest-prerelease, or a specific pylance version. Ignored if version option is specified.'
