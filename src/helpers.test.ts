@@ -1,3 +1,4 @@
+import * as cp from "node:child_process";
 import type { IncomingMessage } from "node:http";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -7,6 +8,7 @@ import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
 import serializer from "jest-serializer-path";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
+import which from "which";
 
 expect.addSnapshotSerializer(serializer);
 
@@ -16,6 +18,10 @@ vitest.mock("@actions/http-client");
 const mockedHttpClient = vitest.mocked(httpClient, true);
 vitest.mock("@actions/tool-cache");
 const mockedTc = vitest.mocked(tc);
+vitest.mock("node:child_process");
+const mockedCp = vitest.mocked(cp);
+vitest.mock("which");
+const mockedWhich = vitest.mocked(which, { deep: true });
 
 import { version as actionVersion } from "../package.json";
 import { getActionVersion, getArgs, getNodeInfo } from "./helpers";
@@ -27,6 +33,12 @@ beforeEach(() => {
     vitest.clearAllMocks();
     mockedTc.find.mockReturnValue("");
     mockedTc.cacheDir.mockImplementation(async (dir) => path.join(fakeRoot, "cached", path.relative(fakeRoot, dir)));
+    mockedCp.execFileSync.mockImplementation(() => {
+        throw new Error("should not have been called");
+    });
+    mockedWhich.sync.mockImplementation((cmd) => {
+        throw new Error(`not found: ${cmd}`);
+    });
 });
 
 afterEach(() => {
@@ -35,6 +47,8 @@ afterEach(() => {
     expect(mockedTc.extractTar.mock.calls).toMatchSnapshot("tc.extractTar");
     expect(mockedTc.find.mock.calls).toMatchSnapshot("tc.find");
     expect(mockedTc.cacheDir.mock.calls).toMatchSnapshot("tc.cacheDir");
+    expect(mockedCp.execFileSync.mock.calls).toMatchSnapshot("cp.execFileSync");
+    expect(mockedWhich.sync.mock.calls).toMatchSnapshot("which.sync");
 });
 
 function getNpmResponse(version: string): NpmRegistryResponse {
@@ -56,6 +70,8 @@ function getPylanceMetadata(pylanceVersion: string, pyrightVersion: string): Pyl
 const latestPyright = "1.1.240";
 
 describe("getArgs", () => {
+    const execPath = "<execPath>";
+
     test("bad version", async () => {
         mockedCore.getInput.mockImplementation((name, options) => {
             expect(options).toBeUndefined();
@@ -67,7 +83,7 @@ describe("getArgs", () => {
             }
         });
 
-        await expect(getArgs()).rejects.toThrowError("not a semver");
+        await expect(getArgs(execPath)).rejects.toThrowError("not a semver");
     });
 
     test("bad pylance-version", async () => {
@@ -81,7 +97,7 @@ describe("getArgs", () => {
             }
         });
 
-        await expect(getArgs()).rejects.toThrowError("not a semver");
+        await expect(getArgs(execPath)).rejects.toThrowError("not a semver");
     });
 
     describe("valid version", () => {
@@ -172,7 +188,7 @@ describe("getArgs", () => {
             inputs.set("extra-args", "--foo --bar --baz");
             inputs.set("level", "warning");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(latestPyright).dist.tarball);
@@ -182,7 +198,7 @@ describe("getArgs", () => {
         test("no comments", async () => {
             inputs.set("no-comments", "true");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
@@ -203,7 +219,7 @@ describe("getArgs", () => {
             async (input) => {
                 inputs.set("annotate", input);
 
-                const result = await getArgs();
+                const result = await getArgs(execPath);
                 expect(result).toMatchSnapshot("result");
             },
         );
@@ -211,32 +227,32 @@ describe("getArgs", () => {
         test("annotate invalid", async () => {
             inputs.set("annotate", "invalid");
 
-            await expect(getArgs()).rejects.toThrowError('invalid value "invalid" for annotate');
+            await expect(getArgs(execPath)).rejects.toThrowError('invalid value "invalid" for annotate');
         });
 
         test("annotate invalid comma", async () => {
             inputs.set("annotate", "errors,all");
 
-            await expect(getArgs()).rejects.toThrowError('invalid value "all" in comma-separated annotate');
+            await expect(getArgs(execPath)).rejects.toThrowError('invalid value "all" in comma-separated annotate');
         });
 
         test("verifytypes", async () => {
             inputs.set("verify-types", "some.package");
             inputs.set("ignore-external", "true");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("version not found", async () => {
             inputs.set("version", "999.999.404");
-            await expect(getArgs()).rejects.toThrowError("version not found: 999.999.404");
+            await expect(getArgs(execPath)).rejects.toThrowError("version not found: 999.999.404");
         });
 
         test("cached", async () => {
             mockedTc.find.mockReturnValue(path.join(fakeRoot, "cached", "pyright"));
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
             expect(mockedTc.cacheDir).toBeCalledTimes(0);
         });
@@ -244,7 +260,7 @@ describe("getArgs", () => {
         test("extra-args quotes", async () => {
             inputs.set("extra-args", `--foo --bar --baz="quoted value"`);
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(latestPyright).dist.tarball);
@@ -254,7 +270,7 @@ describe("getArgs", () => {
         test("extra-args malformed", async () => {
             inputs.set("extra-args", `--foo --bar --baz="quoted value" > /dev/null`);
 
-            await expect(getArgs()).rejects.toThrowError(
+            await expect(getArgs(execPath)).rejects.toThrowError(
                 'malformed extra-args: --foo --bar --baz="quoted value" > /dev/null',
             );
         });
@@ -262,49 +278,49 @@ describe("getArgs", () => {
         test("verifytypes flag", async () => {
             inputs.set("extra-args", "--verifytypes");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("verbose flag", async () => {
             inputs.set("extra-args", "--verbose");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("verbose", async () => {
             inputs.set("verbose", "TRUE");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("dependencies", async () => {
             inputs.set("dependencies", "TRUE");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("createstub", async () => {
             inputs.set("create-stub", "pygame");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("skip-unannotated", async () => {
             inputs.set("skip-unannotated", "TRUE");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
         test("stats", async () => {
             inputs.set("stats", "TRue");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
         });
 
@@ -314,7 +330,7 @@ describe("getArgs", () => {
             inputs.set("typeshed-path", "/path/to/typeshed");
             inputs.set("venv-path", "/path/to-venv");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
@@ -327,7 +343,7 @@ describe("getArgs", () => {
             inputs.set("typeshed-path", "/path/to/typeshed");
             inputs.set("venv-path", "/path/to-venv");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
@@ -340,7 +356,7 @@ describe("getArgs", () => {
             inputs.set("typeshed-path", "/path/to/typeshed");
             inputs.set("venv-path", "/path/to-venv");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
@@ -349,14 +365,14 @@ describe("getArgs", () => {
 
         test("pylance-version not found", async () => {
             inputs.set("pylance-version", "9999.99.404");
-            await expect(getArgs()).rejects.toThrowError("version not found: 9999.99.404");
+            await expect(getArgs(execPath)).rejects.toThrowError("version not found: 9999.99.404");
         });
 
         test("pylance-version", async () => {
             const pylanceVersion = "2023.11.11";
             inputs.set("pylance-version", pylanceVersion);
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse("9.9.999").dist.tarball);
@@ -368,11 +384,60 @@ describe("getArgs", () => {
             inputs.set("version", version);
             inputs.set("pylance-version", "2023.11.11");
 
-            const result = await getArgs();
+            const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
 
             expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(version).dist.tarball);
             expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
+        test("version path", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(`pyright ${latestPyright}`);
+
+            const result = await getArgs(execPath);
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("version path not found", async () => {
+            inputs.set("version", "path");
+
+            await expect(getArgs(execPath)).rejects.toThrowError("not found: pyright");
+        });
+
+        test("version path error executing", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockImplementation(() => {
+                throw new Error("error executing");
+            });
+
+            await expect(getArgs(execPath)).rejects.toThrowError("error executing");
+        });
+
+        test("version path bad version", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(`oops`);
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Invalid Version");
+        });
+
+        test("version path bad version 2", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(`pyright xasdnodgu 38gnoan`);
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Invalid Version");
+        });
+
+        test("version path bad version 3", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(``);
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Failed to parse");
         });
     });
 });

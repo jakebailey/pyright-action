@@ -101,8 +101,8 @@ var require_command = __commonJS({
     exports2.issue = exports2.issueCommand = void 0;
     var os = __importStar(require("os"));
     var utils_1 = require_utils();
-    function issueCommand2(command2, properties, message) {
-      const cmd = new Command(command2, properties, message);
+    function issueCommand2(command, properties, message) {
+      const cmd = new Command(command, properties, message);
       process.stdout.write(cmd.toString() + os.EOL);
     }
     exports2.issueCommand = issueCommand2;
@@ -112,11 +112,11 @@ var require_command = __commonJS({
     exports2.issue = issue;
     var CMD_STRING = "::";
     var Command = class {
-      constructor(command2, properties, message) {
-        if (!command2) {
-          command2 = "missing.command";
+      constructor(command, properties, message) {
+        if (!command) {
+          command = "missing.command";
         }
-        this.command = command2;
+        this.command = command;
         this.properties = properties;
         this.message = message;
       }
@@ -523,10 +523,10 @@ var require_file_command = __commonJS({
     var os = __importStar(require("os"));
     var uuid_1 = (init_esm_node(), __toCommonJS(esm_node_exports));
     var utils_1 = require_utils();
-    function issueFileCommand(command2, message) {
-      const filePath = process.env[`GITHUB_${command2}`];
+    function issueFileCommand(command, message) {
+      const filePath = process.env[`GITHUB_${command}`];
       if (!filePath) {
-        throw new Error(`Unable to find environment variable for file command ${command2}`);
+        throw new Error(`Unable to find environment variable for file command ${command}`);
       }
       if (!fs2.existsSync(filePath)) {
         throw new Error(`Missing file at path: ${filePath}`);
@@ -2546,23 +2546,23 @@ var require_toml_parser = __commonJS({
       [CHAR_QUOT]: '"',
       [CHAR_BSOL]: "\\"
     };
-    function isDigit(cp2) {
-      return cp2 >= CHAR_0 && cp2 <= CHAR_9;
+    function isDigit(cp3) {
+      return cp3 >= CHAR_0 && cp3 <= CHAR_9;
     }
-    function isHexit(cp2) {
-      return cp2 >= CHAR_A && cp2 <= CHAR_F || cp2 >= CHAR_a && cp2 <= CHAR_f || cp2 >= CHAR_0 && cp2 <= CHAR_9;
+    function isHexit(cp3) {
+      return cp3 >= CHAR_A && cp3 <= CHAR_F || cp3 >= CHAR_a && cp3 <= CHAR_f || cp3 >= CHAR_0 && cp3 <= CHAR_9;
     }
-    function isBit(cp2) {
-      return cp2 === CHAR_1 || cp2 === CHAR_0;
+    function isBit(cp3) {
+      return cp3 === CHAR_1 || cp3 === CHAR_0;
     }
-    function isOctit(cp2) {
-      return cp2 >= CHAR_0 && cp2 <= CHAR_7;
+    function isOctit(cp3) {
+      return cp3 >= CHAR_0 && cp3 <= CHAR_7;
     }
-    function isAlphaNumQuoteHyphen(cp2) {
-      return cp2 >= CHAR_A && cp2 <= CHAR_Z || cp2 >= CHAR_a && cp2 <= CHAR_z || cp2 >= CHAR_0 && cp2 <= CHAR_9 || cp2 === CHAR_APOS || cp2 === CHAR_QUOT || cp2 === CHAR_LOWBAR || cp2 === CHAR_HYPHEN;
+    function isAlphaNumQuoteHyphen(cp3) {
+      return cp3 >= CHAR_A && cp3 <= CHAR_Z || cp3 >= CHAR_a && cp3 <= CHAR_z || cp3 >= CHAR_0 && cp3 <= CHAR_9 || cp3 === CHAR_APOS || cp3 === CHAR_QUOT || cp3 === CHAR_LOWBAR || cp3 === CHAR_HYPHEN;
     }
-    function isAlphaNumHyphen(cp2) {
-      return cp2 >= CHAR_A && cp2 <= CHAR_Z || cp2 >= CHAR_a && cp2 <= CHAR_z || cp2 >= CHAR_0 && cp2 <= CHAR_9 || cp2 === CHAR_LOWBAR || cp2 === CHAR_HYPHEN;
+    function isAlphaNumHyphen(cp3) {
+      return cp3 >= CHAR_A && cp3 <= CHAR_Z || cp3 >= CHAR_a && cp3 <= CHAR_z || cp3 >= CHAR_0 && cp3 <= CHAR_9 || cp3 === CHAR_LOWBAR || cp3 === CHAR_HYPHEN;
     }
     var _type = Symbol("type");
     var _declared = Symbol("declared");
@@ -5139,7 +5139,7 @@ var require_io = __commonJS({
     var assert_1 = require("assert");
     var path3 = __importStar(require("path"));
     var ioUtil = __importStar(require_io_util());
-    function cp2(source, dest, options = {}) {
+    function cp3(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         const { force, recursive, copySourceDirectory } = readCopyOptions(options);
         const destStat = (yield ioUtil.exists(dest)) ? yield ioUtil.stat(dest) : null;
@@ -5165,7 +5165,7 @@ var require_io = __commonJS({
         }
       });
     }
-    exports2.cp = cp2;
+    exports2.cp = cp3;
     function mv(source, dest, options = {}) {
       return __awaiter(this, void 0, void 0, function* () {
         if (yield ioUtil.exists(dest)) {
@@ -5214,13 +5214,13 @@ var require_io = __commonJS({
       });
     }
     exports2.mkdirP = mkdirP;
-    function which(tool, check) {
+    function which2(tool, check) {
       return __awaiter(this, void 0, void 0, function* () {
         if (!tool) {
           throw new Error("parameter 'tool' is required");
         }
         if (check) {
-          const result = yield which(tool, false);
+          const result = yield which2(tool, false);
           if (!result) {
             if (ioUtil.IS_WINDOWS) {
               throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
@@ -5237,7 +5237,7 @@ var require_io = __commonJS({
         return "";
       });
     }
-    exports2.which = which;
+    exports2.which = which2;
     function findInPath(tool) {
       return __awaiter(this, void 0, void 0, function* () {
         if (!tool) {
@@ -6542,7 +6542,7 @@ var require_manifest = __commonJS({
     var semver = __importStar(require_semver2());
     var core_1 = require_core();
     var os = require("os");
-    var cp2 = require("child_process");
+    var cp3 = require("child_process");
     var fs2 = require("fs");
     function _findMatch(versionSpec, stable, candidates, archFilter) {
       return __awaiter(this, void 0, void 0, function* () {
@@ -6586,7 +6586,7 @@ var require_manifest = __commonJS({
       const plat = os.platform();
       let version3 = "";
       if (plat === "darwin") {
-        version3 = cp2.execSync("sw_vers -productVersion").toString();
+        version3 = cp3.execSync("sw_vers -productVersion").toString();
       } else if (plat === "linux") {
         const lsbContents = module2.exports._readLinuxVersionFile();
         if (lsbContents) {
@@ -6992,10 +6992,10 @@ var require_toolrunner = __commonJS({
               return reject(new Error(`The cwd: ${this.options.cwd} does not exist!`));
             }
             const fileName = this._getSpawnFileName();
-            const cp2 = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
+            const cp3 = child.spawn(fileName, this._getSpawnArgs(optionsNonNull), this._getSpawnOptions(this.options, fileName));
             let stdbuffer = "";
-            if (cp2.stdout) {
-              cp2.stdout.on("data", (data) => {
+            if (cp3.stdout) {
+              cp3.stdout.on("data", (data) => {
                 if (this.options.listeners && this.options.listeners.stdout) {
                   this.options.listeners.stdout(data);
                 }
@@ -7010,8 +7010,8 @@ var require_toolrunner = __commonJS({
               });
             }
             let errbuffer = "";
-            if (cp2.stderr) {
-              cp2.stderr.on("data", (data) => {
+            if (cp3.stderr) {
+              cp3.stderr.on("data", (data) => {
                 state.processStderr = true;
                 if (this.options.listeners && this.options.listeners.stderr) {
                   this.options.listeners.stderr(data);
@@ -7027,19 +7027,19 @@ var require_toolrunner = __commonJS({
                 });
               });
             }
-            cp2.on("error", (err) => {
+            cp3.on("error", (err) => {
               state.processError = err.message;
               state.processExited = true;
               state.processClosed = true;
               state.CheckComplete();
             });
-            cp2.on("exit", (code) => {
+            cp3.on("exit", (code) => {
               state.processExitCode = code;
               state.processExited = true;
               this._debug(`Exit code ${code} received from tool '${this.toolPath}'`);
               state.CheckComplete();
             });
-            cp2.on("close", (code) => {
+            cp3.on("close", (code) => {
               state.processExitCode = code;
               state.processExited = true;
               state.processClosed = true;
@@ -7053,7 +7053,7 @@ var require_toolrunner = __commonJS({
               if (errbuffer.length > 0) {
                 this.emit("errline", errbuffer);
               }
-              cp2.removeAllListeners();
+              cp3.removeAllListeners();
               if (error) {
                 reject(error);
               } else {
@@ -7061,10 +7061,10 @@ var require_toolrunner = __commonJS({
               }
             });
             if (this.options.input) {
-              if (!cp2.stdin) {
+              if (!cp3.stdin) {
                 throw new Error("child process missing stdin");
               }
-              cp2.stdin.end(this.options.input);
+              cp3.stdin.end(this.options.input);
             }
           }));
         });
@@ -7582,7 +7582,7 @@ var require_tool_cache = __commonJS({
           const escapedScript = path3.join(__dirname, "..", "scripts", "Invoke-7zdec.ps1").replace(/'/g, "''").replace(/"|\n|\r/g, "");
           const escapedFile = file.replace(/'/g, "''").replace(/"|\n|\r/g, "");
           const escapedTarget = dest.replace(/'/g, "''").replace(/"|\n|\r/g, "");
-          const command2 = `& '${escapedScript}' -Source '${escapedFile}' -Target '${escapedTarget}'`;
+          const command = `& '${escapedScript}' -Source '${escapedFile}' -Target '${escapedTarget}'`;
           const args = [
             "-NoLogo",
             "-Sta",
@@ -7591,7 +7591,7 @@ var require_tool_cache = __commonJS({
             "-ExecutionPolicy",
             "Unrestricted",
             "-Command",
-            command2
+            command
           ];
           const options = {
             silent: true
@@ -7948,14 +7948,269 @@ var require_tool_cache = __commonJS({
   }
 });
 
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/posix.js
+var require_posix = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/posix.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.sync = exports2.isexe = void 0;
+    var fs_1 = require("fs");
+    var promises_1 = require("fs/promises");
+    var isexe = async (path3, options = {}) => {
+      const { ignoreErrors = false } = options;
+      try {
+        return checkStat(await (0, promises_1.stat)(path3), options);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.isexe = isexe;
+    var sync = (path3, options = {}) => {
+      const { ignoreErrors = false } = options;
+      try {
+        return checkStat((0, fs_1.statSync)(path3), options);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.sync = sync;
+    var checkStat = (stat, options) => stat.isFile() && checkMode(stat, options);
+    var checkMode = (stat, options) => {
+      const myUid = options.uid ?? process.getuid?.();
+      const myGroups = options.groups ?? process.getgroups?.() ?? [];
+      const myGid = options.gid ?? process.getgid?.() ?? myGroups[0];
+      if (myUid === void 0 || myGid === void 0) {
+        throw new Error("cannot get uid or gid");
+      }
+      const groups = /* @__PURE__ */ new Set([myGid, ...myGroups]);
+      const mod = stat.mode;
+      const uid = stat.uid;
+      const gid = stat.gid;
+      const u = parseInt("100", 8);
+      const g = parseInt("010", 8);
+      const o = parseInt("001", 8);
+      const ug = u | g;
+      return !!(mod & o || mod & g && groups.has(gid) || mod & u && uid === myUid || mod & ug && myUid === 0);
+    };
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/win32.js
+var require_win32 = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/win32.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.sync = exports2.isexe = void 0;
+    var fs_1 = require("fs");
+    var promises_1 = require("fs/promises");
+    var isexe = async (path3, options = {}) => {
+      const { ignoreErrors = false } = options;
+      try {
+        return checkStat(await (0, promises_1.stat)(path3), path3, options);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.isexe = isexe;
+    var sync = (path3, options = {}) => {
+      const { ignoreErrors = false } = options;
+      try {
+        return checkStat((0, fs_1.statSync)(path3), path3, options);
+      } catch (e) {
+        const er = e;
+        if (ignoreErrors || er.code === "EACCES")
+          return false;
+        throw er;
+      }
+    };
+    exports2.sync = sync;
+    var checkPathExt = (path3, options) => {
+      const { pathExt = process.env.PATHEXT || "" } = options;
+      const peSplit = pathExt.split(";");
+      if (peSplit.indexOf("") !== -1) {
+        return true;
+      }
+      for (let i = 0; i < peSplit.length; i++) {
+        const p = peSplit[i].toLowerCase();
+        const ext = path3.substring(path3.length - p.length).toLowerCase();
+        if (p && ext === p) {
+          return true;
+        }
+      }
+      return false;
+    };
+    var checkStat = (stat, path3, options) => stat.isFile() && checkPathExt(path3, options);
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/options.js
+var require_options = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/options.js"(exports2) {
+    "use strict";
+    Object.defineProperty(exports2, "__esModule", { value: true });
+  }
+});
+
+// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js
+var require_cjs = __commonJS({
+  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js"(exports2) {
+    "use strict";
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+      if (k2 === void 0)
+        k2 = k;
+      var desc = Object.getOwnPropertyDescriptor(m, k);
+      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = { enumerable: true, get: function() {
+          return m[k];
+        } };
+      }
+      Object.defineProperty(o, k2, desc);
+    } : function(o, m, k, k2) {
+      if (k2 === void 0)
+        k2 = k;
+      o[k2] = m[k];
+    });
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+      Object.defineProperty(o, "default", { enumerable: true, value: v });
+    } : function(o, v) {
+      o["default"] = v;
+    });
+    var __importStar = exports2 && exports2.__importStar || function(mod) {
+      if (mod && mod.__esModule)
+        return mod;
+      var result = {};
+      if (mod != null) {
+        for (var k in mod)
+          if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k))
+            __createBinding(result, mod, k);
+      }
+      __setModuleDefault(result, mod);
+      return result;
+    };
+    var __exportStar = exports2 && exports2.__exportStar || function(m, exports3) {
+      for (var p in m)
+        if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports3, p))
+          __createBinding(exports3, m, p);
+    };
+    Object.defineProperty(exports2, "__esModule", { value: true });
+    exports2.sync = exports2.isexe = exports2.posix = exports2.win32 = void 0;
+    var posix2 = __importStar(require_posix());
+    exports2.posix = posix2;
+    var win32 = __importStar(require_win32());
+    exports2.win32 = win32;
+    __exportStar(require_options(), exports2);
+    var platform = process.env._ISEXE_TEST_PLATFORM_ || process.platform;
+    var impl = platform === "win32" ? win32 : posix2;
+    exports2.isexe = impl.isexe;
+    exports2.sync = impl.sync;
+  }
+});
+
+// node_modules/.pnpm/which@4.0.0/node_modules/which/lib/index.js
+var require_lib2 = __commonJS({
+  "node_modules/.pnpm/which@4.0.0/node_modules/which/lib/index.js"(exports2, module2) {
+    var { isexe, sync: isexeSync } = require_cjs();
+    var { join: join2, delimiter, sep, posix: posix2 } = require("path");
+    var isWindows = process.platform === "win32";
+    var rSlash = new RegExp(`[${posix2.sep}${sep === posix2.sep ? "" : sep}]`.replace(/(\\)/g, "\\$1"));
+    var rRel = new RegExp(`^\\.${rSlash.source}`);
+    var getNotFoundError = (cmd) => Object.assign(new Error(`not found: ${cmd}`), { code: "ENOENT" });
+    var getPathInfo = (cmd, {
+      path: optPath = process.env.PATH,
+      pathExt: optPathExt = process.env.PATHEXT,
+      delimiter: optDelimiter = delimiter
+    }) => {
+      const pathEnv = cmd.match(rSlash) ? [""] : [
+        // windows always checks the cwd first
+        ...isWindows ? [process.cwd()] : [],
+        ...(optPath || /* istanbul ignore next: very unusual */
+        "").split(optDelimiter)
+      ];
+      if (isWindows) {
+        const pathExtExe = optPathExt || [".EXE", ".CMD", ".BAT", ".COM"].join(optDelimiter);
+        const pathExt = pathExtExe.split(optDelimiter).flatMap((item) => [item, item.toLowerCase()]);
+        if (cmd.includes(".") && pathExt[0] !== "") {
+          pathExt.unshift("");
+        }
+        return { pathEnv, pathExt, pathExtExe };
+      }
+      return { pathEnv, pathExt: [""] };
+    };
+    var getPathPart = (raw, cmd) => {
+      const pathPart = /^".*"$/.test(raw) ? raw.slice(1, -1) : raw;
+      const prefix = !pathPart && rRel.test(cmd) ? cmd.slice(0, 2) : "";
+      return prefix + join2(pathPart, cmd);
+    };
+    var which2 = async (cmd, opt = {}) => {
+      const { pathEnv, pathExt, pathExtExe } = getPathInfo(cmd, opt);
+      const found = [];
+      for (const envPart of pathEnv) {
+        const p = getPathPart(envPart, cmd);
+        for (const ext of pathExt) {
+          const withExt = p + ext;
+          const is = await isexe(withExt, { pathExt: pathExtExe, ignoreErrors: true });
+          if (is) {
+            if (!opt.all) {
+              return withExt;
+            }
+            found.push(withExt);
+          }
+        }
+      }
+      if (opt.all && found.length) {
+        return found;
+      }
+      if (opt.nothrow) {
+        return null;
+      }
+      throw getNotFoundError(cmd);
+    };
+    var whichSync = (cmd, opt = {}) => {
+      const { pathEnv, pathExt, pathExtExe } = getPathInfo(cmd, opt);
+      const found = [];
+      for (const pathEnvPart of pathEnv) {
+        const p = getPathPart(pathEnvPart, cmd);
+        for (const ext of pathExt) {
+          const withExt = p + ext;
+          const is = isexeSync(withExt, { pathExt: pathExtExe, ignoreErrors: true });
+          if (is) {
+            if (!opt.all) {
+              return withExt;
+            }
+            found.push(withExt);
+          }
+        }
+      }
+      if (opt.all && found.length) {
+        return found;
+      }
+      if (opt.nothrow) {
+        return null;
+      }
+      throw getNotFoundError(cmd);
+    };
+    module2.exports = which2;
+    which2.sync = whichSync;
+  }
+});
+
 // src/main.ts
 var import_node_assert = __toESM(require("node:assert"));
-var cp = __toESM(require("node:child_process"));
+var cp2 = __toESM(require("node:child_process"));
 var fs = __toESM(require("node:fs"));
 var path2 = __toESM(require("node:path"));
 var import_node_util = require("node:util");
 var core2 = __toESM(require_core());
-var command = __toESM(require_command());
+var actionsCommand = __toESM(require_command());
 var TOML = __toESM(require_toml());
 
 // node_modules/.pnpm/jsonc-parser@3.2.1/node_modules/jsonc-parser/lib/esm/impl/scanner.js
@@ -8794,12 +9049,14 @@ var import_semver3 = __toESM(require_semver());
 var import_shell_quote2 = __toESM(require_shell_quote());
 
 // src/helpers.ts
+var cp = __toESM(require("node:child_process"));
 var path = __toESM(require("node:path"));
 var core = __toESM(require_core());
 var httpClient = __toESM(require_lib());
 var tc = __toESM(require_tool_cache());
 var import_semver2 = __toESM(require_semver());
 var import_shell_quote = __toESM(require_shell_quote());
+var import_which = __toESM(require_lib2());
 
 // package.json
 var version2 = "2.2.1";
@@ -9923,12 +10180,25 @@ var flagsWithoutCommentingSupport = /* @__PURE__ */ new Set([
   "--createstub",
   "--dependencies"
 ]);
-async function getArgs() {
+async function getArgs(execPath) {
   const pyrightInfo = await getPyrightInfo();
-  const pyrightPath = await downloadPyright(pyrightInfo);
+  let pyrightPath;
+  let command;
+  switch (pyrightInfo.kind) {
+    case "npm":
+      pyrightPath = await downloadPyright(pyrightInfo);
+      command = execPath;
+      break;
+    case "path":
+      command = pyrightInfo.command;
+      break;
+  }
   const pyrightVersion = new import_semver2.default(pyrightInfo.version);
   const useDashedFlags = pyrightVersion.compare("1.1.309") === -1;
-  const args = [path.join(pyrightPath, "package", "index.js")];
+  const args = [];
+  if (pyrightPath) {
+    args.push(path.join(pyrightPath, "package", "index.js"));
+  }
   const workingDirectory = core.getInput("working-directory");
   const createStub = core.getInput("create-stub");
   if (createStub) {
@@ -10035,6 +10305,7 @@ async function getArgs() {
     workingDirectory,
     annotate,
     pyrightVersion: pyrightInfo.version,
+    command,
     args
   };
 }
@@ -10057,12 +10328,25 @@ async function downloadPyright(info3) {
   if (found) {
     return found;
   }
-  const tarballPath = await tc.downloadTool(info3.dist.tarball);
+  const tarballPath = await tc.downloadTool(info3.tarball);
   const extractedPath = await tc.extractTar(tarballPath);
   return await tc.cacheDir(extractedPath, pyrightToolName, info3.version);
 }
 async function getPyrightInfo() {
   const version3 = await getPyrightVersion();
+  if (version3 === "PATH") {
+    const command = import_which.default.sync("pyright");
+    const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
+    const versionRaw = versionOut.trim().split(/\s+/).at(-1);
+    if (!versionRaw)
+      throw new Error(`Failed to parse pyright version from ${JSON.stringify(versionOut)}`);
+    const version4 = new import_semver2.default(versionRaw).format();
+    return {
+      kind: "path",
+      version: version4,
+      command
+    };
+  }
   const client = new httpClient.HttpClient();
   const url = `https://registry.npmjs.org/pyright/${version3}`;
   const resp = await client.get(url);
@@ -10070,11 +10354,19 @@ async function getPyrightInfo() {
   if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
     throw new Error(`Failed to download metadata for pyright ${version3} from ${url} -- ${body}`);
   }
-  return parseNpmRegistryResponse(JSON.parse(body));
+  const parsed = parseNpmRegistryResponse(JSON.parse(body));
+  return {
+    kind: "npm",
+    version: parsed.version,
+    tarball: parsed.dist.tarball
+  };
 }
 async function getPyrightVersion() {
   const versionSpec = core.getInput("version");
   if (versionSpec) {
+    if (versionSpec.toUpperCase() === "PATH") {
+      return "PATH";
+    }
     return new import_semver2.default(versionSpec).format();
   }
   const pylanceVersion = core.getInput("pylance-version");
@@ -10101,15 +10393,15 @@ async function getPylancePyrightVersion(pylanceVersion) {
 }
 
 // src/main.ts
-function printInfo(pyrightVersion, node, cwd, args) {
+function printInfo(pyrightVersion, node, cwd, command, args) {
   core2.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
   core2.info(`Working directory: ${cwd}`);
-  core2.info(`Running: ${node.execPath} ${(0, import_shell_quote2.quote)(args)}`);
+  core2.info(`Running: ${(0, import_shell_quote2.quote)([command, ...args])}`);
 }
 async function main() {
   try {
     const node = getNodeInfo(process);
-    const { workingDirectory, annotate, pyrightVersion, args } = await getArgs();
+    const { workingDirectory, annotate, pyrightVersion, command, args } = await getArgs(node.execPath);
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
@@ -10118,8 +10410,8 @@ async function main() {
     } catch {
     }
     if (annotate.size === 0) {
-      printInfo(pyrightVersion, node, process.cwd(), args);
-      const { status: status2 } = cp.spawnSync(node.execPath, args, {
+      printInfo(pyrightVersion, node, process.cwd(), command, args);
+      const { status: status2 } = cp2.spawnSync(command, args, {
         stdio: ["ignore", "inherit", "inherit"]
       });
       if (status2 !== 0) {
@@ -10131,8 +10423,8 @@ async function main() {
     if (!updatedArgs.includes("--outputjson")) {
       updatedArgs.push("--outputjson");
     }
-    printInfo(pyrightVersion, node, process.cwd(), updatedArgs);
-    const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
+    printInfo(pyrightVersion, node, process.cwd(), command, updatedArgs);
+    const { status, stdout } = cp2.spawnSync(command, updatedArgs, {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "inherit"],
       maxBuffer: 100 * 1024 * 1024
@@ -10162,7 +10454,7 @@ async function main() {
         /* forCommand */
         true
       );
-      command.issueCommand(
+      actionsCommand.issueCommand(
         diag.severity,
         {
           file: diag.file,

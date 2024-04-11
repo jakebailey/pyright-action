@@ -5,7 +5,7 @@ import * as path from "node:path";
 import { inspect } from "node:util";
 
 import * as core from "@actions/core";
-import * as command from "@actions/core/lib/command";
+import * as actionsCommand from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
 import * as JSONC from "jsonc-parser";
 import SemVer from "semver/classes/semver";
@@ -14,16 +14,16 @@ import { quote } from "shell-quote";
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
-function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, args: readonly string[]) {
+function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, command: string, args: readonly string[]) {
     core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
     core.info(`Working directory: ${cwd}`);
-    core.info(`Running: ${node.execPath} ${quote(args)}`);
+    core.info(`Running: ${quote([command, ...args])}`);
 }
 
 export async function main() {
     try {
         const node = getNodeInfo(process);
-        const { workingDirectory, annotate, pyrightVersion, args } = await getArgs();
+        const { workingDirectory, annotate, pyrightVersion, command, args } = await getArgs(node.execPath);
         if (workingDirectory) {
             process.chdir(workingDirectory);
         }
@@ -35,14 +35,14 @@ export async function main() {
         }
 
         if (annotate.size === 0) {
-            printInfo(pyrightVersion, node, process.cwd(), args);
+            printInfo(pyrightVersion, node, process.cwd(), command, args);
             // If comments are disabled, there's no point in directly processing the output,
             // as it's only used for comments.
             // If we're running the type verifier, there's no guarantee that we can even act
             // on the output besides the exit code.
             //
             // So, in either case, just directly run pyright and exit with its status.
-            const { status } = cp.spawnSync(node.execPath, args, {
+            const { status } = cp.spawnSync(command, args, {
                 stdio: ["ignore", "inherit", "inherit"],
             });
 
@@ -57,9 +57,9 @@ export async function main() {
             updatedArgs.push("--outputjson");
         }
 
-        printInfo(pyrightVersion, node, process.cwd(), updatedArgs);
+        printInfo(pyrightVersion, node, process.cwd(), command, updatedArgs);
 
-        const { status, stdout } = cp.spawnSync(node.execPath, updatedArgs, {
+        const { status, stdout } = cp.spawnSync(command, updatedArgs, {
             encoding: "utf8",
             stdio: ["ignore", "pipe", "inherit"],
             maxBuffer: 100 * 1024 * 1024, // 100 MB "ought to be enough for anyone"; https://github.com/nodejs/node/issues/9829
@@ -90,7 +90,7 @@ export async function main() {
 
             // This is technically a log line and duplicates the core.info above,
             // but we want to have the below look nice in commit comments.
-            command.issueCommand(
+            actionsCommand.issueCommand(
                 diag.severity,
                 {
                     file: diag.file,

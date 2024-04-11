@@ -75,6 +75,7 @@ describe("no comments", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args,
         });
     });
@@ -114,6 +115,7 @@ describe("with comments", () => {
             annotate: new Set(["error", "warning"]),
             workingDirectory: "",
             pyrightVersion,
+            command: nodeExecPath,
             args,
         });
     });
@@ -234,6 +236,7 @@ describe("with comments", () => {
             annotate: new Set(["error"]),
             workingDirectory: "",
             pyrightVersion,
+            command: nodeExecPath,
             args,
         });
 
@@ -293,6 +296,7 @@ describe("with comments", () => {
             annotate: new Set(["error", "warning"]),
             workingDirectory: "",
             pyrightVersion,
+            command: nodeExecPath,
             args,
         });
 
@@ -424,6 +428,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args: flags,
         });
 
@@ -447,6 +452,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion: "1.1.350",
+            command: nodeExecPath,
             args: flags,
         });
 
@@ -470,6 +476,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion: "1.1.351",
+            command: nodeExecPath,
             args: flags,
         });
 
@@ -493,6 +500,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion: "1.1.352",
+            command: nodeExecPath,
             args: flags,
         });
 
@@ -516,6 +524,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion: "1.1.353",
+            command: nodeExecPath,
             args: flags,
         });
 
@@ -539,6 +548,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args: [...flags, "--project", "/some/path/to/pyrightconfig.json"],
         });
 
@@ -562,6 +572,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args: [...flags, "--project", "/some/path/to"],
         });
 
@@ -585,6 +596,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args: [...flags, "--project", "/some/path/to/pyrightconfig.json"],
         });
 
@@ -608,6 +620,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args: flags,
         });
 
@@ -642,6 +655,7 @@ describe("with overridden flags", () => {
             annotate: new Set(),
             workingDirectory: wd,
             pyrightVersion,
+            command: nodeExecPath,
             args: flags,
         });
 

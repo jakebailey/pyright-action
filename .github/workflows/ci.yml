@@ -81,3 +81,11 @@ jobs:
       - uses: ./
         with:
           working-directory: ./smoke-test
+
+      - uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+      - run: pip install pyright
+
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          version: PATH
