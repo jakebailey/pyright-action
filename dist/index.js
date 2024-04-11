@@ -9059,7 +9059,7 @@ var import_shell_quote = __toESM(require_shell_quote());
 var import_which = __toESM(require_lib2());
 
 // package.json
-var version2 = "2.2.1";
+var version2 = "2.3.0";
 
 // node_modules/.pnpm/@badrap+valita@0.3.8/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
