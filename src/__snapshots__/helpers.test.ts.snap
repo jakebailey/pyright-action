@@ -4272,6 +4272,15 @@ exports[`getArgs > valid version > version path bad version > cp.execFileSync 1`
       "encoding": "utf8",
     },
   ],
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
 ]
 `;
 
@@ -4301,6 +4310,15 @@ exports[`getArgs > valid version > version path bad version 2 > core.getInput 1`
 
 exports[`getArgs > valid version > version path bad version 2 > cp.execFileSync 1`] = `
 [
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
   [
     "/path/to/which/pyright",
     [
@@ -4348,6 +4366,15 @@ exports[`getArgs > valid version > version path bad version 3 > cp.execFileSync 
       "encoding": "utf8",
     },
   ],
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
 ]
 `;
 
@@ -4377,6 +4404,15 @@ exports[`getArgs > valid version > version path error executing > core.getInput 
 
 exports[`getArgs > valid version > version path error executing > cp.execFileSync 1`] = `
 [
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
   [
     "/path/to/which/pyright",
     [
@@ -4565,6 +4601,310 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
 `;
 
 exports[`getArgs > valid version > version takes precedence over pylance-version > which.sync 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but success after > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage but success after > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage but success after > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [],
+  "command": "/path/to/which/pyright",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {
+      "includePrerelease": false,
+      "loose": false,
+    },
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > version with garbage but success after > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but success after > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but success after > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but success after > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but success after > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage but version > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage but version > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage but version > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [],
+  "command": "/path/to/which/pyright",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {
+      "includePrerelease": false,
+      "loose": false,
+    },
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > version with garbage but version > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but version > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but version > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but version > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage but version > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage only > core.getInput 1`] = `
+[
+  [
+    "version",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage only > cp.execFileSync 1`] = `
+[
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+  [
+    "/path/to/which/pyright",
+    [
+      "--version",
+    ],
+    {
+      "encoding": "utf8",
+    },
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version with garbage only > tc.cacheDir 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage only > tc.downloadTool 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage only > tc.extractTar 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage only > tc.find 1`] = `[]`;
+
+exports[`getArgs > valid version > version with garbage only > which.sync 1`] = `
+[
+  [
+    "pyright",
+  ],
+]
+`;
 
 exports[`getNodeInfo > core.getInput 1`] = `[]`;
 

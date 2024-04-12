@@ -9932,15 +9932,35 @@ function formatSemVerOrString(v) {
   }
   return v.format();
 }
+function parsePyrightVersionFromStdout(stdout) {
+  const prefix = "pyright ";
+  for (let line of stdout.trim().split(/\r?\n/)) {
+    line = line.trimEnd();
+    if (line.startsWith(prefix)) {
+      try {
+        return new import_semver2.SemVer(line.slice(prefix.length));
+      } catch {
+      }
+    }
+  }
+  throw new Error(`Failed to parse pyright version from ${JSON.stringify(stdout)}`);
+}
 async function getPyrightInfo() {
   const version3 = await getPyrightVersion();
   if (version3 === "PATH") {
     const command = import_which.default.sync("pyright");
-    const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
-    const versionRaw = versionOut.trim().split(/\s+/).at(-1);
-    if (!versionRaw)
-      throw new Error(`Failed to parse pyright version from ${JSON.stringify(versionOut)}`);
-    const version4 = new import_semver2.SemVer(versionRaw);
+    let version4;
+    for (let i = 0; i < 2; i++) {
+      try {
+        const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
+        version4 = parsePyrightVersionFromStdout(versionOut);
+        break;
+      } catch (e) {
+        if (i === 1) {
+          throw e;
+        }
+      }
+    }
     return {
       kind: "path",
       version: version4,

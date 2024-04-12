@@ -258,14 +258,41 @@ function formatSemVerOrString(v: SemVer | string) {
     return v.format();
 }
 
+function parsePyrightVersionFromStdout(stdout: string): SemVer {
+    const prefix = "pyright ";
+
+    for (let line of stdout.trim().split(/\r?\n/)) {
+        line = line.trimEnd();
+        if (line.startsWith(prefix)) {
+            try {
+                return new SemVer(line.slice(prefix.length));
+            } catch {
+                // Continue
+            }
+        }
+    }
+
+    throw new Error(`Failed to parse pyright version from ${JSON.stringify(stdout)}`);
+}
+
 async function getPyrightInfo(): Promise<PyrightInfo> {
     const version = await getPyrightVersion();
     if (version === "PATH") {
         const command = which.sync("pyright");
-        const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
-        const versionRaw = versionOut.trim().split(/\s+/).at(-1);
-        if (!versionRaw) throw new Error(`Failed to parse pyright version from ${JSON.stringify(versionOut)}`);
-        const version = new SemVer(versionRaw);
+        let version!: SemVer;
+
+        for (let i = 0; i < 2; i++) {
+            try {
+                const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
+                version = parsePyrightVersionFromStdout(versionOut);
+                break;
+            } catch (e) {
+                if (i === 1) {
+                    throw e;
+                }
+            }
+        }
+
         return {
             kind: "path",
             version,

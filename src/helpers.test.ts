@@ -400,6 +400,48 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
         });
 
+        test("version with garbage but version", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(
+                `this is some junk\n\n*** downloading\npyright ${latestPyright}\ndone`,
+            );
+
+            const result = await getArgs(execPath);
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("version with garbage but success after", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+
+            let callCount = 0;
+            mockedCp.execFileSync.mockImplementation(() => {
+                callCount += 1;
+                switch (callCount) {
+                    case 1:
+                        return `this is some junk\n\n*** downloading\npyright ooops\ndone`;
+                    case 2:
+                        return `this is some junk\n\n*** downloading\npyright ${latestPyright}\ndone`;
+                    default:
+                        throw new Error("should not have been called");
+                }
+            });
+
+            const result = await getArgs(execPath);
+            expect(result).toMatchSnapshot("result");
+        });
+
+        test("version with garbage only", async () => {
+            inputs.set("version", "path");
+            mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
+            mockedCp.execFileSync.mockReturnValue(
+                `this is some junk\n\n*** downloading\npyright ooops\ndone`,
+            );
+
+            await expect(getArgs(execPath)).rejects.toThrowError("Failed to parse pyright version");
+        });
+
         test("version path not found", async () => {
             inputs.set("version", "path");
 
@@ -421,7 +463,7 @@ describe("getArgs", () => {
             mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
             mockedCp.execFileSync.mockReturnValue(`oops`);
 
-            await expect(getArgs(execPath)).rejects.toThrowError("Invalid Version");
+            await expect(getArgs(execPath)).rejects.toThrowError("Failed to parse pyright version");
         });
 
         test("version path bad version 2", async () => {
@@ -429,7 +471,7 @@ describe("getArgs", () => {
             mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
             mockedCp.execFileSync.mockReturnValue(`pyright xasdnodgu 38gnoan`);
 
-            await expect(getArgs(execPath)).rejects.toThrowError("Invalid Version");
+            await expect(getArgs(execPath)).rejects.toThrowError("Failed to parse pyright version");
         });
 
         test("version path bad version 3", async () => {
