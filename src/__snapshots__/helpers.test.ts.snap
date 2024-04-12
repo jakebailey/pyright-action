@@ -141,7 +141,18 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
     "/path/to-venv",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.308",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 308,
+    "prerelease": [],
+    "raw": "1.1.308",
+    "version": "1.1.308",
+  },
   "workingDirectory": "",
 }
 `;
@@ -267,7 +278,18 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
     "/path/to-venv",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.309",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 309,
+    "prerelease": [],
+    "raw": "1.1.309",
+    "version": "1.1.309",
+  },
   "workingDirectory": "",
 }
 `;
@@ -393,7 +415,18 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
     "/path/to-venv",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.310",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 310,
+    "prerelease": [],
+    "raw": "1.1.310",
+    "version": "1.1.310",
+  },
   "workingDirectory": "",
 }
 `;
@@ -518,7 +551,18 @@ exports[`getArgs > valid version > annotate "" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -640,7 +684,18 @@ exports[`getArgs > valid version > annotate "False" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -765,7 +820,18 @@ exports[`getArgs > valid version > annotate "True" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -890,7 +956,18 @@ exports[`getArgs > valid version > annotate "all" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1014,7 +1091,18 @@ exports[`getArgs > valid version > annotate "errors" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1139,7 +1227,18 @@ exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1261,7 +1360,18 @@ exports[`getArgs > valid version > annotate "false" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1383,7 +1493,18 @@ exports[`getArgs > valid version > annotate "none" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1508,7 +1629,18 @@ exports[`getArgs > valid version > annotate "true" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1632,7 +1764,18 @@ exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -1757,7 +1900,18 @@ exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -2096,7 +2250,18 @@ exports[`getArgs > valid version > cached > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -2200,7 +2365,18 @@ exports[`getArgs > valid version > createstub > result 1`] = `
     "pygame",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -2324,7 +2500,18 @@ exports[`getArgs > valid version > dependencies > result 1`] = `
     "TRUE",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -2556,7 +2743,18 @@ exports[`getArgs > valid version > extra-args quotes > result 1`] = `
     "--baz=quoted value",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -2700,7 +2898,18 @@ exports[`getArgs > valid version > many options > result 1`] = `
     "--baz",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "/path/to/project",
 }
 `;
@@ -2822,7 +3031,18 @@ exports[`getArgs > valid version > no comments > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -2947,7 +3167,18 @@ exports[`getArgs > valid version > pylance-version > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "9.9.999",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 9,
+    "minor": 9,
+    "options": {},
+    "patch": 999,
+    "prerelease": [],
+    "raw": "9.9.999",
+    "version": "9.9.999",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3096,7 +3327,18 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
     "--skipunannotated",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3219,7 +3461,18 @@ exports[`getArgs > valid version > stats > result 1`] = `
     "--stats",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3345,7 +3598,18 @@ exports[`getArgs > valid version > verbose > result 1`] = `
     "--lib",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3468,7 +3732,18 @@ exports[`getArgs > valid version > verbose flag > result 1`] = `
     "--verbose",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3593,7 +3868,18 @@ exports[`getArgs > valid version > verifytypes > result 1`] = `
     "some.package",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3716,7 +4002,18 @@ exports[`getArgs > valid version > verifytypes flag > result 1`] = `
     "--verifytypes",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -3868,7 +4165,18 @@ exports[`getArgs > valid version > version path > result 1`] = `
   },
   "args": [],
   "command": "/path/to/which/pyright",
-  "pyrightVersion": "1.1.240",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
   "workingDirectory": "",
 }
 `;
@@ -4147,7 +4455,18 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
-  "pyrightVersion": "1.1.310",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "includePrerelease": false,
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {},
+    "patch": 310,
+    "prerelease": [],
+    "raw": "1.1.310",
+    "version": "1.1.310",
+  },
   "workingDirectory": "",
 }
 `;

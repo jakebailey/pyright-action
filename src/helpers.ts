@@ -30,7 +30,7 @@ export function getNodeInfo(process: NodeInfo): NodeInfo {
 export interface Args {
     workingDirectory: string;
     annotate: ReadonlySet<"error" | "warning">;
-    pyrightVersion: string;
+    pyrightVersion: SemVer;
     command: string;
     args: readonly string[];
 }
@@ -232,23 +232,31 @@ function getBooleanInput(name: string, defaultValue: boolean): boolean {
 const pyrightToolName = "pyright";
 
 async function downloadPyright(info: PyrightInfoFromNpm): Promise<string> {
+    const version = info.version.format();
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
     // eslint-disable-next-line unicorn/no-array-callback-reference, unicorn/no-array-method-this-argument
-    const found = tc.find(pyrightToolName, info.version);
+    const found = tc.find(pyrightToolName, version);
     if (found) {
         return found;
     }
 
     const tarballPath = await tc.downloadTool(info.tarball);
     const extractedPath = await tc.extractTar(tarballPath);
-    return await tc.cacheDir(extractedPath, pyrightToolName, info.version);
+    return await tc.cacheDir(extractedPath, pyrightToolName, version);
 }
 
 type PyrightInfo = PyrightInfoFromNpm | PyrightInfoFromPath;
 
-type PyrightInfoFromNpm = { kind: "npm"; version: string; tarball: string; };
-type PyrightInfoFromPath = { kind: "path"; version: string; command: string; };
+type PyrightInfoFromNpm = { kind: "npm"; version: SemVer; tarball: string; };
+type PyrightInfoFromPath = { kind: "path"; version: SemVer; command: string; };
+
+function formatSemVerOrString(v: SemVer | string) {
+    if (typeof v === "string") {
+        return v;
+    }
+    return v.format();
+}
 
 async function getPyrightInfo(): Promise<PyrightInfo> {
     const version = await getPyrightVersion();
@@ -257,7 +265,7 @@ async function getPyrightInfo(): Promise<PyrightInfo> {
         const versionOut = cp.execFileSync(command, ["--version"], { encoding: "utf8" });
         const versionRaw = versionOut.trim().split(/\s+/).at(-1);
         if (!versionRaw) throw new Error(`Failed to parse pyright version from ${JSON.stringify(versionOut)}`);
-        const version = new SemVer(versionRaw).format();
+        const version = new SemVer(versionRaw);
         return {
             kind: "path",
             version,
@@ -266,27 +274,28 @@ async function getPyrightInfo(): Promise<PyrightInfo> {
     }
 
     const client = new httpClient.HttpClient();
-    const url = `https://registry.npmjs.org/pyright/${version}`;
+    const versionString = formatSemVerOrString(version);
+    const url = `https://registry.npmjs.org/pyright/${versionString}`;
     const resp = await client.get(url);
     const body = await resp.readBody();
     if (resp.message.statusCode !== httpClient.HttpCodes.OK) {
-        throw new Error(`Failed to download metadata for pyright ${version} from ${url} -- ${body}`);
+        throw new Error(`Failed to download metadata for pyright ${versionString} from ${url} -- ${body}`);
     }
     const parsed = parseNpmRegistryResponse(JSON.parse(body));
     return {
         kind: "npm",
-        version: parsed.version,
+        version: new SemVer(parsed.version),
         tarball: parsed.dist.tarball,
     };
 }
 
-async function getPyrightVersion(): Promise<string> {
+async function getPyrightVersion(): Promise<SemVer | "PATH" | "latest"> {
     const versionSpec = core.getInput("version");
     if (versionSpec) {
         if (versionSpec.toUpperCase() === "PATH") {
             return "PATH";
         }
-        return new SemVer(versionSpec).format();
+        return new SemVer(versionSpec);
     }
 
     const pylanceVersion = core.getInput("pylance-version");
@@ -301,7 +310,7 @@ async function getPyrightVersion(): Promise<string> {
     return "latest";
 }
 
-async function getPylancePyrightVersion(pylanceVersion: string): Promise<string> {
+async function getPylancePyrightVersion(pylanceVersion: string): Promise<SemVer> {
     const client = new httpClient.HttpClient();
     const url = `https://raw.githubusercontent.com/microsoft/pylance-release/main/releases/${pylanceVersion}.json`;
     const resp = await client.get(url);
@@ -315,5 +324,5 @@ async function getPylancePyrightVersion(pylanceVersion: string): Promise<string>
 
     core.info(`Pylance ${pylanceVersion} uses pyright ${pyrightVersion}`);
 
-    return pyrightVersion;
+    return new SemVer(pyrightVersion);
 }

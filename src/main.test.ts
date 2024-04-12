@@ -6,13 +6,14 @@ import * as fs from "node:fs";
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
+import SemVer from "semver/classes/semver";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 import * as helpers from "./helpers";
 
 const nodeVersion = "v20.8.1";
 const nodeExecPath = "/path/to/node";
-const pyrightVersion = "1.1.240";
+const pyrightVersion = new SemVer("1.1.240");
 
 vitest.mock("@actions/core");
 const mockedCore = vitest.mocked(core);
@@ -451,7 +452,7 @@ describe("with overridden flags", () => {
         mockedHelpers.getArgs.mockResolvedValue({
             annotate: new Set(),
             workingDirectory: wd,
-            pyrightVersion: "1.1.350",
+            pyrightVersion: new SemVer("1.1.350"),
             command: nodeExecPath,
             args: flags,
         });
@@ -475,7 +476,7 @@ describe("with overridden flags", () => {
         mockedHelpers.getArgs.mockResolvedValue({
             annotate: new Set(),
             workingDirectory: wd,
-            pyrightVersion: "1.1.351",
+            pyrightVersion: new SemVer("1.1.351"),
             command: nodeExecPath,
             args: flags,
         });
@@ -499,7 +500,7 @@ describe("with overridden flags", () => {
         mockedHelpers.getArgs.mockResolvedValue({
             annotate: new Set(),
             workingDirectory: wd,
-            pyrightVersion: "1.1.352",
+            pyrightVersion: new SemVer("1.1.352"),
             command: nodeExecPath,
             args: flags,
         });
@@ -523,7 +524,7 @@ describe("with overridden flags", () => {
         mockedHelpers.getArgs.mockResolvedValue({
             annotate: new Set(),
             workingDirectory: wd,
-            pyrightVersion: "1.1.353",
+            pyrightVersion: new SemVer("1.1.353"),
             command: nodeExecPath,
             args: flags,
         });

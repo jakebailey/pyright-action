@@ -14,8 +14,8 @@ import { quote } from "shell-quote";
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
 
-function printInfo(pyrightVersion: string, node: NodeInfo, cwd: string, command: string, args: readonly string[]) {
-    core.info(`pyright ${pyrightVersion}, node ${node.version}, pyright-action ${getActionVersion()}`);
+function printInfo(pyrightVersion: SemVer, node: NodeInfo, cwd: string, command: string, args: readonly string[]) {
+    core.info(`pyright ${pyrightVersion.format()}, node ${node.version}, pyright-action ${getActionVersion()}`);
     core.info(`Working directory: ${cwd}`);
     core.info(`Running: ${quote([command, ...args])}`);
 }
@@ -162,14 +162,13 @@ export const flagsOverriddenByConfig351AndBefore = new Set([
     ...flagsOverriddenByConfig352AndAfter,
 ]);
 
-function getFlagsOverriddenByConfig(version: string): ReadonlySet<string> {
-    const pyrightVersion = new SemVer(version);
-    return pyrightVersion.compare("1.1.352") === -1
+function getFlagsOverriddenByConfig(version: SemVer): ReadonlySet<string> {
+    return version.compare("1.1.352") === -1
         ? flagsOverriddenByConfig351AndBefore
         : flagsOverriddenByConfig352AndAfter;
 }
 
-function checkOverriddenFlags(version: string, args: readonly string[]) {
+function checkOverriddenFlags(version: SemVer, args: readonly string[]) {
     const flagsOverriddenByConfig = getFlagsOverriddenByConfig(version);
 
     const overriddenFlags = new Set(
