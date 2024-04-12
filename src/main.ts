@@ -8,7 +8,7 @@ import * as core from "@actions/core";
 import * as actionsCommand from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
 import * as JSONC from "jsonc-parser";
-import SemVer from "semver/classes/semver";
+import { SemVer } from "semver";
 import { quote } from "shell-quote";
 
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";

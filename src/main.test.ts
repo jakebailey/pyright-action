@@ -6,7 +6,7 @@ import * as fs from "node:fs";
 import * as core from "@actions/core";
 import * as command from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
-import SemVer from "semver/classes/semver";
+import { SemVer } from "semver";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 import * as helpers from "./helpers";

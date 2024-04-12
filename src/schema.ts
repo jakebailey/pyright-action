@@ -1,5 +1,5 @@
 import * as v from "@badrap/valita";
-import SemVer from "semver/classes/semver";
+import { SemVer } from "semver";
 
 export type Position = v.Infer<typeof Position>;
 const Position = v.object({
