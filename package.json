@@ -33,7 +33,7 @@
         "@types/which": "^3.0.3",
         "@typescript-eslint/eslint-plugin": "^7.6.0",
         "@typescript-eslint/parser": "^7.6.0",
-        "@vitest/coverage-v8": "^1.4.0",
+        "@vitest/coverage-v8": "^1.5.0",
         "dprint": "^0.45.1",
         "esbuild": "^0.20.2",
         "eslint": "^8.57.0",
@@ -43,8 +43,8 @@
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
         "rimraf": "^5.0.5",
-        "typescript": "~5.4.4",
-        "vitest": "^1.4.0"
+        "typescript": "~5.4.5",
+        "vitest": "^1.5.0"
     },
     "overrides": {
         "vite": {
