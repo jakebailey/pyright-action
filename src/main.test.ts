@@ -687,6 +687,49 @@ describe("with overridden flags", () => {
     });
 });
 
+describe("working-directory", () => {
+    test("relative paths", async () => {
+        const args = ["/path/to/pyright/dist/index.js", "--outputjson"];
+        const wd = "/some/wd";
+
+        mockedHelpers.getArgs.mockResolvedValue({
+            annotate: new Set(["error"]),
+            workingDirectory: wd,
+            pyrightVersion,
+            command: nodeExecPath,
+            args,
+        });
+
+        mockedCp.spawnSync.mockImplementation(() => ({
+            pid: -1,
+            output: [],
+            stdout: reportToString({
+                generalDiagnostics: [
+                    {
+                        file: "/some/wd/file1.py",
+                        range: {
+                            start: { line: 0, character: 0 },
+                            end: { line: 1, character: 1 },
+                        },
+                        severity: "error",
+                        message: "some error",
+                    },
+                ],
+                summary: {
+                    errorCount: 1,
+                    warningCount: 0,
+                    informationCount: 0,
+                },
+            }) as any,
+            stderr: "" as any,
+            status: 1,
+            signal: null,
+        }));
+
+        await main();
+    });
+});
+
 function reportToString(report: Report): string {
     return JSON.stringify(report);
 }

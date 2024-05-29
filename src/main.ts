@@ -93,7 +93,9 @@ export async function main() {
             actionsCommand.issueCommand(
                 diag.severity,
                 {
-                    file: diag.file,
+                    file: workingDirectory
+                        ? path.relative(workingDirectory, diag.file)
+                        : diag.file,
                     line: line + 1,
                     col: col + 1,
                 },
