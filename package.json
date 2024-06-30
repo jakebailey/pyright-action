@@ -19,7 +19,7 @@
         "@actions/tool-cache": "^2.0.1",
         "@badrap/valita": "^0.3.8",
         "@iarna/toml": "^2.2.5",
-        "jsonc-parser": "^3.2.1",
+        "jsonc-parser": "^3.3.1",
         "semver": "^6.3.1",
         "shell-quote": "^1.8.1",
         "which": "^4.0.0"
@@ -27,23 +27,23 @@
     "devDependencies": {
         "@tsconfig/node20": "^20.1.4",
         "@tsconfig/strictest": "^2.0.5",
-        "@types/node": "^20.14.2",
+        "@types/node": "^20.14.9",
         "@types/semver": "^6.2.7",
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
-        "@typescript-eslint/eslint-plugin": "^7.12.0",
-        "@typescript-eslint/parser": "^7.12.0",
+        "@typescript-eslint/eslint-plugin": "^7.14.1",
+        "@typescript-eslint/parser": "^7.14.1",
         "@vitest/coverage-v8": "^1.6.0",
-        "dprint": "^0.46.1",
-        "esbuild": "^0.21.4",
+        "dprint": "^0.46.3",
+        "esbuild": "^0.22.0",
         "eslint": "^8.57.0",
         "eslint-plugin-simple-import-sort": "^12.1.0",
-        "eslint-plugin-unicorn": "^53.0.0",
+        "eslint-plugin-unicorn": "^54.0.0",
         "husky": "^9.0.11",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
         "rimraf": "^5.0.7",
-        "typescript": "~5.4.5",
+        "typescript": "~5.5.2",
         "vitest": "^1.6.0"
     },
     "overrides": {
@@ -53,7 +53,7 @@
     },
     "scripts": {
         "prepare": "husky",
-        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node20 --main-fields=module,main",
+        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node20 --main-fields=module,main --packages=bundle",
         "test": "vitest",
         "test:coverage": "vitest run --coverage"
     },
