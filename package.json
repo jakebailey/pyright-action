@@ -42,7 +42,7 @@
         "husky": "^9.0.11",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
-        "rimraf": "^5.0.8",
+        "rimraf": "^6.0.0",
         "typescript": "~5.5.3",
         "vitest": "^2.0.1"
     },
