@@ -416,7 +416,7 @@ describe("getArgs", () => {
             mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
 
             let callCount = 0;
-            mockedCp.execFileSync.mockImplementation(() => {
+            mockedCp.execFileSync.mockImplementation((() => {
                 callCount += 1;
                 switch (callCount) {
                     case 1:
@@ -426,7 +426,7 @@ describe("getArgs", () => {
                     default:
                         throw new Error("should not have been called");
                 }
-            });
+            }) as any);
 
             const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
