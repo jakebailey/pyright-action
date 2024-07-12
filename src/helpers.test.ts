@@ -416,17 +416,20 @@ describe("getArgs", () => {
             mockedWhich.sync.mockReturnValue("/path/to/which/pyright");
 
             let callCount = 0;
-            mockedCp.execFileSync.mockImplementation((() => {
-                callCount += 1;
-                switch (callCount) {
-                    case 1:
-                        return `this is some junk\n\n*** downloading\npyright ooops\ndone`;
-                    case 2:
-                        return `this is some junk\n\n*** downloading\npyright ${latestPyright}\ndone`;
-                    default:
-                        throw new Error("should not have been called");
-                }
-            }) as any);
+            mockedCp.execFileSync.mockImplementation(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                (() => {
+                    callCount += 1;
+                    switch (callCount) {
+                        case 1:
+                            return `this is some junk\n\n*** downloading\npyright ooops\ndone`;
+                        case 2:
+                            return `this is some junk\n\n*** downloading\npyright ${latestPyright}\ndone`;
+                        default:
+                            throw new Error("should not have been called");
+                    }
+                }) as any,
+            );
 
             const result = await getArgs(execPath);
             expect(result).toMatchSnapshot("result");
