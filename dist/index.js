@@ -8559,7 +8559,7 @@ var import_which = __toESM(require_lib2());
 // package.json
 var version2 = "2.3.1";
 
-// node_modules/.pnpm/@badrap+valita@0.3.8/node_modules/@badrap/valita/dist/node-mjs/index.mjs
+// node_modules/.pnpm/@badrap+valita@0.3.9/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
   return left ? { ok: false, code: "join", left, right } : right;
 }
@@ -8879,6 +8879,11 @@ var ObjectType = class _ObjectType extends Type {
     this.restType = restType;
     this.checks = checks;
     this.name = "object";
+    this._invalidType = {
+      ok: false,
+      code: "invalid_type",
+      expected: ["object"]
+    };
   }
   check(func, error) {
     const issue = { ok: false, code: "custom_error", error };
@@ -8891,6 +8896,9 @@ var ObjectType = class _ObjectType extends Type {
     ]);
   }
   func(v, flags) {
+    if (!isObject(v)) {
+      return this._invalidType;
+    }
     let func = this._func;
     if (func === void 0) {
       func = createObjectMatcher(this.shape, this.restType, this.checks);
@@ -8943,16 +8951,8 @@ function createObjectMatcher(shape, rest, checks) {
   }
   const keys = [...requiredKeys, ...optionalKeys];
   const totalCount = keys.length;
-  const invalidType = {
-    ok: false,
-    code: "invalid_type",
-    expected: ["object"]
-  };
   if (totalCount === 0 && rest?.name === "unknown") {
     return function(obj, _) {
-      if (!isObject(obj)) {
-        return invalidType;
-      }
       if (checks !== void 0) {
         for (let i = 0; i < checks.length; i++) {
           if (!checks[i].func(obj)) {
@@ -8986,9 +8986,6 @@ function createObjectMatcher(shape, rest, checks) {
     }
   }
   return function(obj, flags) {
-    if (!isObject(obj)) {
-      return invalidType;
-    }
     let copied = false;
     let output = obj;
     let issues;
