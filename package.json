@@ -27,24 +27,24 @@
     "devDependencies": {
         "@tsconfig/node20": "^20.1.4",
         "@tsconfig/strictest": "^2.0.5",
-        "@types/node": "^20.14.12",
+        "@types/node": "^20.15.0",
         "@types/semver": "^6.2.7",
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
-        "@typescript-eslint/eslint-plugin": "^7.17.0",
-        "@typescript-eslint/parser": "^7.17.0",
-        "@vitest/coverage-v8": "^2.0.4",
+        "@typescript-eslint/eslint-plugin": "^7.18.0",
+        "@typescript-eslint/parser": "^7.18.0",
+        "@vitest/coverage-v8": "^2.0.5",
         "dprint": "^0.47.2",
-        "esbuild": "^0.23.0",
+        "esbuild": "^0.23.1",
         "eslint": "^8.57.0",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "eslint-plugin-unicorn": "^55.0.0",
-        "husky": "^9.1.2",
+        "husky": "^9.1.4",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
         "rimraf": "^6.0.1",
         "typescript": "~5.5.4",
-        "vitest": "^2.0.4"
+        "vitest": "^2.0.5"
     },
     "overrides": {
         "vite": {
@@ -75,5 +75,5 @@
             "after:git:release": "(git tag -d v2 && git push origin :refs/tags/v2) || true && git tag v2 && git push origin v2"
         }
     },
-    "packageManager": "pnpm@9.2.0+sha256.94fab213df221c55b6956b14a2264c21c6203cca9f0b3b95ff2fe9b84b120390"
+    "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247"
 }
