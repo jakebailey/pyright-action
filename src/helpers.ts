@@ -322,6 +322,9 @@ async function getPyrightVersion(): Promise<SemVer | "PATH" | "latest"> {
         if (versionSpec.toUpperCase() === "PATH") {
             return "PATH";
         }
+        if (versionSpec === "latest") {
+            return "latest";
+        }
         return new SemVer(versionSpec);
     }
 

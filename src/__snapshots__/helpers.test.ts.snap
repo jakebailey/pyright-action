@@ -4109,6 +4109,141 @@ exports[`getArgs > valid version > verifytypes flag > tc.find 1`] = `
 
 exports[`getArgs > valid version > verifytypes flag > which.sync 1`] = `[]`;
 
+exports[`getArgs > valid version > version latest > core.getInput 1`] = `
+[
+  [
+    "annotate",
+  ],
+  [
+    "create-stub",
+  ],
+  [
+    "dependencies",
+  ],
+  [
+    "extra-args",
+  ],
+  [
+    "ignore-external",
+  ],
+  [
+    "level",
+  ],
+  [
+    "lib",
+  ],
+  [
+    "no-comments",
+  ],
+  [
+    "project",
+  ],
+  [
+    "python-path",
+  ],
+  [
+    "python-platform",
+  ],
+  [
+    "python-version",
+  ],
+  [
+    "skip-unannotated",
+  ],
+  [
+    "stats",
+  ],
+  [
+    "typeshed-path",
+  ],
+  [
+    "venv-path",
+  ],
+  [
+    "verbose",
+  ],
+  [
+    "verify-types",
+  ],
+  [
+    "version",
+  ],
+  [
+    "warnings",
+  ],
+  [
+    "working-directory",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version latest > cp.execFileSync 1`] = `[]`;
+
+exports[`getArgs > valid version > version latest > result 1`] = `
+{
+  "annotate": Set {
+    "error",
+    "warning",
+  },
+  "args": [
+    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+  ],
+  "command": "<execPath>",
+  "pyrightVersion": SemVer {
+    "build": [],
+    "loose": false,
+    "major": 1,
+    "minor": 1,
+    "options": {
+      "includePrerelease": false,
+      "loose": false,
+    },
+    "patch": 240,
+    "prerelease": [],
+    "raw": "1.1.240",
+    "version": "1.1.240",
+  },
+  "workingDirectory": "",
+}
+`;
+
+exports[`getArgs > valid version > version latest > tc.cacheDir 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright",
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version latest > tc.downloadTool 1`] = `
+[
+  [
+    "https://registry.npmjs.org/pyright/-/pyright-1.1.240.tgz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version latest > tc.extractTar 1`] = `
+[
+  [
+    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version latest > tc.find 1`] = `
+[
+  [
+    "pyright",
+    "1.1.240",
+  ],
+]
+`;
+
+exports[`getArgs > valid version > version latest > which.sync 1`] = `[]`;
+
 exports[`getArgs > valid version > version not found > core.getInput 1`] = `
 [
   [

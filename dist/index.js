@@ -9908,6 +9908,9 @@ async function getPyrightVersion() {
     if (versionSpec.toUpperCase() === "PATH") {
       return "PATH";
     }
+    if (versionSpec === "latest") {
+      return "latest";
+    }
     return new import_semver2.SemVer(versionSpec);
   }
   const pylanceVersion = core.getInput("pylance-version");

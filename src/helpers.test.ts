@@ -244,6 +244,16 @@ describe("getArgs", () => {
             expect(result).toMatchSnapshot("result");
         });
 
+        test("version latest", async () => {
+            inputs.set("version", "latest");
+
+            const result = await getArgs(execPath);
+            expect(result).toMatchSnapshot("result");
+
+            expect(mockedTc.downloadTool).toBeCalledWith(getNpmResponse(latestPyright).dist.tarball);
+            expect(mockedTc.extractTar).toBeCalledWith(tarballPath);
+        });
+
         test("version not found", async () => {
             inputs.set("version", "999.999.404");
             await expect(getArgs(execPath)).rejects.toThrowError("version not found: 999.999.404");
