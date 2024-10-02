@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@actions/core':
         specifier: ^1.10.1
-        version: 1.10.1
+        version: 1.11.0
       '@actions/http-client':
         specifier: ~2.1.1
         version: 2.1.1
@@ -99,8 +99,8 @@ importers:
 
 packages:
 
-  '@actions/core@1.10.1':
-    resolution: {integrity: sha512-3lBR9EDAY+iYIpTnTIXmWcNbX3T2kCkAEQGIQx4NVQ0575nk2k3GRZDTPQG+vVtS2izSLmINlxXf0uLtnrTP+g==}
+  '@actions/core@1.11.0':
+    resolution: {integrity: sha512-I21jQUzEjbZolw3jFZ/0iHGCb+rePCww9MaA0SbVFae4FpBTQWP1GIvr/m5Y6GVaxrDz7p3RhBtpBzwkA3rPSA==}
 
   '@actions/exec@1.1.1':
     resolution: {integrity: sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==}
@@ -1619,10 +1619,6 @@ packages:
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     hasBin: true
 
-  uuid@8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
-
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
@@ -1723,10 +1719,10 @@ packages:
 
 snapshots:
 
-  '@actions/core@1.10.1':
+  '@actions/core@1.11.0':
     dependencies:
+      '@actions/exec': 1.1.1
       '@actions/http-client': 2.1.1
-      uuid: 8.3.2
 
   '@actions/exec@1.1.1':
     dependencies:
@@ -1740,7 +1736,7 @@ snapshots:
 
   '@actions/tool-cache@2.0.1':
     dependencies:
-      '@actions/core': 1.10.1
+      '@actions/core': 1.11.0
       '@actions/exec': 1.1.1
       '@actions/http-client': 2.1.1
       '@actions/io': 1.1.3
@@ -3118,8 +3114,6 @@ snapshots:
       punycode: 2.3.1
 
   uuid@3.4.0: {}
-
-  uuid@8.3.2: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:
