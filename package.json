@@ -36,7 +36,7 @@
         "@vitest/coverage-v8": "^2.1.2",
         "dprint": "^0.47.2",
         "esbuild": "^0.24.0",
-        "eslint": "^8.57.1",
+        "eslint": "^9.0.0",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "eslint-plugin-unicorn": "^56.0.0",
         "husky": "^9.1.6",
