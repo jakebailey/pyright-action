@@ -8372,7 +8372,7 @@ var import_which = __toESM(require_lib2());
 // package.json
 var version = "2.3.2";
 
-// node_modules/.pnpm/@badrap+valita@0.3.9/node_modules/@badrap/valita/dist/node-mjs/index.mjs
+// node_modules/.pnpm/@badrap+valita@0.3.11/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function joinIssues(left, right) {
   return left ? { ok: false, code: "join", left, right } : right;
 }
@@ -8476,7 +8476,7 @@ function formatIssueTree(tree) {
     if (min > 0) {
       if (max === min) {
         message += `${min}`;
-      } else if (max < Infinity) {
+      } else if (max !== void 0) {
         message += `between ${min} and ${max}`;
       } else {
         message += `at least ${min}`;
@@ -8554,8 +8554,14 @@ var FLAG_FORBID_EXTRA_KEYS = 1;
 var FLAG_STRIP_EXTRA_KEYS = 2;
 var FLAG_MISSING_VALUE = 4;
 var AbstractType = class {
-  optional() {
-    return new Optional(this);
+  optional(defaultFn) {
+    const optional = new Optional(this);
+    if (!defaultFn) {
+      return optional;
+    }
+    return new TransformType(optional, (v) => {
+      return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
+    });
   }
   default(defaultValue) {
     const defaultResult = ok(defaultValue);
@@ -8660,8 +8666,13 @@ var Optional = class extends AbstractType {
     func(undefinedSingleton);
     this.type.toTerminals(func);
   }
-  optional() {
-    return this;
+  optional(defaultFn) {
+    if (!defaultFn) {
+      return this;
+    }
+    return new TransformType(this, (v) => {
+      return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
+    });
   }
 };
 function setBit(bits, index) {
@@ -8932,14 +8943,16 @@ function createObjectMatcher(shape, rest, checks) {
     }
   };
 }
-var ArrayType = class extends Type {
-  constructor(head, rest) {
+var ArrayOrTupleType = class _ArrayOrTupleType extends Type {
+  constructor(prefix, rest, suffix) {
     super();
-    this.head = head;
+    this.prefix = prefix;
+    this.rest = rest;
+    this.suffix = suffix;
     this.name = "array";
-    this.rest = rest ?? never();
-    this.minLength = this.head.length;
-    this.maxLength = rest ? Infinity : this.minLength;
+    this.restType = rest ?? never();
+    this.minLength = this.prefix.length + this.suffix.length;
+    this.maxLength = rest ? void 0 : this.minLength;
     this.invalidType = {
       ok: false,
       code: "invalid_type",
@@ -8958,14 +8971,16 @@ var ArrayType = class extends Type {
     }
     const length = arr.length;
     const minLength = this.minLength;
-    const maxLength = this.maxLength;
+    const maxLength = this.maxLength ?? Infinity;
     if (length < minLength || length > maxLength) {
       return this.invalidLength;
     }
+    const headEnd = this.prefix.length;
+    const tailStart = arr.length - this.suffix.length;
     let issueTree = void 0;
     let output = arr;
     for (let i = 0; i < arr.length; i++) {
-      const type = i < minLength ? this.head[i] : this.rest;
+      const type = i < headEnd ? this.prefix[i] : i >= tailStart ? this.suffix[i - tailStart] : this.restType;
       const r = type.func(arr[i], flags);
       if (r !== void 0) {
         if (r.ok) {
@@ -8984,6 +8999,22 @@ var ArrayType = class extends Type {
       return void 0;
     } else {
       return { ok: true, value: output };
+    }
+  }
+  concat(type) {
+    if (this.rest) {
+      if (type.rest) {
+        throw new TypeError("can not concatenate two variadic types");
+      }
+      return new _ArrayOrTupleType(this.prefix, this.rest, [
+        ...this.suffix,
+        ...type.prefix,
+        ...type.suffix
+      ]);
+    } else if (type.rest) {
+      return new _ArrayOrTupleType([...this.prefix, ...this.suffix, ...type.prefix], type.rest, type.suffix);
+    } else {
+      return new _ArrayOrTupleType([...this.prefix, ...this.suffix, ...type.prefix, ...type.suffix], type.rest, type.suffix);
     }
   }
 };
@@ -9288,6 +9319,9 @@ var UnknownType = class extends Type {
   }
 };
 var unknownSingleton = new UnknownType();
+function unknown() {
+  return unknownSingleton;
+}
 var UndefinedType = class extends Type {
   constructor() {
     super(...arguments);
@@ -9406,7 +9440,7 @@ function object(obj) {
   return new ObjectType(obj, void 0);
 }
 function array(item) {
-  return new ArrayType([], item);
+  return new ArrayOrTupleType([], item ?? unknown(), []);
 }
 function union(...options) {
   return new UnionType(options);
