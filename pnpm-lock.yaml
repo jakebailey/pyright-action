@@ -27,8 +27,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       semver:
-        specifier: ^6.3.1
-        version: 6.3.1
+        specifier: ^7.0.0
+        version: 7.6.3
       shell-quote:
         specifier: ^1.8.1
         version: 1.8.1
@@ -46,8 +46,8 @@ importers:
         specifier: ^20.17.1
         version: 20.17.1
       '@types/semver':
-        specifier: ^6.2.7
-        version: 6.2.7
+        specifier: ^7.0.0
+        version: 7.5.8
       '@types/shell-quote':
         specifier: ^1.7.5
         version: 1.7.5
@@ -639,8 +639,8 @@ packages:
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  '@types/semver@6.2.7':
-    resolution: {integrity: sha512-blctEWbzUFzQx799RZjzzIdBJOXmE37YYEyDtKkx5Dg+V7o/zyyAxLPiI98A2jdTtDgxZleMdfV+7p8WbRJ1OQ==}
+  '@types/semver@7.5.8':
+    resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
 
   '@types/shell-quote@1.7.5':
     resolution: {integrity: sha512-+UE8GAGRPbJVQDdxi16dgadcBfQ+KG2vgZhV1+3A1XmHbmwcdwhCUwIdy+d3pAGrbvgRoVSjeI9vOWyq376Yzw==}
@@ -2044,7 +2044,7 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
-  '@types/semver@6.2.7': {}
+  '@types/semver@7.5.8': {}
 
   '@types/shell-quote@1.7.5': {}
 
