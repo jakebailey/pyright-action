@@ -18,8 +18,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       '@badrap/valita':
-        specifier: ^0.3.11
-        version: 0.3.11
+        specifier: ^0.4.0
+        version: 0.4.2
       '@iarna/toml':
         specifier: ^2.2.5
         version: 2.2.5
@@ -139,9 +139,9 @@ packages:
     resolution: {integrity: sha512-Z/yiTPj+lDVnF7lWeKCIJzaIkI0vYO87dMpZ4bg4TDrFe4XXLFWL1TbXU27gBP3QccxV9mZICCrnjnYlJjXHOA==}
     engines: {node: '>=6.9.0'}
 
-  '@badrap/valita@0.3.11':
-    resolution: {integrity: sha512-oak0W8bycFjnrLeVCVvZqkOWTGh74wCPKUxGLJyhRukRs+V/hQdfZp1eDcQE4Gf3UrtJWfR/Ou4Xe0DZqJZ2FA==}
-    engines: {node: '>= 16'}
+  '@badrap/valita@0.4.2':
+    resolution: {integrity: sha512-Mwmr7k2iK0Yy0POLnAFUgab2mxKYeIsYXHY7sg3jo8XFsFHbG0SBmTcktXD0uW8N4WZePKf8s68QV7QDTGSdHA==}
+    engines: {node: '>= 18'}
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -1735,7 +1735,7 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@badrap/valita@0.3.11': {}
+  '@badrap/valita@0.4.2': {}
 
   '@bcoe/v8-coverage@0.2.3': {}
 
