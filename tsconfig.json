@@ -1,7 +1,7 @@
 {
     "extends": ["@tsconfig/strictest/tsconfig", "@tsconfig/node20/tsconfig"],
     "compilerOptions": {
-        "module": "ESNext",
+        "module": "preserve",
         "moduleResolution": "bundler",
         "noEmit": true,
         "resolveJsonModule": true,

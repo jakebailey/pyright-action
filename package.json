@@ -17,34 +17,34 @@
         "@actions/core": "^1.11.1",
         "@actions/http-client": "~2.1.1",
         "@actions/tool-cache": "^2.0.1",
-        "@badrap/valita": "^0.3.11",
+        "@badrap/valita": "^0.4.2",
         "@iarna/toml": "^2.2.5",
         "jsonc-parser": "^3.3.1",
         "semver": "^6.3.1",
-        "shell-quote": "^1.8.1",
+        "shell-quote": "^1.8.2",
         "which": "^5.0.0"
     },
     "devDependencies": {
         "@tsconfig/node20": "^20.1.4",
         "@tsconfig/strictest": "^2.0.5",
-        "@types/node": "^20.17.1",
+        "@types/node": "^20.17.9",
         "@types/semver": "^6.2.7",
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
-        "@typescript-eslint/eslint-plugin": "^8.11.0",
-        "@typescript-eslint/parser": "^8.11.0",
-        "@vitest/coverage-v8": "^2.1.3",
-        "dprint": "^0.47.4",
+        "@typescript-eslint/eslint-plugin": "^8.17.0",
+        "@typescript-eslint/parser": "^8.17.0",
+        "@vitest/coverage-v8": "^2.1.8",
+        "dprint": "^0.47.6",
         "esbuild": "^0.24.0",
         "eslint": "^8.57.1",
         "eslint-plugin-simple-import-sort": "^12.1.1",
-        "eslint-plugin-unicorn": "^56.0.0",
-        "husky": "^9.1.6",
+        "eslint-plugin-unicorn": "^56.0.1",
+        "husky": "^9.1.7",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
         "rimraf": "^6.0.1",
-        "typescript": "~5.6.3",
-        "vitest": "^2.1.3"
+        "typescript": "~5.7.2",
+        "vitest": "^2.1.8"
     },
     "overrides": {
         "vite": {
@@ -75,5 +75,5 @@
             "after:git:release": "(git tag -d v2 && git push origin :refs/tags/v2) || true && git tag v2 && git push origin v2"
         }
     },
-    "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228"
+    "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
 }

@@ -5002,12 +5002,15 @@ var require_toml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/shell-quote@1.8.1/node_modules/shell-quote/quote.js
+// node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/quote.js
 var require_quote = __commonJS({
-  "node_modules/.pnpm/shell-quote@1.8.1/node_modules/shell-quote/quote.js"(exports2, module2) {
+  "node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/quote.js"(exports2, module2) {
     "use strict";
     module2.exports = function quote2(xs) {
       return xs.map(function(s) {
+        if (s === "") {
+          return "''";
+        }
         if (s && typeof s === "object") {
           return s.op.replace(/(.)/g, "\\$1");
         }
@@ -5023,9 +5026,9 @@ var require_quote = __commonJS({
   }
 });
 
-// node_modules/.pnpm/shell-quote@1.8.1/node_modules/shell-quote/parse.js
+// node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/parse.js
 var require_parse2 = __commonJS({
-  "node_modules/.pnpm/shell-quote@1.8.1/node_modules/shell-quote/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/parse.js"(exports2, module2) {
     "use strict";
     var CONTROL = "(?:" + [
       "\\|\\|",
@@ -5220,9 +5223,9 @@ var require_parse2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/shell-quote@1.8.1/node_modules/shell-quote/index.js
+// node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/index.js
 var require_shell_quote = __commonJS({
-  "node_modules/.pnpm/shell-quote@1.8.1/node_modules/shell-quote/index.js"(exports2) {
+  "node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/index.js"(exports2) {
     "use strict";
     exports2.quote = require_quote();
     exports2.parse = require_parse2();
@@ -5918,18 +5921,18 @@ var require_semver = __commonJS({
       range = range.replace(safeRe[t.CARETTRIM], caretTrimReplace);
       range = range.split(/\s+/).join(" ");
       var compRe = loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
-      var set = range.split(" ").map(function(comp) {
+      var set2 = range.split(" ").map(function(comp) {
         return parseComparator(comp, this.options);
       }, this).join(" ").split(/\s+/);
       if (this.options.loose) {
-        set = set.filter(function(comp) {
+        set2 = set2.filter(function(comp) {
           return !!comp.match(compRe);
         });
       }
-      set = set.map(function(comp) {
+      set2 = set2.map(function(comp) {
         return new Comparator(comp, this.options);
       }, this);
-      return set;
+      return set2;
     };
     Range2.prototype.intersects = function(range, options) {
       if (!(range instanceof Range2)) {
@@ -6157,20 +6160,20 @@ var require_semver = __commonJS({
       }
       return false;
     };
-    function testSet(set, version2, options) {
-      for (var i2 = 0; i2 < set.length; i2++) {
-        if (!set[i2].test(version2)) {
+    function testSet(set2, version2, options) {
+      for (var i2 = 0; i2 < set2.length; i2++) {
+        if (!set2[i2].test(version2)) {
           return false;
         }
       }
       if (version2.prerelease.length && !options.includePrerelease) {
-        for (i2 = 0; i2 < set.length; i2++) {
-          debug(set[i2].semver);
-          if (set[i2].semver === ANY) {
+        for (i2 = 0; i2 < set2.length; i2++) {
+          debug(set2[i2].semver);
+          if (set2[i2].semver === ANY) {
             continue;
           }
-          if (set[i2].semver.prerelease.length > 0) {
-            var allowed = set[i2].semver;
+          if (set2[i2].semver.prerelease.length > 0) {
+            var allowed = set2[i2].semver;
             if (allowed.major === version2.major && allowed.minor === version2.minor && allowed.patch === version2.patch) {
               return true;
             }
@@ -8372,7 +8375,27 @@ var import_which = __toESM(require_lib2());
 // package.json
 var version = "2.3.2";
 
-// node_modules/.pnpm/@badrap+valita@0.3.11/node_modules/@badrap/valita/dist/node-mjs/index.mjs
+// node_modules/.pnpm/@badrap+valita@0.4.2/node_modules/@badrap/valita/dist/node-mjs/index.mjs
+function expectedType(expected) {
+  return {
+    ok: false,
+    code: "invalid_type",
+    expected
+  };
+}
+var ISSUE_EXPECTED_NOTHING = expectedType([]);
+var ISSUE_EXPECTED_STRING = expectedType(["string"]);
+var ISSUE_EXPECTED_NUMBER = expectedType(["number"]);
+var ISSUE_EXPECTED_BIGINT = expectedType(["bigint"]);
+var ISSUE_EXPECTED_BOOLEAN = expectedType(["boolean"]);
+var ISSUE_EXPECTED_UNDEFINED = expectedType(["undefined"]);
+var ISSUE_EXPECTED_NULL = expectedType(["null"]);
+var ISSUE_EXPECTED_OBJECT = expectedType(["object"]);
+var ISSUE_EXPECTED_ARRAY = expectedType(["array"]);
+var ISSUE_MISSING_VALUE = {
+  ok: false,
+  code: "missing_value"
+};
 function joinIssues(left, right) {
   return left ? { ok: false, code: "join", left, right } : right;
 }
@@ -8398,8 +8421,8 @@ function cloneIssueWithPath(tree, path3) {
     case "unrecognized_keys":
       return { code, path: path3, keys: tree.keys };
     case "invalid_union":
-      return { code, path: path3, tree: tree.tree };
-    default:
+      return { code, path: path3, tree: tree.tree, issues: collectIssues(tree.tree) };
+    case "custom_error":
       return { code, path: path3, error: tree.error };
   }
 }
@@ -8453,7 +8476,7 @@ function formatIssueTree(tree) {
       count += countIssues(tree.right);
       tree = tree.left;
     } else if (tree.code === "prepend") {
-      path3 += "." + tree.key;
+      path3 += `.${tree.key}`;
       tree = tree.tree;
     } else {
       break;
@@ -8482,7 +8505,7 @@ function formatIssueTree(tree) {
         message += `at least ${min}`;
       }
     } else {
-      message += `at most ${max}`;
+      message += `at most ${max ?? "\u221E"}`;
     }
     message += ` item(s)`;
   } else if (tree.code === "custom_error") {
@@ -8507,41 +8530,41 @@ function formatIssueTree(tree) {
   return msg;
 }
 var ValitaError = class extends Error {
-  constructor(issueTree) {
-    super(formatIssueTree(issueTree));
-    this.issueTree = issueTree;
+  constructor(_issueTree) {
+    super(formatIssueTree(_issueTree));
+    this._issueTree = _issueTree;
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = new.target.name;
     this._issues = void 0;
   }
   get issues() {
     if (this._issues === void 0) {
-      this._issues = collectIssues(this.issueTree);
+      this._issues = collectIssues(this._issueTree);
     }
     return this._issues;
   }
 };
 var ErrImpl = class {
-  constructor(issueTree) {
-    this.issueTree = issueTree;
+  constructor(_issueTree) {
+    this._issueTree = _issueTree;
     this.ok = false;
     this._issues = void 0;
     this._message = void 0;
   }
   get issues() {
     if (this._issues === void 0) {
-      this._issues = collectIssues(this.issueTree);
+      this._issues = collectIssues(this._issueTree);
     }
     return this._issues;
   }
   get message() {
     if (this._message === void 0) {
-      this._message = formatIssueTree(this.issueTree);
+      this._message = formatIssueTree(this._issueTree);
     }
     return this._message;
   }
   throw() {
-    throw new ValitaError(this.issueTree);
+    throw new ValitaError(this._issueTree);
   }
 };
 function ok(value) {
@@ -8550,18 +8573,66 @@ function ok(value) {
 function isObject(v) {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
-var FLAG_FORBID_EXTRA_KEYS = 1;
-var FLAG_STRIP_EXTRA_KEYS = 2;
-var FLAG_MISSING_VALUE = 4;
+var FLAG_FORBID_EXTRA_KEYS = 1 << 0;
+var FLAG_STRIP_EXTRA_KEYS = 1 << 1;
+var FLAG_MISSING_VALUE = 1 << 2;
+var TAG_UNKNOWN = 0;
+var TAG_NEVER = 1;
+var TAG_STRING = 2;
+var TAG_NUMBER = 3;
+var TAG_BIGINT = 4;
+var TAG_BOOLEAN = 5;
+var TAG_NULL = 6;
+var TAG_UNDEFINED = 7;
+var TAG_LITERAL = 8;
+var TAG_OPTIONAL = 9;
+var TAG_OBJECT = 10;
+var TAG_ARRAY = 11;
+var TAG_UNION = 12;
+var TAG_TRANSFORM = 13;
+var taggedMatcher = (tag, match) => {
+  return { tag, match };
+};
+function callMatcher(matcher, value, flags) {
+  switch (matcher.tag) {
+    case TAG_UNKNOWN:
+      return void 0;
+    case TAG_NEVER:
+      return ISSUE_EXPECTED_NOTHING;
+    case TAG_STRING:
+      return typeof value === "string" ? void 0 : ISSUE_EXPECTED_STRING;
+    case TAG_NUMBER:
+      return typeof value === "number" ? void 0 : ISSUE_EXPECTED_NUMBER;
+    case TAG_BIGINT:
+      return typeof value === "bigint" ? void 0 : ISSUE_EXPECTED_BIGINT;
+    case TAG_BOOLEAN:
+      return typeof value === "boolean" ? void 0 : ISSUE_EXPECTED_BOOLEAN;
+    case TAG_NULL:
+      return value === null ? void 0 : ISSUE_EXPECTED_NULL;
+    case TAG_UNDEFINED:
+      return value === void 0 ? void 0 : ISSUE_EXPECTED_UNDEFINED;
+    case TAG_LITERAL:
+      return matcher.match(value, flags);
+    case TAG_OPTIONAL:
+      return matcher.match(value, flags);
+    case TAG_OBJECT:
+      return matcher.match(value, flags);
+    case TAG_ARRAY:
+      return matcher.match(value, flags);
+    case TAG_UNION:
+      return matcher.match(value, flags);
+    case TAG_TRANSFORM:
+      return matcher.match(value, flags);
+    default:
+      return matcher.match(value, flags);
+  }
+}
 var AbstractType = class {
-  optional(defaultFn) {
-    const optional = new Optional(this);
-    if (!defaultFn) {
-      return optional;
-    }
-    return new TransformType(optional, (v) => {
-      return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
-    });
+  /** @internal */
+  get _matcher() {
+    const value = this._createMatcher();
+    Object.defineProperty(this, "_matcher", { value });
+    return value;
   }
   default(defaultValue) {
     const defaultResult = ok(defaultValue);
@@ -8569,6 +8640,48 @@ var AbstractType = class {
       return v === void 0 ? defaultResult : void 0;
     });
   }
+  /**
+   * Derive a new validator that uses the provided predicate function to
+   * perform custom validation for the source validator's output values.
+   *
+   * The predicate function should return `true` when the source
+   * type's output value is valid, `false` otherwise. The checked value
+   * itself won't get modified or replaced, and is returned as-is on
+   * validation success.
+   *
+   * @example A validator that accepts only numeric strings.
+   * ```ts
+   * const numericString = v.string().assert((s) => /^\d+$/.test(s))
+   * numericString.parse("1");
+   * // "1"
+   * numericString.parse("foo");
+   * // ValitaError: custom_error at . (validation failed)
+   * ```
+   *
+   * You can also _refine_ the output type by passing in a
+   * [type predicate](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates).
+   * Note that the type predicate must have a compatible input type.
+   *
+   * @example A validator with its output type refined to `Date`.
+   * ```ts
+   * const dateType = v.unknown().assert((v): v is Date => v instanceof Date);
+   * ```
+   *
+   * You can also pass in a custom failure messages.
+   *
+   * @example A validator that rejects non-integers with a custom error.
+   * ```ts
+   * const integer = v.number().assert((n) => Number.isInteger(n), "not an integer");
+   * integer.parse(1);
+   * // 1
+   * integer.parse(1.5);
+   * // ValitaError: custom_error at . (not an integer)
+   * ```
+   *
+   * @param func - The assertion predicate function.
+   * @param [error] - A custom error for situations when the assertion
+   *                  predicate returns `false`.
+   */
   assert(func, error) {
     const err = { ok: false, code: "custom_error", error };
     return new TransformType(this, (v, options) => func(v, options) ? void 0 : err);
@@ -8582,31 +8695,34 @@ var AbstractType = class {
   chain(func) {
     return new TransformType(this, (v, options) => {
       const r = func(v, options);
-      return r.ok ? r : r.issueTree;
+      return r.ok ? r : r._issueTree;
     });
   }
 };
 var Type = class extends AbstractType {
+  optional(defaultFn) {
+    const optional = new Optional(this);
+    if (!defaultFn) {
+      return optional;
+    }
+    return new TransformType(optional, (v) => {
+      return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
+    });
+  }
   /**
    * Return new validator that accepts both the original type and `null`.
    */
   nullable() {
     return new Nullable(this);
   }
-  toTerminals(func) {
+  _toTerminals(func) {
     func(this);
   }
   /**
    * Parse a value without throwing.
    */
   try(v, options) {
-    let flags = FLAG_FORBID_EXTRA_KEYS;
-    if (options?.mode === "passthrough") {
-      flags = 0;
-    } else if (options?.mode === "strip") {
-      flags = FLAG_STRIP_EXTRA_KEYS;
-    }
-    const r = this.func(v, flags);
+    const r = this._matcher.match(v, options === void 0 ? FLAG_FORBID_EXTRA_KEYS : options.mode === "strip" ? FLAG_STRIP_EXTRA_KEYS : options.mode === "passthrough" ? 0 : FLAG_FORBID_EXTRA_KEYS);
     if (r === void 0) {
       return { ok: true, value: v };
     } else if (r.ok) {
@@ -8619,13 +8735,7 @@ var Type = class extends AbstractType {
    * Parse a value. Throw a ValitaError on failure.
    */
   parse(v, options) {
-    let flags = FLAG_FORBID_EXTRA_KEYS;
-    if (options?.mode === "passthrough") {
-      flags = 0;
-    } else if (options?.mode === "strip") {
-      flags = FLAG_STRIP_EXTRA_KEYS;
-    }
-    const r = this.func(v, flags);
+    const r = this._matcher.match(v, options === void 0 ? FLAG_FORBID_EXTRA_KEYS : options.mode === "strip" ? FLAG_STRIP_EXTRA_KEYS : options.mode === "passthrough" ? 0 : FLAG_FORBID_EXTRA_KEYS);
     if (r === void 0) {
       return v;
     } else if (r.ok) {
@@ -8636,17 +8746,18 @@ var Type = class extends AbstractType {
   }
 };
 var Nullable = class extends Type {
-  constructor(type) {
+  constructor(_type2) {
     super();
-    this.type = type;
-    this.name = "nullable";
+    this._type = _type2;
+    this.name = "union";
   }
-  func(v, flags) {
-    return v === null ? void 0 : this.type.func(v, flags);
+  _createMatcher() {
+    const matcher = this._type._matcher;
+    return taggedMatcher(TAG_UNION, (v, flags) => v === null ? void 0 : callMatcher(matcher, v, flags));
   }
-  toTerminals(func) {
-    func(nullSingleton);
-    this.type.toTerminals(func);
+  _toTerminals(func) {
+    func(null_());
+    this._type._toTerminals(func);
   }
   nullable() {
     return this;
@@ -8658,14 +8769,6 @@ var Optional = class extends AbstractType {
     this.type = type;
     this.name = "optional";
   }
-  func(v, flags) {
-    return v === void 0 || flags & FLAG_MISSING_VALUE ? void 0 : this.type.func(v, flags);
-  }
-  toTerminals(func) {
-    func(this);
-    func(undefinedSingleton);
-    this.type.toTerminals(func);
-  }
   optional(defaultFn) {
     if (!defaultFn) {
       return this;
@@ -8673,6 +8776,15 @@ var Optional = class extends AbstractType {
     return new TransformType(this, (v) => {
       return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
     });
+  }
+  _createMatcher() {
+    const matcher = this.type._matcher;
+    return taggedMatcher(TAG_OPTIONAL, (v, flags) => v === void 0 || flags & FLAG_MISSING_VALUE ? void 0 : callMatcher(matcher, v, flags));
+  }
+  _toTerminals(func) {
+    func(this);
+    func(undefined_());
+    this.type._toTerminals(func);
   }
 };
 function setBit(bits, index) {
@@ -8697,169 +8809,134 @@ function getBit(bits, index) {
   }
 }
 var ObjectType = class _ObjectType extends Type {
-  constructor(shape, restType, checks) {
+  constructor(shape, _restType, _checks) {
     super();
     this.shape = shape;
-    this.restType = restType;
-    this.checks = checks;
+    this._restType = _restType;
+    this._checks = _checks;
     this.name = "object";
-    this._invalidType = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["object"]
-    };
+  }
+  _createMatcher() {
+    const func = createObjectMatcher(this.shape, this._restType, this._checks);
+    return taggedMatcher(TAG_OBJECT, (v, flags) => isObject(v) ? func(v, flags) : ISSUE_EXPECTED_OBJECT);
   }
   check(func, error) {
     const issue = { ok: false, code: "custom_error", error };
-    return new _ObjectType(this.shape, this.restType, [
-      ...this.checks ?? [],
+    return new _ObjectType(this.shape, this._restType, [
+      ...this._checks ?? [],
       {
         func,
         issue
       }
     ]);
   }
-  func(v, flags) {
-    if (!isObject(v)) {
-      return this._invalidType;
-    }
-    let func = this._func;
-    if (func === void 0) {
-      func = createObjectMatcher(this.shape, this.restType, this.checks);
-      this._func = func;
-    }
-    return func(v, flags);
-  }
   rest(restType) {
     return new _ObjectType(this.shape, restType);
   }
   extend(shape) {
-    return new _ObjectType({ ...this.shape, ...shape }, this.restType);
+    return new _ObjectType({ ...this.shape, ...shape }, this._restType);
   }
   pick(...keys) {
     const shape = {};
-    keys.forEach((key) => {
-      shape[key] = this.shape[key];
-    });
+    for (const key of keys) {
+      set(shape, key, this.shape[key]);
+    }
     return new _ObjectType(shape, void 0);
   }
   omit(...keys) {
     const shape = { ...this.shape };
-    keys.forEach((key) => {
+    for (const key of keys) {
       delete shape[key];
-    });
-    return new _ObjectType(shape, this.restType);
+    }
+    return new _ObjectType(shape, this._restType);
   }
   partial() {
     const shape = {};
-    Object.keys(this.shape).forEach((key) => {
-      shape[key] = this.shape[key].optional();
-    });
-    const rest = this.restType?.optional();
+    for (const key of Object.keys(this.shape)) {
+      set(shape, key, this.shape[key].optional());
+    }
+    const rest = this._restType?.optional();
     return new _ObjectType(shape, rest);
   }
 };
-function createObjectMatcher(shape, rest, checks) {
-  const requiredKeys = [];
-  const optionalKeys = [];
-  for (const key in shape) {
-    let hasOptional = false;
-    shape[key].toTerminals((t) => {
-      hasOptional ||= t.name === "optional";
+function set(obj, key, value) {
+  if (key === "__proto__") {
+    Object.defineProperty(obj, key, {
+      value,
+      writable: true,
+      enumerable: true,
+      configurable: true
     });
-    if (hasOptional) {
-      optionalKeys.push(key);
-    } else {
-      requiredKeys.push(key);
-    }
+  } else {
+    obj[key] = value;
   }
-  const keys = [...requiredKeys, ...optionalKeys];
-  const totalCount = keys.length;
-  if (totalCount === 0 && rest?.name === "unknown") {
-    return function(obj, _) {
-      if (checks !== void 0) {
-        for (let i = 0; i < checks.length; i++) {
-          if (!checks[i].func(obj)) {
-            return checks[i].issue;
-          }
-        }
-      }
-      return void 0;
+}
+function createObjectMatcher(shape, rest, checks) {
+  const indexedEntries = Object.keys(shape).map((key, index) => {
+    const type = shape[key];
+    let optional = false;
+    type._toTerminals((t) => {
+      optional ||= t.name === "optional";
+    });
+    return {
+      key,
+      index,
+      matcher: type._matcher,
+      optional,
+      missing: prependPath(key, ISSUE_MISSING_VALUE)
     };
-  }
-  const types = keys.map((key) => shape[key]);
-  const requiredCount = requiredKeys.length;
-  const invertedIndexes = /* @__PURE__ */ Object.create(null);
-  keys.forEach((key, index) => {
-    invertedIndexes[key] = ~index;
   });
-  const missingValues = requiredKeys.map((key) => prependPath(key, {
-    ok: false,
-    code: "missing_value"
-  }));
-  function set(obj, key, value) {
-    if (key === "__proto__") {
-      Object.defineProperty(obj, key, {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable: true
-      });
-    } else {
-      obj[key] = value;
-    }
+  const keyedEntries = /* @__PURE__ */ Object.create(null);
+  for (const entry of indexedEntries) {
+    keyedEntries[entry.key] = entry;
   }
-  return function(obj, flags) {
-    let copied = false;
-    let output = obj;
-    let issues;
+  const restMatcher = rest?._matcher;
+  const fastPath = indexedEntries.length === 0 && rest?.name === "unknown" && checks === void 0;
+  return (obj, flags) => {
+    if (fastPath) {
+      return void 0;
+    }
+    let output = void 0;
+    let issues = void 0;
     let unrecognized = void 0;
     let seenBits = 0;
     let seenCount = 0;
-    if (flags & FLAG_FORBID_EXTRA_KEYS || flags & FLAG_STRIP_EXTRA_KEYS || rest !== void 0) {
+    if (flags & (FLAG_FORBID_EXTRA_KEYS | FLAG_STRIP_EXTRA_KEYS) || restMatcher !== void 0) {
       for (const key in obj) {
         const value = obj[key];
-        const index = ~invertedIndexes[key];
-        let r;
-        if (index >= 0) {
-          seenCount++;
-          seenBits = setBit(seenBits, index);
-          r = types[index].func(value, flags);
-        } else if (rest !== void 0) {
-          r = rest.func(value, flags);
-        } else {
+        const entry = keyedEntries[key];
+        if (entry === void 0 && restMatcher === void 0) {
           if (flags & FLAG_FORBID_EXTRA_KEYS) {
             if (unrecognized === void 0) {
               unrecognized = [key];
             } else {
               unrecognized.push(key);
             }
-          } else if (flags & FLAG_STRIP_EXTRA_KEYS && issues === void 0 && !copied) {
+          } else if (flags & FLAG_STRIP_EXTRA_KEYS && issues === void 0 && output === void 0) {
             output = {};
-            copied = true;
-            for (let m = 0; m < totalCount; m++) {
+            for (let m = 0; m < indexedEntries.length; m++) {
               if (getBit(seenBits, m)) {
-                const k = keys[m];
+                const k = indexedEntries[m].key;
                 set(output, k, obj[k]);
               }
             }
           }
           continue;
         }
+        const r = entry === void 0 ? callMatcher(restMatcher, value, flags) : callMatcher(entry.matcher, value, flags);
         if (r === void 0) {
-          if (copied && issues === void 0) {
+          if (output !== void 0 && issues === void 0) {
             set(output, key, value);
           }
         } else if (!r.ok) {
           issues = joinIssues(issues, prependPath(key, r));
         } else if (issues === void 0) {
-          if (!copied) {
+          if (output === void 0) {
             output = {};
-            copied = true;
-            if (rest === void 0) {
-              for (let m = 0; m < totalCount; m++) {
-                if (m !== index && getBit(seenBits, m)) {
-                  const k = keys[m];
+            if (restMatcher === void 0) {
+              for (let m = 0; m < indexedEntries.length; m++) {
+                if (getBit(seenBits, m)) {
+                  const k = indexedEntries[m].key;
                   set(output, k, obj[k]);
                 }
               }
@@ -8871,38 +8948,41 @@ function createObjectMatcher(shape, rest, checks) {
           }
           set(output, key, r.value);
         }
+        if (entry !== void 0) {
+          seenCount++;
+          seenBits = setBit(seenBits, entry.index);
+        }
       }
     }
-    if (seenCount < totalCount) {
-      for (let i = 0; i < totalCount; i++) {
+    if (seenCount < indexedEntries.length) {
+      for (let i = 0; i < indexedEntries.length; i++) {
         if (getBit(seenBits, i)) {
           continue;
         }
-        const key = keys[i];
-        const value = obj[key];
-        let keyFlags = flags & ~FLAG_MISSING_VALUE;
-        if (value === void 0 && !(key in obj)) {
-          if (i < requiredCount) {
-            issues = joinIssues(issues, missingValues[i]);
+        const entry = indexedEntries[i];
+        const value = obj[entry.key];
+        let extraFlags = 0;
+        if (value === void 0 && !(entry.key in obj)) {
+          if (!entry.optional) {
+            issues = joinIssues(issues, entry.missing);
             continue;
           }
-          keyFlags |= FLAG_MISSING_VALUE;
+          extraFlags = FLAG_MISSING_VALUE;
         }
-        const r = types[i].func(value, keyFlags);
+        const r = callMatcher(entry.matcher, value, flags | extraFlags);
         if (r === void 0) {
-          if (copied && issues === void 0 && !(keyFlags & FLAG_MISSING_VALUE)) {
-            set(output, key, value);
+          if (output !== void 0 && issues === void 0 && !extraFlags) {
+            set(output, entry.key, value);
           }
         } else if (!r.ok) {
-          issues = joinIssues(issues, prependPath(key, r));
+          issues = joinIssues(issues, prependPath(entry.key, r));
         } else if (issues === void 0) {
-          if (!copied) {
+          if (output === void 0) {
             output = {};
-            copied = true;
-            if (rest === void 0) {
-              for (let m = 0; m < totalCount; m++) {
+            if (restMatcher === void 0) {
+              for (let m = 0; m < indexedEntries.length; m++) {
                 if (m < i || getBit(seenBits, m)) {
-                  const k = keys[m];
+                  const k = indexedEntries[m].key;
                   set(output, k, obj[k]);
                 }
               }
@@ -8912,109 +8992,105 @@ function createObjectMatcher(shape, rest, checks) {
               }
               for (let m = 0; m < i; m++) {
                 if (!getBit(seenBits, m)) {
-                  const k = keys[m];
+                  const k = indexedEntries[m].key;
                   set(output, k, obj[k]);
                 }
               }
             }
           }
-          set(output, key, r.value);
+          set(output, entry.key, r.value);
         }
       }
     }
     if (unrecognized !== void 0) {
-      issues = joinIssues(issues, {
+      return joinIssues(issues, {
         ok: false,
         code: "unrecognized_keys",
         keys: unrecognized
       });
-    }
-    if (issues === void 0 && checks !== void 0) {
-      for (let i = 0; i < checks.length; i++) {
-        if (!checks[i].func(output)) {
-          return checks[i].issue;
+    } else if (issues !== void 0) {
+      return issues;
+    } else {
+      if (checks !== void 0) {
+        for (const { func, issue } of checks) {
+          if (!func(output ?? obj)) {
+            return issue;
+          }
         }
       }
-    }
-    if (issues === void 0 && copied) {
-      return { ok: true, value: output };
-    } else {
-      return issues;
+      return output && { ok: true, value: output };
     }
   };
 }
 var ArrayOrTupleType = class _ArrayOrTupleType extends Type {
-  constructor(prefix, rest, suffix) {
+  constructor(_prefix, _rest, _suffix) {
     super();
-    this.prefix = prefix;
-    this.rest = rest;
-    this.suffix = suffix;
+    this._prefix = _prefix;
+    this._rest = _rest;
+    this._suffix = _suffix;
     this.name = "array";
-    this.restType = rest ?? never();
-    this.minLength = this.prefix.length + this.suffix.length;
-    this.maxLength = rest ? void 0 : this.minLength;
-    this.invalidType = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["array"]
-    };
-    this.invalidLength = {
+  }
+  _createMatcher() {
+    const prefix = this._prefix.map((t) => t._matcher);
+    const suffix = this._suffix.map((t) => t._matcher);
+    const rest = this._rest?._matcher ?? taggedMatcher(1, () => ISSUE_MISSING_VALUE);
+    const minLength = prefix.length + suffix.length;
+    const maxLength = this._rest ? Infinity : minLength;
+    const invalidLength = {
       ok: false,
       code: "invalid_length",
-      minLength: this.minLength,
-      maxLength: this.maxLength
+      minLength,
+      maxLength: maxLength === Infinity ? void 0 : maxLength
     };
-  }
-  func(arr, flags) {
-    if (!Array.isArray(arr)) {
-      return this.invalidType;
-    }
-    const length = arr.length;
-    const minLength = this.minLength;
-    const maxLength = this.maxLength ?? Infinity;
-    if (length < minLength || length > maxLength) {
-      return this.invalidLength;
-    }
-    const headEnd = this.prefix.length;
-    const tailStart = arr.length - this.suffix.length;
-    let issueTree = void 0;
-    let output = arr;
-    for (let i = 0; i < arr.length; i++) {
-      const type = i < headEnd ? this.prefix[i] : i >= tailStart ? this.suffix[i - tailStart] : this.restType;
-      const r = type.func(arr[i], flags);
-      if (r !== void 0) {
-        if (r.ok) {
-          if (output === arr) {
-            output = arr.slice();
+    return taggedMatcher(TAG_ARRAY, (arr, flags) => {
+      if (!Array.isArray(arr)) {
+        return ISSUE_EXPECTED_ARRAY;
+      }
+      const length = arr.length;
+      if (length < minLength || length > maxLength) {
+        return invalidLength;
+      }
+      const headEnd = prefix.length;
+      const tailStart = arr.length - suffix.length;
+      let issueTree = void 0;
+      let output = arr;
+      for (let i = 0; i < arr.length; i++) {
+        const entry = i < headEnd ? prefix[i] : i >= tailStart ? suffix[i - tailStart] : rest;
+        const r = callMatcher(entry, arr[i], flags);
+        if (r !== void 0) {
+          if (r.ok) {
+            if (output === arr) {
+              output = arr.slice();
+            }
+            output[i] = r.value;
+          } else {
+            issueTree = joinIssues(issueTree, prependPath(i, r));
           }
-          output[i] = r.value;
-        } else {
-          issueTree = joinIssues(issueTree, prependPath(i, r));
         }
       }
-    }
-    if (issueTree) {
-      return issueTree;
-    } else if (arr === output) {
-      return void 0;
-    } else {
-      return { ok: true, value: output };
-    }
+      if (issueTree) {
+        return issueTree;
+      } else if (arr === output) {
+        return void 0;
+      } else {
+        return { ok: true, value: output };
+      }
+    });
   }
   concat(type) {
-    if (this.rest) {
-      if (type.rest) {
+    if (this._rest) {
+      if (type._rest) {
         throw new TypeError("can not concatenate two variadic types");
       }
-      return new _ArrayOrTupleType(this.prefix, this.rest, [
-        ...this.suffix,
-        ...type.prefix,
-        ...type.suffix
+      return new _ArrayOrTupleType(this._prefix, this._rest, [
+        ...this._suffix,
+        ...type._prefix,
+        ...type._suffix
       ]);
-    } else if (type.rest) {
-      return new _ArrayOrTupleType([...this.prefix, ...this.suffix, ...type.prefix], type.rest, type.suffix);
+    } else if (type._rest) {
+      return new _ArrayOrTupleType([...this._prefix, ...this._suffix, ...type._prefix], type._rest, type._suffix);
     } else {
-      return new _ArrayOrTupleType([...this.prefix, ...this.suffix, ...type.prefix, ...type.suffix], type.rest, type.suffix);
+      return new _ArrayOrTupleType([...this._prefix, ...this._suffix, ...type._prefix, ...type._suffix], type._rest, type._suffix);
     }
   }
 };
@@ -9031,22 +9107,7 @@ function toInputType(v) {
   }
 }
 function dedup(arr) {
-  return Array.from(new Set(arr));
-}
-function findCommonKeys(rs) {
-  const map = /* @__PURE__ */ new Map();
-  rs.forEach((r) => {
-    for (const key in r) {
-      map.set(key, (map.get(key) || 0) + 1);
-    }
-  });
-  const result = [];
-  map.forEach((count, key) => {
-    if (count === rs.length) {
-      result.push(key);
-    }
-  });
-  return result;
+  return [...new Set(arr)];
 }
 function groupTerminals(terminals) {
   const order = /* @__PURE__ */ new Map();
@@ -9055,7 +9116,7 @@ function groupTerminals(terminals) {
   const unknowns = [];
   const optionals = [];
   const expectedTypes = [];
-  terminals.forEach(({ root, terminal }) => {
+  for (const { root, terminal } of terminals) {
     order.set(root, order.get(root) ?? order.size);
     if (terminal.name === "never") {
     } else if (terminal.name === "optional") {
@@ -9063,29 +9124,32 @@ function groupTerminals(terminals) {
     } else if (terminal.name === "unknown") {
       unknowns.push(root);
     } else if (terminal.name === "literal") {
-      const roots = literals.get(terminal.value) || [];
+      const roots = literals.get(terminal.value) ?? [];
       roots.push(root);
       literals.set(terminal.value, roots);
       expectedTypes.push(toInputType(terminal.value));
     } else {
-      const roots = types.get(terminal.name) || [];
+      const roots = types.get(terminal.name) ?? [];
       roots.push(root);
       types.set(terminal.name, roots);
       expectedTypes.push(terminal.name);
     }
-  });
-  literals.forEach((roots, value) => {
+  }
+  const byOrder = (a, b) => {
+    return (order.get(a) ?? 0) - (order.get(b) ?? 0);
+  };
+  for (const [value, roots] of literals) {
     const options = types.get(toInputType(value));
     if (options) {
       options.push(...roots);
       literals.delete(value);
+    } else {
+      literals.set(value, dedup(roots.concat(unknowns)).sort(byOrder));
     }
-  });
-  const byOrder = (a, b) => {
-    return (order.get(a) ?? 0) - (order.get(b) ?? 0);
-  };
-  types.forEach((roots, type) => types.set(type, dedup(roots.concat(unknowns).sort(byOrder))));
-  literals.forEach((roots, value) => literals.set(value, dedup(roots.concat(unknowns)).sort(byOrder)));
+  }
+  for (const [type, roots] of types) {
+    types.set(type, dedup(roots.concat(unknowns)).sort(byOrder));
+  }
   return {
     types,
     literals,
@@ -9097,7 +9161,7 @@ function groupTerminals(terminals) {
 function createObjectKeyMatcher(objects, key) {
   const list = [];
   for (const { root, terminal } of objects) {
-    terminal.shape[key].toTerminals((t) => list.push({ root, terminal: t }));
+    terminal.shape[key]._toTerminals((t) => list.push({ root, terminal: t }));
   }
   const { types, literals, optionals, unknowns, expectedTypes } = groupTerminals(list);
   if (unknowns.length > 0 || optionals.length > 1) {
@@ -9113,49 +9177,61 @@ function createObjectKeyMatcher(objects, key) {
       return void 0;
     }
   }
-  const missingValue = prependPath(key, { ok: false, code: "missing_value" });
+  const missingValue = prependPath(key, ISSUE_MISSING_VALUE);
   const issue = prependPath(key, types.size === 0 ? {
     ok: false,
     code: "invalid_literal",
-    expected: Array.from(literals.keys())
+    expected: [...literals.keys()]
   } : {
     ok: false,
     code: "invalid_type",
     expected: expectedTypes
   });
-  const litMap = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
-  for (const [literal2, options] of literals) {
-    litMap.set(literal2, options[0]);
+  const byLiteral = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
+  if (byLiteral) {
+    for (const [literal2, options] of literals) {
+      byLiteral.set(literal2, options[0]._matcher);
+    }
   }
   const byType = types.size > 0 ? {} : void 0;
-  for (const [type, options] of types) {
-    byType[type] = options[0];
+  if (byType) {
+    for (const [type, options] of types) {
+      byType[type] = options[0]._matcher;
+    }
   }
-  return function(_obj, flags) {
-    const obj = _obj;
+  const optional = optionals[0]?._matcher;
+  return (obj, flags) => {
     const value = obj[key];
     if (value === void 0 && !(key in obj)) {
-      return optionals.length > 0 ? optionals[0].func(obj, flags) : missingValue;
+      return optional === void 0 ? missingValue : callMatcher(optional, obj, flags);
     }
-    const option = byType?.[toInputType(value)] ?? litMap?.get(value);
-    return option ? option.func(obj, flags) : issue;
+    const option = byType?.[toInputType(value)] ?? byLiteral?.get(value);
+    return option ? callMatcher(option, obj, flags) : issue;
   };
 }
 function createUnionObjectMatcher(terminals) {
-  if (terminals.some(({ terminal: t }) => t.name === "unknown")) {
-    return void 0;
+  const objects = [];
+  const keyCounts = /* @__PURE__ */ new Map();
+  for (const { root, terminal } of terminals) {
+    if (terminal.name === "unknown") {
+      return void 0;
+    }
+    if (terminal.name === "object") {
+      for (const key in terminal.shape) {
+        keyCounts.set(key, (keyCounts.get(key) ?? 0) + 1);
+      }
+      objects.push({ root, terminal });
+    }
   }
-  const objects = terminals.filter((item) => {
-    return item.terminal.name === "object";
-  });
   if (objects.length < 2) {
     return void 0;
   }
-  const shapes = objects.map(({ terminal }) => terminal.shape);
-  for (const key of findCommonKeys(shapes)) {
-    const matcher = createObjectKeyMatcher(objects, key);
-    if (matcher) {
-      return matcher;
+  for (const [key, count] of keyCounts) {
+    if (count === objects.length) {
+      const matcher = createObjectKeyMatcher(objects, key);
+      if (matcher) {
+        return matcher;
+      }
     }
   }
   return void 0;
@@ -9165,31 +9241,32 @@ function createUnionBaseMatcher(terminals) {
   const issue = types.size === 0 && unknowns.length === 0 ? {
     ok: false,
     code: "invalid_literal",
-    expected: Array.from(literals.keys())
+    expected: [...literals.keys()]
   } : {
     ok: false,
     code: "invalid_type",
     expected: expectedTypes
   };
-  const litMap = literals.size > 0 ? literals : void 0;
-  const byType = types.size > 0 ? {} : void 0;
-  for (const [type, options] of types) {
-    byType[type] = options;
+  const byLiteral = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
+  if (byLiteral) {
+    for (const [literal2, options] of literals) {
+      byLiteral.set(literal2, options.map((t) => t._matcher));
+    }
   }
-  return function(value, flags) {
-    let options;
-    if (flags & FLAG_MISSING_VALUE) {
-      options = optionals;
-    } else {
-      options = byType?.[toInputType(value)] ?? litMap?.get(value) ?? unknowns;
+  const byType = types.size > 0 ? {} : void 0;
+  if (byType) {
+    for (const [type, options] of types) {
+      byType[type] = options.map((t) => t._matcher);
     }
-    if (!options) {
-      return issue;
-    }
+  }
+  const optionalMatchers = optionals.map((t) => t._matcher);
+  const unknownMatchers = unknowns.map((t) => t._matcher);
+  return (value, flags) => {
+    const options = flags & FLAG_MISSING_VALUE ? optionalMatchers : byType?.[toInputType(value)] ?? byLiteral?.get(value) ?? unknownMatchers;
     let count = 0;
     let issueTree = issue;
     for (let i = 0; i < options.length; i++) {
-      const r = options[i].func(value, flags);
+      const r = callMatcher(options[i], value, flags);
       if (r === void 0 || r.ok) {
         return r;
       }
@@ -9203,248 +9280,128 @@ function createUnionBaseMatcher(terminals) {
   };
 }
 var UnionType = class extends Type {
-  constructor(options) {
+  constructor(_options) {
     super();
-    this.options = options;
+    this._options = _options;
     this.name = "union";
   }
-  toTerminals(func) {
-    this.options.forEach((o) => o.toTerminals(func));
-  }
-  func(v, flags) {
-    let func = this._func;
-    if (func === void 0) {
-      const flattened = [];
-      this.options.forEach((option) => option.toTerminals((terminal) => {
-        flattened.push({ root: option, terminal });
-      }));
-      const base = createUnionBaseMatcher(flattened);
-      const object2 = createUnionObjectMatcher(flattened);
-      if (!object2) {
-        func = base;
-      } else {
-        func = function(v2, f) {
-          if (isObject(v2)) {
-            return object2(v2, f);
-          }
-          return base(v2, f);
-        };
-      }
-      this._func = func;
+  _toTerminals(func) {
+    for (const option of this._options) {
+      option._toTerminals(func);
     }
-    return func(v, flags);
+  }
+  _createMatcher() {
+    const flattened = [];
+    for (const option of this._options) {
+      option._toTerminals((terminal) => {
+        flattened.push({ root: option, terminal });
+      });
+    }
+    const base = createUnionBaseMatcher(flattened);
+    const object2 = createUnionObjectMatcher(flattened);
+    return taggedMatcher(TAG_UNION, (v, f) => object2 !== void 0 && isObject(v) ? object2(v, f) : base(v, f));
   }
 };
 var STRICT = Object.freeze({ mode: "strict" });
 var STRIP = Object.freeze({ mode: "strip" });
 var PASSTHROUGH = Object.freeze({ mode: "passthrough" });
 var TransformType = class _TransformType extends Type {
-  constructor(transformed, transform) {
+  constructor(_transformed, _transform) {
     super();
-    this.transformed = transformed;
-    this.transform = transform;
+    this._transformed = _transformed;
+    this._transform = _transform;
     this.name = "transform";
-    this.undef = ok(void 0);
-    this.transformChain = void 0;
-    this.transformRoot = void 0;
   }
-  func(v, flags) {
-    let chain = this.transformChain;
-    if (!chain) {
-      chain = [];
-      let next = this;
-      while (next instanceof _TransformType) {
-        chain.push(next.transform);
-        next = next.transformed;
+  _createMatcher() {
+    const chain = [];
+    let next = this;
+    while (next instanceof _TransformType) {
+      chain.push(next._transform);
+      next = next._transformed;
+    }
+    chain.reverse();
+    const matcher = next._matcher;
+    const undef = ok(void 0);
+    return taggedMatcher(TAG_TRANSFORM, (v, flags) => {
+      let result = callMatcher(matcher, v, flags);
+      if (result !== void 0 && !result.ok) {
+        return result;
       }
-      chain.reverse();
-      this.transformChain = chain;
-      this.transformRoot = next;
-    }
-    let result = this.transformRoot.func(v, flags);
-    if (result !== void 0 && !result.ok) {
-      return result;
-    }
-    let current;
-    if (result !== void 0) {
-      current = result.value;
-    } else if (flags & FLAG_MISSING_VALUE) {
-      current = void 0;
-      result = this.undef;
-    } else {
-      current = v;
-    }
-    const options = flags & FLAG_FORBID_EXTRA_KEYS ? STRICT : flags & FLAG_STRIP_EXTRA_KEYS ? STRIP : PASSTHROUGH;
-    for (let i = 0; i < chain.length; i++) {
-      const r = chain[i](current, options);
-      if (r !== void 0) {
-        if (!r.ok) {
-          return r;
+      let current;
+      if (result !== void 0) {
+        current = result.value;
+      } else if (flags & FLAG_MISSING_VALUE) {
+        current = void 0;
+        result = undef;
+      } else {
+        current = v;
+      }
+      const options = flags & FLAG_FORBID_EXTRA_KEYS ? STRICT : flags & FLAG_STRIP_EXTRA_KEYS ? STRIP : PASSTHROUGH;
+      for (let i = 0; i < chain.length; i++) {
+        const r = chain[i](current, options);
+        if (r !== void 0) {
+          if (!r.ok) {
+            return r;
+          }
+          current = r.value;
+          result = r;
         }
-        current = r.value;
-        result = r;
       }
+      return result;
+    });
+  }
+  _toTerminals(func) {
+    this._transformed._toTerminals(func);
+  }
+};
+function singleton(name, tag, match) {
+  const value = taggedMatcher(tag, match);
+  class SimpleType extends Type {
+    constructor() {
+      super();
+      this.name = name;
     }
-    return result;
+    _createMatcher() {
+      return value;
+    }
   }
-  toTerminals(func) {
-    this.transformed.toTerminals(func);
-  }
-};
-var NeverType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "never";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: []
-    };
-  }
-  func(_, __) {
-    return this.issue;
-  }
-};
-var neverSingleton = new NeverType();
-function never() {
-  return neverSingleton;
+  Object.defineProperty(SimpleType.prototype, "_matcher", { value });
+  const instance = new SimpleType();
+  return /* @__NO_SIDE_EFFECTS__ */ () => instance;
 }
-var UnknownType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "unknown";
-  }
-  func(_, __) {
-    return void 0;
-  }
-};
-var unknownSingleton = new UnknownType();
-function unknown() {
-  return unknownSingleton;
-}
-var UndefinedType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "undefined";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["undefined"]
-    };
-  }
-  func(v, _) {
-    return v === void 0 ? void 0 : this.issue;
-  }
-};
-var undefinedSingleton = new UndefinedType();
-var NullType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "null";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["null"]
-    };
-  }
-  func(v, _) {
-    return v === null ? void 0 : this.issue;
-  }
-};
-var nullSingleton = new NullType();
-var NumberType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "number";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["number"]
-    };
-  }
-  func(v, _) {
-    return typeof v === "number" ? void 0 : this.issue;
-  }
-};
-var numberSingleton = new NumberType();
-function number() {
-  return numberSingleton;
-}
-var BigIntType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "bigint";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["bigint"]
-    };
-  }
-  func(v, _) {
-    return typeof v === "bigint" ? void 0 : this.issue;
-  }
-};
-var bigintSingleton = new BigIntType();
-var StringType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "string";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["string"]
-    };
-  }
-  func(v, _) {
-    return typeof v === "string" ? void 0 : this.issue;
-  }
-};
-var stringSingleton = new StringType();
-function string() {
-  return stringSingleton;
-}
-var BooleanType = class extends Type {
-  constructor() {
-    super(...arguments);
-    this.name = "boolean";
-    this.issue = {
-      ok: false,
-      code: "invalid_type",
-      expected: ["boolean"]
-    };
-  }
-  func(v, _) {
-    return typeof v === "boolean" ? void 0 : this.issue;
-  }
-};
-var booleanSingleton = new BooleanType();
+var unknown = /* @__PURE__ */ singleton("unknown", TAG_UNKNOWN, () => void 0);
+var string = /* @__PURE__ */ singleton("string", TAG_STRING, (v) => typeof v === "string" ? void 0 : ISSUE_EXPECTED_STRING);
+var number = /* @__PURE__ */ singleton("number", TAG_NUMBER, (v) => typeof v === "number" ? void 0 : ISSUE_EXPECTED_NUMBER);
+var null_ = /* @__PURE__ */ singleton("null", TAG_NULL, (v) => v === null ? void 0 : ISSUE_EXPECTED_NULL);
+var undefined_ = /* @__PURE__ */ singleton("undefined", TAG_UNDEFINED, (v) => v === void 0 ? void 0 : ISSUE_EXPECTED_UNDEFINED);
 var LiteralType = class extends Type {
   constructor(value) {
     super();
     this.value = value;
     this.name = "literal";
-    this.issue = {
+  }
+  _createMatcher() {
+    const value = this.value;
+    const issue = {
       ok: false,
       code: "invalid_literal",
       expected: [value]
     };
-  }
-  func(v, _) {
-    return v === this.value ? void 0 : this.issue;
+    return taggedMatcher(TAG_LITERAL, (v) => v === value ? void 0 : issue);
   }
 };
-function literal(value) {
-  return new LiteralType(value);
-}
-function object(obj) {
-  return new ObjectType(obj, void 0);
-}
-function array(item) {
-  return new ArrayOrTupleType([], item ?? unknown(), []);
-}
-function union(...options) {
-  return new UnionType(options);
-}
+var literal = (value) => {
+  return /* @__PURE__ */ new LiteralType(value);
+};
+var object = (obj) => {
+  return /* @__PURE__ */ new ObjectType(obj, void 0);
+};
+var array = (item) => {
+  return /* @__PURE__ */ new ArrayOrTupleType([], item ?? unknown(), []);
+};
+var union = (...options) => {
+  return /* @__PURE__ */ new UnionType(options);
+};
 
 // src/schema.ts
 var import_semver = __toESM(require_semver());
