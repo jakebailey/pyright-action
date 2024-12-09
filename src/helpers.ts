@@ -248,8 +248,17 @@ async function downloadPyright(info: PyrightInfoFromNpm): Promise<string> {
 
 type PyrightInfo = PyrightInfoFromNpm | PyrightInfoFromPath;
 
-type PyrightInfoFromNpm = { kind: "npm"; version: SemVer; tarball: string; };
-type PyrightInfoFromPath = { kind: "path"; version: SemVer; command: string; };
+interface PyrightInfoFromNpm {
+    kind: "npm";
+    version: SemVer;
+    tarball: string;
+}
+
+interface PyrightInfoFromPath {
+    kind: "path";
+    version: SemVer;
+    command: string;
+}
 
 function formatSemVerOrString(v: SemVer | string) {
     if (typeof v === "string") {

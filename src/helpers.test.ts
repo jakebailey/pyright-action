@@ -114,7 +114,6 @@ describe("getArgs", () => {
                 return inputs.get(name) ?? "";
             });
 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             mockedHttpClient.HttpClient.prototype.get.mockImplementation(async (url: string) => {
                 const versionPrefix = "https://registry.npmjs.org/pyright/";
                 if (url.startsWith(versionPrefix)) {
