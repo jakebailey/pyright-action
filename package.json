@@ -27,29 +27,24 @@
     "devDependencies": {
         "@tsconfig/node20": "^20.1.4",
         "@tsconfig/strictest": "^2.0.5",
-        "@types/node": "^20.17.14",
+        "@types/node": "^20.17.18",
         "@types/semver": "^6.2.7",
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
-        "@vitest/coverage-v8": "^2.1.8",
-        "dprint": "^0.48.0",
-        "esbuild": "^0.24.2",
-        "eslint": "^9.18.0",
+        "@vitest/coverage-v8": "^3.0.5",
+        "dprint": "^0.49.0",
+        "esbuild": "^0.25.0",
+        "eslint": "^9.20.1",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "eslint-plugin-unicorn": "^56.0.1",
-        "globals": "^15.14.0",
+        "globals": "^15.15.0",
         "husky": "^9.1.7",
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
         "rimraf": "^6.0.1",
         "typescript": "~5.7.3",
-        "typescript-eslint": "^8.20.0",
-        "vitest": "^2.1.8"
-    },
-    "overrides": {
-        "vite": {
-            "esbuild": "$esbuild"
-        }
+        "typescript-eslint": "^8.24.0",
+        "vitest": "^3.0.5"
     },
     "scripts": {
         "prepare": "husky",
@@ -75,5 +70,14 @@
             "after:git:release": "(git tag -d v2 && git push origin :refs/tags/v2) || true && git tag v2 && git push origin v2"
         }
     },
-    "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+    "packageManager": "pnpm@10.3.0+sha512.ee592eda8815a8a293c206bb0917c4bb0ff274c50def7cbc17be05ec641fc2d1b02490ce660061356bd0d126a4d7eb2ec8830e6959fb8a447571c631d5a2442d",
+    "pnpm": {
+        "overrides": {
+            "esbuild": "$esbuild"
+        },
+        "onlyBuiltDependencies": [
+            "dprint",
+            "esbuild"
+        ]
+    }
 }
