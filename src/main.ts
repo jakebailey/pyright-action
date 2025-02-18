@@ -115,7 +115,7 @@ export async function main() {
             core.setFailed(pluralize(errorCount, "error", "errors"));
         }
     } catch (e) {
-        assert(typeof e === "string" || e instanceof Error);
+        assert.ok(typeof e === "string" || e instanceof Error);
         core.setFailed(e);
     }
 }

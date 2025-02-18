@@ -9741,7 +9741,7 @@ async function main() {
       core2.setFailed(pluralize(errorCount, "error", "errors"));
     }
   } catch (e) {
-    (0, import_node_assert.default)(typeof e === "string" || e instanceof Error);
+    import_node_assert.default.ok(typeof e === "string" || e instanceof Error);
     core2.setFailed(e);
   }
 }
