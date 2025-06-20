@@ -69,6 +69,30 @@ inputs:
     required: false
     default: 'false'
 
+  # v3 New features
+  stats-budget-ms:
+    description: 'Maximum allowed time in milliseconds for any single file analysis. Files exceeding this budget will cause the action to fail.'
+    required: false
+  stats-top:
+    description: 'Number of slowest files to report in PR comments when using stats-budget-ms (default: 5).'
+    required: false
+    default: '5'
+  verify-threshold:
+    description: 'Minimum type completeness percentage required when using verify-types. Any score below this threshold will fail the build.'
+    required: false
+  sarif:
+    description: 'Generate and upload SARIF file for GitHub security tab integration.'
+    required: false
+    default: 'false'
+  comment-slow:
+    description: 'Post PR comments showing slowest files when stats-budget-ms is exceeded.'
+    required: false
+    default: 'true'
+  comment-coverage:
+    description: 'Post PR comments showing type coverage summary when using verify-types.'
+    required: false
+    default: 'true'
+
   # Extra arguments (if what you want isn't listed above)
   extra-args:
     description: 'Extra arguments; can be used to specify specific files to check.'

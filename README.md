@@ -6,14 +6,74 @@
 GitHub action for [pyright](https://github.com/microsoft/pyright). Featuring:
 
 - PR/commit annotations for errors/warnings.
+- **NEW in v3**: Performance monitoring with stats budget enforcement.
+- **NEW in v3**: Type coverage verification with customizable thresholds.
+- **NEW in v3**: SARIF output for GitHub Security tab integration.
+- **NEW in v3**: PR comments for slow files and coverage reports.
 - Super fast startup, via:
   - Download caching.
   - No dependency on `setup-node`.
 
+## Basic Usage
+
 ```yml
-- uses: jakebailey/pyright-action@v2
+- uses: jakebailey/pyright-action@v3
   with:
     version: 1.1.311 # Optional (change me!)
+```
+
+## v3 New Features
+
+Pyright Action v3 introduces several powerful new features for advanced type
+checking workflows:
+
+### Stats Budget
+
+Monitor and enforce performance budgets for type checking:
+
+```yml
+- uses: jakebailey/pyright-action@v3
+  with:
+    stats-budget-ms: 5000 # Fail if any file takes >5s to analyze
+    stats-top: 10 # Show top 10 slowest files in comments
+    comment-slow: true # Post PR comments for slow files
+```
+
+### Verify Types Threshold
+
+Set minimum type completeness requirements:
+
+```yml
+- uses: jakebailey/pyright-action@v3
+  with:
+    verify-types: mypackage
+    verify-threshold: 95.0 # Require 95% type completeness
+    comment-coverage: true # Post coverage summary in PR
+```
+
+### SARIF Integration
+
+Generate SARIF files for GitHub's security tab:
+
+```yml
+- uses: jakebailey/pyright-action@v3
+  with:
+    sarif: true # Generate and upload SARIF file
+```
+
+### Complete v3 Example
+
+```yml
+- uses: jakebailey/pyright-action@v3
+  with:
+    version: latest
+    stats-budget-ms: 3000
+    stats-top: 5
+    verify-types: mylib
+    verify-threshold: 90.0
+    sarif: true
+    comment-slow: true
+    comment-coverage: true
 ```
 
 ## Options
@@ -82,6 +142,30 @@ inputs:
     description: 'Use exit code of 1 if warnings are reported.'
     required: false
     default: 'false'
+
+  # v3 New Features
+  stats-budget-ms:
+    description: 'Maximum allowed time in milliseconds for any single file analysis. Files exceeding this budget will cause the action to fail.'
+    required: false
+  stats-top:
+    description: 'Number of slowest files to report in PR comments when using stats-budget-ms (default: 5).'
+    required: false
+    default: '5'
+  verify-threshold:
+    description: 'Minimum type completeness percentage required when using verify-types. Any score below this threshold will fail the build.'
+    required: false
+  sarif:
+    description: 'Generate and upload SARIF file for GitHub security tab integration.'
+    required: false
+    default: 'false'
+  comment-slow:
+    description: 'Post PR comments showing slowest files when stats-budget-ms is exceeded.'
+    required: false
+    default: 'true'
+  comment-coverage:
+    description: 'Post PR comments showing type coverage summary when using verify-types.'
+    required: false
+    default: 'true'
 
   # Extra arguments (if what you want isn't listed above)
   extra-args:

@@ -1,0 +1,130 @@
+name: Test Pyright Action v3
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Test 1: Legacy v2 compatibility
+  test-legacy:
+    name: Test Legacy v2 Compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          annotate: all
+
+  # Test 2: Stats budget - should pass
+  test-stats-budget-pass:
+    name: Test Stats Budget (Pass)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          stats-budget-ms: 10000 # High budget, should pass
+          stats-top: 3
+          comment-slow: false
+
+  # Test 3: Stats budget - should fail
+  test-stats-budget-fail:
+    name: Test Stats Budget (Fail)
+    runs-on: ubuntu-latest
+    continue-on-error: true # Expected to fail
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          stats-budget-ms: 1 # Very low budget, should fail
+          stats-top: 5
+          comment-slow: true
+
+  # Test 4: SARIF generation
+  test-sarif:
+    name: Test SARIF Generation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          sarif: true
+      - name: Check SARIF file exists
+        run: |
+          if [ -f "./smoke-test/pyright-results.sarif" ]; then
+            echo "SARIF file generated successfully"
+            cat ./smoke-test/pyright-results.sarif
+          else
+            echo "SARIF file not found"
+            exit 1
+          fi
+
+  # Test 5: Verify types with threshold (using a simple package)
+  test-verify-types:
+    name: Test Verify Types
+    runs-on: ubuntu-latest
+    continue-on-error: true # May fail depending on package
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install test package
+        run: |
+          cd smoke-test
+          pip install typing-extensions  # A simple, well-typed package
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          verify-types: typing-extensions
+          verify-threshold: 50 # Conservative threshold
+          comment-coverage: false
+
+  # Test 6: All v3 features combined
+  test-all-features:
+    name: Test All v3 Features
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          working-directory: ./smoke-test
+          stats-budget-ms: 5000
+          stats-top: 3
+          sarif: true
+          comment-slow: false
+          comment-coverage: false
+          annotate: all
+          version: latest
+
+  # Test 7: Different matrix of scenarios
+  test-matrix:
+    name: Test Matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        scenario:
+          - name: 'basic'
+            working-directory: ./smoke-test
+          - name: 'with-stats'
+            working-directory: ./smoke-test
+            stats-budget-ms: 10000
+          - name: 'with-sarif'
+            working-directory: ./smoke-test
+            sarif: true
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          working-directory: ${{ matrix.scenario.working-directory }}
+          stats-budget-ms: ${{ matrix.scenario.stats-budget-ms }}
+          sarif: ${{ matrix.scenario.sarif }}

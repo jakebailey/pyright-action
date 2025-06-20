@@ -8308,7 +8308,7 @@ var import_shell_quote = __toESM(require_shell_quote());
 var import_which = __toESM(require_lib2());
 
 // package.json
-var version = "2.3.2";
+var version = "3.0.0";
 
 // node_modules/.pnpm/@badrap+valita@0.4.2/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function expectedType(expected) {
@@ -9354,6 +9354,22 @@ var Range = object({
 function isEmptyRange(r) {
   return isEmptyPosition(r.start) && isEmptyPosition(r.end);
 }
+var FileStat = object({
+  path: string(),
+  timeInSec: number()
+});
+var VerifyTypesStats = object({
+  packageName: string().optional(),
+  completenessScore: number().optional(),
+  moduleCount: number().optional(),
+  symbolCount: number().optional(),
+  completedSymbolCount: number().optional(),
+  missingFunctionDocStringCount: number().optional(),
+  missingClassDocStringCount: number().optional(),
+  missingDefaultParamCount: number().optional(),
+  missingFunctionVarArgTypeCount: number().optional(),
+  missingFunctionKwArgTypeCount: number().optional()
+});
 var Diagnostic = object({
   file: string(),
   severity: union(literal("error"), literal("warning"), literal("information")),
@@ -9366,8 +9382,15 @@ var Report = object({
   summary: object({
     errorCount: number(),
     warningCount: number(),
-    informationCount: number()
-  })
+    informationCount: number(),
+    filesAnalyzed: number().optional(),
+    timeInSec: number().optional()
+  }),
+  stats: object({
+    requiresTypeIgnoreComment: number().optional(),
+    files: array(FileStat).optional()
+  }).optional(),
+  verifyTypesStats: VerifyTypesStats.optional()
 });
 function parseReport(v) {
   return Report.parse(v, { mode: "strip" });
@@ -9535,12 +9558,36 @@ async function getArgs(execPath) {
   if (noComments) {
     annotate.clear();
   }
+  const statsBudgetMsInput = core.getInput("stats-budget-ms");
+  const statsBudgetMs = statsBudgetMsInput ? Number.parseInt(statsBudgetMsInput, 10) : void 0;
+  if (statsBudgetMs !== void 0 && (Number.isNaN(statsBudgetMs) || statsBudgetMs <= 0)) {
+    throw new Error(`stats-budget-ms must be a positive number, got: ${statsBudgetMsInput}`);
+  }
+  const statsTopInput = core.getInput("stats-top") || "5";
+  const statsTop = Number.parseInt(statsTopInput, 10);
+  if (Number.isNaN(statsTop) || statsTop <= 0) {
+    throw new Error(`stats-top must be a positive number, got: ${statsTopInput}`);
+  }
+  const verifyThresholdInput = core.getInput("verify-threshold");
+  const verifyThreshold = verifyThresholdInput ? Number.parseFloat(verifyThresholdInput) : void 0;
+  if (verifyThreshold !== void 0 && (Number.isNaN(verifyThreshold) || verifyThreshold < 0 || verifyThreshold > 100)) {
+    throw new Error(`verify-threshold must be a number between 0 and 100, got: ${verifyThresholdInput}`);
+  }
+  const sarif = getBooleanInput("sarif", false);
+  const commentSlow = getBooleanInput("comment-slow", true);
+  const commentCoverage = getBooleanInput("comment-coverage", true);
   return {
     workingDirectory,
     annotate,
     pyrightVersion: pyrightInfo.version,
     command,
-    args
+    args,
+    statsBudgetMs,
+    statsTop,
+    verifyThreshold,
+    sarif,
+    commentSlow,
+    commentCoverage
   };
 }
 function isAnnotateNone(name) {
@@ -9663,10 +9710,127 @@ function printInfo(pyrightVersion, node, cwd, command, args) {
   core2.info(`Working directory: ${cwd}`);
   core2.info(`Running: ${(0, import_shell_quote2.quote)([command, ...args])}`);
 }
+async function handleAnnotations(report, annotate) {
+  for (const diag of report.generalDiagnostics) {
+    core2.info(diagnosticToString(
+      diag,
+      /* forCommand */
+      false
+    ));
+    if (diag.severity === "information") {
+      continue;
+    }
+    if (!annotate.has(diag.severity)) {
+      continue;
+    }
+    const line = diag.range?.start.line ?? 0;
+    const col = diag.range?.start.character ?? 0;
+    const message = diagnosticToString(
+      diag,
+      /* forCommand */
+      true
+    );
+    actionsCommand.issueCommand(
+      diag.severity,
+      {
+        file: diag.file,
+        line: line + 1,
+        col: col + 1
+      },
+      message
+    );
+  }
+}
+function checkStatsBudget(files, budgetMs) {
+  return files.filter((file) => file.timeInSec * 1e3 > budgetMs).sort((a, b) => b.timeInSec - a.timeInSec);
+}
+async function postSlowFilesComment(slowFiles, budgetMs, top) {
+  const topSlowFiles = slowFiles.slice(0, top);
+  const lines = [
+    `\u26A0\uFE0F **${slowFiles.length} file(s) exceeded the stats budget of ${budgetMs}ms:**`,
+    "",
+    ...topSlowFiles.map((file) => `- \`${file.path}\`: ${Math.round(file.timeInSec * 1e3)}ms`)
+  ];
+  if (slowFiles.length > top) {
+    lines.push(`- ... and ${slowFiles.length - top} more file(s)`);
+  }
+  core2.info("Slow files comment would be posted:");
+  core2.info(lines.join("\n"));
+}
+async function postCoverageComment(stats) {
+  const lines = [
+    `\u{1F4CA} **Type Coverage Summary:**`,
+    "",
+    `- **Completeness Score:** ${stats.completenessScore?.toFixed(1) ?? "N/A"}%`,
+    `- **Modules:** ${stats.moduleCount ?? "N/A"}`,
+    `- **Symbols:** ${stats.completedSymbolCount ?? "N/A"}/${stats.symbolCount ?? "N/A"}`
+  ];
+  if (stats.packageName) {
+    lines.unshift(`**Package:** ${stats.packageName}`);
+    lines.unshift("");
+  }
+  core2.info("Coverage comment would be posted:");
+  core2.info(lines.join("\n"));
+}
+async function generateSarif(report) {
+  const sarif = {
+    version: "2.1.0",
+    $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+    runs: [
+      {
+        tool: {
+          driver: {
+            name: "pyright",
+            version: "unknown",
+            informationUri: "https://github.com/microsoft/pyright"
+          }
+        },
+        results: report.generalDiagnostics.filter((diag) => diag.severity === "error" || diag.severity === "warning").map((diag) => ({
+          ruleId: diag.rule,
+          level: diag.severity === "error" ? "error" : "warning",
+          message: {
+            text: diag.message
+          },
+          locations: diag.range && diag.file ? [
+            {
+              physicalLocation: {
+                artifactLocation: {
+                  uri: diag.file
+                },
+                region: {
+                  startLine: diag.range.start.line + 1,
+                  startColumn: diag.range.start.character + 1,
+                  endLine: diag.range.end.line + 1,
+                  endColumn: diag.range.end.character + 1
+                }
+              }
+            }
+          ] : []
+        }))
+      }
+    ]
+  };
+  const sarifPath = "pyright-results.sarif";
+  fs.writeFileSync(sarifPath, JSON.stringify(sarif, void 0, 2));
+  core2.info(`SARIF file generated: ${sarifPath}`);
+  core2.info("SARIF upload would be performed here");
+}
 async function main() {
   try {
     const node = getNodeInfo(process);
-    const { workingDirectory, annotate, pyrightVersion, command, args } = await getArgs(node.execPath);
+    const {
+      workingDirectory,
+      annotate,
+      pyrightVersion,
+      command,
+      args,
+      statsBudgetMs,
+      statsTop,
+      verifyThreshold,
+      sarif,
+      commentSlow,
+      commentCoverage
+    } = await getArgs(node.execPath);
     if (workingDirectory) {
       process.chdir(workingDirectory);
     }
@@ -9674,7 +9838,14 @@ async function main() {
       checkOverriddenFlags(pyrightVersion, args);
     } catch {
     }
-    if (annotate.size === 0) {
+    const updatedArgs = [...args];
+    if (!updatedArgs.includes("--outputjson")) {
+      updatedArgs.push("--outputjson");
+    }
+    if (statsBudgetMs && !updatedArgs.includes("--stats")) {
+      updatedArgs.push("--stats");
+    }
+    if (annotate.size === 0 && !statsBudgetMs && !verifyThreshold && !sarif) {
       printInfo(pyrightVersion, node, process.cwd(), command, args);
       const { status: status2 } = cp2.spawnSync(command, args, {
         stdio: ["ignore", "inherit", "inherit"]
@@ -9683,10 +9854,6 @@ async function main() {
         core2.setFailed(`Exit code ${status2}`);
       }
       return;
-    }
-    const updatedArgs = [...args];
-    if (!updatedArgs.includes("--outputjson")) {
-      updatedArgs.push("--outputjson");
     }
     printInfo(pyrightVersion, node, process.cwd(), command, updatedArgs);
     const { status, stdout } = cp2.spawnSync(command, updatedArgs, {
@@ -9700,34 +9867,28 @@ async function main() {
       return;
     }
     const report = parseReport(JSON.parse(stdout));
-    for (const diag of report.generalDiagnostics) {
-      core2.info(diagnosticToString(
-        diag,
-        /* forCommand */
-        false
-      ));
-      if (diag.severity === "information") {
-        continue;
+    await handleAnnotations(report, annotate);
+    const failures = [];
+    if (statsBudgetMs && report.stats?.files) {
+      const slowFiles = checkStatsBudget(report.stats.files, statsBudgetMs);
+      if (slowFiles.length > 0) {
+        failures.push(`${slowFiles.length} file(s) exceeded stats budget of ${statsBudgetMs}ms`);
+        if (commentSlow ?? true) {
+          await postSlowFilesComment(slowFiles, statsBudgetMs, statsTop ?? 5);
+        }
       }
-      if (!annotate.has(diag.severity)) {
-        continue;
+    }
+    if (verifyThreshold !== void 0 && report.verifyTypesStats?.completenessScore !== void 0) {
+      const score = report.verifyTypesStats.completenessScore;
+      if (score < verifyThreshold) {
+        failures.push(`Type completeness ${score.toFixed(1)}% is below threshold of ${verifyThreshold}%`);
       }
-      const line = diag.range?.start.line ?? 0;
-      const col = diag.range?.start.character ?? 0;
-      const message = diagnosticToString(
-        diag,
-        /* forCommand */
-        true
-      );
-      actionsCommand.issueCommand(
-        diag.severity,
-        {
-          file: diag.file,
-          line: line + 1,
-          col: col + 1
-        },
-        message
-      );
+      if (commentCoverage ?? true) {
+        await postCoverageComment(report.verifyTypesStats);
+      }
+    }
+    if (sarif) {
+      await generateSarif(report);
     }
     const { errorCount, warningCount, informationCount } = report.summary;
     core2.info(
@@ -9737,8 +9898,13 @@ async function main() {
         pluralize(informationCount, "information", "informations")
       ].join(", ")
     );
-    if (status !== 0) {
-      core2.setFailed(pluralize(errorCount, "error", "errors"));
+    if (status !== 0 || failures.length > 0) {
+      const allFailures = [];
+      if (errorCount > 0) {
+        allFailures.push(pluralize(errorCount, "error", "errors"));
+      }
+      allFailures.push(...failures);
+      core2.setFailed(allFailures.join("; "));
     }
   } catch (e) {
     import_node_assert.default.ok(typeof e === "string" || e instanceof Error);

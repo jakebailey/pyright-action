@@ -63,6 +63,12 @@ exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -96,10 +102,19 @@ exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -109,6 +124,9 @@ exports[`getArgs > valid version > 1.1.308 dashes > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -141,6 +159,8 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
     "/path/to-venv",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -155,6 +175,10 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
     "raw": "1.1.308",
     "version": "1.1.308",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -202,6 +226,12 @@ exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -235,10 +265,19 @@ exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -248,6 +287,9 @@ exports[`getArgs > valid version > 1.1.309 dashes > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -280,6 +322,8 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
     "/path/to-venv",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -294,6 +338,10 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
     "raw": "1.1.309",
     "version": "1.1.309",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -341,6 +389,12 @@ exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -374,10 +428,19 @@ exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -387,6 +450,9 @@ exports[`getArgs > valid version > 1.1.310 dashes > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -419,6 +485,8 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
     "/path/to-venv",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -433,6 +501,10 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
     "raw": "1.1.310",
     "version": "1.1.310",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -480,6 +552,12 @@ exports[`getArgs > valid version > annotate "" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -516,10 +594,19 @@ exports[`getArgs > valid version > annotate "" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -529,6 +616,9 @@ exports[`getArgs > valid version > annotate "" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -557,6 +647,8 @@ exports[`getArgs > valid version > annotate "" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -571,6 +663,10 @@ exports[`getArgs > valid version > annotate "" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -618,6 +714,12 @@ exports[`getArgs > valid version > annotate "False" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -654,10 +756,19 @@ exports[`getArgs > valid version > annotate "False" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -667,6 +778,9 @@ exports[`getArgs > valid version > annotate "False" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -692,6 +806,8 @@ exports[`getArgs > valid version > annotate "False" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -706,6 +822,10 @@ exports[`getArgs > valid version > annotate "False" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -753,6 +873,12 @@ exports[`getArgs > valid version > annotate "True" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -789,10 +915,19 @@ exports[`getArgs > valid version > annotate "True" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -802,6 +937,9 @@ exports[`getArgs > valid version > annotate "True" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -830,6 +968,8 @@ exports[`getArgs > valid version > annotate "True" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -844,6 +984,10 @@ exports[`getArgs > valid version > annotate "True" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -891,6 +1035,12 @@ exports[`getArgs > valid version > annotate "all" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -927,10 +1077,19 @@ exports[`getArgs > valid version > annotate "all" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -940,6 +1099,9 @@ exports[`getArgs > valid version > annotate "all" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -968,6 +1130,8 @@ exports[`getArgs > valid version > annotate "all" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -982,6 +1146,10 @@ exports[`getArgs > valid version > annotate "all" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1029,6 +1197,12 @@ exports[`getArgs > valid version > annotate "errors" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1065,10 +1239,19 @@ exports[`getArgs > valid version > annotate "errors" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1078,6 +1261,9 @@ exports[`getArgs > valid version > annotate "errors" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1105,6 +1291,8 @@ exports[`getArgs > valid version > annotate "errors" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1119,6 +1307,10 @@ exports[`getArgs > valid version > annotate "errors" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1166,6 +1358,12 @@ exports[`getArgs > valid version > annotate "errors, warnings" > core.getInput 1
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1202,10 +1400,19 @@ exports[`getArgs > valid version > annotate "errors, warnings" > core.getInput 1
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1215,6 +1422,9 @@ exports[`getArgs > valid version > annotate "errors, warnings" > core.getInput 1
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1243,6 +1453,8 @@ exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1257,6 +1469,10 @@ exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1304,6 +1520,12 @@ exports[`getArgs > valid version > annotate "false" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1340,10 +1562,19 @@ exports[`getArgs > valid version > annotate "false" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1353,6 +1584,9 @@ exports[`getArgs > valid version > annotate "false" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1378,6 +1612,8 @@ exports[`getArgs > valid version > annotate "false" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1392,6 +1628,10 @@ exports[`getArgs > valid version > annotate "false" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1439,6 +1679,12 @@ exports[`getArgs > valid version > annotate "none" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1475,10 +1721,19 @@ exports[`getArgs > valid version > annotate "none" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1488,6 +1743,9 @@ exports[`getArgs > valid version > annotate "none" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1513,6 +1771,8 @@ exports[`getArgs > valid version > annotate "none" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1527,6 +1787,10 @@ exports[`getArgs > valid version > annotate "none" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1574,6 +1838,12 @@ exports[`getArgs > valid version > annotate "true" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1610,10 +1880,19 @@ exports[`getArgs > valid version > annotate "true" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1623,6 +1902,9 @@ exports[`getArgs > valid version > annotate "true" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1651,6 +1933,8 @@ exports[`getArgs > valid version > annotate "true" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1665,6 +1949,10 @@ exports[`getArgs > valid version > annotate "true" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1712,6 +2000,12 @@ exports[`getArgs > valid version > annotate "warnings" > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1748,10 +2042,19 @@ exports[`getArgs > valid version > annotate "warnings" > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1761,6 +2064,9 @@ exports[`getArgs > valid version > annotate "warnings" > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1788,6 +2094,8 @@ exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1802,6 +2110,10 @@ exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -1849,6 +2161,12 @@ exports[`getArgs > valid version > annotate "warnings,errors" > core.getInput 1`
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -1885,10 +2203,19 @@ exports[`getArgs > valid version > annotate "warnings,errors" > core.getInput 1`
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -1898,6 +2225,9 @@ exports[`getArgs > valid version > annotate "warnings,errors" > core.getInput 1`
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -1926,6 +2256,8 @@ exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -1940,6 +2272,10 @@ exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -2201,6 +2537,12 @@ exports[`getArgs > valid version > cached > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -2237,10 +2579,19 @@ exports[`getArgs > valid version > cached > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -2250,6 +2601,9 @@ exports[`getArgs > valid version > cached > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -2278,6 +2632,8 @@ exports[`getArgs > valid version > cached > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -2292,6 +2648,10 @@ exports[`getArgs > valid version > cached > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -2317,6 +2677,12 @@ exports[`getArgs > valid version > createstub > core.getInput 1`] = `
 [
   [
     "annotate",
+  ],
+  [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
   ],
   [
     "create-stub",
@@ -2355,10 +2721,19 @@ exports[`getArgs > valid version > createstub > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -2368,6 +2743,9 @@ exports[`getArgs > valid version > createstub > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -2395,6 +2773,8 @@ exports[`getArgs > valid version > createstub > result 1`] = `
     "pygame",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -2409,6 +2789,10 @@ exports[`getArgs > valid version > createstub > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -2456,6 +2840,12 @@ exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -2492,10 +2882,19 @@ exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -2505,6 +2904,9 @@ exports[`getArgs > valid version > dependencies > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -2532,6 +2934,8 @@ exports[`getArgs > valid version > dependencies > result 1`] = `
     "TRUE",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -2546,6 +2950,10 @@ exports[`getArgs > valid version > dependencies > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -2697,6 +3105,12 @@ exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -2733,10 +3147,19 @@ exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -2746,6 +3169,9 @@ exports[`getArgs > valid version > extra-args quotes > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -2777,6 +3203,8 @@ exports[`getArgs > valid version > extra-args quotes > result 1`] = `
     "--baz=quoted value",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -2791,6 +3219,10 @@ exports[`getArgs > valid version > extra-args quotes > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -2838,6 +3270,12 @@ exports[`getArgs > valid version > many options > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -2874,10 +3312,19 @@ exports[`getArgs > valid version > many options > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -2887,6 +3334,9 @@ exports[`getArgs > valid version > many options > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -2934,6 +3384,8 @@ exports[`getArgs > valid version > many options > result 1`] = `
     "--baz",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -2948,6 +3400,10 @@ exports[`getArgs > valid version > many options > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "/path/to/project",
 }
 `;
@@ -2995,6 +3451,12 @@ exports[`getArgs > valid version > no comments > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3031,10 +3493,19 @@ exports[`getArgs > valid version > no comments > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3044,6 +3515,9 @@ exports[`getArgs > valid version > no comments > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3069,6 +3543,8 @@ exports[`getArgs > valid version > no comments > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3083,6 +3559,10 @@ exports[`getArgs > valid version > no comments > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3130,6 +3610,12 @@ exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3166,10 +3652,19 @@ exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3179,6 +3674,9 @@ exports[`getArgs > valid version > pylance-version > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3207,6 +3705,8 @@ exports[`getArgs > valid version > pylance-version > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3221,6 +3721,10 @@ exports[`getArgs > valid version > pylance-version > result 1`] = `
     "raw": "9.9.999",
     "version": "9.9.999",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3291,6 +3795,12 @@ exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3327,10 +3837,19 @@ exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3340,6 +3859,9 @@ exports[`getArgs > valid version > skip-unannotated > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3369,6 +3891,8 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
     "--skipunannotated",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3383,6 +3907,10 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3430,6 +3958,12 @@ exports[`getArgs > valid version > stats > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3466,10 +4000,19 @@ exports[`getArgs > valid version > stats > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3479,6 +4022,9 @@ exports[`getArgs > valid version > stats > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3505,6 +4051,8 @@ exports[`getArgs > valid version > stats > result 1`] = `
     "--stats",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3519,6 +4067,10 @@ exports[`getArgs > valid version > stats > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3566,6 +4118,12 @@ exports[`getArgs > valid version > verbose > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3602,10 +4160,19 @@ exports[`getArgs > valid version > verbose > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3615,6 +4182,9 @@ exports[`getArgs > valid version > verbose > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3644,6 +4214,8 @@ exports[`getArgs > valid version > verbose > result 1`] = `
     "--lib",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3658,6 +4230,10 @@ exports[`getArgs > valid version > verbose > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3705,6 +4281,12 @@ exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3741,10 +4323,19 @@ exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3754,6 +4345,9 @@ exports[`getArgs > valid version > verbose flag > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3780,6 +4374,8 @@ exports[`getArgs > valid version > verbose flag > result 1`] = `
     "--verbose",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3794,6 +4390,10 @@ exports[`getArgs > valid version > verbose flag > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3841,6 +4441,12 @@ exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -3877,10 +4483,19 @@ exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -3890,6 +4505,9 @@ exports[`getArgs > valid version > verifytypes > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -3918,6 +4536,8 @@ exports[`getArgs > valid version > verifytypes > result 1`] = `
     "some.package",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -3932,6 +4552,10 @@ exports[`getArgs > valid version > verifytypes > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -3979,6 +4603,12 @@ exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -4015,10 +4645,19 @@ exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -4028,6 +4667,9 @@ exports[`getArgs > valid version > verifytypes flag > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -4054,6 +4696,8 @@ exports[`getArgs > valid version > verifytypes flag > result 1`] = `
     "--verifytypes",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -4068,6 +4712,10 @@ exports[`getArgs > valid version > verifytypes flag > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -4115,6 +4763,12 @@ exports[`getArgs > valid version > version latest > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -4148,10 +4802,19 @@ exports[`getArgs > valid version > version latest > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -4161,6 +4824,9 @@ exports[`getArgs > valid version > version latest > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -4189,6 +4855,8 @@ exports[`getArgs > valid version > version latest > result 1`] = `
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -4203,6 +4871,10 @@ exports[`getArgs > valid version > version latest > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -4270,6 +4942,12 @@ exports[`getArgs > valid version > version path > core.getInput 1`] = `
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -4303,10 +4981,19 @@ exports[`getArgs > valid version > version path > core.getInput 1`] = `
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -4316,6 +5003,9 @@ exports[`getArgs > valid version > version path > core.getInput 1`] = `
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -4354,6 +5044,8 @@ exports[`getArgs > valid version > version path > result 1`] = `
   },
   "args": [],
   "command": "/path/to/which/pyright",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -4368,6 +5060,10 @@ exports[`getArgs > valid version > version path > result 1`] = `
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -4608,6 +5304,12 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -4641,10 +5343,19 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -4654,6 +5365,9 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -4682,6 +5396,8 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
     "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -4696,6 +5412,10 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
     "raw": "1.1.310",
     "version": "1.1.310",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -4743,6 +5463,12 @@ exports[`getArgs > valid version > version with garbage but success after > core
     "annotate",
   ],
   [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
+  ],
+  [
     "create-stub",
   ],
   [
@@ -4776,10 +5502,19 @@ exports[`getArgs > valid version > version with garbage but success after > core
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -4789,6 +5524,9 @@ exports[`getArgs > valid version > version with garbage but success after > core
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -4836,6 +5574,8 @@ exports[`getArgs > valid version > version with garbage but success after > resu
   },
   "args": [],
   "command": "/path/to/which/pyright",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -4850,6 +5590,10 @@ exports[`getArgs > valid version > version with garbage but success after > resu
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;
@@ -4874,6 +5618,12 @@ exports[`getArgs > valid version > version with garbage but version > core.getIn
 [
   [
     "annotate",
+  ],
+  [
+    "comment-coverage",
+  ],
+  [
+    "comment-slow",
   ],
   [
     "create-stub",
@@ -4909,10 +5659,19 @@ exports[`getArgs > valid version > version with garbage but version > core.getIn
     "python-version",
   ],
   [
+    "sarif",
+  ],
+  [
     "skip-unannotated",
   ],
   [
     "stats",
+  ],
+  [
+    "stats-budget-ms",
+  ],
+  [
+    "stats-top",
   ],
   [
     "typeshed-path",
@@ -4922,6 +5681,9 @@ exports[`getArgs > valid version > version with garbage but version > core.getIn
   ],
   [
     "verbose",
+  ],
+  [
+    "verify-threshold",
   ],
   [
     "verify-types",
@@ -4960,6 +5722,8 @@ exports[`getArgs > valid version > version with garbage but version > result 1`]
   },
   "args": [],
   "command": "/path/to/which/pyright",
+  "commentCoverage": true,
+  "commentSlow": true,
   "pyrightVersion": SemVer {
     "build": [],
     "loose": false,
@@ -4974,6 +5738,10 @@ exports[`getArgs > valid version > version with garbage but version > result 1`]
     "raw": "1.1.240",
     "version": "1.1.240",
   },
+  "sarif": false,
+  "statsBudgetMs": undefined,
+  "statsTop": 5,
+  "verifyThreshold": undefined,
   "workingDirectory": "",
 }
 `;

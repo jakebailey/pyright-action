@@ -31,7 +31,9 @@ exports[`parseReport > good > report 1`] = `
   ],
   "summary": {
     "errorCount": 1,
+    "filesAnalyzed": 2704,
     "informationCount": 0,
+    "timeInSec": 7.342,
     "warningCount": 0,
   },
 }

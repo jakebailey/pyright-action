@@ -1,3 +1,26 @@
+/**
+ * Pyright Action v3 - Main Implementation
+ *
+ * This file contains the core logic for running pyright with GitHub Actions integration.
+ *
+ * v3 Features:
+ * - Stats Budget Enforcement: Monitor and fail builds based on analysis time thresholds
+ * - Type Coverage Thresholds: Require minimum completeness percentages for verify-types
+ * - SARIF Integration: Generate security-compatible reports for GitHub
+ * - Enhanced PR Comments: Detailed performance and coverage reporting (TODO: GitHub API)
+ * - Backward Compatibility: All v2 functionality preserved
+ *
+ * Flow:
+ * 1. Parse action inputs and determine pyright version/command
+ * 2. Add v3 flags (--stats, --outputjson) as needed
+ * 3. Execute pyright with appropriate stdio handling
+ * 4. Parse JSON output for diagnostics and v3 metrics
+ * 5. Process annotations for PR/commit comments (v2 feature)
+ * 6. Check v3 feature constraints (stats budget, coverage threshold)
+ * 7. Generate optional outputs (SARIF, PR comments)
+ * 8. Report results and fail appropriately
+ */
+
 import assert from "node:assert";
 import * as cp from "node:child_process";
 import * as fs from "node:fs";
@@ -12,7 +35,14 @@ import { SemVer } from "semver";
 import { quote } from "shell-quote";
 
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
-import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
+import {
+    type Diagnostic,
+    type FileStat,
+    isEmptyRange,
+    parseReport,
+    type Report,
+    type VerifyTypesStats,
+} from "./schema";
 
 function printInfo(pyrightVersion: SemVer, node: NodeInfo, cwd: string, command: string, args: readonly string[]) {
     core.info(`pyright ${pyrightVersion.format()}, node ${node.version}, pyright-action ${getActionVersion()}`);
@@ -20,10 +50,164 @@ function printInfo(pyrightVersion: SemVer, node: NodeInfo, cwd: string, command:
     core.info(`Running: ${quote([command, ...args])}`);
 }
 
+/**
+ * v3: Handle annotations for errors/warnings (extracted from main for modularity)
+ */
+async function handleAnnotations(report: Report, annotate: ReadonlySet<"error" | "warning">) {
+    for (const diag of report.generalDiagnostics) {
+        core.info(diagnosticToString(diag, /* forCommand */ false));
+
+        if (diag.severity === "information") {
+            continue;
+        }
+
+        if (!annotate.has(diag.severity)) {
+            continue;
+        }
+
+        const line = diag.range?.start.line ?? 0;
+        const col = diag.range?.start.character ?? 0;
+        const message = diagnosticToString(diag, /* forCommand */ true);
+
+        // This is technically a log line and duplicates the core.info above,
+        // but we want to have the below look nice in commit comments.
+        actionsCommand.issueCommand(
+            diag.severity,
+            {
+                file: diag.file,
+                line: line + 1,
+                col: col + 1,
+            },
+            message,
+        );
+    }
+}
+
+/**
+ * v3: Check stats budget and return files that exceed the threshold
+ */
+function checkStatsBudget(files: FileStat[], budgetMs: number): FileStat[] {
+    return files
+        .filter((file) => file.timeInSec * 1000 > budgetMs)
+        .sort((a, b) => b.timeInSec - a.timeInSec);
+}
+
+/**
+ * v3: Post PR comment with slow files information
+ * TODO: Implement actual GitHub API integration using @actions/github
+ */
+async function postSlowFilesComment(slowFiles: FileStat[], budgetMs: number, top: number): Promise<void> {
+    const topSlowFiles = slowFiles.slice(0, top);
+    const lines = [
+        `⚠️ **${slowFiles.length} file(s) exceeded the stats budget of ${budgetMs}ms:**`,
+        "",
+        ...topSlowFiles.map((file) => `- \`${file.path}\`: ${Math.round(file.timeInSec * 1000)}ms`),
+    ];
+
+    if (slowFiles.length > top) {
+        lines.push(`- ... and ${slowFiles.length - top} more file(s)`);
+    }
+
+    core.info("Slow files comment would be posted:");
+    core.info(lines.join("\n"));
+    // TODO: Implement actual PR comment posting using @actions/github
+}
+
+/**
+ * v3: Post PR comment with type coverage information
+ * TODO: Implement actual GitHub API integration using @actions/github
+ */
+async function postCoverageComment(stats: VerifyTypesStats): Promise<void> {
+    const lines = [
+        `📊 **Type Coverage Summary:**`,
+        "",
+        `- **Completeness Score:** ${stats.completenessScore?.toFixed(1) ?? "N/A"}%`,
+        `- **Modules:** ${stats.moduleCount ?? "N/A"}`,
+        `- **Symbols:** ${stats.completedSymbolCount ?? "N/A"}/${stats.symbolCount ?? "N/A"}`,
+    ];
+
+    if (stats.packageName) {
+        lines.unshift(`**Package:** ${stats.packageName}`);
+        lines.unshift("");
+    }
+
+    core.info("Coverage comment would be posted:");
+    core.info(lines.join("\n"));
+    // TODO: Implement actual PR comment posting using @actions/github
+}
+
+/**
+ * v3: Generate SARIF file for GitHub security tab integration
+ * TODO: Implement SARIF upload using github.rest.codeScanning.uploadSarif
+ */
+async function generateSarif(report: Report): Promise<void> {
+    const sarif = {
+        version: "2.1.0",
+        $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+        runs: [
+            {
+                tool: {
+                    driver: {
+                        name: "pyright",
+                        version: "unknown",
+                        informationUri: "https://github.com/microsoft/pyright",
+                    },
+                },
+                results: report.generalDiagnostics
+                    .filter((diag) => diag.severity === "error" || diag.severity === "warning")
+                    .map((diag) => ({
+                        ruleId: diag.rule,
+                        level: diag.severity === "error" ? "error" : "warning",
+                        message: {
+                            text: diag.message,
+                        },
+                        locations: diag.range && diag.file
+                            ? [
+                                {
+                                    physicalLocation: {
+                                        artifactLocation: {
+                                            uri: diag.file,
+                                        },
+                                        region: {
+                                            startLine: diag.range.start.line + 1,
+                                            startColumn: diag.range.start.character + 1,
+                                            endLine: diag.range.end.line + 1,
+                                            endColumn: diag.range.end.character + 1,
+                                        },
+                                    },
+                                },
+                            ]
+                            : [],
+                    })),
+            },
+        ],
+    };
+
+    const sarifPath = "pyright-results.sarif";
+    fs.writeFileSync(sarifPath, JSON.stringify(sarif, undefined, 2));
+    core.info(`SARIF file generated: ${sarifPath}`);
+
+    // TODO: Upload SARIF to GitHub using github.rest.codeScanning.uploadSarif
+    core.info("SARIF upload would be performed here");
+}
+
 export async function main() {
     try {
         const node = getNodeInfo(process);
-        const { workingDirectory, annotate, pyrightVersion, command, args } = await getArgs(node.execPath);
+        const {
+            workingDirectory,
+            annotate,
+            pyrightVersion,
+            command,
+            args,
+            statsBudgetMs,
+            statsTop,
+            verifyThreshold,
+            sarif,
+            commentSlow,
+            commentCoverage,
+        } = await getArgs(node.execPath);
+
         if (workingDirectory) {
             process.chdir(workingDirectory);
         }
@@ -34,14 +218,21 @@ export async function main() {
             // Just ignore.
         }
 
-        if (annotate.size === 0) {
+        // v3: Always use --outputjson for processing results, even if annotations are disabled
+        const updatedArgs = [...args];
+        if (!updatedArgs.includes("--outputjson")) {
+            updatedArgs.push("--outputjson");
+        }
+
+        // v3: Add --stats if stats budget is specified for performance monitoring
+        if (statsBudgetMs && !updatedArgs.includes("--stats")) {
+            updatedArgs.push("--stats");
+        }
+
+        // v3: If no features need JSON processing, run pyright directly for performance
+        if (annotate.size === 0 && !statsBudgetMs && !verifyThreshold && !sarif) {
             printInfo(pyrightVersion, node, process.cwd(), command, args);
-            // If comments are disabled, there's no point in directly processing the output,
-            // as it's only used for comments.
-            // If we're running the type verifier, there's no guarantee that we can even act
-            // on the output besides the exit code.
-            //
-            // So, in either case, just directly run pyright and exit with its status.
+            // Direct execution without JSON processing for maximum performance
             const { status } = cp.spawnSync(command, args, {
                 stdio: ["ignore", "inherit", "inherit"],
             });
@@ -50,11 +241,6 @@ export async function main() {
                 core.setFailed(`Exit code ${status!}`);
             }
             return;
-        }
-
-        const updatedArgs = [...args];
-        if (!updatedArgs.includes("--outputjson")) {
-            updatedArgs.push("--outputjson");
         }
 
         printInfo(pyrightVersion, node, process.cwd(), command, updatedArgs);
@@ -73,36 +259,45 @@ export async function main() {
 
         const report = parseReport(JSON.parse(stdout));
 
-        for (const diag of report.generalDiagnostics) {
-            core.info(diagnosticToString(diag, /* forCommand */ false));
+        // Handle annotations for errors/warnings (v2 compatibility)
+        await handleAnnotations(report, annotate);
 
-            if (diag.severity === "information") {
-                continue;
+        // v3: Handle new features with consolidated failure tracking
+        const failures: string[] = [];
+
+        // v3: Check stats budget for performance monitoring
+        if (statsBudgetMs && report.stats?.files) {
+            const slowFiles = checkStatsBudget(report.stats.files, statsBudgetMs);
+            if (slowFiles.length > 0) {
+                failures.push(`${slowFiles.length} file(s) exceeded stats budget of ${statsBudgetMs}ms`);
+
+                // v3: Optional PR comment for slow files
+                if (commentSlow ?? true) {
+                    await postSlowFilesComment(slowFiles, statsBudgetMs, statsTop ?? 5);
+                }
             }
-
-            if (!annotate.has(diag.severity)) {
-                continue;
-            }
-
-            const line = diag.range?.start.line ?? 0;
-            const col = diag.range?.start.character ?? 0;
-            const message = diagnosticToString(diag, /* forCommand */ true);
-
-            // This is technically a log line and duplicates the core.info above,
-            // but we want to have the below look nice in commit comments.
-            actionsCommand.issueCommand(
-                diag.severity,
-                {
-                    file: diag.file,
-                    line: line + 1,
-                    col: col + 1,
-                },
-                message,
-            );
         }
 
-        const { errorCount, warningCount, informationCount } = report.summary;
+        // v3: Check verify-types threshold for type completeness
+        if (verifyThreshold !== undefined && report.verifyTypesStats?.completenessScore !== undefined) {
+            const score = report.verifyTypesStats.completenessScore;
+            if (score < verifyThreshold) {
+                failures.push(`Type completeness ${score.toFixed(1)}% is below threshold of ${verifyThreshold}%`);
+            }
 
+            // v3: Optional PR comment for coverage summary
+            if (commentCoverage ?? true) {
+                await postCoverageComment(report.verifyTypesStats);
+            }
+        }
+
+        // v3: Generate SARIF if requested for GitHub security tab integration
+        if (sarif) {
+            await generateSarif(report);
+        }
+
+        // Report summary (existing v2 functionality)
+        const { errorCount, warningCount, informationCount } = report.summary;
         core.info(
             [
                 pluralize(errorCount, "error", "errors"),
@@ -111,8 +306,14 @@ export async function main() {
             ].join(", "),
         );
 
-        if (status !== 0) {
-            core.setFailed(pluralize(errorCount, "error", "errors"));
+        // v3: Fail if there are errors, warnings (if configured), or v3 failures
+        if (status !== 0 || failures.length > 0) {
+            const allFailures = [];
+            if (errorCount > 0) {
+                allFailures.push(pluralize(errorCount, "error", "errors"));
+            }
+            allFailures.push(...failures);
+            core.setFailed(allFailures.join("; "));
         }
     } catch (e) {
         assert.ok(typeof e === "string" || e instanceof Error);
@@ -147,6 +348,7 @@ function pluralize(n: number, singular: string, plural: string) {
     return `${n} ${n === 1 ? singular : plural}`;
 }
 
+// Configuration override detection - warns users about conflicting settings
 const flagsOverriddenByConfig352AndAfter = new Set([
     // pyright warns about these itself, but still takes the config file.
     // Report these anyway, as the user should really stop configuring the action with these.

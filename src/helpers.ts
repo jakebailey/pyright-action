@@ -33,6 +33,12 @@ export interface Args {
     pyrightVersion: SemVer;
     command: string;
     args: readonly string[];
+    statsBudgetMs?: number;
+    statsTop?: number;
+    verifyThreshold?: number;
+    sarif?: boolean;
+    commentSlow?: boolean;
+    commentCoverage?: boolean;
 }
 
 // https://github.com/microsoft/pyright/blob/c8a16aa148afea403d985a80bd87998b06135c93/packages/pyright-internal/src/pyright.ts#LL188C35-L188C84
@@ -204,12 +210,43 @@ export async function getArgs(execPath: string): Promise<Args> {
         annotate.clear();
     }
 
+    // v3 New features
+    const statsBudgetMsInput = core.getInput("stats-budget-ms");
+    const statsBudgetMs = statsBudgetMsInput ? Number.parseInt(statsBudgetMsInput, 10) : undefined;
+    if (statsBudgetMs !== undefined && (Number.isNaN(statsBudgetMs) || statsBudgetMs <= 0)) {
+        throw new Error(`stats-budget-ms must be a positive number, got: ${statsBudgetMsInput}`);
+    }
+
+    const statsTopInput = core.getInput("stats-top") || "5";
+    const statsTop = Number.parseInt(statsTopInput, 10);
+    if (Number.isNaN(statsTop) || statsTop <= 0) {
+        throw new Error(`stats-top must be a positive number, got: ${statsTopInput}`);
+    }
+
+    const verifyThresholdInput = core.getInput("verify-threshold");
+    const verifyThreshold = verifyThresholdInput ? Number.parseFloat(verifyThresholdInput) : undefined;
+    if (
+        verifyThreshold !== undefined && (Number.isNaN(verifyThreshold) || verifyThreshold < 0 || verifyThreshold > 100)
+    ) {
+        throw new Error(`verify-threshold must be a number between 0 and 100, got: ${verifyThresholdInput}`);
+    }
+
+    const sarif = getBooleanInput("sarif", false);
+    const commentSlow = getBooleanInput("comment-slow", true);
+    const commentCoverage = getBooleanInput("comment-coverage", true);
+
     return {
         workingDirectory,
         annotate,
         pyrightVersion: pyrightInfo.version,
         command,
         args,
+        statsBudgetMs,
+        statsTop,
+        verifyThreshold,
+        sarif,
+        commentSlow,
+        commentCoverage,
     };
 }
 

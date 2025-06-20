@@ -21,6 +21,26 @@ export function isEmptyRange(r: Range) {
     return isEmptyPosition(r.start) && isEmptyPosition(r.end);
 }
 
+export type FileStat = v.Infer<typeof FileStat>;
+const FileStat = v.object({
+    path: v.string(),
+    timeInSec: v.number(),
+});
+
+export type VerifyTypesStats = v.Infer<typeof VerifyTypesStats>;
+const VerifyTypesStats = v.object({
+    packageName: v.string().optional(),
+    completenessScore: v.number().optional(),
+    moduleCount: v.number().optional(),
+    symbolCount: v.number().optional(),
+    completedSymbolCount: v.number().optional(),
+    missingFunctionDocStringCount: v.number().optional(),
+    missingClassDocStringCount: v.number().optional(),
+    missingDefaultParamCount: v.number().optional(),
+    missingFunctionVarArgTypeCount: v.number().optional(),
+    missingFunctionKwArgTypeCount: v.number().optional(),
+});
+
 export type Diagnostic = v.Infer<typeof Diagnostic>;
 const Diagnostic = v.object({
     file: v.string(),
@@ -37,7 +57,14 @@ const Report = v.object({
         errorCount: v.number(),
         warningCount: v.number(),
         informationCount: v.number(),
+        filesAnalyzed: v.number().optional(),
+        timeInSec: v.number().optional(),
     }),
+    stats: v.object({
+        requiresTypeIgnoreComment: v.number().optional(),
+        files: v.array(FileStat).optional(),
+    }).optional(),
+    verifyTypesStats: VerifyTypesStats.optional(),
 });
 
 export function parseReport(v: unknown): Report {
