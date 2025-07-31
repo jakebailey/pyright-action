@@ -43,7 +43,7 @@
         "jest-serializer-path": "^0.1.15",
         "klona": "^2.0.6",
         "rimraf": "^6.0.1",
-        "typescript": "~5.7.3",
+        "typescript": "~5.9.0",
         "typescript-eslint": "^8.24.1",
         "vitest": "^3.0.5"
     },
