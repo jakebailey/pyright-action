@@ -22,7 +22,7 @@ importers:
         version: 2.0.2
       '@badrap/valita':
         specifier: ^0.4.2
-        version: 0.4.2
+        version: 0.4.6
       '@iarna/toml':
         specifier: ^2.2.5
         version: 2.2.5
@@ -145,8 +145,8 @@ packages:
     resolution: {integrity: sha512-Y3IR1cRnOxOCDvMmNiym7XpXQ93iGDDPHx+Zj+NM+rg0fBaShfQLkg+hKPaZCEvg5N/LeCo4+Rj/i3FuJsIQaw==}
     engines: {node: '>=6.9.0'}
 
-  '@badrap/valita@0.4.2':
-    resolution: {integrity: sha512-Mwmr7k2iK0Yy0POLnAFUgab2mxKYeIsYXHY7sg3jo8XFsFHbG0SBmTcktXD0uW8N4WZePKf8s68QV7QDTGSdHA==}
+  '@badrap/valita@0.4.6':
+    resolution: {integrity: sha512-4kdqcjyxo/8RQ8ayjms47HCWZIF5981oE5nIenbfThKDxWXtEHKipAOWlflpPJzZx9y/JWYQkp18Awr7VuepFg==}
     engines: {node: '>= 18'}
 
   '@bcoe/v8-coverage@1.0.2':
@@ -1579,7 +1579,7 @@ snapshots:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
 
-  '@badrap/valita@0.4.2': {}
+  '@badrap/valita@0.4.6': {}
 
   '@bcoe/v8-coverage@1.0.2': {}
 
