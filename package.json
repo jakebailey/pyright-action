@@ -11,7 +11,7 @@
     "author": "Jake Bailey",
     "license": "MIT",
     "engines": {
-        "node": ">=20"
+        "node": ">= 20.5"
     },
     "dependencies": {
         "@actions/core": "^1.11.1",
