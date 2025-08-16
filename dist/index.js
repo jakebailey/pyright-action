@@ -61,7 +61,7 @@ var require_utils = __commonJS({
 var require_command = __commonJS({
   "node_modules/.pnpm/@actions+core@1.11.1/node_modules/@actions/core/lib/command.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -70,13 +70,13 @@ var require_command = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -147,7 +147,7 @@ var require_command = __commonJS({
 var require_file_command = __commonJS({
   "node_modules/.pnpm/@actions+core@1.11.1/node_modules/@actions/core/lib/file-command.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -156,13 +156,13 @@ var require_file_command = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -518,18 +518,18 @@ var require_tunnel2 = __commonJS({
 var require_lib = __commonJS({
   "node_modules/.pnpm/@actions+http-client@2.1.1/node_modules/@actions/http-client/lib/index.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       Object.defineProperty(o, k2, { enumerable: true, get: function() {
         return m[k];
       } });
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -1602,7 +1602,7 @@ var require_summary = __commonJS({
 var require_path_utils = __commonJS({
   "node_modules/.pnpm/@actions+core@1.11.1/node_modules/@actions/core/lib/path-utils.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -1611,13 +1611,13 @@ var require_path_utils = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -1651,18 +1651,18 @@ var require_path_utils = __commonJS({
 var require_io_util = __commonJS({
   "node_modules/.pnpm/@actions+io@1.1.3/node_modules/@actions/io/lib/io-util.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       Object.defineProperty(o, k2, { enumerable: true, get: function() {
         return m[k];
       } });
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -1824,18 +1824,18 @@ var require_io_util = __commonJS({
 var require_io = __commonJS({
   "node_modules/.pnpm/@actions+io@1.1.3/node_modules/@actions/io/lib/io.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       Object.defineProperty(o, k2, { enumerable: true, get: function() {
         return m[k];
       } });
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -2072,18 +2072,18 @@ var require_io = __commonJS({
 var require_toolrunner = __commonJS({
   "node_modules/.pnpm/@actions+exec@1.1.1/node_modules/@actions/exec/lib/toolrunner.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       Object.defineProperty(o, k2, { enumerable: true, get: function() {
         return m[k];
       } });
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -2556,18 +2556,18 @@ var require_toolrunner = __commonJS({
 var require_exec = __commonJS({
   "node_modules/.pnpm/@actions+exec@1.1.1/node_modules/@actions/exec/lib/exec.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       Object.defineProperty(o, k2, { enumerable: true, get: function() {
         return m[k];
       } });
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -2663,7 +2663,7 @@ var require_exec = __commonJS({
 var require_platform = __commonJS({
   "node_modules/.pnpm/@actions+core@1.11.1/node_modules/@actions/core/lib/platform.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -2672,13 +2672,13 @@ var require_platform = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -2782,7 +2782,7 @@ var require_platform = __commonJS({
 var require_core = __commonJS({
   "node_modules/.pnpm/@actions+core@1.11.1/node_modules/@actions/core/lib/core.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -2791,13 +2791,13 @@ var require_core = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -5002,9 +5002,9 @@ var require_toml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/quote.js
+// node_modules/.pnpm/shell-quote@1.8.3/node_modules/shell-quote/quote.js
 var require_quote = __commonJS({
-  "node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/quote.js"(exports2, module2) {
+  "node_modules/.pnpm/shell-quote@1.8.3/node_modules/shell-quote/quote.js"(exports2, module2) {
     "use strict";
     module2.exports = function quote2(xs) {
       return xs.map(function(s) {
@@ -5014,8 +5014,8 @@ var require_quote = __commonJS({
         if (s && typeof s === "object") {
           return s.op.replace(/(.)/g, "\\$1");
         }
-        if (/["\s]/.test(s) && !/'/.test(s)) {
-          return "'" + s.replace(/(['\\])/g, "\\$1") + "'";
+        if (/["\s\\]/.test(s) && !/'/.test(s)) {
+          return "'" + s.replace(/(['])/g, "\\$1") + "'";
         }
         if (/["'\s]/.test(s)) {
           return '"' + s.replace(/(["\\$`!])/g, "\\$1") + '"';
@@ -5026,9 +5026,9 @@ var require_quote = __commonJS({
   }
 });
 
-// node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/parse.js
+// node_modules/.pnpm/shell-quote@1.8.3/node_modules/shell-quote/parse.js
 var require_parse2 = __commonJS({
-  "node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/parse.js"(exports2, module2) {
+  "node_modules/.pnpm/shell-quote@1.8.3/node_modules/shell-quote/parse.js"(exports2, module2) {
     "use strict";
     var CONTROL = "(?:" + [
       "\\|\\|",
@@ -5223,9 +5223,9 @@ var require_parse2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/index.js
+// node_modules/.pnpm/shell-quote@1.8.3/node_modules/shell-quote/index.js
 var require_shell_quote = __commonJS({
-  "node_modules/.pnpm/shell-quote@1.8.2/node_modules/shell-quote/index.js"(exports2) {
+  "node_modules/.pnpm/shell-quote@1.8.3/node_modules/shell-quote/index.js"(exports2) {
     "use strict";
     exports2.quote = require_quote();
     exports2.parse = require_parse2();
@@ -6392,7 +6392,7 @@ var require_semver = __commonJS({
 var require_manifest = __commonJS({
   "node_modules/.pnpm/@actions+tool-cache@2.0.2/node_modules/@actions/tool-cache/lib/manifest.js"(exports2, module2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -6401,13 +6401,13 @@ var require_manifest = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -6531,7 +6531,7 @@ var require_manifest = __commonJS({
 var require_retry_helper = __commonJS({
   "node_modules/.pnpm/@actions+tool-cache@2.0.2/node_modules/@actions/tool-cache/lib/retry-helper.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -6540,13 +6540,13 @@ var require_retry_helper = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -6637,7 +6637,7 @@ var require_retry_helper = __commonJS({
 var require_tool_cache = __commonJS({
   "node_modules/.pnpm/@actions+tool-cache@2.0.2/node_modules/@actions/tool-cache/lib/tool-cache.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -6646,13 +6646,13 @@ var require_tool_cache = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -7293,7 +7293,7 @@ var require_options = __commonJS({
 var require_cjs = __commonJS({
   "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js"(exports2) {
     "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? function(o, m, k, k2) {
+    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       var desc = Object.getOwnPropertyDescriptor(m, k);
       if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
@@ -7302,13 +7302,13 @@ var require_cjs = __commonJS({
         } };
       }
       Object.defineProperty(o, k2, desc);
-    } : function(o, m, k, k2) {
+    }) : (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
       o[k2] = m[k];
-    });
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? function(o, v) {
+    }));
+    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
       Object.defineProperty(o, "default", { enumerable: true, value: v });
-    } : function(o, v) {
+    }) : function(o, v) {
       o["default"] = v;
     });
     var __importStar = exports2 && exports2.__importStar || function(mod) {
@@ -8310,7 +8310,7 @@ var import_which = __toESM(require_lib2());
 // package.json
 var version = "2.3.2";
 
-// node_modules/.pnpm/@badrap+valita@0.4.2/node_modules/@badrap/valita/dist/node-mjs/index.mjs
+// node_modules/.pnpm/@badrap+valita@0.4.6/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function expectedType(expected) {
   return {
     ok: false,
@@ -8358,7 +8358,15 @@ function cloneIssueWithPath(tree, path3) {
     case "invalid_union":
       return { code, path: path3, tree: tree.tree, issues: collectIssues(tree.tree) };
     case "custom_error":
-      return { code, path: path3, error: tree.error };
+      if (typeof tree.error === "object" && tree.error.path !== void 0) {
+        path3.push(...tree.error.path);
+      }
+      return {
+        code,
+        path: path3,
+        message: typeof tree.error === "string" ? tree.error : tree.error?.message,
+        error: tree.error
+      };
   }
 }
 function collectIssues(tree, path3 = [], issues = []) {
@@ -8370,9 +8378,6 @@ function collectIssues(tree, path3 = [], issues = []) {
       path3.push(tree.key);
       tree = tree.tree;
     } else {
-      if (tree.code === "custom_error" && typeof tree.error === "object" && tree.error.path !== void 0) {
-        path3.push(...tree.error.path);
-      }
       issues.push(cloneIssueWithPath(tree, path3));
       return issues;
     }
@@ -8464,39 +8469,35 @@ function formatIssueTree(tree) {
   }
   return msg;
 }
+function lazyProperty(obj, prop, value, enumerable) {
+  Object.defineProperty(obj, prop, {
+    value,
+    enumerable,
+    writable: false
+  });
+  return value;
+}
 var ValitaError = class extends Error {
-  constructor(_issueTree) {
-    super(formatIssueTree(_issueTree));
-    this._issueTree = _issueTree;
+  constructor(issueTree) {
+    super(formatIssueTree(issueTree));
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = new.target.name;
-    this._issues = void 0;
+    this._issueTree = issueTree;
   }
   get issues() {
-    if (this._issues === void 0) {
-      this._issues = collectIssues(this._issueTree);
-    }
-    return this._issues;
+    return lazyProperty(this, "issues", collectIssues(this._issueTree), true);
   }
 };
 var ErrImpl = class {
-  constructor(_issueTree) {
-    this._issueTree = _issueTree;
+  constructor(issueTree) {
     this.ok = false;
-    this._issues = void 0;
-    this._message = void 0;
+    this._issueTree = issueTree;
   }
   get issues() {
-    if (this._issues === void 0) {
-      this._issues = collectIssues(this._issueTree);
-    }
-    return this._issues;
+    return lazyProperty(this, "issues", collectIssues(this._issueTree), true);
   }
   get message() {
-    if (this._message === void 0) {
-      this._message = formatIssueTree(this._issueTree);
-    }
-    return this._message;
+    return lazyProperty(this, "message", formatIssueTree(this._issueTree), true);
   }
   throw() {
     throw new ValitaError(this._issueTree);
@@ -8524,7 +8525,9 @@ var TAG_OPTIONAL = 9;
 var TAG_OBJECT = 10;
 var TAG_ARRAY = 11;
 var TAG_UNION = 12;
-var TAG_TRANSFORM = 13;
+var TAG_SIMPLE_UNION = 13;
+var TAG_TRANSFORM = 14;
+var TAG_OTHER = 15;
 var taggedMatcher = (tag, match) => {
   return { tag, match };
 };
@@ -8556,19 +8559,16 @@ function callMatcher(matcher, value, flags) {
       return matcher.match(value, flags);
     case TAG_UNION:
       return matcher.match(value, flags);
+    case TAG_SIMPLE_UNION:
+      return matcher.match(value, flags);
     case TAG_TRANSFORM:
       return matcher.match(value, flags);
     default:
       return matcher.match(value, flags);
   }
 }
+var MATCHER_SYMBOL = Symbol.for("@valita/internal");
 var AbstractType = class {
-  /** @internal */
-  get _matcher() {
-    const value = this._createMatcher();
-    Object.defineProperty(this, "_matcher", { value });
-    return value;
-  }
   default(defaultValue) {
     const defaultResult = ok(defaultValue);
     return new TransformType(this.optional(), (v) => {
@@ -8619,19 +8619,22 @@ var AbstractType = class {
    */
   assert(func, error) {
     const err = { ok: false, code: "custom_error", error };
-    return new TransformType(this, (v, options) => func(v, options) ? void 0 : err);
+    return new TransformType(this, (v, flags) => func(v, flagsToOptions(flags)) ? void 0 : err);
   }
   map(func) {
-    return new TransformType(this, (v, options) => ({
+    return new TransformType(this, (v, flags) => ({
       ok: true,
-      value: func(v, options)
+      value: func(v, flagsToOptions(flags))
     }));
   }
-  chain(func) {
-    return new TransformType(this, (v, options) => {
-      const r = func(v, options);
-      return r.ok ? r : r._issueTree;
-    });
+  chain(input) {
+    if (typeof input === "function") {
+      return new TransformType(this, (v, flags) => {
+        const r = input(v, flagsToOptions(flags));
+        return r.ok ? r : r._issueTree;
+      });
+    }
+    return new TransformType(this, (v, flags) => callMatcher(input[MATCHER_SYMBOL], v, flags));
   }
 };
 var Type = class extends AbstractType {
@@ -8644,11 +8647,14 @@ var Type = class extends AbstractType {
       return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
     });
   }
-  /**
-   * Return new validator that accepts both the original type and `null`.
-   */
-  nullable() {
-    return new Nullable(this);
+  nullable(defaultFn) {
+    const nullable = new SimpleUnion([null_(), this]);
+    if (!defaultFn) {
+      return nullable;
+    }
+    return new TransformType(nullable, (v) => {
+      return v === null ? { ok: true, value: defaultFn() } : void 0;
+    });
   }
   _toTerminals(func) {
     func(this);
@@ -8657,52 +8663,51 @@ var Type = class extends AbstractType {
    * Parse a value without throwing.
    */
   try(v, options) {
-    const r = this._matcher.match(v, options === void 0 ? FLAG_FORBID_EXTRA_KEYS : options.mode === "strip" ? FLAG_STRIP_EXTRA_KEYS : options.mode === "passthrough" ? 0 : FLAG_FORBID_EXTRA_KEYS);
-    if (r === void 0) {
-      return { ok: true, value: v };
-    } else if (r.ok) {
-      return { ok: true, value: r.value };
-    } else {
-      return new ErrImpl(r);
-    }
+    const r = callMatcher(this[MATCHER_SYMBOL], v, options === void 0 ? FLAG_FORBID_EXTRA_KEYS : options.mode === "strip" ? FLAG_STRIP_EXTRA_KEYS : options.mode === "passthrough" ? 0 : FLAG_FORBID_EXTRA_KEYS);
+    return r === void 0 || r.ok ? { ok: true, value: r === void 0 ? v : r.value } : new ErrImpl(r);
   }
   /**
    * Parse a value. Throw a ValitaError on failure.
    */
   parse(v, options) {
-    const r = this._matcher.match(v, options === void 0 ? FLAG_FORBID_EXTRA_KEYS : options.mode === "strip" ? FLAG_STRIP_EXTRA_KEYS : options.mode === "passthrough" ? 0 : FLAG_FORBID_EXTRA_KEYS);
-    if (r === void 0) {
-      return v;
-    } else if (r.ok) {
-      return r.value;
-    } else {
-      throw new ValitaError(r);
+    const r = callMatcher(this[MATCHER_SYMBOL], v, options === void 0 ? FLAG_FORBID_EXTRA_KEYS : options.mode === "strip" ? FLAG_STRIP_EXTRA_KEYS : options.mode === "passthrough" ? 0 : FLAG_FORBID_EXTRA_KEYS);
+    if (r === void 0 || r.ok) {
+      return r === void 0 ? v : r.value;
     }
+    throw new ValitaError(r);
   }
 };
-var Nullable = class extends Type {
-  constructor(_type2) {
+var SimpleUnion = class extends Type {
+  constructor(options) {
     super();
-    this._type = _type2;
     this.name = "union";
+    this.options = options;
   }
-  _createMatcher() {
-    const matcher = this._type._matcher;
-    return taggedMatcher(TAG_UNION, (v, flags) => v === null ? void 0 : callMatcher(matcher, v, flags));
+  get [MATCHER_SYMBOL]() {
+    const options = this.options.map((o) => o[MATCHER_SYMBOL]);
+    return lazyProperty(this, MATCHER_SYMBOL, taggedMatcher(TAG_SIMPLE_UNION, (v, flags) => {
+      let issue = ISSUE_EXPECTED_NOTHING;
+      for (const option of options) {
+        const result = callMatcher(option, v, flags);
+        if (result === void 0 || result.ok) {
+          return result;
+        }
+        issue = result;
+      }
+      return issue;
+    }), false);
   }
   _toTerminals(func) {
-    func(null_());
-    this._type._toTerminals(func);
-  }
-  nullable() {
-    return this;
+    for (const option of this.options) {
+      option._toTerminals(func);
+    }
   }
 };
 var Optional = class extends AbstractType {
   constructor(type) {
     super();
-    this.type = type;
     this.name = "optional";
+    this.type = type;
   }
   optional(defaultFn) {
     if (!defaultFn) {
@@ -8712,9 +8717,9 @@ var Optional = class extends AbstractType {
       return v === void 0 ? { ok: true, value: defaultFn() } : void 0;
     });
   }
-  _createMatcher() {
-    const matcher = this.type._matcher;
-    return taggedMatcher(TAG_OPTIONAL, (v, flags) => v === void 0 || flags & FLAG_MISSING_VALUE ? void 0 : callMatcher(matcher, v, flags));
+  get [MATCHER_SYMBOL]() {
+    const matcher = this.type[MATCHER_SYMBOL];
+    return lazyProperty(this, MATCHER_SYMBOL, taggedMatcher(TAG_OPTIONAL, (v, flags) => v === void 0 || flags & FLAG_MISSING_VALUE ? void 0 : callMatcher(matcher, v, flags)), false);
   }
   _toTerminals(func) {
     func(this);
@@ -8744,16 +8749,16 @@ function getBit(bits, index) {
   }
 }
 var ObjectType = class _ObjectType extends Type {
-  constructor(shape, _restType, _checks) {
+  constructor(shape, restType, checks) {
     super();
-    this.shape = shape;
-    this._restType = _restType;
-    this._checks = _checks;
     this.name = "object";
+    this.shape = shape;
+    this._restType = restType;
+    this._checks = checks;
   }
-  _createMatcher() {
+  get [MATCHER_SYMBOL]() {
     const func = createObjectMatcher(this.shape, this._restType, this._checks);
-    return taggedMatcher(TAG_OBJECT, (v, flags) => isObject(v) ? func(v, flags) : ISSUE_EXPECTED_OBJECT);
+    return lazyProperty(this, MATCHER_SYMBOL, taggedMatcher(TAG_OBJECT, (v, flags) => isObject(v) ? func(v, flags) : ISSUE_EXPECTED_OBJECT), false);
   }
   check(func, error) {
     const issue = { ok: false, code: "custom_error", error };
@@ -8816,7 +8821,7 @@ function createObjectMatcher(shape, rest, checks) {
     return {
       key,
       index,
-      matcher: type._matcher,
+      matcher: type[MATCHER_SYMBOL],
       optional,
       missing: prependPath(key, ISSUE_MISSING_VALUE)
     };
@@ -8825,7 +8830,7 @@ function createObjectMatcher(shape, rest, checks) {
   for (const entry of indexedEntries) {
     keyedEntries[entry.key] = entry;
   }
-  const restMatcher = rest?._matcher;
+  const restMatcher = rest?.[MATCHER_SYMBOL];
   const fastPath = indexedEntries.length === 0 && rest?.name === "unknown" && checks === void 0;
   return (obj, flags) => {
     if (fastPath) {
@@ -8844,6 +8849,11 @@ function createObjectMatcher(shape, rest, checks) {
           if (flags & FLAG_FORBID_EXTRA_KEYS) {
             if (unrecognized === void 0) {
               unrecognized = [key];
+              issues = joinIssues(issues, {
+                ok: false,
+                code: "unrecognized_keys",
+                keys: unrecognized
+              });
             } else {
               unrecognized.push(key);
             }
@@ -8937,38 +8947,31 @@ function createObjectMatcher(shape, rest, checks) {
         }
       }
     }
-    if (unrecognized !== void 0) {
-      return joinIssues(issues, {
-        ok: false,
-        code: "unrecognized_keys",
-        keys: unrecognized
-      });
-    } else if (issues !== void 0) {
+    if (issues !== void 0) {
       return issues;
-    } else {
-      if (checks !== void 0) {
-        for (const { func, issue } of checks) {
-          if (!func(output ?? obj)) {
-            return issue;
-          }
+    }
+    if (checks !== void 0) {
+      for (const { func, issue } of checks) {
+        if (!func(output ?? obj)) {
+          return issue;
         }
       }
-      return output && { ok: true, value: output };
     }
+    return output && { ok: true, value: output };
   };
 }
 var ArrayOrTupleType = class _ArrayOrTupleType extends Type {
-  constructor(_prefix, _rest, _suffix) {
+  constructor(prefix, rest, suffix) {
     super();
-    this._prefix = _prefix;
-    this._rest = _rest;
-    this._suffix = _suffix;
     this.name = "array";
+    this._prefix = prefix;
+    this._rest = rest;
+    this._suffix = suffix;
   }
-  _createMatcher() {
-    const prefix = this._prefix.map((t) => t._matcher);
-    const suffix = this._suffix.map((t) => t._matcher);
-    const rest = this._rest?._matcher ?? taggedMatcher(1, () => ISSUE_MISSING_VALUE);
+  get [MATCHER_SYMBOL]() {
+    const prefix = this._prefix.map((t) => t[MATCHER_SYMBOL]);
+    const suffix = this._suffix.map((t) => t[MATCHER_SYMBOL]);
+    const rest = this._rest?.[MATCHER_SYMBOL] ?? taggedMatcher(1, () => ISSUE_MISSING_VALUE);
     const minLength = prefix.length + suffix.length;
     const maxLength = this._rest ? Infinity : minLength;
     const invalidLength = {
@@ -8977,7 +8980,7 @@ var ArrayOrTupleType = class _ArrayOrTupleType extends Type {
       minLength,
       maxLength: maxLength === Infinity ? void 0 : maxLength
     };
-    return taggedMatcher(TAG_ARRAY, (arr, flags) => {
+    return lazyProperty(this, MATCHER_SYMBOL, taggedMatcher(TAG_ARRAY, (arr, flags) => {
       if (!Array.isArray(arr)) {
         return ISSUE_EXPECTED_ARRAY;
       }
@@ -9010,7 +9013,7 @@ var ArrayOrTupleType = class _ArrayOrTupleType extends Type {
       } else {
         return { ok: true, value: output };
       }
-    });
+    }), false);
   }
   concat(type) {
     if (this._rest) {
@@ -9125,16 +9128,16 @@ function createObjectKeyMatcher(objects, key) {
   const byLiteral = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
   if (byLiteral) {
     for (const [literal2, options] of literals) {
-      byLiteral.set(literal2, options[0]._matcher);
+      byLiteral.set(literal2, options[0][MATCHER_SYMBOL]);
     }
   }
   const byType = types.size > 0 ? {} : void 0;
   if (byType) {
     for (const [type, options] of types) {
-      byType[type] = options[0]._matcher;
+      byType[type] = options[0][MATCHER_SYMBOL];
     }
   }
-  const optional = optionals[0]?._matcher;
+  const optional = optionals[0]?.[MATCHER_SYMBOL];
   return (obj, flags) => {
     const value = obj[key];
     if (value === void 0 && !(key in obj)) {
@@ -9185,17 +9188,17 @@ function createUnionBaseMatcher(terminals) {
   const byLiteral = literals.size > 0 ? /* @__PURE__ */ new Map() : void 0;
   if (byLiteral) {
     for (const [literal2, options] of literals) {
-      byLiteral.set(literal2, options.map((t) => t._matcher));
+      byLiteral.set(literal2, options.map((t) => t[MATCHER_SYMBOL]));
     }
   }
   const byType = types.size > 0 ? {} : void 0;
   if (byType) {
     for (const [type, options] of types) {
-      byType[type] = options.map((t) => t._matcher);
+      byType[type] = options.map((t) => t[MATCHER_SYMBOL]);
     }
   }
-  const optionalMatchers = optionals.map((t) => t._matcher);
-  const unknownMatchers = unknowns.map((t) => t._matcher);
+  const optionalMatchers = optionals.map((t) => t[MATCHER_SYMBOL]);
+  const unknownMatchers = unknowns.map((t) => t[MATCHER_SYMBOL]);
   return (value, flags) => {
     const options = flags & FLAG_MISSING_VALUE ? optionalMatchers : byType?.[toInputType(value)] ?? byLiteral?.get(value) ?? unknownMatchers;
     let count = 0;
@@ -9215,39 +9218,42 @@ function createUnionBaseMatcher(terminals) {
   };
 }
 var UnionType = class extends Type {
-  constructor(_options) {
+  constructor(options) {
     super();
-    this._options = _options;
     this.name = "union";
+    this.options = options;
   }
   _toTerminals(func) {
-    for (const option of this._options) {
+    for (const option of this.options) {
       option._toTerminals(func);
     }
   }
-  _createMatcher() {
+  get [MATCHER_SYMBOL]() {
     const flattened = [];
-    for (const option of this._options) {
+    for (const option of this.options) {
       option._toTerminals((terminal) => {
         flattened.push({ root: option, terminal });
       });
     }
     const base = createUnionBaseMatcher(flattened);
     const object2 = createUnionObjectMatcher(flattened);
-    return taggedMatcher(TAG_UNION, (v, f) => object2 !== void 0 && isObject(v) ? object2(v, f) : base(v, f));
+    return lazyProperty(this, MATCHER_SYMBOL, taggedMatcher(TAG_UNION, (v, f) => object2 !== void 0 && isObject(v) ? object2(v, f) : base(v, f)), false);
   }
 };
 var STRICT = Object.freeze({ mode: "strict" });
 var STRIP = Object.freeze({ mode: "strip" });
 var PASSTHROUGH = Object.freeze({ mode: "passthrough" });
+function flagsToOptions(flags) {
+  return flags & FLAG_FORBID_EXTRA_KEYS ? STRICT : flags & FLAG_STRIP_EXTRA_KEYS ? STRIP : PASSTHROUGH;
+}
 var TransformType = class _TransformType extends Type {
-  constructor(_transformed, _transform) {
+  constructor(transformed, transform) {
     super();
-    this._transformed = _transformed;
-    this._transform = _transform;
     this.name = "transform";
+    this._transformed = transformed;
+    this._transform = transform;
   }
-  _createMatcher() {
+  get [MATCHER_SYMBOL]() {
     const chain = [];
     let next = this;
     while (next instanceof _TransformType) {
@@ -9255,9 +9261,9 @@ var TransformType = class _TransformType extends Type {
       next = next._transformed;
     }
     chain.reverse();
-    const matcher = next._matcher;
+    const matcher = next[MATCHER_SYMBOL];
     const undef = ok(void 0);
-    return taggedMatcher(TAG_TRANSFORM, (v, flags) => {
+    return lazyProperty(this, MATCHER_SYMBOL, taggedMatcher(TAG_TRANSFORM, (v, flags) => {
       let result = callMatcher(matcher, v, flags);
       if (result !== void 0 && !result.ok) {
         return result;
@@ -9271,9 +9277,8 @@ var TransformType = class _TransformType extends Type {
       } else {
         current = v;
       }
-      const options = flags & FLAG_FORBID_EXTRA_KEYS ? STRICT : flags & FLAG_STRIP_EXTRA_KEYS ? STRIP : PASSTHROUGH;
       for (let i = 0; i < chain.length; i++) {
-        const r = chain[i](current, options);
+        const r = chain[i](current, flags);
         if (r !== void 0) {
           if (!r.ok) {
             return r;
@@ -9283,10 +9288,41 @@ var TransformType = class _TransformType extends Type {
         }
       }
       return result;
-    });
+    }), false);
   }
   _toTerminals(func) {
     this._transformed._toTerminals(func);
+  }
+};
+var LazyType = class extends Type {
+  constructor(definer) {
+    super();
+    this.name = "lazy";
+    this._recursing = false;
+    this._definer = definer;
+  }
+  get type() {
+    return lazyProperty(this, "type", this._definer(), true);
+  }
+  get [MATCHER_SYMBOL]() {
+    const matcher = taggedMatcher(TAG_OTHER, (value, flags) => {
+      const typeMatcher = this.type[MATCHER_SYMBOL];
+      matcher.tag = typeMatcher.tag;
+      matcher.match = typeMatcher.match;
+      lazyProperty(this, MATCHER_SYMBOL, typeMatcher, false);
+      return callMatcher(typeMatcher, value, flags);
+    });
+    return matcher;
+  }
+  _toTerminals(func) {
+    if (!this._recursing) {
+      this._recursing = true;
+      try {
+        this.type._toTerminals(func);
+      } finally {
+        this._recursing = false;
+      }
+    }
   }
 };
 function singleton(name, tag, match) {
@@ -9295,12 +9331,9 @@ function singleton(name, tag, match) {
     constructor() {
       super();
       this.name = name;
-    }
-    _createMatcher() {
-      return value;
+      this[MATCHER_SYMBOL] = value;
     }
   }
-  Object.defineProperty(SimpleType.prototype, "_matcher", { value });
   const instance = new SimpleType();
   return /* @__NO_SIDE_EFFECTS__ */ () => instance;
 }
@@ -9312,17 +9345,14 @@ var undefined_ = /* @__PURE__ */ singleton("undefined", TAG_UNDEFINED, (v) => v 
 var LiteralType = class extends Type {
   constructor(value) {
     super();
-    this.value = value;
     this.name = "literal";
-  }
-  _createMatcher() {
-    const value = this.value;
     const issue = {
       ok: false,
       code: "invalid_literal",
       expected: [value]
     };
-    return taggedMatcher(TAG_LITERAL, (v) => v === value ? void 0 : issue);
+    this[MATCHER_SYMBOL] = taggedMatcher(TAG_LITERAL, (v) => v === value ? void 0 : issue);
+    this.value = value;
   }
 };
 var literal = (value) => {
