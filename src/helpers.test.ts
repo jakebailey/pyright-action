@@ -6,11 +6,15 @@ import * as path from "node:path";
 import * as core from "@actions/core";
 import * as httpClient from "@actions/http-client";
 import * as tc from "@actions/tool-cache";
-import serializer from "jest-serializer-path";
+import * as pathSerializer from "path-serializer";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 import which from "which";
 
-expect.addSnapshotSerializer(serializer);
+expect.addSnapshotSerializer(
+    pathSerializer.createSnapshotSerializer({
+        root: path.join(__dirname, ".."),
+    }),
+);
 
 vitest.mock("@actions/core");
 const mockedCore = vitest.mocked(core);

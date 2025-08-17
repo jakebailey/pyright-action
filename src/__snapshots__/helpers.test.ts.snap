@@ -134,7 +134,7 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--typeshed-path",
     "/path/to/typeshed",
     "--venv-path",
@@ -162,7 +162,7 @@ exports[`getArgs > valid version > 1.1.308 dashes > result 1`] = `
 exports[`getArgs > valid version > 1.1.308 dashes > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.308",
   ],
@@ -180,7 +180,7 @@ exports[`getArgs > valid version > 1.1.308 dashes > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > 1.1.308 dashes > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -273,7 +273,7 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--typeshedpath",
     "/path/to/typeshed",
     "--venvpath",
@@ -301,7 +301,7 @@ exports[`getArgs > valid version > 1.1.309 dashes > result 1`] = `
 exports[`getArgs > valid version > 1.1.309 dashes > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.309",
   ],
@@ -319,7 +319,7 @@ exports[`getArgs > valid version > 1.1.309 dashes > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > 1.1.309 dashes > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -412,7 +412,7 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--typeshedpath",
     "/path/to/typeshed",
     "--venvpath",
@@ -440,7 +440,7 @@ exports[`getArgs > valid version > 1.1.310 dashes > result 1`] = `
 exports[`getArgs > valid version > 1.1.310 dashes > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.310",
   ],
@@ -458,7 +458,7 @@ exports[`getArgs > valid version > 1.1.310 dashes > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > 1.1.310 dashes > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -554,7 +554,7 @@ exports[`getArgs > valid version > annotate "" > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -578,7 +578,7 @@ exports[`getArgs > valid version > annotate "" > result 1`] = `
 exports[`getArgs > valid version > annotate "" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -596,7 +596,7 @@ exports[`getArgs > valid version > annotate "" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -689,7 +689,7 @@ exports[`getArgs > valid version > annotate "False" > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -713,7 +713,7 @@ exports[`getArgs > valid version > annotate "False" > result 1`] = `
 exports[`getArgs > valid version > annotate "False" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -731,7 +731,7 @@ exports[`getArgs > valid version > annotate "False" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "False" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -827,7 +827,7 @@ exports[`getArgs > valid version > annotate "True" > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -851,7 +851,7 @@ exports[`getArgs > valid version > annotate "True" > result 1`] = `
 exports[`getArgs > valid version > annotate "True" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -869,7 +869,7 @@ exports[`getArgs > valid version > annotate "True" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "True" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -965,7 +965,7 @@ exports[`getArgs > valid version > annotate "all" > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -989,7 +989,7 @@ exports[`getArgs > valid version > annotate "all" > result 1`] = `
 exports[`getArgs > valid version > annotate "all" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1007,7 +1007,7 @@ exports[`getArgs > valid version > annotate "all" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "all" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1102,7 +1102,7 @@ exports[`getArgs > valid version > annotate "errors" > result 1`] = `
     "error",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1126,7 +1126,7 @@ exports[`getArgs > valid version > annotate "errors" > result 1`] = `
 exports[`getArgs > valid version > annotate "errors" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1144,7 +1144,7 @@ exports[`getArgs > valid version > annotate "errors" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "errors" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1240,7 +1240,7 @@ exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1264,7 +1264,7 @@ exports[`getArgs > valid version > annotate "errors, warnings" > result 1`] = `
 exports[`getArgs > valid version > annotate "errors, warnings" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1282,7 +1282,7 @@ exports[`getArgs > valid version > annotate "errors, warnings" > tc.downloadTool
 exports[`getArgs > valid version > annotate "errors, warnings" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1375,7 +1375,7 @@ exports[`getArgs > valid version > annotate "false" > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1399,7 +1399,7 @@ exports[`getArgs > valid version > annotate "false" > result 1`] = `
 exports[`getArgs > valid version > annotate "false" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1417,7 +1417,7 @@ exports[`getArgs > valid version > annotate "false" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "false" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1510,7 +1510,7 @@ exports[`getArgs > valid version > annotate "none" > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1534,7 +1534,7 @@ exports[`getArgs > valid version > annotate "none" > result 1`] = `
 exports[`getArgs > valid version > annotate "none" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1552,7 +1552,7 @@ exports[`getArgs > valid version > annotate "none" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "none" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1648,7 +1648,7 @@ exports[`getArgs > valid version > annotate "true" > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1672,7 +1672,7 @@ exports[`getArgs > valid version > annotate "true" > result 1`] = `
 exports[`getArgs > valid version > annotate "true" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1690,7 +1690,7 @@ exports[`getArgs > valid version > annotate "true" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "true" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1785,7 +1785,7 @@ exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1809,7 +1809,7 @@ exports[`getArgs > valid version > annotate "warnings" > result 1`] = `
 exports[`getArgs > valid version > annotate "warnings" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1827,7 +1827,7 @@ exports[`getArgs > valid version > annotate "warnings" > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate "warnings" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -1923,7 +1923,7 @@ exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
     "error",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -1947,7 +1947,7 @@ exports[`getArgs > valid version > annotate "warnings,errors" > result 1`] = `
 exports[`getArgs > valid version > annotate "warnings,errors" > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -1965,7 +1965,7 @@ exports[`getArgs > valid version > annotate "warnings,errors" > tc.downloadTool 
 exports[`getArgs > valid version > annotate "warnings,errors" > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2054,7 +2054,7 @@ exports[`getArgs > valid version > annotate invalid > cp.execFileSync 1`] = `[]`
 exports[`getArgs > valid version > annotate invalid > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2072,7 +2072,7 @@ exports[`getArgs > valid version > annotate invalid > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > annotate invalid > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2161,7 +2161,7 @@ exports[`getArgs > valid version > annotate invalid comma > cp.execFileSync 1`] 
 exports[`getArgs > valid version > annotate invalid comma > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2179,7 +2179,7 @@ exports[`getArgs > valid version > annotate invalid comma > tc.downloadTool 1`] 
 exports[`getArgs > valid version > annotate invalid comma > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2275,7 +2275,7 @@ exports[`getArgs > valid version > cached > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -2390,7 +2390,7 @@ exports[`getArgs > valid version > createstub > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--createstub",
     "pygame",
   ],
@@ -2416,7 +2416,7 @@ exports[`getArgs > valid version > createstub > result 1`] = `
 exports[`getArgs > valid version > createstub > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2434,7 +2434,7 @@ exports[`getArgs > valid version > createstub > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > createstub > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2527,7 +2527,7 @@ exports[`getArgs > valid version > dependencies > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--dependencies",
     "TRUE",
   ],
@@ -2553,7 +2553,7 @@ exports[`getArgs > valid version > dependencies > result 1`] = `
 exports[`getArgs > valid version > dependencies > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2571,7 +2571,7 @@ exports[`getArgs > valid version > dependencies > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > dependencies > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2657,7 +2657,7 @@ exports[`getArgs > valid version > extra-args malformed > cp.execFileSync 1`] = 
 exports[`getArgs > valid version > extra-args malformed > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2675,7 +2675,7 @@ exports[`getArgs > valid version > extra-args malformed > tc.downloadTool 1`] = 
 exports[`getArgs > valid version > extra-args malformed > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2771,7 +2771,7 @@ exports[`getArgs > valid version > extra-args quotes > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--foo",
     "--bar",
     "--baz=quoted value",
@@ -2798,7 +2798,7 @@ exports[`getArgs > valid version > extra-args quotes > result 1`] = `
 exports[`getArgs > valid version > extra-args quotes > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2816,7 +2816,7 @@ exports[`getArgs > valid version > extra-args quotes > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > extra-args quotes > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -2912,7 +2912,7 @@ exports[`getArgs > valid version > many options > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--level",
     "warning",
     "--project",
@@ -2955,7 +2955,7 @@ exports[`getArgs > valid version > many options > result 1`] = `
 exports[`getArgs > valid version > many options > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -2973,7 +2973,7 @@ exports[`getArgs > valid version > many options > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > many options > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3066,7 +3066,7 @@ exports[`getArgs > valid version > no comments > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -3090,7 +3090,7 @@ exports[`getArgs > valid version > no comments > result 1`] = `
 exports[`getArgs > valid version > no comments > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -3108,7 +3108,7 @@ exports[`getArgs > valid version > no comments > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > no comments > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3204,7 +3204,7 @@ exports[`getArgs > valid version > pylance-version > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -3228,7 +3228,7 @@ exports[`getArgs > valid version > pylance-version > result 1`] = `
 exports[`getArgs > valid version > pylance-version > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "9.9.999",
   ],
@@ -3246,7 +3246,7 @@ exports[`getArgs > valid version > pylance-version > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > pylance-version > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3365,7 +3365,7 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--skipunannotated",
   ],
   "command": "<execPath>",
@@ -3390,7 +3390,7 @@ exports[`getArgs > valid version > skip-unannotated > result 1`] = `
 exports[`getArgs > valid version > skip-unannotated > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -3408,7 +3408,7 @@ exports[`getArgs > valid version > skip-unannotated > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > skip-unannotated > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3501,7 +3501,7 @@ exports[`getArgs > valid version > stats > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--stats",
   ],
   "command": "<execPath>",
@@ -3526,7 +3526,7 @@ exports[`getArgs > valid version > stats > result 1`] = `
 exports[`getArgs > valid version > stats > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -3544,7 +3544,7 @@ exports[`getArgs > valid version > stats > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > stats > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3640,7 +3640,7 @@ exports[`getArgs > valid version > verbose > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--lib",
   ],
   "command": "<execPath>",
@@ -3665,7 +3665,7 @@ exports[`getArgs > valid version > verbose > result 1`] = `
 exports[`getArgs > valid version > verbose > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -3683,7 +3683,7 @@ exports[`getArgs > valid version > verbose > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > verbose > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3776,7 +3776,7 @@ exports[`getArgs > valid version > verbose flag > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--verbose",
   ],
   "command": "<execPath>",
@@ -3801,7 +3801,7 @@ exports[`getArgs > valid version > verbose flag > result 1`] = `
 exports[`getArgs > valid version > verbose flag > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -3819,7 +3819,7 @@ exports[`getArgs > valid version > verbose flag > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > verbose flag > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -3912,7 +3912,7 @@ exports[`getArgs > valid version > verifytypes > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--ignoreexternal",
     "--verifytypes",
     "some.package",
@@ -3939,7 +3939,7 @@ exports[`getArgs > valid version > verifytypes > result 1`] = `
 exports[`getArgs > valid version > verifytypes > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -3957,7 +3957,7 @@ exports[`getArgs > valid version > verifytypes > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > verifytypes > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -4050,7 +4050,7 @@ exports[`getArgs > valid version > verifytypes flag > result 1`] = `
 {
   "annotate": Set {},
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
     "--verifytypes",
   ],
   "command": "<execPath>",
@@ -4075,7 +4075,7 @@ exports[`getArgs > valid version > verifytypes flag > result 1`] = `
 exports[`getArgs > valid version > verifytypes flag > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -4093,7 +4093,7 @@ exports[`getArgs > valid version > verifytypes flag > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > verifytypes flag > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -4186,7 +4186,7 @@ exports[`getArgs > valid version > version latest > result 1`] = `
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -4210,7 +4210,7 @@ exports[`getArgs > valid version > version latest > result 1`] = `
 exports[`getArgs > valid version > version latest > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.240",
   ],
@@ -4228,7 +4228,7 @@ exports[`getArgs > valid version > version latest > tc.downloadTool 1`] = `
 exports[`getArgs > valid version > version latest > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
@@ -4679,7 +4679,7 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
     "warning",
   },
   "args": [
-    "<TEMP_DIR>/rootDir/cached/pyright/package/index.js",
+    "<TEMP>/rootDir/cached/pyright/package/index.js",
   ],
   "command": "<execPath>",
   "pyrightVersion": SemVer {
@@ -4703,7 +4703,7 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
 exports[`getArgs > valid version > version takes precedence over pylance-version > tc.cacheDir 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright",
+    "<TEMP>/rootDir/pyright",
     "pyright",
     "1.1.310",
   ],
@@ -4721,7 +4721,7 @@ exports[`getArgs > valid version > version takes precedence over pylance-version
 exports[`getArgs > valid version > version takes precedence over pylance-version > tc.extractTar 1`] = `
 [
   [
-    "<TEMP_DIR>/rootDir/pyright.tar.gz",
+    "<TEMP>/rootDir/pyright.tar.gz",
   ],
 ]
 `;
