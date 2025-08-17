@@ -64,6 +64,7 @@ export default tseslint.config(
             "unicorn/switch-case-braces": "off",
             "unicorn/no-empty-file": "off",
             "unicorn/import-style": "off",
+            "unicorn/prefer-module": "off",
         },
     },
     {
