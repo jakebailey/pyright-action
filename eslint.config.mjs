@@ -65,6 +65,7 @@ export default tseslint.config(
             "unicorn/no-empty-file": "off",
             "unicorn/import-style": "off",
             "unicorn/prefer-module": "off",
+            "unicorn/no-array-sort": "off", // too new
         },
     },
     {
