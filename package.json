@@ -22,7 +22,7 @@
         "jsonc-parser": "^3.3.1",
         "semver": "^6.3.1",
         "shell-quote": "^1.8.3",
-        "which": "^5.0.0"
+        "which": "^6.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.38.0",
