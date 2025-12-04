@@ -3337,8 +3337,8 @@ var require_toml_parser = __commonJS({
     function isAlphaNumHyphen(cp3) {
       return cp3 >= CHAR_A && cp3 <= CHAR_Z || cp3 >= CHAR_a && cp3 <= CHAR_z || cp3 >= CHAR_0 && cp3 <= CHAR_9 || cp3 === CHAR_LOWBAR || cp3 === CHAR_HYPHEN;
     }
-    var _type = Symbol("type");
-    var _declared = Symbol("declared");
+    var _type = /* @__PURE__ */ Symbol("type");
+    var _declared = /* @__PURE__ */ Symbol("declared");
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     var defineProperty = Object.defineProperty;
     var descriptor = { configurable: true, enumerable: true, writable: true, value: void 0 };
@@ -3347,7 +3347,7 @@ var require_toml_parser = __commonJS({
       if (key === "__proto__") defineProperty(obj, "__proto__", descriptor);
       return false;
     }
-    var INLINE_TABLE = Symbol("inline-table");
+    var INLINE_TABLE = /* @__PURE__ */ Symbol("inline-table");
     function InlineTable() {
       return Object.defineProperties({}, {
         [_type]: { value: INLINE_TABLE }
@@ -3357,7 +3357,7 @@ var require_toml_parser = __commonJS({
       if (obj === null || typeof obj !== "object") return false;
       return obj[_type] === INLINE_TABLE;
     }
-    var TABLE = Symbol("table");
+    var TABLE = /* @__PURE__ */ Symbol("table");
     function Table() {
       return Object.defineProperties({}, {
         [_type]: { value: TABLE },
@@ -3368,8 +3368,8 @@ var require_toml_parser = __commonJS({
       if (obj === null || typeof obj !== "object") return false;
       return obj[_type] === TABLE;
     }
-    var _contentType = Symbol("content-type");
-    var INLINE_LIST = Symbol("inline-list");
+    var _contentType = /* @__PURE__ */ Symbol("content-type");
+    var INLINE_LIST = /* @__PURE__ */ Symbol("inline-list");
     function InlineList(type) {
       return Object.defineProperties([], {
         [_type]: { value: INLINE_LIST },
@@ -3380,7 +3380,7 @@ var require_toml_parser = __commonJS({
       if (obj === null || typeof obj !== "object") return false;
       return obj[_type] === INLINE_LIST;
     }
-    var LIST = Symbol("list");
+    var LIST = /* @__PURE__ */ Symbol("list");
     function List() {
       return Object.defineProperties([], {
         [_type]: { value: LIST }
@@ -3421,7 +3421,7 @@ var require_toml_parser = __commonJS({
         return this.value;
       }
     };
-    var INTEGER = Symbol("integer");
+    var INTEGER = /* @__PURE__ */ Symbol("integer");
     function Integer(value) {
       let num = Number(value);
       if (Object.is(num, -0)) num = 0;
@@ -3441,7 +3441,7 @@ var require_toml_parser = __commonJS({
       if (obj === null || typeof obj !== "object") return false;
       return obj[_type] === INTEGER;
     }
-    var FLOAT = Symbol("float");
+    var FLOAT = /* @__PURE__ */ Symbol("float");
     function Float(value) {
       return Object.defineProperties(new Number(value), {
         [_type]: { value: FLOAT },
@@ -7337,9 +7337,9 @@ var require_cjs = __commonJS({
   }
 });
 
-// node_modules/.pnpm/which@5.0.0/node_modules/which/lib/index.js
+// node_modules/.pnpm/which@6.0.0/node_modules/which/lib/index.js
 var require_lib2 = __commonJS({
-  "node_modules/.pnpm/which@5.0.0/node_modules/which/lib/index.js"(exports2, module2) {
+  "node_modules/.pnpm/which@6.0.0/node_modules/which/lib/index.js"(exports2, module2) {
     var { isexe, sync: isexeSync } = require_cjs();
     var { join: join2, delimiter, sep, posix: posix2 } = require("path");
     var isWindows = process.platform === "win32";
@@ -8567,7 +8567,7 @@ function callMatcher(matcher, value, flags) {
       return matcher.match(value, flags);
   }
 }
-var MATCHER_SYMBOL = Symbol.for("@valita/internal");
+var MATCHER_SYMBOL = /* @__PURE__ */ Symbol.for("@valita/internal");
 var AbstractType = class {
   default(defaultValue) {
     const defaultResult = ok(defaultValue);
