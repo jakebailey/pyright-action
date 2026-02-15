@@ -7812,7 +7812,7 @@ var import_shell_quote = __toESM(require_shell_quote());
 var import_which = __toESM(require_lib());
 
 // package.json
-var version = "3.0.0-0";
+var version = "3.0.0";
 
 // node_modules/.pnpm/@badrap+valita@0.4.6/node_modules/@badrap/valita/dist/node-mjs/index.mjs
 function expectedType(expected) {
