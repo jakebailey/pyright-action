@@ -4,6 +4,9 @@ module.exports = {
         if (dependencyName === "semver") return "patch"; // Matching dep from @actions/*
         if (dependencyName === "@types/semver") return "patch"; // Matching dep from @actions/*
         if (dependencyName === "@types/node") return "minor";
+        if (dependencyName === "eslint") return "minor";
+        if (dependencyName === "@eslint/js") return "minor";
+        if (dependencyName.startsWith("@actions/")) return "patch";
         if (major === "0") return "minor";
         return "latest";
     },

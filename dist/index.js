@@ -7177,170 +7177,134 @@ var require_tool_cache = __commonJS({
   }
 });
 
-// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/posix.js
-var require_posix = __commonJS({
-  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/posix.js"(exports2) {
+// node_modules/.pnpm/isexe@4.0.0/node_modules/isexe/dist/commonjs/index.min.js
+var require_index_min = __commonJS({
+  "node_modules/.pnpm/isexe@4.0.0/node_modules/isexe/dist/commonjs/index.min.js"(exports2) {
     "use strict";
-    Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.sync = exports2.isexe = void 0;
-    var fs_1 = require("fs");
-    var promises_1 = require("fs/promises");
-    var isexe = async (path3, options = {}) => {
-      const { ignoreErrors = false } = options;
-      try {
-        return checkStat(await (0, promises_1.stat)(path3), options);
-      } catch (e) {
-        const er = e;
-        if (ignoreErrors || er.code === "EACCES")
-          return false;
-        throw er;
-      }
-    };
-    exports2.isexe = isexe;
-    var sync = (path3, options = {}) => {
-      const { ignoreErrors = false } = options;
-      try {
-        return checkStat((0, fs_1.statSync)(path3), options);
-      } catch (e) {
-        const er = e;
-        if (ignoreErrors || er.code === "EACCES")
-          return false;
-        throw er;
-      }
-    };
-    exports2.sync = sync;
-    var checkStat = (stat, options) => stat.isFile() && checkMode(stat, options);
-    var checkMode = (stat, options) => {
-      const myUid = options.uid ?? process.getuid?.();
-      const myGroups = options.groups ?? process.getgroups?.() ?? [];
-      const myGid = options.gid ?? process.getgid?.() ?? myGroups[0];
-      if (myUid === void 0 || myGid === void 0) {
-        throw new Error("cannot get uid or gid");
-      }
-      const groups = /* @__PURE__ */ new Set([myGid, ...myGroups]);
-      const mod = stat.mode;
-      const uid = stat.uid;
-      const gid = stat.gid;
-      const u = parseInt("100", 8);
-      const g = parseInt("010", 8);
-      const o = parseInt("001", 8);
-      const ug = u | g;
-      return !!(mod & o || mod & g && groups.has(gid) || mod & u && uid === myUid || mod & ug && myUid === 0);
-    };
-  }
-});
-
-// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/win32.js
-var require_win32 = __commonJS({
-  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/win32.js"(exports2) {
-    "use strict";
-    Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.sync = exports2.isexe = void 0;
-    var fs_1 = require("fs");
-    var promises_1 = require("fs/promises");
-    var isexe = async (path3, options = {}) => {
-      const { ignoreErrors = false } = options;
-      try {
-        return checkStat(await (0, promises_1.stat)(path3), path3, options);
-      } catch (e) {
-        const er = e;
-        if (ignoreErrors || er.code === "EACCES")
-          return false;
-        throw er;
-      }
-    };
-    exports2.isexe = isexe;
-    var sync = (path3, options = {}) => {
-      const { ignoreErrors = false } = options;
-      try {
-        return checkStat((0, fs_1.statSync)(path3), path3, options);
-      } catch (e) {
-        const er = e;
-        if (ignoreErrors || er.code === "EACCES")
-          return false;
-        throw er;
-      }
-    };
-    exports2.sync = sync;
-    var checkPathExt = (path3, options) => {
-      const { pathExt = process.env.PATHEXT || "" } = options;
-      const peSplit = pathExt.split(";");
-      if (peSplit.indexOf("") !== -1) {
-        return true;
-      }
-      for (let i = 0; i < peSplit.length; i++) {
-        const p = peSplit[i].toLowerCase();
-        const ext = path3.substring(path3.length - p.length).toLowerCase();
-        if (p && ext === p) {
-          return true;
+    var a = (t, e) => () => (e || t((e = { exports: {} }).exports, e), e.exports);
+    var _ = a((i) => {
+      "use strict";
+      Object.defineProperty(i, "__esModule", { value: true });
+      i.sync = i.isexe = void 0;
+      var M = require("node:fs"), x = require("node:fs/promises"), q = async (t, e = {}) => {
+        let { ignoreErrors: r = false } = e;
+        try {
+          return d(await (0, x.stat)(t), e);
+        } catch (s) {
+          let n = s;
+          if (r || n.code === "EACCES") return false;
+          throw n;
         }
-      }
-      return false;
-    };
-    var checkStat = (stat, path3, options) => stat.isFile() && checkPathExt(path3, options);
-  }
-});
-
-// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/options.js
-var require_options = __commonJS({
-  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/options.js"(exports2) {
-    "use strict";
-    Object.defineProperty(exports2, "__esModule", { value: true });
-  }
-});
-
-// node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js
-var require_cjs = __commonJS({
-  "node_modules/.pnpm/isexe@3.1.1/node_modules/isexe/dist/cjs/index.js"(exports2) {
-    "use strict";
-    var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      var desc = Object.getOwnPropertyDescriptor(m, k);
-      if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = { enumerable: true, get: function() {
-          return m[k];
-        } };
-      }
-      Object.defineProperty(o, k2, desc);
-    }) : (function(o, m, k, k2) {
-      if (k2 === void 0) k2 = k;
-      o[k2] = m[k];
-    }));
-    var __setModuleDefault = exports2 && exports2.__setModuleDefault || (Object.create ? (function(o, v) {
-      Object.defineProperty(o, "default", { enumerable: true, value: v });
-    }) : function(o, v) {
-      o["default"] = v;
+      };
+      i.isexe = q;
+      var m = (t, e = {}) => {
+        let { ignoreErrors: r = false } = e;
+        try {
+          return d((0, M.statSync)(t), e);
+        } catch (s) {
+          let n = s;
+          if (r || n.code === "EACCES") return false;
+          throw n;
+        }
+      };
+      i.sync = m;
+      var d = (t, e) => t.isFile() && A(t, e), A = (t, e) => {
+        let r = e.uid ?? process.getuid?.(), s = e.groups ?? process.getgroups?.() ?? [], n = e.gid ?? process.getgid?.() ?? s[0];
+        if (r === void 0 || n === void 0) throw new Error("cannot get uid or gid");
+        let u = /* @__PURE__ */ new Set([n, ...s]), c = t.mode, S = t.uid, P = t.gid, f = parseInt("100", 8), l = parseInt("010", 8), j = parseInt("001", 8), C = f | l;
+        return !!(c & j || c & l && u.has(P) || c & f && S === r || c & C && r === 0);
+      };
     });
-    var __importStar = exports2 && exports2.__importStar || function(mod) {
-      if (mod && mod.__esModule) return mod;
-      var result = {};
-      if (mod != null) {
-        for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-      }
-      __setModuleDefault(result, mod);
-      return result;
-    };
-    var __exportStar = exports2 && exports2.__exportStar || function(m, exports3) {
-      for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports3, p)) __createBinding(exports3, m, p);
+    var g = a((o) => {
+      "use strict";
+      Object.defineProperty(o, "__esModule", { value: true });
+      o.sync = o.isexe = void 0;
+      var T = require("node:fs"), I = require("node:fs/promises"), D = require("node:path"), F = async (t, e = {}) => {
+        let { ignoreErrors: r = false } = e;
+        try {
+          return y(await (0, I.stat)(t), t, e);
+        } catch (s) {
+          let n = s;
+          if (r || n.code === "EACCES") return false;
+          throw n;
+        }
+      };
+      o.isexe = F;
+      var L = (t, e = {}) => {
+        let { ignoreErrors: r = false } = e;
+        try {
+          return y((0, T.statSync)(t), t, e);
+        } catch (s) {
+          let n = s;
+          if (r || n.code === "EACCES") return false;
+          throw n;
+        }
+      };
+      o.sync = L;
+      var B = (t, e) => {
+        let { pathExt: r = process.env.PATHEXT || "" } = e, s = r.split(D.delimiter);
+        if (s.indexOf("") !== -1) return true;
+        for (let n of s) {
+          let u = n.toLowerCase(), c = t.substring(t.length - u.length).toLowerCase();
+          if (u && c === u) return true;
+        }
+        return false;
+      }, y = (t, e, r) => t.isFile() && B(e, r);
+    });
+    var p = a((h) => {
+      "use strict";
+      Object.defineProperty(h, "__esModule", { value: true });
+    });
+    var v = exports2 && exports2.__createBinding || (Object.create ? (function(t, e, r, s) {
+      s === void 0 && (s = r);
+      var n = Object.getOwnPropertyDescriptor(e, r);
+      (!n || ("get" in n ? !e.__esModule : n.writable || n.configurable)) && (n = { enumerable: true, get: function() {
+        return e[r];
+      } }), Object.defineProperty(t, s, n);
+    }) : (function(t, e, r, s) {
+      s === void 0 && (s = r), t[s] = e[r];
+    }));
+    var G = exports2 && exports2.__setModuleDefault || (Object.create ? (function(t, e) {
+      Object.defineProperty(t, "default", { enumerable: true, value: e });
+    }) : function(t, e) {
+      t.default = e;
+    });
+    var w = exports2 && exports2.__importStar || /* @__PURE__ */ (function() {
+      var t = function(e) {
+        return t = Object.getOwnPropertyNames || function(r) {
+          var s = [];
+          for (var n in r) Object.prototype.hasOwnProperty.call(r, n) && (s[s.length] = n);
+          return s;
+        }, t(e);
+      };
+      return function(e) {
+        if (e && e.__esModule) return e;
+        var r = {};
+        if (e != null) for (var s = t(e), n = 0; n < s.length; n++) s[n] !== "default" && v(r, e, s[n]);
+        return G(r, e), r;
+      };
+    })();
+    var X = exports2 && exports2.__exportStar || function(t, e) {
+      for (var r in t) r !== "default" && !Object.prototype.hasOwnProperty.call(e, r) && v(e, t, r);
     };
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sync = exports2.isexe = exports2.posix = exports2.win32 = void 0;
-    var posix2 = __importStar(require_posix());
-    exports2.posix = posix2;
-    var win32 = __importStar(require_win32());
-    exports2.win32 = win32;
-    __exportStar(require_options(), exports2);
-    var platform = process.env._ISEXE_TEST_PLATFORM_ || process.platform;
-    var impl = platform === "win32" ? win32 : posix2;
-    exports2.isexe = impl.isexe;
-    exports2.sync = impl.sync;
+    var E = w(_());
+    exports2.posix = E;
+    var O = w(g());
+    exports2.win32 = O;
+    X(p(), exports2);
+    var H = process.env._ISEXE_TEST_PLATFORM_ || process.platform;
+    var b = H === "win32" ? O : E;
+    exports2.isexe = b.isexe;
+    exports2.sync = b.sync;
   }
 });
 
-// node_modules/.pnpm/which@6.0.0/node_modules/which/lib/index.js
+// node_modules/.pnpm/which@6.0.1/node_modules/which/lib/index.js
 var require_lib2 = __commonJS({
-  "node_modules/.pnpm/which@6.0.0/node_modules/which/lib/index.js"(exports2, module2) {
-    var { isexe, sync: isexeSync } = require_cjs();
+  "node_modules/.pnpm/which@6.0.1/node_modules/which/lib/index.js"(exports2, module2) {
+    var { isexe, sync: isexeSync } = require_index_min();
     var { join: join2, delimiter, sep, posix: posix2 } = require("path");
     var isWindows = process.platform === "win32";
     var rSlash = new RegExp(`[${posix2.sep}${sep === posix2.sep ? "" : sep}]`.replace(/(\\)/g, "\\$1"));
