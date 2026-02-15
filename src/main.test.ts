@@ -11,7 +11,7 @@ import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
 
 import * as helpers from "./helpers";
 
-const nodeVersion = "v20.8.1";
+const nodeVersion = "v24.12.0";
 const nodeExecPath = "/path/to/node";
 const pyrightVersion = new SemVer("1.1.240");
 

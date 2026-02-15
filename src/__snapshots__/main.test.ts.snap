@@ -7,7 +7,7 @@ exports[`no comments > failure > core.error 1`] = `[]`;
 exports[`no comments > failure > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -66,7 +66,7 @@ exports[`no comments > success > core.error 1`] = `[]`;
 exports[`no comments > success > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -164,7 +164,7 @@ exports[`with comments > errors > core.error 1`] = `[]`;
 exports[`with comments > errors > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -276,7 +276,7 @@ exports[`with comments > errors,warnings > core.error 1`] = `[]`;
 exports[`with comments > errors,warnings > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -349,7 +349,7 @@ exports[`with comments > failure > core.error 1`] = `[]`;
 exports[`with comments > failure > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -404,7 +404,7 @@ exports[`with comments > invalid stdout > core.error 1`] = `[]`;
 exports[`with comments > invalid stdout > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -459,7 +459,7 @@ exports[`with comments > no diagnostics > core.error 1`] = `[]`;
 exports[`with comments > no diagnostics > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -511,7 +511,7 @@ exports[`with comments > unparsable json > core.error 1`] = `[]`;
 exports[`with comments > unparsable json > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -587,7 +587,7 @@ exports[`with comments > with 1 each > core.error 1`] = `[]`;
 exports[`with comments > with 1 each > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -693,7 +693,7 @@ exports[`with comments > with diagnostics > core.error 1`] = `[]`;
 exports[`with comments > with diagnostics > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd",
@@ -766,7 +766,7 @@ exports[`with overridden flags > explicit pyrightconfig.json > core.error 1`] = 
 exports[`with overridden flags > explicit pyrightconfig.json > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -851,7 +851,7 @@ exports[`with overridden flags > explicit pyrightconfig.json bad json > core.err
 exports[`with overridden flags > explicit pyrightconfig.json bad json > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -921,7 +921,7 @@ exports[`with overridden flags > explicit pyrightconfig.json directory > core.er
 exports[`with overridden flags > explicit pyrightconfig.json directory > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1006,7 +1006,7 @@ exports[`with overridden flags > implicit pyrightconfig.json > core.error 1`] = 
 exports[`with overridden flags > implicit pyrightconfig.json > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1089,7 +1089,7 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.erro
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.info 1`] = `
 [
   [
-    "pyright 1.1.350, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.350, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1172,7 +1172,7 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.erro
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.info 1`] = `
 [
   [
-    "pyright 1.1.351, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.351, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1255,7 +1255,7 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.erro
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.info 1`] = `
 [
   [
-    "pyright 1.1.352, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.352, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1332,7 +1332,7 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.erro
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.info 1`] = `
 [
   [
-    "pyright 1.1.353, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.353, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1409,7 +1409,7 @@ exports[`with overridden flags > pyproject.toml > core.error 1`] = `[]`;
 exports[`with overridden flags > pyproject.toml > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
@@ -1501,7 +1501,7 @@ exports[`with overridden flags > pyproject.toml bad toml > core.error 1`] = `[]`
 exports[`with overridden flags > pyproject.toml bad toml > core.info 1`] = `
 [
   [
-    "pyright 1.1.240, node v20.8.1, pyright-action 1.1.0",
+    "pyright 1.1.240, node v24.12.0, pyright-action 1.1.0",
   ],
   [
     "Working directory: /some/wd/is/deep",
