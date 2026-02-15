@@ -110,7 +110,7 @@ there.
 
 ```yml
 - uses: actions/checkout@v3
-- uses: actions/setup-python@v4
+- uses: actions/setup-python@v6
   with:
     cache: 'pip'
 
@@ -133,7 +133,7 @@ poetry's python binary is on `$PATH`:
 - uses: actions/checkout@v3
 
 - run: pipx install poetry
-- uses: actions/setup-python@v4
+- uses: actions/setup-python@v6
   with:
     cache: 'poetry'
 
