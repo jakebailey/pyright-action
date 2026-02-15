@@ -1,5 +1,6 @@
-import esbuild from "esbuild";
 import fs from "node:fs/promises";
+
+import esbuild from "esbuild";
 
 const result = await esbuild.build({
     logLevel: "info",
@@ -24,4 +25,4 @@ const result = await esbuild.build({
     ],
 });
 
-await fs.writeFile("dist/meta.json", JSON.stringify(result.metafile, null, 2));
+await fs.writeFile("dist/meta.json", JSON.stringify(result.metafile, undefined, 2));
