@@ -12,14 +12,14 @@ importers:
   .:
     dependencies:
       '@actions/core':
-        specifier: ^1.11.1
-        version: 1.11.1
+        specifier: ^3.0.0
+        version: 3.0.0
       '@actions/http-client':
-        specifier: ~2.1.1
-        version: 2.1.1
+        specifier: ~4.0.0
+        version: 4.0.0
       '@actions/tool-cache':
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^4.0.0
+        version: 4.0.0
       '@badrap/valita':
         specifier: ^0.4.6
         version: 0.4.6
@@ -30,8 +30,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       semver:
-        specifier: ^6.3.1
-        version: 6.3.1
+        specifier: ^7.7.4
+        version: 7.7.4
       shell-quote:
         specifier: ^1.8.3
         version: 1.8.3
@@ -52,8 +52,8 @@ importers:
         specifier: ^24.10.13
         version: 24.10.13
       '@types/semver':
-        specifier: ^6.2.7
-        version: 6.2.7
+        specifier: ^7.7.1
+        version: 7.7.1
       '@types/shell-quote':
         specifier: ^1.7.5
         version: 1.7.5
@@ -105,20 +105,20 @@ importers:
 
 packages:
 
-  '@actions/core@1.11.1':
-    resolution: {integrity: sha512-hXJCSrkwfA46Vd9Z3q4cpEpHB1rL5NG04+/rbqW9d3+CSvtB1tYe8UTpAlixa1vj0m/ULglfEK2UKxMGxCxv5A==}
+  '@actions/core@3.0.0':
+    resolution: {integrity: sha512-zYt6cz+ivnTmiT/ksRVriMBOiuoUpDCJJlZ5KPl2/FRdvwU3f7MPh9qftvbkXJThragzUZieit2nyHUyw53Seg==}
 
-  '@actions/exec@1.1.1':
-    resolution: {integrity: sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==}
+  '@actions/exec@3.0.0':
+    resolution: {integrity: sha512-6xH/puSoNBXb72VPlZVm7vQ+svQpFyA96qdDBvhB8eNZOE8LtPf9L4oAsfzK/crCL8YZ+19fKYVnM63Sl+Xzlw==}
 
-  '@actions/http-client@2.1.1':
-    resolution: {integrity: sha512-qhrkRMB40bbbLo7gF+0vu+X+UawOvQQqNAA/5Unx774RS8poaOhThDOG6BGmxvAnxhQnDp2BG/ZUm65xZILTpw==}
+  '@actions/http-client@4.0.0':
+    resolution: {integrity: sha512-QuwPsgVMsD6qaPD57GLZi9sqzAZCtiJT8kVBCDpLtxhL5MydQ4gS+DrejtZZPdIYyB1e95uCK9Luyds7ybHI3g==}
 
-  '@actions/io@1.1.3':
-    resolution: {integrity: sha512-wi9JjgKLYS7U/z8PPbco+PvTb/nRWjeoFlJ1Qer83k/3C5PHQi28hiVdeE2kHXmIL99mQFawx8qt/JPjZilJ8Q==}
+  '@actions/io@3.0.2':
+    resolution: {integrity: sha512-nRBchcMM+QK1pdjO7/idu86rbJI5YHUKCvKs0KxnSYbVe3F51UfGxuZX4Qy/fWlp6l7gWFwIkrOzN+oUK03kfw==}
 
-  '@actions/tool-cache@2.0.2':
-    resolution: {integrity: sha512-fBhNNOWxuoLxztQebpOaWu6WeVmuwa77Z+DxIZ1B+OYvGkGQon6kTVg6Z32Cb13WCuw0szqonK+hh03mJV7Z6w==}
+  '@actions/tool-cache@4.0.0':
+    resolution: {integrity: sha512-L8P9HbXvpvqjZDveb/fdsa55IVC0trfPgQ4ZwGo6r5af6YDVdM9vMGPZ7rgY2fAT9gGj4PSYd6bYlg3p3jD78A==}
 
   '@babel/helper-string-parser@7.27.1':
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
@@ -592,8 +592,8 @@ packages:
   '@types/node@24.10.13':
     resolution: {integrity: sha512-oH72nZRfDv9lADUBSo104Aq7gPHpQZc4BTx38r9xf9pg5LfP6EzSyH2n7qFmmxRQXh7YlUXODcYsg6PuTDSxGg==}
 
-  '@types/semver@6.2.7':
-    resolution: {integrity: sha512-blctEWbzUFzQx799RZjzzIdBJOXmE37YYEyDtKkx5Dg+V7o/zyyAxLPiI98A2jdTtDgxZleMdfV+7p8WbRJ1OQ==}
+  '@types/semver@7.7.1':
+    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/shell-quote@1.7.5':
     resolution: {integrity: sha512-+UE8GAGRPbJVQDdxi16dgadcBfQ+KG2vgZhV1+3A1XmHbmwcdwhCUwIdy+d3pAGrbvgRoVSjeI9vOWyq376Yzw==}
@@ -1156,10 +1156,6 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  semver@6.3.1:
-    resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
-    hasBin: true
-
   semver@7.7.4:
     resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
@@ -1245,6 +1241,10 @@ packages:
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+
+  undici@6.23.0:
+    resolution: {integrity: sha512-VfQPToRA5FZs/qJxLIinmU59u0r7LXqoJkCzinq3ckNJp3vKEh7jTWN589YQ5+aoAC/TGRLyJLCPKcLQbM8r9g==}
+    engines: {node: '>=18.17'}
 
   update-browserslist-db@1.2.3:
     resolution: {integrity: sha512-Js0m9cx+qOgDxo0eMiFGEueWztz+d4+M3rGlmKPT+T4IS/jP4ylw3Nwpu6cpTTP8R1MAC1kF4VbdLt3ARf209w==}
@@ -1354,28 +1354,29 @@ packages:
 
 snapshots:
 
-  '@actions/core@1.11.1':
+  '@actions/core@3.0.0':
     dependencies:
-      '@actions/exec': 1.1.1
-      '@actions/http-client': 2.1.1
+      '@actions/exec': 3.0.0
+      '@actions/http-client': 4.0.0
 
-  '@actions/exec@1.1.1':
+  '@actions/exec@3.0.0':
     dependencies:
-      '@actions/io': 1.1.3
+      '@actions/io': 3.0.2
 
-  '@actions/http-client@2.1.1':
+  '@actions/http-client@4.0.0':
     dependencies:
       tunnel: 0.0.6
+      undici: 6.23.0
 
-  '@actions/io@1.1.3': {}
+  '@actions/io@3.0.2': {}
 
-  '@actions/tool-cache@2.0.2':
+  '@actions/tool-cache@4.0.0':
     dependencies:
-      '@actions/core': 1.11.1
-      '@actions/exec': 1.1.1
-      '@actions/http-client': 2.1.1
-      '@actions/io': 1.1.3
-      semver: 6.3.1
+      '@actions/core': 3.0.0
+      '@actions/exec': 3.0.0
+      '@actions/http-client': 4.0.0
+      '@actions/io': 3.0.2
+      semver: 7.7.4
 
   '@babel/helper-string-parser@7.27.1': {}
 
@@ -1669,7 +1670,7 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/semver@6.2.7': {}
+  '@types/semver@7.7.1': {}
 
   '@types/shell-quote@1.7.5': {}
 
@@ -2297,8 +2298,6 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.57.1
       fsevents: 2.3.3
 
-  semver@6.3.1: {}
-
   semver@7.7.4: {}
 
   shebang-command@2.0.0:
@@ -2360,6 +2359,8 @@ snapshots:
   typescript@5.9.3: {}
 
   undici-types@7.16.0: {}
+
+  undici@6.23.0: {}
 
   update-browserslist-db@1.2.3(browserslist@4.28.1):
     dependencies:

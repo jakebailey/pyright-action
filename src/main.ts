@@ -5,7 +5,6 @@ import * as path from "node:path";
 import { inspect } from "node:util";
 
 import * as core from "@actions/core";
-import * as actionsCommand from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
 import * as JSONC from "jsonc-parser";
 import { SemVer } from "semver";
@@ -88,17 +87,17 @@ export async function main() {
             const col = diag.range?.start.character ?? 0;
             const message = diagnosticToString(diag, /* forCommand */ true);
 
-            // This is technically a log line and duplicates the core.info above,
-            // but we want to have the below look nice in commit comments.
-            actionsCommand.issueCommand(
-                diag.severity,
-                {
-                    file: diag.file,
-                    line: line + 1,
-                    col: col + 1,
-                },
-                message,
-            );
+            const properties: core.AnnotationProperties = {
+                file: diag.file,
+                startLine: line + 1,
+                startColumn: col + 1,
+            };
+
+            if (diag.severity === "error") {
+                core.error(message, properties);
+            } else if (diag.severity === "warning") {
+                core.warning(message, properties);
+            }
         }
 
         const { errorCount, warningCount, informationCount } = report.summary;

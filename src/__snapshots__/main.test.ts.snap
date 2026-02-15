@@ -1,7 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`no comments > failure > command.issueCommand 1`] = `[]`;
-
 exports[`no comments > failure > core.error 1`] = `[]`;
 
 exports[`no comments > failure > core.info 1`] = `
@@ -59,8 +57,6 @@ exports[`no comments > failure > process.chdir 1`] = `
 ]
 `;
 
-exports[`no comments > success > command.issueCommand 1`] = `[]`;
-
 exports[`no comments > success > core.error 1`] = `[]`;
 
 exports[`no comments > success > core.info 1`] = `
@@ -112,8 +108,6 @@ exports[`no comments > success > process.chdir 1`] = `
 ]
 `;
 
-exports[`thrown error at first call > command.issueCommand 1`] = `[]`;
-
 exports[`thrown error at first call > core.error 1`] = `[]`;
 
 exports[`thrown error at first call > core.info 1`] = `[]`;
@@ -136,30 +130,26 @@ exports[`thrown error at first call > fs.readFileSync 1`] = `[]`;
 
 exports[`thrown error at first call > process.chdir 1`] = `[]`;
 
-exports[`with comments > errors > command.issueCommand 1`] = `
+exports[`with comments > errors > core.error 1`] = `
 [
   [
-    "error",
-    {
-      "col": 1,
-      "file": "/path/to/file1.py",
-      "line": 1,
-    },
     "some error",
+    {
+      "file": "/path/to/file1.py",
+      "startColumn": 1,
+      "startLine": 1,
+    },
   ],
   [
-    "error",
-    {
-      "col": 10,
-      "file": "/path/to/file1.py",
-      "line": 6,
-    },
     "some error",
+    {
+      "file": "/path/to/file1.py",
+      "startColumn": 10,
+      "startLine": 6,
+    },
   ],
 ]
 `;
-
-exports[`with comments > errors > core.error 1`] = `[]`;
 
 exports[`with comments > errors > core.info 1`] = `
 [
@@ -230,48 +220,26 @@ exports[`with comments > errors > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > errors > process.chdir 1`] = `[]`;
 
-exports[`with comments > errors,warnings > command.issueCommand 1`] = `
+exports[`with comments > errors,warnings > core.error 1`] = `
 [
   [
-    "error",
-    {
-      "col": 1,
-      "file": "/path/to/file1.py",
-      "line": 1,
-    },
     "some error",
-  ],
-  [
-    "warning",
     {
-      "col": 1,
-      "file": "/path/to/file2.py",
-      "line": 1,
-    },
-    "some warning",
-  ],
-  [
-    "warning",
-    {
-      "col": 1,
-      "file": "/path/to/file3.py",
-      "line": 1,
-    },
-    "another warning (reportSomeWarning)",
-  ],
-  [
-    "error",
-    {
-      "col": 10,
       "file": "/path/to/file1.py",
-      "line": 6,
+      "startColumn": 1,
+      "startLine": 1,
     },
+  ],
+  [
     "some error",
+    {
+      "file": "/path/to/file1.py",
+      "startColumn": 10,
+      "startLine": 6,
+    },
   ],
 ]
 `;
-
-exports[`with comments > errors,warnings > core.error 1`] = `[]`;
 
 exports[`with comments > errors,warnings > core.info 1`] = `
 [
@@ -313,7 +281,26 @@ exports[`with comments > errors,warnings > core.setFailed 1`] = `
 ]
 `;
 
-exports[`with comments > errors,warnings > core.warning 1`] = `[]`;
+exports[`with comments > errors,warnings > core.warning 1`] = `
+[
+  [
+    "some warning",
+    {
+      "file": "/path/to/file2.py",
+      "startColumn": 1,
+      "startLine": 1,
+    },
+  ],
+  [
+    "another warning (reportSomeWarning)",
+    {
+      "file": "/path/to/file3.py",
+      "startColumn": 1,
+      "startLine": 1,
+    },
+  ],
+]
+`;
 
 exports[`with comments > errors,warnings > cp.spawnSync 1`] = `
 [
@@ -341,8 +328,6 @@ exports[`with comments > errors,warnings > fs.existsSync 1`] = `[]`;
 exports[`with comments > errors,warnings > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > errors,warnings > process.chdir 1`] = `[]`;
-
-exports[`with comments > failure > command.issueCommand 1`] = `[]`;
 
 exports[`with comments > failure > core.error 1`] = `[]`;
 
@@ -397,8 +382,6 @@ exports[`with comments > failure > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > failure > process.chdir 1`] = `[]`;
 
-exports[`with comments > invalid stdout > command.issueCommand 1`] = `[]`;
-
 exports[`with comments > invalid stdout > core.error 1`] = `[]`;
 
 exports[`with comments > invalid stdout > core.info 1`] = `
@@ -452,8 +435,6 @@ exports[`with comments > invalid stdout > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > invalid stdout > process.chdir 1`] = `[]`;
 
-exports[`with comments > no diagnostics > command.issueCommand 1`] = `[]`;
-
 exports[`with comments > no diagnostics > core.error 1`] = `[]`;
 
 exports[`with comments > no diagnostics > core.info 1`] = `
@@ -503,8 +484,6 @@ exports[`with comments > no diagnostics > fs.existsSync 1`] = `[]`;
 exports[`with comments > no diagnostics > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > no diagnostics > process.chdir 1`] = `[]`;
-
-exports[`with comments > unparsable json > command.issueCommand 1`] = `[]`;
 
 exports[`with comments > unparsable json > core.error 1`] = `[]`;
 
@@ -559,30 +538,18 @@ exports[`with comments > unparsable json > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > unparsable json > process.chdir 1`] = `[]`;
 
-exports[`with comments > with 1 each > command.issueCommand 1`] = `
+exports[`with comments > with 1 each > core.error 1`] = `
 [
   [
-    "error",
-    {
-      "col": 1,
-      "file": "/path/to/file1.py",
-      "line": 1,
-    },
     "some error",
-  ],
-  [
-    "warning",
     {
-      "col": 1,
-      "file": "/path/to/file2.py",
-      "line": 1,
+      "file": "/path/to/file1.py",
+      "startColumn": 1,
+      "startLine": 1,
     },
-    "some warning",
   ],
 ]
 `;
-
-exports[`with comments > with 1 each > core.error 1`] = `[]`;
 
 exports[`with comments > with 1 each > core.info 1`] = `
 [
@@ -618,7 +585,18 @@ exports[`with comments > with 1 each > core.setFailed 1`] = `
 ]
 `;
 
-exports[`with comments > with 1 each > core.warning 1`] = `[]`;
+exports[`with comments > with 1 each > core.warning 1`] = `
+[
+  [
+    "some warning",
+    {
+      "file": "/path/to/file2.py",
+      "startColumn": 1,
+      "startLine": 1,
+    },
+  ],
+]
+`;
 
 exports[`with comments > with 1 each > cp.spawnSync 1`] = `
 [
@@ -647,48 +625,26 @@ exports[`with comments > with 1 each > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > with 1 each > process.chdir 1`] = `[]`;
 
-exports[`with comments > with diagnostics > command.issueCommand 1`] = `
+exports[`with comments > with diagnostics > core.error 1`] = `
 [
   [
-    "error",
-    {
-      "col": 1,
-      "file": "/path/to/file1.py",
-      "line": 1,
-    },
     "some error",
-  ],
-  [
-    "warning",
     {
-      "col": 1,
-      "file": "/path/to/file2.py",
-      "line": 1,
-    },
-    "some warning",
-  ],
-  [
-    "warning",
-    {
-      "col": 1,
-      "file": "/path/to/file3.py",
-      "line": 1,
-    },
-    "another warning (reportSomeWarning)",
-  ],
-  [
-    "error",
-    {
-      "col": 10,
       "file": "/path/to/file1.py",
-      "line": 6,
+      "startColumn": 1,
+      "startLine": 1,
     },
+  ],
+  [
     "some error",
+    {
+      "file": "/path/to/file1.py",
+      "startColumn": 10,
+      "startLine": 6,
+    },
   ],
 ]
 `;
-
-exports[`with comments > with diagnostics > core.error 1`] = `[]`;
 
 exports[`with comments > with diagnostics > core.info 1`] = `
 [
@@ -730,7 +686,26 @@ exports[`with comments > with diagnostics > core.setFailed 1`] = `
 ]
 `;
 
-exports[`with comments > with diagnostics > core.warning 1`] = `[]`;
+exports[`with comments > with diagnostics > core.warning 1`] = `
+[
+  [
+    "some warning",
+    {
+      "file": "/path/to/file2.py",
+      "startColumn": 1,
+      "startLine": 1,
+    },
+  ],
+  [
+    "another warning (reportSomeWarning)",
+    {
+      "file": "/path/to/file3.py",
+      "startColumn": 1,
+      "startLine": 1,
+    },
+  ],
+]
+`;
 
 exports[`with comments > with diagnostics > cp.spawnSync 1`] = `
 [
@@ -758,8 +733,6 @@ exports[`with comments > with diagnostics > fs.existsSync 1`] = `[]`;
 exports[`with comments > with diagnostics > fs.readFileSync 1`] = `[]`;
 
 exports[`with comments > with diagnostics > process.chdir 1`] = `[]`;
-
-exports[`with overridden flags > explicit pyrightconfig.json > command.issueCommand 1`] = `[]`;
 
 exports[`with overridden flags > explicit pyrightconfig.json > core.error 1`] = `[]`;
 
@@ -844,8 +817,6 @@ exports[`with overridden flags > explicit pyrightconfig.json > process.chdir 1`]
 ]
 `;
 
-exports[`with overridden flags > explicit pyrightconfig.json bad json > command.issueCommand 1`] = `[]`;
-
 exports[`with overridden flags > explicit pyrightconfig.json bad json > core.error 1`] = `[]`;
 
 exports[`with overridden flags > explicit pyrightconfig.json bad json > core.info 1`] = `
@@ -913,8 +884,6 @@ exports[`with overridden flags > explicit pyrightconfig.json bad json > process.
   ],
 ]
 `;
-
-exports[`with overridden flags > explicit pyrightconfig.json directory > command.issueCommand 1`] = `[]`;
 
 exports[`with overridden flags > explicit pyrightconfig.json directory > core.error 1`] = `[]`;
 
@@ -999,8 +968,6 @@ exports[`with overridden flags > explicit pyrightconfig.json directory > process
 ]
 `;
 
-exports[`with overridden flags > implicit pyrightconfig.json > command.issueCommand 1`] = `[]`;
-
 exports[`with overridden flags > implicit pyrightconfig.json > core.error 1`] = `[]`;
 
 exports[`with overridden flags > implicit pyrightconfig.json > core.info 1`] = `
@@ -1081,8 +1048,6 @@ exports[`with overridden flags > implicit pyrightconfig.json > process.chdir 1`]
   ],
 ]
 `;
-
-exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > command.issueCommand 1`] = `[]`;
 
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > core.error 1`] = `[]`;
 
@@ -1165,8 +1130,6 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.350 > process.c
 ]
 `;
 
-exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > command.issueCommand 1`] = `[]`;
-
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.error 1`] = `[]`;
 
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > core.info 1`] = `
@@ -1248,8 +1211,6 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.351 > process.c
 ]
 `;
 
-exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > command.issueCommand 1`] = `[]`;
-
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.error 1`] = `[]`;
 
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > core.info 1`] = `
@@ -1325,8 +1286,6 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.352 > process.c
 ]
 `;
 
-exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > command.issueCommand 1`] = `[]`;
-
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.error 1`] = `[]`;
 
 exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > core.info 1`] = `
@@ -1401,8 +1360,6 @@ exports[`with overridden flags > implicit pyrightconfig.json 1.1.353 > process.c
   ],
 ]
 `;
-
-exports[`with overridden flags > pyproject.toml > command.issueCommand 1`] = `[]`;
 
 exports[`with overridden flags > pyproject.toml > core.error 1`] = `[]`;
 
@@ -1493,8 +1450,6 @@ exports[`with overridden flags > pyproject.toml > process.chdir 1`] = `
   ],
 ]
 `;
-
-exports[`with overridden flags > pyproject.toml bad toml > command.issueCommand 1`] = `[]`;
 
 exports[`with overridden flags > pyproject.toml bad toml > core.error 1`] = `[]`;
 

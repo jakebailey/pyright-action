@@ -4,7 +4,6 @@ import * as cp from "node:child_process";
 import * as fs from "node:fs";
 
 import * as core from "@actions/core";
-import * as command from "@actions/core/lib/command";
 import * as TOML from "@iarna/toml";
 import { SemVer } from "semver";
 import { afterEach, beforeEach, describe, expect, test, vitest } from "vitest";
@@ -17,8 +16,6 @@ const pyrightVersion = new SemVer("1.1.240");
 
 vitest.mock("@actions/core");
 const mockedCore = vitest.mocked(core);
-vitest.mock("@actions/core/lib/command");
-const mockedCommand = vitest.mocked(command);
 vitest.mock("node:child_process");
 const mockedCp = vitest.mocked(cp);
 vitest.mock("./helpers");
@@ -53,7 +50,6 @@ afterEach(() => {
     expect(mockedCore.info.mock.calls).toMatchSnapshot("core.info");
     expect(mockedCore.warning.mock.calls).toMatchSnapshot("core.warning");
     expect(mockedCore.error.mock.calls).toMatchSnapshot("core.error");
-    expect(mockedCommand.issueCommand.mock.calls).toMatchSnapshot("command.issueCommand");
     expect(mockedCp.spawnSync.mock.calls).toMatchSnapshot("cp.spawnSync");
     expect(mockedFs.readFileSync.mock.calls).toMatchSnapshot("fs.readFileSync");
     expect(mockedFs.existsSync.mock.calls).toMatchSnapshot("fs.existsSync");
