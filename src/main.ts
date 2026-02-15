@@ -6,9 +6,9 @@ import { inspect } from "node:util";
 
 import * as core from "@actions/core";
 import * as TOML from "@iarna/toml";
-import * as JSONC from "jsonc-parser";
 import { SemVer } from "semver";
 import { quote } from "shell-quote";
+import JSONC from "tiny-jsonc";
 
 import { getActionVersion, getArgs, getNodeInfo, type NodeInfo } from "./helpers";
 import { type Diagnostic, isEmptyRange, parseReport } from "./schema";
@@ -193,11 +193,9 @@ function checkOverriddenFlags(version: SemVer, args: readonly string[]) {
 
     let parsed: unknown;
     if (fs.existsSync(configPath)) {
-        const errors: JSONC.ParseError[] = [];
-        parsed = JSONC.parse(fs.readFileSync(configPath, "utf8"), errors, {
-            allowTrailingComma: true,
-        });
-        if (errors.length > 0) {
+        try {
+            parsed = JSONC.parse(fs.readFileSync(configPath, "utf8"));
+        } catch {
             return;
         }
     } else {

@@ -9,7 +9,6 @@ const result = await esbuild.build({
     outfile: "dist/index.js",
     platform: "node",
     target: "node24",
-    mainFields: ["module", "main"],
     metafile: true,
     plugins: [
         {
