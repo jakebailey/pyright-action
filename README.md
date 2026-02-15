@@ -109,7 +109,7 @@ environment by adding its bin to `$PATH`, then allowing `pyright` to find it
 there.
 
 ```yml
-- uses: actions/checkout@v3
+- uses: actions/checkout@v6
 - uses: actions/setup-python@v6
   with:
     cache: 'pip'
@@ -130,7 +130,7 @@ Similarly to a virtualenv, the easiest way to get it working is to ensure that
 poetry's python binary is on `$PATH`:
 
 ```yml
-- uses: actions/checkout@v3
+- uses: actions/checkout@v6
 
 - run: pipx install poetry
 - uses: actions/setup-python@v6
