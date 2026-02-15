@@ -116,3 +116,5 @@ out
 .pnp.*
 
 lib/
+
+dist/meta.json

@@ -1,6 +1,7 @@
 import esbuild from "esbuild";
+import fs from "node:fs/promises";
 
-await esbuild.build({
+const result = await esbuild.build({
     logLevel: "info",
     entryPoints: ["src/index.ts"],
     bundle: true,
@@ -8,6 +9,7 @@ await esbuild.build({
     platform: "node",
     target: "node24",
     mainFields: ["module", "main"],
+    metafile: true,
     plugins: [
         {
             name: "replace-undici",
@@ -21,3 +23,5 @@ await esbuild.build({
         },
     ],
 });
+
+await fs.writeFile("dist/meta.json", JSON.stringify(result.metafile, null, 2));
