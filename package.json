@@ -1,6 +1,6 @@
 {
     "name": "pyright-action",
-    "version": "2.3.3",
+    "version": "3.0.0-0",
     "private": true,
     "description": "GitHub Action for pyright",
     "main": "dist/index.js",
@@ -11,7 +11,7 @@
     "author": "Jake Bailey",
     "license": "MIT",
     "engines": {
-        "node": ">= 20.5"
+        "node": ">= 24"
     },
     "dependencies": {
         "@actions/core": "^1.11.1",
@@ -26,7 +26,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
-        "@tsconfig/node20": "^20.1.8",
+        "@tsconfig/node24": "^24.0.4",
         "@tsconfig/strictest": "^2.0.8",
         "@types/node": "^20.19.25",
         "@types/semver": "^6.2.7",
@@ -49,7 +49,7 @@
     },
     "scripts": {
         "prepare": "husky",
-        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node20 --main-fields=module,main --packages=bundle",
+        "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --platform=node --target=node24 --main-fields=module,main --packages=bundle",
         "test": "vitest",
         "test:coverage": "vitest run --coverage"
     },
@@ -68,7 +68,7 @@
         },
         "hooks": {
             "before:init": "pnpm run test --run",
-            "after:git:release": "(git tag -d v2 && git push origin :refs/tags/v2) || true && git tag v2 && git push origin v2"
+            "after:git:release": "(git tag -d v3 && git push origin :refs/tags/v3) || true && git tag v3 && git push origin v3"
         }
     },
     "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a",
