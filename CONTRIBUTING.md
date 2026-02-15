@@ -3,7 +3,7 @@
 ## Releasing `pyright-action`
 
 Releases are performed by `release-it`, which correctly tags a new version and
-re-tags `v2`. Unfortunately, you can only publish a GitHub action via the web UI
+re-tags `v3`. Unfortunately, you can only publish a GitHub action via the web UI
 (not via the API), so `release-it` must be configured to open a browser to
 create the release, where the marketplace checkbox will already be checked.
 
