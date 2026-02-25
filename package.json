@@ -34,7 +34,7 @@
         "@types/which": "^3.0.4",
         "@vitest/coverage-v8": "^4.0.18",
         "@vitest/pretty-format": "^4.0.18",
-        "dprint": "^0.51.1",
+        "dprint": "^0.52.0",
         "esbuild": "^0.27.3",
         "eslint": "^9.39.2",
         "eslint-plugin-simple-import-sort": "^12.1.1",
