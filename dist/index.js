@@ -262,9 +262,9 @@ var require_tunnel2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/undici@6.23.0/node_modules/undici/index.js
+// node_modules/.pnpm/undici@6.24.1/node_modules/undici/index.js
 var require_undici = __commonJS({
-  "node_modules/.pnpm/undici@6.23.0/node_modules/undici/index.js"(exports2, module2) {
+  "node_modules/.pnpm/undici@6.24.1/node_modules/undici/index.js"(exports2, module2) {
     module2.exports = {};
   }
 });

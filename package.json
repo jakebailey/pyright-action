@@ -28,23 +28,23 @@
         "@eslint/js": "^10.0.1",
         "@tsconfig/node24": "^24.0.4",
         "@tsconfig/strictest": "^2.0.8",
-        "@types/node": "^24.11.0",
+        "@types/node": "^24.12.0",
         "@types/semver": "^7.7.1",
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
-        "@vitest/coverage-v8": "^4.0.18",
-        "dprint": "^0.52.0",
-        "esbuild": "^0.27.3",
-        "eslint": "^10.0.2",
+        "@vitest/coverage-v8": "^4.1.0",
+        "dprint": "^0.53.0",
+        "esbuild": "^0.27.4",
+        "eslint": "^10.1.0",
         "eslint-plugin-simple-import-sort": "^12.1.1",
         "eslint-plugin-unicorn": "^63.0.0",
         "globals": "^17.4.0",
         "husky": "^9.1.7",
         "klona": "^2.0.6",
-        "path-serializer": "^0.5.1",
+        "path-serializer": "^0.6.0",
         "typescript": "~5.9.3",
-        "typescript-eslint": "^8.56.1",
-        "vitest": "^4.0.18"
+        "typescript-eslint": "^8.57.1",
+        "vitest": "^4.1.0"
     },
     "scripts": {
         "prepare": "husky",
@@ -70,7 +70,7 @@
             "after:git:release": "(git tag -d v3 && git push origin :refs/tags/v3) || true && git tag v3 && git push origin v3"
         }
     },
-    "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017",
+    "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
     "pnpm": {
         "overrides": {
             "esbuild": "$esbuild"
