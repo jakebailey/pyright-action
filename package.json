@@ -33,7 +33,7 @@
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
         "@vitest/coverage-v8": "^4.1.2",
-        "dprint": "^0.53.1",
+        "dprint": "^0.54.0",
         "esbuild": "^0.27.4",
         "eslint": "^10.1.0",
         "eslint-plugin-simple-import-sort": "^12.1.1",
