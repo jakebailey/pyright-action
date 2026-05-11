@@ -1,0 +1,5 @@
+overrides:
+  esbuild: $esbuild
+allowBuilds:
+  dprint: true
+  esbuild: true
