@@ -430,8 +430,7 @@ describe("getArgs", () => {
 
             let callCount = 0;
             mockedCp.execFileSync.mockImplementation(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                (() => {
+                () => {
                     callCount += 1;
                     switch (callCount) {
                         case 1:
@@ -441,7 +440,7 @@ describe("getArgs", () => {
                         default:
                             throw new Error("should not have been called");
                     }
-                }) as any,
+                },
             );
 
             const result = await getArgs(execPath);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
 import * as cp from "node:child_process";
 import * as fs from "node:fs";
@@ -81,8 +80,8 @@ describe("no comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "" as any,
-            stderr: "" as any,
+            stdout: "",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -94,8 +93,8 @@ describe("no comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "" as any,
-            stderr: "" as any,
+            stdout: "",
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -121,8 +120,8 @@ describe("with comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "" as any,
-            stderr: "" as any,
+            stdout: "",
+            stderr: "",
             status: 2,
             signal: null,
         }));
@@ -134,8 +133,8 @@ describe("with comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "}" as any,
-            stderr: "" as any,
+            stdout: "}",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -147,8 +146,8 @@ describe("with comments", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "{}" as any,
-            stderr: "" as any,
+            stdout: "{}",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -167,8 +166,8 @@ describe("with comments", () => {
                     warningCount: 0,
                     informationCount: 0,
                 },
-            }) as any,
-            stderr: "" as any,
+            }),
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -219,8 +218,8 @@ describe("with comments", () => {
                     warningCount: 2,
                     informationCount: 1,
                 },
-            }) as any,
-            stderr: "" as any,
+            }),
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -279,8 +278,8 @@ describe("with comments", () => {
                     warningCount: 2,
                     informationCount: 1,
                 },
-            }) as any,
-            stderr: "" as any,
+            }),
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -339,8 +338,8 @@ describe("with comments", () => {
                     warningCount: 2,
                     informationCount: 1,
                 },
-            }) as any,
-            stderr: "" as any,
+            }),
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -379,8 +378,8 @@ describe("with comments", () => {
                     warningCount: 1,
                     informationCount: 1,
                 },
-            }) as any,
-            stderr: "" as any,
+            }),
+            stderr: "",
             status: 1,
             signal: null,
         }));
@@ -413,8 +412,8 @@ describe("with overridden flags", () => {
         mockedCp.spawnSync.mockImplementation(() => ({
             pid: -1,
             output: [],
-            stdout: "" as any,
-            stderr: "" as any,
+            stdout: "",
+            stderr: "",
             status: 0,
             signal: null,
         }));
@@ -430,10 +429,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -454,10 +453,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -478,10 +477,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -502,10 +501,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -526,10 +525,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -550,10 +549,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("/some/path/to/pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -574,10 +573,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("/some/path/to/pyrightconfig.json");
                 return configJSON;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -598,10 +597,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("/some/path/to/pyrightconfig.json");
                 return "this is not JSON";
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -622,10 +621,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("/some/wd/pyproject.toml");
                 return configToml;
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {
@@ -657,10 +656,10 @@ describe("with overridden flags", () => {
         });
 
         mockedFs.readFileSync.mockImplementation(
-            ((p) => {
+            (p) => {
                 expect(p).toBe("/some/wd/pyproject.toml");
                 return "this is not toml";
-            }) as typeof fs.readFileSync,
+            },
         );
 
         mockedFs.existsSync.mockImplementation((p) => {

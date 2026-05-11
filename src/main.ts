@@ -215,7 +215,7 @@ function checkOverriddenFlags(version: SemVer, args: readonly string[]) {
     }
 
     if (parsed !== undefined && parsed !== null) {
-        for (const [key, value] of Object.entries<unknown>(parsed as {})) {
+        for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
             const flag = `--${key.toLowerCase()}`;
             if (overriddenFlags.has(flag)) {
                 core.warning(
