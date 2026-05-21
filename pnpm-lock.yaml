@@ -22,7 +22,7 @@ importers:
         version: 4.0.0
       '@badrap/valita':
         specifier: ^0.5.1
-        version: 0.5.1
+        version: 0.5.2
       '@iarna/toml':
         specifier: ^2.2.5
         version: 2.2.5
@@ -134,8 +134,8 @@ packages:
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
 
-  '@badrap/valita@0.5.1':
-    resolution: {integrity: sha512-TPfz1reW79pXSE/epYJwX/6CYwD13p/bOkSrLfmXzhgSBGgtkmQxFwLSv50M7LsSuFLidvYKYBZFuM7warStIA==}
+  '@badrap/valita@0.5.2':
+    resolution: {integrity: sha512-M8y7TGu6e810A9a9ohokac9Dy5I4CWxYz855OxrvlzqTyH01ONU83HP+oqlvTOD8YgKCdw+CEymny4uX9ef6fg==}
     engines: {node: '>= 22'}
 
   '@bcoe/v8-coverage@1.0.2':
@@ -1140,8 +1140,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  postcss@8.5.14:
-    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
+  postcss@8.5.15:
+    resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -1412,7 +1412,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@badrap/valita@0.5.1': {}
+  '@badrap/valita@0.5.2': {}
 
   '@bcoe/v8-coverage@1.0.2': {}
 
@@ -2273,7 +2273,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  postcss@8.5.14:
+  postcss@8.5.15:
     dependencies:
       nanoid: 3.3.12
       picocolors: 1.1.1
@@ -2391,7 +2391,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.14
+      postcss: 8.5.15
       rolldown: 1.0.0-rc.18
       tinyglobby: 0.2.16
     optionalDependencies:
