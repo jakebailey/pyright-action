@@ -3,3 +3,5 @@ overrides:
 allowBuilds:
   dprint: true
   esbuild: true
+minimumReleaseAgeExclude:
+  - eslint-plugin-unicorn@65.0.0
