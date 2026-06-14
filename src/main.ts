@@ -5,7 +5,7 @@ import * as path from "node:path";
 import { inspect } from "node:util";
 
 import * as core from "@actions/core";
-import * as TOML from "@iarna/toml";
+import parseTOML from "@iarna/toml/parse.js";
 import { SemVer } from "semver";
 import { quote } from "shell-quote";
 import JSONC from "tiny-jsonc";
@@ -205,7 +205,7 @@ function checkOverriddenFlags(version: SemVer, args: readonly string[]) {
         while (cwd !== root) {
             const pyprojectPath = path.posix.join(cwd, "pyproject.toml");
             if (fs.existsSync(pyprojectPath)) {
-                const pyproject = TOML.parse(fs.readFileSync(pyprojectPath, "utf8"));
+                const pyproject = parseTOML(fs.readFileSync(pyprojectPath, "utf8"));
                 parsed = (pyproject as { tool: { pyright: any; }; })["tool"]["pyright"];
                 configPath = pyprojectPath;
                 break;
