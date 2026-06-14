@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-null */
 import * as cp from "node:child_process";
 import * as fs from "node:fs";
 

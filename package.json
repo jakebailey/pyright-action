@@ -37,7 +37,6 @@
         "esbuild": "^0.28.1",
         "eslint": "^10.5.0",
         "eslint-plugin-simple-import-sort": "^13.0.0",
-        "eslint-plugin-unicorn": "^66.0.0",
         "globals": "^17.6.0",
         "husky": "^9.1.7",
         "klona": "^2.0.6",

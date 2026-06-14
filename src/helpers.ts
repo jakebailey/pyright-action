@@ -163,7 +163,6 @@ export async function getArgs(execPath: string): Promise<Args> {
     if (extraArgs) {
         for (const arg of parse(extraArgs)) {
             if (typeof arg !== "string") {
-                // eslint-disable-next-line unicorn/prefer-type-error
                 throw new Error(`malformed extra-args: ${extraArgs}`);
             }
             args.push(arg);
