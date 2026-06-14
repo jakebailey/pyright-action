@@ -76,8 +76,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0(eslint@10.4.1)
       eslint-plugin-unicorn:
-        specifier: ^65.0.0
-        version: 65.0.0(eslint@10.4.1)
+        specifier: ^66.0.0
+        version: 66.0.0(eslint@10.4.1)
       globals:
         specifier: ^17.6.0
         version: 17.6.0
@@ -798,11 +798,11 @@ packages:
     peerDependencies:
       eslint: '>=5.0.0'
 
-  eslint-plugin-unicorn@65.0.0:
-    resolution: {integrity: sha512-wE75x2QqMuPgZXcoc8LgTz7+gk5+SZK93Cxe6jkfouKp6+FwYwjMGrbYQTMRH8HK8X6jeTBhPPI2Cun923EMLQ==}
-    engines: {node: ^20.10.0 || >=21.0.0}
+  eslint-plugin-unicorn@66.0.0:
+    resolution: {integrity: sha512-+ywdy8T3foyZ2t3nRBujGa3vfOVMobHIi5iLB0L+fogdVO3EiUJ4BAyIacogWytnweLw3hgT70LQL9KoKTY/kA==}
+    engines: {node: '>=22'}
     peerDependencies:
-      eslint: '>=9.38.0'
+      eslint: '>=10.4'
 
   eslint-scope@9.1.2:
     resolution: {integrity: sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ==}
@@ -1161,6 +1161,11 @@ packages:
 
   semver@7.8.2:
     resolution: {integrity: sha512-c8jsqUZm3omBOI66G90z1Dyw5z622G8oLG+omfsHBJf3CWQTlOcwOjvOG6wtiNfW6anKm/eA39LMwMtMez2TiQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.8.4:
+    resolution: {integrity: sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -1962,10 +1967,11 @@ snapshots:
     dependencies:
       eslint: 10.4.1
 
-  eslint-plugin-unicorn@65.0.0(eslint@10.4.1):
+  eslint-plugin-unicorn@66.0.0(eslint@10.4.1):
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.4.1)
+      browserslist: 4.28.2
       change-case: 5.4.4
       ci-info: 4.4.0
       core-js-compat: 3.49.0
@@ -1978,7 +1984,7 @@ snapshots:
       jsesc: 3.1.0
       pluralize: 8.0.0
       regjsparser: 0.13.1
-      semver: 7.8.2
+      semver: 7.8.4
       strip-indent: 4.1.1
 
   eslint-scope@9.1.2:
@@ -2298,6 +2304,8 @@ snapshots:
       '@rolldown/binding-win32-x64-msvc': 1.0.3
 
   semver@7.8.2: {}
+
+  semver@7.8.4: {}
 
   shebang-command@2.0.0:
     dependencies:
