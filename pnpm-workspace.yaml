@@ -1,7 +1,6 @@
-overrides:
-  esbuild: $esbuild
 allowBuilds:
   dprint: true
   esbuild: true
 minimumReleaseAgeExclude:
   - eslint-plugin-unicorn@65.0.0
+  - eslint-plugin-unicorn@66.0.0

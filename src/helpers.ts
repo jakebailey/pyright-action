@@ -182,18 +182,15 @@ export async function getArgs(execPath: string): Promise<Args> {
 
     for (let value of split) {
         value = value.trim();
-        switch (value) {
-            case "errors":
-                annotate.add("error");
-                break;
-            case "warnings":
-                annotate.add("warning");
-                break;
-            default:
-                if (isAnnotateAll(value) || isAnnotateNone(value)) {
-                    throw new Error(`invalid value ${JSON.stringify(value)} in comma-separated annotate`);
-                }
-                throw new Error(`invalid value ${JSON.stringify(value)} for annotate`);
+        if (value === "errors") {
+            annotate.add("error");
+        } else if (value === "warnings") {
+            annotate.add("warning");
+        } else {
+            if (isAnnotateAll(value) || isAnnotateNone(value)) {
+                throw new Error(`invalid value ${JSON.stringify(value)} in comma-separated annotate`);
+            }
+            throw new Error(`invalid value ${JSON.stringify(value)} for annotate`);
         }
     }
 
@@ -235,7 +232,6 @@ async function downloadPyright(info: PyrightInfoFromNpm): Promise<string> {
     const version = info.version.format();
     // Note: this only works because the pyright package doesn't have any
     // dependencies. If this ever changes, we'll have to actually install it.
-    // eslint-disable-next-line unicorn/no-array-callback-reference, unicorn/no-array-method-this-argument
     const found = tc.find(pyrightToolName, version);
     if (found) {
         return found;
