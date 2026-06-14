@@ -34,20 +34,20 @@
         "@types/which": "^3.0.4",
         "@vitest/coverage-v8": "^4.1.8",
         "dprint": "^0.54.0",
-        "esbuild": "^0.28.1",
         "eslint": "^10.5.0",
         "eslint-plugin-simple-import-sort": "^13.0.0",
         "globals": "^17.6.0",
         "husky": "^9.1.7",
         "klona": "^2.0.6",
         "path-serializer": "^0.6.0",
+        "rolldown": "1.0.3",
         "typescript": "~6.0.3",
         "typescript-eslint": "^8.61.0",
         "vitest": "^4.1.8"
     },
     "scripts": {
         "prepare": "husky",
-        "build": "node build.mjs",
+        "build": "rolldown -c",
         "test": "vitest",
         "test:coverage": "vitest run --coverage"
     },

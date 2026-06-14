@@ -1,3 +1,2 @@
 allowBuilds:
   dprint: true
-  esbuild: true
