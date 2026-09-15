@@ -37,8 +37,8 @@ importers:
         version: 7.0.0
     devDependencies:
       '@dprint/json':
-        specifier: ^0.23.0
-        version: 0.23.0
+        specifier: ^0.24.0
+        version: 0.24.0
       '@dprint/markdown':
         specifier: ^0.24.0
         version: 0.24.0
@@ -159,8 +159,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@dprint/json@0.23.0':
-    resolution: {integrity: sha512-FYFbZyrBr343JzCNkwa87+Lk2YnElpv0gzl+i5CXfMjixXzWWAKK2vEuzKoeCsJys4B3bfxmi0ByJ/xW2CY2jw==}
+  '@dprint/json@0.24.0':
+    resolution: {integrity: sha512-3d1mWWONLCwi4Q232+yVxa+ekRxqV1rrm/RPZ5K1a5YfWF6uN1zdHFYs/aNk9L7+F3mVffYgdcOOVhXsC5ZJyA==}
 
   '@dprint/linux-arm64-glibc@0.57.4':
     resolution: {integrity: sha512-zFCgx2E2szEnMgtBCKiI/G5vV5mi7rnTVDMB2FrIa6JheqF8pgfrx6m3HWzIed74cFM3/KCH0LmIfCNZT5vRfw==}
@@ -1070,7 +1070,7 @@ snapshots:
   '@dprint/darwin-x64@0.57.4':
     optional: true
 
-  '@dprint/json@0.23.0': {}
+  '@dprint/json@0.24.0': {}
 
   '@dprint/linux-arm64-glibc@0.57.4':
     optional: true
