@@ -41,7 +41,6 @@ describe("parseReport", () => {
 
     test("missing key", () => {
         const badOutput = klona(realPyrightOutput);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete (badOutput as any).generalDiagnostics;
         expect(() => parseReport(badOutput)).toThrowError("missing value");
     });
@@ -118,7 +117,6 @@ describe("parseNpmRegistryResponse", () => {
 
     test("missing key", () => {
         const badOutput = klona(realResponse);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete (badOutput as any).dist;
         expect(() => parseNpmRegistryResponse(badOutput)).toThrowError("missing value");
     });

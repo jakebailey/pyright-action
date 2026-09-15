@@ -637,8 +637,7 @@ describe("with overridden flags", () => {
                 case "/some/wd/pyproject.toml":
                     return true;
                 default:
-                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                    throw new Error(`unexpected path: ${p}`);
+                    throw new Error(`unexpected path: ${String(p)}`);
             }
         });
 
@@ -672,8 +671,7 @@ describe("with overridden flags", () => {
                 case "/some/wd/pyproject.toml":
                     return true;
                 default:
-                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                    throw new Error(`unexpected path: ${p}`);
+                    throw new Error(`unexpected path: ${String(p)}`);
             }
         });
 
