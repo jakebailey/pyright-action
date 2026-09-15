@@ -26,7 +26,7 @@
     },
     "devDependencies": {
         "@dprint/json": "^0.23.0",
-        "@dprint/markdown": "^0.22.1",
+        "@dprint/markdown": "^0.24.0",
         "@dprint/typescript": "^0.96.1",
         "@tsconfig/node24": "^24.0.4",
         "@tsconfig/strictest": "^2.0.8",
