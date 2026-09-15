@@ -16,7 +16,7 @@ var __copyProps = (to, from, except, desc) => {
 	}
 	return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule || !__hasOwnProp.call(mod, "default") ? __defProp(target, "default", {
 	value: mod,
 	enumerable: true
 }) : target, mod));
@@ -731,7 +731,7 @@ var HttpClient = class {
 		req.on("socket", (sock) => {
 			socket = sock;
 		});
-		req.setTimeout(this._socketTimeout || 3 * 6e4, () => {
+		req.setTimeout(this._socketTimeout || 18e4, () => {
 			if (socket) socket.end();
 			handleResult(/* @__PURE__ */ new Error(`Request timeout: ${info.options.path}`));
 		});
@@ -811,14 +811,18 @@ var HttpClient = class {
 		let clientHeader;
 		if (this.requestOptions && this.requestOptions.headers) {
 			const headerValue = lowercaseKeys(this.requestOptions.headers)[Headers.ContentType];
-			if (headerValue) if (typeof headerValue === "number") clientHeader = String(headerValue);
-			else if (Array.isArray(headerValue)) clientHeader = headerValue.join(", ");
-			else clientHeader = headerValue;
+			if (headerValue) {
+				if (typeof headerValue === "number") clientHeader = String(headerValue);
+				else if (Array.isArray(headerValue)) clientHeader = headerValue.join(", ");
+				else clientHeader = headerValue;
+			}
 		}
 		const additionalValue = additionalHeaders[Headers.ContentType];
-		if (additionalValue !== void 0) if (typeof additionalValue === "number") return String(additionalValue);
-		else if (Array.isArray(additionalValue)) return additionalValue.join(", ");
-		else return additionalValue;
+		if (additionalValue !== void 0) {
+			if (typeof additionalValue === "number") return String(additionalValue);
+			else if (Array.isArray(additionalValue)) return additionalValue.join(", ");
+			else return additionalValue;
+		}
 		if (clientHeader !== void 0) return clientHeader;
 		return _default;
 	}
@@ -1442,9 +1446,10 @@ function cp(source_1, dest_1) {
 		if (destStat && destStat.isFile() && !force) return;
 		const newDest = destStat && destStat.isDirectory() && copySourceDirectory ? path.join(dest, path.basename(source)) : dest;
 		if (!(yield exists(source))) throw new Error(`no such file or directory: ${source}`);
-		if ((yield stat(source)).isDirectory()) if (!recursive) throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
-		else yield cpDirRecursive(source, newDest, 0, force);
-		else {
+		if ((yield stat(source)).isDirectory()) {
+			if (!recursive) throw new Error(`Failed to copy. ${source} is a directory, but tried to copy without recursive flag.`);
+			else yield cpDirRecursive(source, newDest, 0, force);
+		} else {
 			if (path.relative(source, newDest) === "") throw new Error(`'${newDest}' and '${source}' are the same file`);
 			yield copyFile(source, newDest, force);
 		}
@@ -1498,8 +1503,10 @@ function which$1(tool, check) {
 		if (!tool) throw new Error("parameter 'tool' is required");
 		if (check) {
 			const result = yield which$1(tool, false);
-			if (!result) if (IS_WINDOWS$2) throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
-			else throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+			if (!result) {
+				if (IS_WINDOWS$2) throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also verify the file has a valid extension for an executable file.`);
+				else throw new Error(`Unable to locate executable file: ${tool}. Please verify either the file path exists or the file can be found within a directory specified by the PATH environment variable. Also check the file mode to verify the file is executable.`);
+			}
 			return result;
 		}
 		const matches = yield findInPath(tool);
@@ -1571,7 +1578,8 @@ function copyFile(srcFile, destFile, force) {
 					yield unlink(destFile);
 				}
 			}
-			yield symlink(yield readlink(srcFile), destFile, IS_WINDOWS$2 ? "junction" : null);
+			const symlinkFull = yield readlink(srcFile);
+			yield symlink(symlinkFull, destFile, IS_WINDOWS$2 ? "junction" : null);
 		} else if (!(yield exists(destFile)) || force) yield copyFile$1(srcFile, destFile);
 	});
 }
@@ -1620,17 +1628,18 @@ var ToolRunner = class extends events.EventEmitter {
 		const toolPath = this._getSpawnFileName();
 		const args = this._getSpawnArgs(options);
 		let cmd = noPrefix ? "" : "[command]";
-		if (IS_WINDOWS$1) if (this._isCmdFile()) {
-			cmd += toolPath;
-			for (const a of args) cmd += ` ${a}`;
-		} else if (options.windowsVerbatimArguments) {
-			cmd += `"${toolPath}"`;
-			for (const a of args) cmd += ` ${a}`;
+		if (IS_WINDOWS$1) {
+			if (this._isCmdFile()) {
+				cmd += toolPath;
+				for (const a of args) cmd += ` ${a}`;
+			} else if (options.windowsVerbatimArguments) {
+				cmd += `"${toolPath}"`;
+				for (const a of args) cmd += ` ${a}`;
+			} else {
+				cmd += this._windowsQuoteCmdArg(toolPath);
+				for (const a of args) cmd += ` ${this._windowsQuoteCmdArg(a)}`;
+			}
 		} else {
-			cmd += this._windowsQuoteCmdArg(toolPath);
-			for (const a of args) cmd += ` ${this._windowsQuoteCmdArg(a)}`;
-		}
-		else {
 			cmd += toolPath;
 			for (const a of args) cmd += ` ${a}`;
 		}
@@ -2717,9 +2726,10 @@ var require_toml_parser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				else throw this.error(new TomlError("Unexpected character, expected \"inf\", \"+inf\" or \"-inf\""));
 			}
 			parseInf2() {
-				if (this.char === CHAR_f) if (this.state.buf === "-") return this.return(-Infinity);
-				else return this.return(Infinity);
-				else throw this.error(new TomlError("Unexpected character, expected \"inf\", \"+inf\" or \"-inf\""));
+				if (this.char === CHAR_f) {
+					if (this.state.buf === "-") return this.return(-Infinity);
+					else return this.return(Infinity);
+				} else throw this.error(new TomlError("Unexpected character, expected \"inf\", \"+inf\" or \"-inf\""));
 			}
 			parseNan() {
 				if (this.char === CHAR_a) return this.next(this.parseNan2);
@@ -2979,10 +2989,11 @@ var require_toml_parser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				else return this.returnNow(Integer(this.state.buf));
 			}
 			parseDateTimeOnly() {
-				if (this.state.buf.length < 4) if (isDigit(this.char)) return this.consume();
-				else if (this.char === CHAR_COLON) return this.goto(this.parseOnlyTimeHour);
-				else throw this.error(new TomlError("Expected digit while parsing year part of a date"));
-				else if (this.char === CHAR_HYPHEN) return this.goto(this.parseDateTime);
+				if (this.state.buf.length < 4) {
+					if (isDigit(this.char)) return this.consume();
+					else if (this.char === CHAR_COLON) return this.goto(this.parseOnlyTimeHour);
+					else throw this.error(new TomlError("Expected digit while parsing year part of a date"));
+				} else if (this.char === CHAR_HYPHEN) return this.goto(this.parseDateTime);
 				else throw this.error(new TomlError("Expected hyphen (-) while parsing year part of date"));
 			}
 			parseNumberBaseOrDateTime() {
@@ -3427,8 +3438,10 @@ var require_parse$2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports.prettyError = require_parse_pretty_error();
 }));
 //#endregion
-//#region node_modules/.pnpm/shell-quote@1.8.4/node_modules/shell-quote/quote.js
+//#region node_modules/.pnpm/shell-quote@1.10.0/node_modules/shell-quote/quote.js
 var require_quote = /* @__PURE__ */ __commonJSMin(((exports, module) => {
+	/** @import { ControlOperator } from './parse' */
+	/** @type {ControlOperator['op'][]} */
 	var OPS = [
 		"||",
 		"&&",
@@ -3449,20 +3462,21 @@ var require_quote = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	];
 	var LINE_TERMINATORS = /[\n\r\u2028\u2029]/;
 	var GLOB_SHELL_SPECIAL = /[\s#!"$&'():;<=>@\\^`|]/g;
+	/** @type {typeof import('./quote')} */
 	module.exports = function quote(xs) {
 		return xs.map(function(s) {
 			if (s === "") return "''";
 			if (s && typeof s === "object") {
-				if (s.op === "glob") {
+				if ("op" in s && s.op === "glob") {
 					if (typeof s.pattern !== "string") throw new TypeError("glob token requires a string `pattern`");
 					if (LINE_TERMINATORS.test(s.pattern)) throw new TypeError("glob `pattern` must not contain line terminators");
 					return s.pattern.replace(GLOB_SHELL_SPECIAL, "\\$&");
 				}
-				if (typeof s.op === "string") {
+				if ("op" in s && typeof s.op === "string") {
 					if (OPS.indexOf(s.op) < 0) throw new TypeError("invalid `op` value: " + JSON.stringify(s.op));
 					return s.op.replace(/[\s\S]/g, "\\$&");
 				}
-				if (typeof s.comment === "string") {
+				if ("comment" in s && typeof s.comment === "string") {
 					if (LINE_TERMINATORS.test(s.comment)) throw new TypeError("`comment` must not contain line terminators");
 					return "#" + s.comment;
 				}
@@ -3470,13 +3484,20 @@ var require_quote = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 			if (/["\s\\]/.test(s) && !/'/.test(s)) return "'" + s.replace(/(['])/g, "\\$1") + "'";
 			if (/["'\s]/.test(s)) return "\"" + s.replace(/(["\\$`!])/g, "\\$1") + "\"";
-			return String(s).replace(/([A-Za-z]:)?([#!"$&'()*,:;<=>?@[\\\]^`{|}])/g, "$1\\$2");
+			return String(s).replace(/([A-Za-z]:)?([#!"$&'()*,:;<=>?@[\\\]^`{|}~])/g, "$1\\$2");
 		}).join(" ");
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/shell-quote@1.8.4/node_modules/shell-quote/parse.js
+//#region node_modules/.pnpm/shell-quote@1.10.0/node_modules/shell-quote/parse.js
 var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
+	/**
+	* @import {
+	* 	ControlOperator,
+	* 	Env,
+	* 	GlobPattern,
+	* 	ParseEntry,
+	* } from './parse' */
 	var CONTROL = "(?:" + [
 		"\\|\\|",
 		"\\&\\&",
@@ -3491,8 +3512,8 @@ var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	].join("|") + ")";
 	var controlRE = new RegExp("^" + CONTROL + "$");
 	var META = "|&;()<> \\t";
-	var SINGLE_QUOTE = "\"((\\\\\"|[^\"])*?)\"";
-	var DOUBLE_QUOTE = "'((\\\\'|[^'])*?)'";
+	var SINGLE_QUOTE = "'([^']*?)'";
+	var DOUBLE_QUOTE = "\"((\\\\\"|[^\"])*?)\"";
 	var hash = /^#$/;
 	var SQ = "'";
 	var DQ = "\"";
@@ -3501,17 +3522,26 @@ var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var mult = 4294967296;
 	for (var i = 0; i < 4; i++) TOKEN += (mult * Math.random()).toString(16);
 	var startsWithToken = new RegExp("^" + TOKEN);
+	/**
+	* @param {string} s
+	* @param {RegExp} r
+	*/
 	function matchAll(s, r) {
 		var origIndex = r.lastIndex;
 		var matches = [];
 		var matchObj;
 		while (matchObj = r.exec(s)) {
-			matches.push(matchObj);
+			matches[matches.length] = matchObj;
 			if (r.lastIndex === matchObj.index) r.lastIndex += 1;
 		}
 		r.lastIndex = origIndex;
 		return matches;
 	}
+	/**
+	* @param {Env} env
+	* @param {string} pre
+	* @param {string} key
+	*/
 	function getVar(env, pre, key) {
 		var r = typeof env === "function" ? env(key) : env[key];
 		if (typeof r === "undefined" && key != "") r = "";
@@ -3519,11 +3549,18 @@ var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (typeof r === "object") return pre + TOKEN + JSON.stringify(r) + TOKEN;
 		return pre + r;
 	}
+	/**
+	* @param {string} string
+	* @param {Env} [env]
+	* @param {{ escape?: string, splitUnquoted?: boolean | string }} [opts]
+	* @returns {ParseEntry[]}
+	*/
 	function parseInternal(string, env, opts) {
 		if (!opts) opts = {};
 		var BS = opts.escape || "\\";
+		var ifs = opts.splitUnquoted === true ? " 	\n" : typeof opts.splitUnquoted === "string" ? opts.splitUnquoted : "";
 		var BAREWORD = "(\\" + BS + "['\"" + META + "]|[^\\s'\"" + META + "])+";
-		var matches = matchAll(string, new RegExp(["(" + CONTROL + ")", "(" + BAREWORD + "|" + SINGLE_QUOTE + "|" + DOUBLE_QUOTE + ")+"].join("|"), "g"));
+		var matches = matchAll(string, new RegExp(["(" + CONTROL + ")", "(" + BAREWORD + "|" + DOUBLE_QUOTE + "|" + SINGLE_QUOTE + ")+"].join("|"), "g"));
 		if (matches.length === 0) return [];
 		if (!env) env = {};
 		var commented = false;
@@ -3531,21 +3568,37 @@ var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			var s = match[0];
 			if (!s || commented) return;
 			if (controlRE.test(s)) return { op: s };
+			/** @type {string | boolean} */
 			var quote = false;
 			var esc = false;
 			var out = "";
+			/** @type {string[]} */
+			var words = [];
+			var sawQuote = false;
+			/** @type {number | null} */
+			var pendingNw = null;
 			var isGlob = false;
+			/** @type {number} */
 			var i;
 			function parseEnvVar() {
 				i += 1;
+				/** @type {number | RegExpMatchArray | null} */
 				var varend;
+				/** @type {string} */
 				var varname;
 				var char = s.charAt(i);
 				if (char === "{") {
 					i += 1;
 					if (s.charAt(i) === "}") throw new Error("Bad substitution: " + s.slice(i - 2, i + 1));
-					varend = s.indexOf("}", i);
-					if (varend < 0) throw new Error("Bad substitution: " + s.slice(i));
+					var depth = 1;
+					varend = i;
+					while (depth > 0 && varend < s.length) {
+						if (s.charAt(varend) === "{" && s.charAt(varend - 1) === "$") depth += 1;
+						else if (s.charAt(varend) === "}") depth -= 1;
+						varend += 1;
+					}
+					if (depth !== 0) throw new Error("Bad substitution: " + s.slice(i));
+					varend -= 1;
 					varname = s.slice(i, varend);
 					i = varend;
 				} else if (/[*@#?$!_-]/.test(char)) {
@@ -3564,57 +3617,105 @@ var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				}
 				return getVar(env, "", varname);
 			}
+			function flushRun() {
+				if (pendingNw === null) return;
+				if (pendingNw === 0) {
+					if (out !== "") {
+						words[words.length] = out;
+						out = "";
+					}
+				} else {
+					words[words.length] = out;
+					out = "";
+					for (var fe = 1; fe < pendingNw; fe += 1) words[words.length] = "";
+				}
+				pendingNw = null;
+			}
 			for (i = 0; i < s.length; i++) {
 				var c = s.charAt(i);
+				if (ifs && c !== DS) flushRun();
 				isGlob = isGlob || !quote && (c === "*" || c === "?");
 				if (esc) {
 					out += c;
 					esc = false;
-				} else if (quote) if (c === quote) quote = false;
-				else if (quote == SQ) out += c;
-				else if (c === BS) {
-					i += 1;
-					c = s.charAt(i);
-					if (c === DQ || c === BS || c === DS) out += c;
-					else out += BS + c;
-				} else if (c === DS) out += parseEnvVar();
-				else out += c;
-				else if (c === DQ || c === SQ) quote = c;
-				else if (controlRE.test(c)) return { op: s };
+				} else if (quote) {
+					if (c === quote) quote = false;
+					else if (quote == SQ) out += c;
+					else if (c === BS) {
+						i += 1;
+						c = s.charAt(i);
+						if (c === DQ || c === BS || c === DS) out += c;
+						else out += BS + c;
+					} else if (c === DS) out += parseEnvVar();
+					else out += c;
+				} else if (c === DQ || c === SQ) {
+					quote = c;
+					sawQuote = true;
+				} else if (controlRE.test(c)) return { op: s };
 				else if (hash.test(c)) {
 					commented = true;
 					var commentObj = { comment: string.slice(match.index + i + 1) };
 					if (out.length) return [out, commentObj];
 					return [commentObj];
 				} else if (c === BS) esc = true;
-				else if (c === DS) out += parseEnvVar();
-				else out += c;
+				else if (c === DS) {
+					var value = parseEnvVar();
+					if (!ifs) out += value;
+					else for (var vi = 0; vi < value.length; vi += 1) {
+						var vc = value.charAt(vi);
+						if (ifs.indexOf(vc) < 0) {
+							flushRun();
+							out += vc;
+						} else if (pendingNw === null) pendingNw = vc === " " || vc === "	" || vc === "\n" ? 0 : 1;
+						else if (vc !== " " && vc !== "	" && vc !== "\n") pendingNw += 1;
+					}
+				} else out += c;
 			}
 			if (isGlob) return {
 				op: "glob",
 				pattern: out
 			};
+			if (ifs) {
+				if (pendingNw !== null && pendingNw > 0) {
+					words[words.length] = out;
+					out = "";
+					for (var te = 1; te < pendingNw; te += 1) words[words.length] = "";
+				}
+				if (out !== "" || sawQuote && words.length === 0) words[words.length] = out;
+				return words;
+			}
 			return out;
 		}).reduce(function(prev, arg) {
-			return typeof arg === "undefined" ? prev : prev.concat(arg);
+			if (typeof arg === "undefined") return prev;
+			/** @type {ParseEntry[]} */ [].concat(arg).forEach(function(entry) {
+				prev[prev.length] = entry;
+			});
+			return prev;
 		}, []);
 	}
+	/** @type {typeof import('./parse')} */
 	module.exports = function parse(s, env, opts) {
 		var mapped = parseInternal(s, env, opts);
 		if (typeof env !== "function") return mapped;
 		return mapped.reduce(function(acc, s) {
-			if (typeof s === "object") return acc.concat(s);
+			if (typeof s === "object") {
+				acc[acc.length] = s;
+				return acc;
+			}
 			var xs = s.split(RegExp("(" + TOKEN + ".*?" + TOKEN + ")", "g"));
-			if (xs.length === 1) return acc.concat(xs[0]);
-			return acc.concat(xs.filter(Boolean).map(function(x) {
-				if (startsWithToken.test(x)) return JSON.parse(x.split(TOKEN)[1]);
-				return x;
-			}));
+			if (xs.length === 1) {
+				acc[acc.length] = xs[0];
+				return acc;
+			}
+			xs.filter(Boolean).forEach(function(x) {
+				acc[acc.length] = startsWithToken.test(x) ? JSON.parse(x.split(TOKEN)[1]) : x;
+			});
+			return acc;
 		}, []);
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/shell-quote@1.8.4/node_modules/shell-quote/index.js
+//#region node_modules/.pnpm/shell-quote@1.10.0/node_modules/shell-quote/index.js
 var require_shell_quote = /* @__PURE__ */ __commonJSMin(((exports) => {
 	exports.quote = require_quote();
 	exports.parse = require_parse$1();
@@ -3634,16 +3735,14 @@ const JSONC = { parse: (text) => {
 	}
 } };
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/internal/constants.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/internal/constants.js
 var require_constants = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	const SEMVER_SPEC_VERSION = "2.0.0";
-	const MAX_LENGTH = 256;
-	const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 	module.exports = {
-		MAX_LENGTH,
+		MAX_LENGTH: 256,
 		MAX_SAFE_COMPONENT_LENGTH: 16,
-		MAX_SAFE_BUILD_LENGTH: MAX_LENGTH - 6,
-		MAX_SAFE_INTEGER,
+		MAX_SAFE_BUILD_LENGTH: 250,
+		MAX_SAFE_INTEGER: Number.MAX_SAFE_INTEGER || 
+		/* istanbul ignore next */ 9007199254740991,
 		RELEASE_TYPES: [
 			"major",
 			"premajor",
@@ -3653,18 +3752,18 @@ var require_constants = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			"prepatch",
 			"prerelease"
 		],
-		SEMVER_SPEC_VERSION,
+		SEMVER_SPEC_VERSION: "2.0.0",
 		FLAG_INCLUDE_PRERELEASE: 1,
 		FLAG_LOOSE: 2
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/internal/debug.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/internal/debug.js
 var require_debug = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {};
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/internal/re.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/internal/re.js
 var require_re = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const { MAX_SAFE_COMPONENT_LENGTH, MAX_SAFE_BUILD_LENGTH, MAX_LENGTH } = require_constants();
 	const debug = require_debug();
@@ -3743,7 +3842,7 @@ var require_re = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	createToken("GTE0PRE", "^\\s*>=\\s*0\\.0\\.0-0\\s*$");
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/internal/parse-options.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/internal/parse-options.js
 var require_parse_options = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const looseOption = Object.freeze({ loose: true });
 	const emptyOpts = Object.freeze({});
@@ -3755,7 +3854,7 @@ var require_parse_options = /* @__PURE__ */ __commonJSMin(((exports, module) => 
 	module.exports = parseOptions;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/internal/identifiers.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/internal/identifiers.js
 var require_identifiers = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const numeric = /^[0-9]+$/;
 	const compareIdentifiers = (a, b) => {
@@ -3775,7 +3874,7 @@ var require_identifiers = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/classes/semver.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/classes/semver.js
 var require_semver$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const debug = require_debug();
 	const { MAX_LENGTH, MAX_SAFE_INTEGER } = require_constants();
@@ -3791,9 +3890,10 @@ var require_semver$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = class SemVer {
 		constructor(version, options) {
 			options = parseOptions(options);
-			if (version instanceof SemVer) if (version.loose === !!options.loose && version.includePrerelease === !!options.includePrerelease) return version;
-			else version = version.version;
-			else if (typeof version !== "string") throw new TypeError(`Invalid version. Must be a string. Got type "${typeof version}".`);
+			if (version instanceof SemVer) {
+				if (version.loose === !!options.loose && version.includePrerelease === !!options.includePrerelease) return version;
+				else version = version.version;
+			} else if (typeof version !== "string") throw new TypeError(`Invalid version. Must be a string. Got type "${typeof version}".`);
 			if (version.length > MAX_LENGTH) throw new TypeError(`version is longer than ${MAX_LENGTH} characters`);
 			debug("SemVer", version, options);
 			this.options = options;
@@ -3960,7 +4060,7 @@ var require_semver$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/parse.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/parse.js
 var require_parse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const parse = (version, options, throwErrors = false) => {
@@ -3975,7 +4075,7 @@ var require_parse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = parse;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/valid.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/valid.js
 var require_valid$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const parse = require_parse();
 	const valid = (version, options) => {
@@ -3985,7 +4085,7 @@ var require_valid$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = valid;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/clean.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/clean.js
 var require_clean = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const parse = require_parse();
 	const clean = (version, options) => {
@@ -3995,7 +4095,7 @@ var require_clean = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = clean;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/inc.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/inc.js
 var require_inc = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const inc = (version, release, options, identifier, identifierBase) => {
@@ -4013,7 +4113,7 @@ var require_inc = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = inc;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/diff.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/diff.js
 var require_diff = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const parse = require_parse();
 	const diff = (version1, version2) => {
@@ -4041,28 +4141,28 @@ var require_diff = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = diff;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/major.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/major.js
 var require_major = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const major = (a, loose) => new SemVer(a, loose).major;
 	module.exports = major;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/minor.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/minor.js
 var require_minor = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const minor = (a, loose) => new SemVer(a, loose).minor;
 	module.exports = minor;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/patch.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/patch.js
 var require_patch = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const patch = (a, loose) => new SemVer(a, loose).patch;
 	module.exports = patch;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/prerelease.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/prerelease.js
 var require_prerelease = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const parse = require_parse();
 	const prerelease = (version, options) => {
@@ -4072,28 +4172,28 @@ var require_prerelease = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = prerelease;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/compare.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/compare.js
 var require_compare = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const compare = (a, b, loose) => new SemVer(a, loose).compare(new SemVer(b, loose));
 	module.exports = compare;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/rcompare.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/rcompare.js
 var require_rcompare = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const rcompare = (a, b, loose) => compare(b, a, loose);
 	module.exports = rcompare;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/compare-loose.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/compare-loose.js
 var require_compare_loose = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const compareLoose = (a, b) => compare(a, b, true);
 	module.exports = compareLoose;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/compare-build.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/compare-build.js
 var require_compare_build = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const compareBuild = (a, b, loose) => {
@@ -4104,63 +4204,63 @@ var require_compare_build = /* @__PURE__ */ __commonJSMin(((exports, module) => 
 	module.exports = compareBuild;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/sort.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/sort.js
 var require_sort = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compareBuild = require_compare_build();
 	const sort = (list, loose) => list.sort((a, b) => compareBuild(a, b, loose));
 	module.exports = sort;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/rsort.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/rsort.js
 var require_rsort = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compareBuild = require_compare_build();
 	const rsort = (list, loose) => list.sort((a, b) => compareBuild(b, a, loose));
 	module.exports = rsort;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/gt.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/gt.js
 var require_gt = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const gt = (a, b, loose) => compare(a, b, loose) > 0;
 	module.exports = gt;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/lt.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/lt.js
 var require_lt = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const lt = (a, b, loose) => compare(a, b, loose) < 0;
 	module.exports = lt;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/eq.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/eq.js
 var require_eq = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const eq = (a, b, loose) => compare(a, b, loose) === 0;
 	module.exports = eq;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/neq.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/neq.js
 var require_neq = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const neq = (a, b, loose) => compare(a, b, loose) !== 0;
 	module.exports = neq;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/gte.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/gte.js
 var require_gte = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const gte = (a, b, loose) => compare(a, b, loose) >= 0;
 	module.exports = gte;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/lte.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/lte.js
 var require_lte = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const compare = require_compare();
 	const lte = (a, b, loose) => compare(a, b, loose) <= 0;
 	module.exports = lte;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/cmp.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/cmp.js
 var require_cmp = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const eq = require_eq();
 	const neq = require_neq();
@@ -4192,7 +4292,7 @@ var require_cmp = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = cmp;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/coerce.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/coerce.js
 var require_coerce = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const parse = require_parse();
@@ -4215,12 +4315,16 @@ var require_coerce = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		if (match === null) return null;
 		const major = match[2];
-		return parse(`${major}.${match[3] || "0"}.${match[4] || "0"}${options.includePrerelease && match[5] ? `-${match[5]}` : ""}${options.includePrerelease && match[6] ? `+${match[6]}` : ""}`, options);
+		const minor = match[3] || "0";
+		const patch = match[4] || "0";
+		const prerelease = options.includePrerelease && match[5] ? `-${match[5]}` : "";
+		const build = options.includePrerelease && match[6] ? `+${match[6]}` : "";
+		return parse(`${major}.${minor}.${patch}${prerelease}${build}`, options);
 	};
 	module.exports = coerce;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/truncate.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/truncate.js
 var require_truncate = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const parse = require_parse();
 	const constants = require_constants();
@@ -4231,7 +4335,8 @@ var require_truncate = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		return clonedVersion && doTruncation(clonedVersion, truncation);
 	};
 	const cloneInputVersion = (version, options) => {
-		return parse(version instanceof SemVer ? version.version : version, options);
+		const versionStringToParse = version instanceof SemVer ? version.version : version;
+		return parse(versionStringToParse, options);
 	};
 	const doTruncation = (version, truncation) => {
 		if (isPrerelease(truncation)) return version.version;
@@ -4241,9 +4346,7 @@ var require_truncate = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				version.minor = 0;
 				version.patch = 0;
 				break;
-			case "minor":
-				version.patch = 0;
-				break;
+			case "minor": version.patch = 0;
 		}
 		return version.format();
 	};
@@ -4253,7 +4356,7 @@ var require_truncate = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = truncate;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/internal/lrucache.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/internal/lrucache.js
 var require_lrucache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var LRUCache = class {
 		constructor() {
@@ -4286,14 +4389,16 @@ var require_lrucache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = LRUCache;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/classes/range.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/classes/range.js
 var require_range = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SPACE_CHARACTERS = /\s+/g;
 	module.exports = class Range {
 		constructor(range, options) {
 			options = parseOptions(options);
-			if (range instanceof Range) if (range.loose === !!options.loose && range.includePrerelease === !!options.includePrerelease) return range;
-			else return new Range(range.raw, options);
+			if (range instanceof Range) {
+				if (range.loose === !!options.loose && range.includePrerelease === !!options.includePrerelease) return range;
+				else return new Range(range.raw, options);
+			}
 			if (range instanceof Comparator) {
 				this.raw = range.value;
 				this.set = [[range]];
@@ -4436,12 +4541,13 @@ var require_range = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 	const replaceTilde = (comp, options) => {
 		const r = options.loose ? re[t.TILDELOOSE] : re[t.TILDE];
+		const z = options.includePrerelease ? "-0" : "";
 		return comp.replace(r, (_, M, m, p, pr) => {
 			debug("tilde", comp, _, M, m, p, pr);
 			let ret;
 			if (isX(M)) ret = "";
-			else if (isX(m)) ret = `>=${M}.0.0 <${+M + 1}.0.0-0`;
-			else if (isX(p)) ret = `>=${M}.${m}.0 <${M}.${+m + 1}.0-0`;
+			else if (isX(m)) ret = `>=${M}.0.0${z} <${+M + 1}.0.0-0`;
+			else if (isX(p)) ret = `>=${M}.${m}.0${z} <${M}.${+m + 1}.0-0`;
 			else if (pr) {
 				debug("replaceTilde pr", pr);
 				ret = `>=${M}.${m}.${p}-${pr} <${M}.${+m + 1}.0-0`;
@@ -4462,18 +4568,21 @@ var require_range = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			let ret;
 			if (isX(M)) ret = "";
 			else if (isX(m)) ret = `>=${M}.0.0${z} <${+M + 1}.0.0-0`;
-			else if (isX(p)) if (M === "0") ret = `>=${M}.${m}.0${z} <${M}.${+m + 1}.0-0`;
-			else ret = `>=${M}.${m}.0${z} <${+M + 1}.0.0-0`;
-			else if (pr) {
+			else if (isX(p)) {
+				if (M === "0") ret = `>=${M}.${m}.0${z} <${M}.${+m + 1}.0-0`;
+				else ret = `>=${M}.${m}.0${z} <${+M + 1}.0.0-0`;
+			} else if (pr) {
 				debug("replaceCaret pr", pr);
-				if (M === "0") if (m === "0") ret = `>=${M}.${m}.${p}-${pr} <${M}.${m}.${+p + 1}-0`;
-				else ret = `>=${M}.${m}.${p}-${pr} <${M}.${+m + 1}.0-0`;
-				else ret = `>=${M}.${m}.${p}-${pr} <${+M + 1}.0.0-0`;
+				if (M === "0") {
+					if (m === "0") ret = `>=${M}.${m}.${p}-${pr} <${M}.${m}.${+p + 1}-0`;
+					else ret = `>=${M}.${m}.${p}-${pr} <${M}.${+m + 1}.0-0`;
+				} else ret = `>=${M}.${m}.${p}-${pr} <${+M + 1}.0.0-0`;
 			} else {
 				debug("no pr");
-				if (M === "0") if (m === "0") ret = `>=${M}.${m}.${p} <${M}.${m}.${+p + 1}-0`;
-				else ret = `>=${M}.${m}.${p} <${M}.${+m + 1}.0-0`;
-				else ret = `>=${M}.${m}.${p} <${+M + 1}.0.0-0`;
+				if (M === "0") {
+					if (m === "0") ret = `>=${M}.${m}.${p} <${M}.${m}.${+p + 1}-0`;
+					else ret = `>=${M}.${m}.${p} <${M}.${+m + 1}.0-0`;
+				} else ret = `>=${M}.${m}.${p} <${+M + 1}.0.0-0`;
 			}
 			debug("caret return", ret);
 			return ret;
@@ -4495,9 +4604,10 @@ var require_range = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			const anyX = xp;
 			if (gtlt === "=" && anyX) gtlt = "";
 			pr = options.includePrerelease ? "-0" : "";
-			if (xM) if (gtlt === ">" || gtlt === "<") ret = "<0.0.0-0";
-			else ret = "*";
-			else if (gtlt && anyX) {
+			if (xM) {
+				if (gtlt === ">" || gtlt === "<") ret = "<0.0.0-0";
+				else ret = "*";
+			} else if (gtlt && anyX) {
 				if (xm) m = 0;
 				p = 0;
 				if (gtlt === ">") {
@@ -4562,7 +4672,7 @@ var require_range = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/classes/comparator.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/classes/comparator.js
 var require_comparator = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const ANY = Symbol("SemVer ANY");
 	module.exports = class Comparator {
@@ -4571,8 +4681,10 @@ var require_comparator = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		constructor(comp, options) {
 			options = parseOptions(options);
-			if (comp instanceof Comparator) if (comp.loose === !!options.loose) return comp;
-			else comp = comp.value;
+			if (comp instanceof Comparator) {
+				if (comp.loose === !!options.loose) return comp;
+				else comp = comp.value;
+			}
 			comp = comp.trim().split(/\s+/).join(" ");
 			debug("comparator", comp, options);
 			this.options = options;
@@ -4632,7 +4744,7 @@ var require_comparator = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const Range = require_range();
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/functions/satisfies.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/functions/satisfies.js
 var require_satisfies = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const Range = require_range();
 	const satisfies = (version, range, options) => {
@@ -4646,14 +4758,14 @@ var require_satisfies = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = satisfies;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/to-comparators.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/to-comparators.js
 var require_to_comparators = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const Range = require_range();
 	const toComparators = (range, options) => new Range(range, options).set.map((comp) => comp.map((c) => c.value).join(" ").trim().split(" "));
 	module.exports = toComparators;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/max-satisfying.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/max-satisfying.js
 var require_max_satisfying = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const Range = require_range();
@@ -4679,7 +4791,7 @@ var require_max_satisfying = /* @__PURE__ */ __commonJSMin(((exports, module) =>
 	module.exports = maxSatisfying;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/min-satisfying.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/min-satisfying.js
 var require_min_satisfying = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const Range = require_range();
@@ -4705,7 +4817,7 @@ var require_min_satisfying = /* @__PURE__ */ __commonJSMin(((exports, module) =>
 	module.exports = minSatisfying;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/min-version.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/min-version.js
 var require_min_version = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const Range = require_range();
@@ -4745,7 +4857,7 @@ var require_min_version = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = minVersion;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/valid.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/valid.js
 var require_valid = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const Range = require_range();
 	const validRange = (range, options) => {
@@ -4758,7 +4870,7 @@ var require_valid = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = validRange;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/outside.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/outside.js
 var require_outside = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const SemVer = require_semver$1();
 	const Comparator = require_comparator();
@@ -4811,21 +4923,21 @@ var require_outside = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = outside;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/gtr.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/gtr.js
 var require_gtr = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const outside = require_outside();
 	const gtr = (version, range, options) => outside(version, range, ">", options);
 	module.exports = gtr;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/ltr.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/ltr.js
 var require_ltr = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const outside = require_outside();
 	const ltr = (version, range, options) => outside(version, range, "<", options);
 	module.exports = ltr;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/intersects.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/intersects.js
 var require_intersects = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const Range = require_range();
 	const intersects = (r1, r2, options) => {
@@ -4836,7 +4948,7 @@ var require_intersects = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = intersects;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/simplify.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/simplify.js
 var require_simplify = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const satisfies = require_satisfies();
 	const compare = require_compare();
@@ -4866,7 +4978,7 @@ var require_simplify = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/ranges/subset.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/ranges/subset.js
 var require_subset = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const Range = require_range();
 	const Comparator = require_comparator();
@@ -4892,11 +5004,15 @@ var require_subset = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const minimumVersion = [new Comparator(">=0.0.0")];
 	const simpleSubset = (sub, dom, options) => {
 		if (sub === dom) return true;
-		if (sub.length === 1 && sub[0].semver === ANY) if (dom.length === 1 && dom[0].semver === ANY) return true;
-		else if (options.includePrerelease) sub = minimumVersionWithPreRelease;
-		else sub = minimumVersion;
-		if (dom.length === 1 && dom[0].semver === ANY) if (options.includePrerelease) return true;
-		else dom = minimumVersion;
+		if (sub.length === 1 && sub[0].semver === ANY) {
+			if (dom.length === 1 && dom[0].semver === ANY) return true;
+			else if (options.includePrerelease) sub = minimumVersionWithPreRelease;
+			else sub = minimumVersion;
+		}
+		if (dom.length === 1 && dom[0].semver === ANY) {
+			if (options.includePrerelease) return true;
+			else dom = minimumVersion;
+		}
 		const eqSet = /* @__PURE__ */ new Set();
 		let gt, lt;
 		for (const c of sub) if (c.operator === ">" || c.operator === ">=") gt = higherGT(gt, c, options);
@@ -4961,7 +5077,7 @@ var require_subset = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = subset;
 }));
 //#endregion
-//#region node_modules/.pnpm/semver@7.8.4/node_modules/semver/index.js
+//#region node_modules/.pnpm/semver@7.8.5/node_modules/semver/index.js
 var require_semver = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const internalRe = require_re();
 	const constants = require_constants();
@@ -5435,7 +5551,7 @@ var require_index_min = /* @__PURE__ */ __commonJSMin(((exports) => {
 		var d = (t, e) => t.isFile() && A(t, e), A = (t, e) => {
 			let r = e.uid ?? process.getuid?.(), s = e.groups ?? process.getgroups?.() ?? [], n = e.gid ?? process.getgid?.() ?? s[0];
 			if (r === void 0 || n === void 0) throw new Error("cannot get uid or gid");
-			let u = new Set([n, ...s]), c = t.mode, S = t.uid, P = t.gid, f = parseInt("100", 8), l = parseInt("010", 8);
+			let u = /* @__PURE__ */ new Set([n, ...s]), c = t.mode, S = t.uid, P = t.gid, f = parseInt("100", 8), l = parseInt("010", 8);
 			return !!(c & parseInt("001", 8) || c & l && u.has(P) || c & f && S === r || c & 72 && r === 0);
 		};
 	});
@@ -5490,14 +5606,16 @@ var require_index_min = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}), Object.defineProperty(t, s, n);
 	}) : (function(t, e, r, s) {
 		s === void 0 && (s = r), t[s] = e[r];
-	})), G = exports && exports.__setModuleDefault || (Object.create ? (function(t, e) {
+	}));
+	var G = exports && exports.__setModuleDefault || (Object.create ? (function(t, e) {
 		Object.defineProperty(t, "default", {
 			enumerable: !0,
 			value: e
 		});
 	}) : function(t, e) {
 		t.default = e;
-	}), w = exports && exports.__importStar || (function() {
+	});
+	var w = exports && exports.__importStar || (function() {
 		var t = function(e) {
 			return t = Object.getOwnPropertyNames || function(r) {
 				var s = [];
@@ -5511,7 +5629,8 @@ var require_index_min = /* @__PURE__ */ __commonJSMin(((exports) => {
 			if (e != null) for (var s = t(e), n = 0; n < s.length; n++) s[n] !== "default" && v(r, e, s[n]);
 			return G(r, e), r;
 		};
-	})(), X = exports && exports.__exportStar || function(t, e) {
+	})();
+	var X = exports && exports.__exportStar || function(t, e) {
 		for (var r in t) r !== "default" && !Object.prototype.hasOwnProperty.call(e, r) && v(e, t, r);
 	};
 	Object.defineProperty(exports, "__esModule", { value: !0 });
@@ -5536,7 +5655,7 @@ var require_lib = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const rRel = new RegExp(`^\\.${rSlash.source}`);
 	const getNotFoundError = (cmd) => Object.assign(/* @__PURE__ */ new Error(`not found: ${cmd}`), { code: "ENOENT" });
 	const getPathInfo = (cmd, { path: optPath = process.env.PATH, pathExt: optPathExt = process.env.PATHEXT, delimiter: optDelimiter = delimiter }) => {
-		const pathEnv = cmd.match(rSlash) ? [""] : [...isWindows ? [process.cwd()] : [], ...(optPath || "").split(optDelimiter)];
+		const pathEnv = cmd.match(rSlash) ? [""] : [...isWindows ? [process.cwd()] : [], ...(optPath || /* istanbul ignore next: very unusual */ "").split(optDelimiter)];
 		if (isWindows) {
 			const pathExtExe = optPathExt || [
 				".EXE",
@@ -5754,10 +5873,11 @@ function formatIssueTree(tree) {
 		const min = tree.minLength;
 		const max = tree.maxLength;
 		message = `expected an array with `;
-		if (min > 0) if (max === min) message += `${min}`;
-		else if (max !== void 0) message += `between ${min} and ${max}`;
-		else message += `at least ${min}`;
-		else message += `at most ${max ?? "∞"}`;
+		if (min > 0) {
+			if (max === min) message += `${min}`;
+			else if (max !== void 0) message += `between ${min} and ${max}`;
+			else message += `at least ${min}`;
+		} else message += `at most ${max ?? "∞"}`;
 		message += ` item(s)`;
 	} else if (tree.code === "custom_error") {
 		const error = tree.error;
@@ -6147,15 +6267,16 @@ function createObjectMatcher(shape, rest) {
 			const value = obj[key];
 			const entry = keyedEntries[key];
 			if (entry === void 0 && restMatcher === void 0) {
-				if (flags & FLAG_FORBID_EXTRA_KEYS) if (unrecognized === void 0) {
-					unrecognized = [key];
-					issues = joinIssues(issues, {
-						ok: false,
-						code: "unrecognized_keys",
-						keys: unrecognized
-					});
-				} else unrecognized.push(key);
-				else if (flags & FLAG_STRIP_EXTRA_KEYS && issues === void 0 && output === void 0) {
+				if (flags & FLAG_FORBID_EXTRA_KEYS) {
+					if (unrecognized === void 0) {
+						unrecognized = [key];
+						issues = joinIssues(issues, {
+							ok: false,
+							code: "unrecognized_keys",
+							keys: unrecognized
+						});
+					} else unrecognized.push(key);
+				} else if (flags & FLAG_STRIP_EXTRA_KEYS && issues === void 0 && output === void 0) {
 					output = {};
 					for (let m = 0; m < indexedEntries.length; m++) if (getBit(seenBits, m)) {
 						const k = indexedEntries[m].key;
@@ -6260,10 +6381,12 @@ var ArrayOrTupleType = class ArrayOrTupleType extends Type {
 			let output = arr;
 			for (let i = 0; i < arr.length; i++) {
 				const r = callMatcher(i < headEnd ? prefix[i] : i >= tailStart ? suffix[i - tailStart] : rest, arr[i], flags);
-				if (r !== void 0) if (r.ok) {
-					if (output === arr) output = arr.slice();
-					output[i] = r.value;
-				} else issueTree = joinIssues(issueTree, prependPath(i, r));
+				if (r !== void 0) {
+					if (r.ok) {
+						if (output === arr) output = arr.slice();
+						output[i] = r.value;
+					} else issueTree = joinIssues(issueTree, prependPath(i, r));
+				}
 			}
 			if (issueTree) return issueTree;
 			else if (arr === output) return;
@@ -6651,7 +6774,7 @@ function getNodeInfo(process) {
 		execPath: process.execPath
 	};
 }
-const flagsWithoutCommentingSupport = new Set([
+const flagsWithoutCommentingSupport = /* @__PURE__ */ new Set([
 	"--verifytypes",
 	"--stats",
 	"--verbose",
@@ -6667,9 +6790,7 @@ async function getArgs(execPath) {
 			pyrightPath = await downloadPyright(pyrightInfo);
 			command = execPath;
 			break;
-		case "path":
-			command = pyrightInfo.command;
-			break;
+		case "path": command = pyrightInfo.command;
 	}
 	const useDashedFlags = new import_semver.SemVer(pyrightInfo.version).compare("1.1.309") === -1;
 	const args = [];
@@ -6850,7 +6971,7 @@ async function main() {
 				"pipe",
 				"inherit"
 			],
-			maxBuffer: 100 * 1024 * 1024
+			maxBuffer: 104857600
 		});
 		if (!stdout.trim()) {
 			setFailed(`Exit code ${status}`);
@@ -6898,8 +7019,8 @@ function diagnosticToString(diag, forCommand) {
 function pluralize(n, singular, plural) {
 	return `${n} ${n === 1 ? singular : plural}`;
 }
-const flagsOverriddenByConfig352AndAfter = new Set(["--typeshedpath", "--venvpath"]);
-const flagsOverriddenByConfig351AndBefore = new Set([
+const flagsOverriddenByConfig352AndAfter = /* @__PURE__ */ new Set(["--typeshedpath", "--venvpath"]);
+const flagsOverriddenByConfig351AndBefore = /* @__PURE__ */ new Set([
 	"--pythonplatform",
 	"--pythonversion",
 	...flagsOverriddenByConfig352AndAfter
