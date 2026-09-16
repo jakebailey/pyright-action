@@ -42,7 +42,7 @@
         "oxlint": "^1.83.0",
         "oxlint-tsgolint": "^7.0.2001",
         "path-serializer": "^0.7.0",
-        "rolldown": "1.2.8",
+        "rolldown": "1.2.9",
         "typescript": "^7.0.2",
         "vitest": "^5.0.1"
     },
