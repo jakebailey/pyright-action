@@ -35,7 +35,7 @@
         "@types/shell-quote": "^1.7.5",
         "@types/which": "^3.0.4",
         "@vitest/coverage-v8": "^5.0.1",
-        "dprint": "^0.57.4",
+        "dprint": "^0.59.0",
         "dprint-plugin-yaml": "^0.6.0",
         "husky": "^9.1.7",
         "klona": "^2.0.6",
